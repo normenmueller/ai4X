@@ -1,0 +1,124 @@
+# Installation
+
+`ai4x` is an integration and documentation module.
+The utility CLI is located under `utl/ai4x`.
+
+## System Requirements
+
+- target platforms: macOS, Linux, Windows
+- Node.js 25+
+- npm
+- `make`
+- `git` with submodule support
+- productive runtime with `ask` requires symbolic link support in the workspace file system
+- on Windows, this may require Developer Mode or elevated permissions depending on host configuration
+
+## Prerequisites
+
+- initialized submodules (`git submodule update --init --recursive`)
+
+Unless stated otherwise, all commands are executed from the repository root (`ai4x/`).
+
+## Quickstart (recommended)
+
+```bash
+git submodule update --init --recursive
+npm --prefix ./utl/ai4x/src ci
+make PREFIX="$HOME/.local" install
+hash -r
+ai4x --help
+ai4x doctor --strict
+ai4x install --clean
+```
+
+Notes:
+
+- `git submodule update --init --recursive` is required once after clone and again after submodule pointer updates.
+- If `~/.config/ai4x/config.yaml` already exists, mode `keep` remains active.
+- If the existing config still contains placeholder paths, `make install` replaces them with detected module paths (including backup), as long as the local ai4X layout can be fully detected.
+
+## Installation (step-by-step)
+
+```bash
+git submodule update --init --recursive
+npm --prefix ./utl/ai4x/src ci
+make PREFIX="$HOME/.local" install
+hash -r
+ai4x --help
+```
+
+Then run:
+
+```bash
+ai4x doctor --strict
+ai4x install --clean
+```
+
+## Configuration
+
+`make install` creates `~/.config/ai4x/config.yaml` if the file is missing.
+
+Auto-detection:
+
+- If `mod/ask`, `mod/kob`, `mod/cap/cog`, and `mod/cap/tec` exist,
+  `make install` sets module paths automatically.
+
+Fallback:
+
+- If no complete layout is detected, the file contains placeholder paths.
+- Replace those paths manually before running `ai4x doctor --strict`.
+
+Example schema:
+
+```yaml
+version: 0.1.0
+modules:
+  ask: /absolute/path/to/ask
+  kob: /absolute/path/to/kob
+  ccp: /absolute/path/to/ccp
+  tcp: /absolute/path/to/tcp
+install:
+  config_mode:
+    ask: keep
+    kob: keep
+    ccp: keep
+    tcp: keep
+```
+
+## Diagnostics and Operations
+
+```bash
+ai4x doctor --strict
+ai4x doctor --strict --verbose
+ai4x clean
+ai4x install --clean
+```
+
+`ai4x install --clean` installs `ask` and `kob` into `$(prefix)/bin`
+(default: `~/.local/bin`).
+
+Before installation, each module runs these mandatory steps:
+
+- `npm ci`
+- `npm test`
+- `npm run verify`
+
+The run ends with a clear ASCII `ai4X INSTALL REPORT` (`OK|FAIL`).
+
+Note for `ask` with VS Code + Copilot (`adapter: copilot/vscode`):
+
+- `code` must be available in `PATH`.
+- Detailed variants (Command Palette, PATH export, `~/.local/bin` wrapper without admin rights)
+  are documented in `ask/INSTALL` under `VS Code CLI (code) for adapter: copilot/vscode`.
+
+Optional with system config:
+
+```bash
+ai4x install --clean --admin
+```
+
+Scope of `install.config_mode` in the install contract:
+
+- `install.config_mode.ask` controls Ask config backup/overwrite behavior (`keep|backup|force`).
+- If `install.config_mode.ask` is missing, `keep` is used automatically.
+- `install.config_mode.kob`, `install.config_mode.ccp`, and `install.config_mode.tcp` are reserved config fields without install impact.

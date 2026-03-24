@@ -1,0 +1,12 @@
+[submodule "mod/ask"]
+	path = mod/ask
+	url = git@github.com:normenmueller/ask.git
+[submodule "mod/kob"]
+	path = mod/kob
+	url = git@github.com:normenmueller/kob.git
+[submodule "mod/cap/cog"]
+	path = mod/cap/cog
+	url = git@github.com:normenmueller/ccp.git
+[submodule "mod/cap/tec"]
+	path = mod/cap/tec
+	url = git@github.com:normenmueller/tcp.git

@@ -1,0 +1,12 @@
+version: 0.1.0
+modules:
+  ask: /absolute/path/to/ask
+  kob: /absolute/path/to/kob
+  ccp: /absolute/path/to/ccp
+  tcp: /absolute/path/to/tcp
+install:
+  config_mode:
+    ask: keep
+    kob: keep
+    ccp: keep
+    tcp: keep

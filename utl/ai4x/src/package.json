@@ -1,0 +1,31 @@
+{
+  "name": "ai4x",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "ai4x utility cli for clean/install workflows",
+  "bin": {
+    "ai4x": "app/ai4x.ts"
+  },
+  "scripts": {
+    "ai4x": "node app/ai4x.ts",
+    "test:unit": "node --test ./tst/unit/*.test.ts",
+    "test:setup": "bash ./tst/setup/layouts.sh && bash ./tst/setup/layout-neutrality.sh",
+    "test:cli": "bash ./tst/cli/parsing.sh && bash ./tst/cli/cross-repo-gate.sh && bash ./tst/cli/repo-metadata.sh",
+    "test:secrets": "bash ./tst/setup/secret-scan.sh",
+    "test": "npm run typecheck && npm run test:secrets && npm run test:unit && npm run test:setup && npm run test:cli",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "audit:prod": "npm audit --omit=dev --audit-level=high",
+    "verify": "npm run audit:prod && npm test",
+    "metadata:check": "node ./utl/repo-metadata.mjs --check-local",
+    "metadata:check:remote": "node ./utl/repo-metadata.mjs --check",
+    "metadata:apply": "node ./utl/repo-metadata.mjs --apply"
+  },
+  "dependencies": {
+    "yaml": "^2.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "^25.3.0",
+    "typescript": "^5.9.3"
+  }
+}

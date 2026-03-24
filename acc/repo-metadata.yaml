@@ -1,0 +1,11 @@
+version: 0.1.0
+repo: ai4x
+about: "Operating and runtime system for reproducible GenAI workflows"
+topics:
+  - ai
+  - developer-tools
+  - ai-agents
+  - ai-runtime
+  - agentic-ai
+  - ai-orchestration
+  - ai-skills

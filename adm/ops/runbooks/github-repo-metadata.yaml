@@ -1,0 +1,55 @@
+version: 0.1.0
+repos:
+  ai4x:
+    owner: normenmueller
+    name: ai4x
+    about: "Operating and runtime system for reproducible GenAI workflows"
+    topics:
+      - ai
+      - developer-tools
+      - ai-agents
+      - ai-runtime
+      - agentic-ai
+      - ai-orchestration
+      - ai-skills
+  ask:
+    owner: normenmueller
+    name: ask
+    about: "A profile-based runtime launcher for GenAI workflows"
+    topics:
+      - ai
+      - ai-cli
+      - ai-client
+      - agent-launcher
+      - runtime-orchestration
+  kob:
+    owner: normenmueller
+    name: kob
+    about: "Curated kinds of behavior"
+    topics:
+      - ai
+      - ai-agents
+      - agent-behavior
+      - agent-governance
+      - capability-composition
+  ccp:
+    owner: normenmueller
+    name: ccp
+    about: "A cognitive capability portfolio"
+    topics:
+      - ai
+      - governance
+      - agent-rules
+      - cognitive-capabilities
+      - knowledge-ops
+  tcp:
+    owner: normenmueller
+    name: tcp
+    about: "A technological capability portfolio"
+    topics:
+      - ai
+      - automation
+      - prompt-engineering
+      - ai-skills
+      - skill-framework
+      - technical-capabilities

@@ -1,0 +1,36 @@
+#compdef ai4x ai4x.ts
+
+if (( CURRENT == 2 )); then
+  if [[ "${words[CURRENT]}" == -* ]]; then
+    compadd -- -h --help --version --clean --prefix --admin --dry-run --strict --json --verbose
+  else
+    compadd -- clean install doctor
+  fi
+  return 0
+fi
+
+case "${words[2]}" in
+  clean)
+    _arguments -s \
+      '--prefix[Install prefix for binaries]:path:_files -/' \
+      '--dry-run[Print planned commands without executing]'
+    ;;
+  install)
+    _arguments -s \
+      '--clean[Run clean before install]' \
+      '--prefix[Install prefix for binaries]:path:_files -/' \
+      '--admin[Include system-level /etc/ask operations via sudo]' \
+      '--dry-run[Print planned commands without executing]'
+    ;;
+  doctor)
+    _arguments -s \
+      '--strict[Exit with code 1 if required failures are found]' \
+      '--json[Print doctor report as JSON]' \
+      '--verbose[Print all doctor checks]'
+    ;;
+  *)
+    _arguments -s \
+      '(-h --help)'{-h,--help}'[Show this help and exit]' \
+      '--version[Show version and exit]'
+    ;;
+esac
