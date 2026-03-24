@@ -3,6 +3,7 @@
 > Modular suite for reproducible agentic AI workflows.
 
 [![verify](https://github.com/normenmueller/ai4x/actions/workflows/verify.yml/badge.svg)](https://github.com/normenmueller/ai4x/actions/workflows/verify.yml)
+[![Hypercommit](https://img.shields.io/badge/Hypercommit-DB2475)](https://hypercommit.com/ai4x)
 
 ai4X is a modular suite for reproducible agentic AI workflows. This repository is the integration, installation, and governance repository of that suite.
 
