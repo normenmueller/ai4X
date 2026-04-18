@@ -1,0 +1,293 @@
+# Development Workflow
+
+## Purpose
+
+This workflow defines development routing for the ai4x CLI.
+It applies to implementation work for curate, spawn, and doctor.
+
+## Scope
+
+This workflow governs development work for the ai4x CLI in this repository.
+
+## Normative vs Informative Sources
+
+Normative development governance for this repository lives in:
+
+1. .github/agents/ai4x.agent.md
+2. adm/gdl/dev/contracts/*
+3. adm/gdl/dev/protocols/*
+4. adm/gdl/ops/*
+
+All artifacts under adm/gdl are normative governance artifacts.
+
+CONTRIBUTING.md is informative contributor guidance.
+It may explain process and expectations, but it is not a normative governance source.
+
+## Command Surface Rule
+
+All implementation work must keep the command surface explicit:
+
+1. ai4x curate
+2. ai4x spawn
+3. ai4x doctor
+
+No hidden defaults in config or CLI resolution.
+
+## Branching and Merge Rule
+
+1. `trunk` is the integration line.
+2. Non-trivial work goes on short-lived topic branches.
+3. Topic branches use the standard prefixes `feat/*`, `fix/*`, `docs/*`, `chore/*`, or `refactor/*`.
+4. Merge to `trunk` normally happens through pull requests.
+5. Direct commits to `trunk` require explicit approval.
+6. Merging uses squash as standard.
+
+## Commit Message Rule
+
+1. Use Conventional Commits.
+2. Default format: `<type>: <summary>`.
+3. Use a scope only when it improves clarity.
+4. Keep type, optional scope, and summary lowercase.
+5. Keep the summary concise and behavior-oriented.
+
+## Routing
+
+1. CLI argument behavior changes
+- update parser tests and command docs
+
+2. Config model changes
+- update global and project config contract descriptions
+- keep required fields explicit
+
+3. Runtime link behavior changes
+- ensure links target project-local generated artifacts only
+
+4. Verification changes
+- keep make verify and make doctor green
+- keep required repository structure versioned so fresh checkouts satisfy verification
+
+5. GitHub automation changes
+- keep GitHub Actions workflows aligned with the current repository layout and active verification entrypoints
+
+6. Repository metadata changes
+- keep acc/repo-metadata.yaml aligned with intended GitHub About and Topics
+- run the metadata check/apply path when repository metadata is intentionally changed
+
+## Expert Team Routing
+
+For non-trivial work, route execution through the expert team below.
+This workflow executes **per Story**. Epic refinement and Story decomposition are defined in `adm/gdl/pln/protocols/workflow.md`.
+
+1. Triage & Scope (`ai4X`) — mandatory
+- takes Story scope from the parent Epic
+- confirms constraints and required artifacts
+- determines which stages are needed for this Story (see Stage Applicability below)
+
+2. Requirements Refinement (`ai4x-requirements`) — conditional
+- refines Story-level acceptance criteria only when the Epic ACs are too coarse for the Story scope
+- skipped when the Tech Lead determines the Epic decomposition already provides sufficient Story-level ACs
+- if run, updates the Story Issue with refined ACs
+
+3. Architecture (`ai4x-architecture-ddd`) — conditional
+- defines context boundaries, invariants, and alternatives with trade-offs
+- skipped for scope-limited changes that do not affect module boundaries or domain invariants
+
+4. Critical Review Pass A (`ai4x-critical-reviewer`) — conditional
+- challenges requirements and architecture before implementation
+- blocks progression on unresolved high-severity findings
+- mandatory when Stage 2 or Stage 3 produced new artifacts; skipped when both were skipped
+
+5. AI Strategy (`ai4x-ai-strategy`) — conditional
+- validates model/tool constraints, fallback behavior, and uncertainty policy
+- only when the Story involves AI/LLM behavior
+
+6. Implementation (`ai4x-implementation`) — mandatory
+- implements approved behavior with explicit error handling and modular boundaries
+
+7. Testing (`ai4x-testing-tdd`) — mandatory
+- drives behavior-first tests and regression safeguards
+
+8. Critical Review Pass B (`ai4x-critical-reviewer`) — mandatory
+- independent review of implementation and tests before merge
+
+9. Final Acceptance (`ai4X`) — mandatory
+- final gate decision and completion check
+- only this stage can issue final `approved`
+
+### Stage Applicability
+
+The Tech Lead determines in Stage 1 which stages are needed for the current Story.
+
+| Stage | Applicability | Skip condition |
+|-------|--------------|----------------|
+| 1. Triage & Scope | Always | — |
+| 2. Requirements Refinement | Conditional | Epic ACs are already sufficient for the Story scope |
+| 3. Architecture | Conditional | No module boundary or domain invariant changes |
+| 4. Critical Review A | Conditional | Stages 2 and 3 were both skipped |
+| 5. AI Strategy | Conditional | Story does not involve AI/LLM behavior |
+| 6. Implementation | Always | — |
+| 7. Testing | Always | — |
+| 8. Critical Review B | Always | — |
+| 9. Final Acceptance | Always | — |
+
+### Stage Input/Output Contract
+
+1. Requirements Refinement stage, if run, must produce an updated Requirements Pack (or confirm the Epic-level ACs are sufficient).
+2. Architecture stage, if run, must consume the Requirements Pack and produce an Architecture Pack.
+3. Critical Review Pass A, if run, must consume all artifacts produced by preceding stages and produce Review A Findings.
+4. AI Strategy stage, if run, must produce an AI Strategy Note.
+5. Implementation stage must consume all available upstream artifacts (Requirements Pack, Architecture Pack if produced, Review A Findings if produced, AI Strategy Note if produced); it must produce an Implementation Pack.
+6. Testing stage must consume Requirements Pack, Architecture Pack (if produced), and Implementation Pack; it must produce a Test Evidence Pack.
+7. Critical Review Pass B must consume Implementation Pack and Test Evidence Pack and produce Review B Findings.
+8. Missing mandatory artifacts, unresolved contradictions, or unresolved high-severity findings block progression.
+9. When a conditional stage is skipped, its output artifact is marked `n/a` in the conformance record.
+
+### Gate Decision Semantics
+
+1. Specialist gate outputs are `blocked` or `conditional-approve`.
+2. Final `approved` is issued only by orchestration after mandatory remediation is closed.
+
+## Governance Glossary
+
+This glossary defines canonical terms for workflow execution, reviews, and onboarding.
+
+### Gate Terms
+
+1. Stage Gate
+- A mandatory decision point between workflow stages.
+
+2. Progression
+- Advancing from one stage to the next stage.
+
+3. Remediation
+- Required corrective action before progression or final approval.
+
+### Artifact Terms
+
+1. Requirements Pack
+- Problem statement, scope, constraints, and acceptance criteria.
+
+2. Architecture Pack
+- Boundaries, invariants, alternatives, and recommendation.
+
+3. Review A Findings
+- Pre-implementation findings and blocker status from critical review.
+
+4. AI Strategy Note
+- Model/tool limits, fallback behavior, uncertainty policy, and safeguards.
+
+5. Implementation Pack
+- Behavior mapping to code, failure modes, and trade-offs.
+
+6. Test Evidence Pack
+- Behavior matrix, test strategy evidence, and regression safeguards.
+
+7. Review B Findings
+- Pre-merge findings, blocker status, and residual risk statement.
+
+### Verdict Terms
+
+1. blocked
+- Stage cannot proceed. Blocking reasons and remediation owners are mandatory.
+
+2. conditional-approve
+- Stage may proceed only under explicit remediation conditions and tracked ownership.
+
+3. approved
+- Final acceptance verdict by orchestration only, after all mandatory remediation is closed.
+
+### Planning Terms
+
+1. Idea
+- A vague intent or exploration drafted by the PO in `adm/pbl/`. Temporary.
+
+2. Epic
+- A refined requirement scope with acceptance criteria. Promoted to a GitHub Issue with label `epic`.
+
+3. Story
+- An implementable unit of work within an Epic. GitHub Issue with label `story`, linked to parent Epic.
+
+4. Task
+- An implementation step within a Story. Represented as a checklist within the Story Issue.
+
+## Session Conformance Check
+
+For non-trivial work, the orchestrator must execute the session conformance check defined in `adm/gdl/dev/contracts/agent-conformance.md`:
+
+1. before implementation starts
+2. before final acceptance/merge
+
+The conformance record must include artifact presence, coherence/testability status, explicit gate decision, blocker list, and remediation ownership.
+
+## Artifact Persistence
+
+Artifacts produced during workflow execution persist as follows:
+
+| Artifact | Persistence location |
+|----------|---------------------|
+| Idea | `adm/pbl/*.md` (temporary, deleted after Epic promotion) |
+| Requirements Pack (Epic-level) | GitHub Epic Issue body |
+| Story-level ACs | GitHub Story Issue body |
+| Architecture Pack | Chat session (referenced in PR description for traceability) |
+| Review A/B Findings | Chat session (blocking findings summarized in PR description) |
+| AI Strategy Note | Chat session (referenced in PR description when applicable) |
+| Implementation Pack | Code in topic branch + PR description |
+| Test Evidence Pack | Test files in topic branch + CI results |
+| Conformance Record | Chat session (summary in PR description) |
+
+For cross-session traceability, the PR description must reference the parent Story Issue and summarize key artifacts.
+
+## Visual Flow
+
+### Planning Flow (Idea → Epic → Stories)
+
+```mermaid
+flowchart TD
+	IDEA[PO Idea in adm/pbl] --> TL1[ai4X Tech Lead<br/>Triage and Delegate]
+	TL1 --> RE[ai4x-requirements<br/>Epic Refinement]
+	RE --> PO1{PO Approval?}
+	PO1 -->|Rejected / Iterate| RE
+	PO1 -->|Approved| PROMO[ai4X Tech Lead<br/>Create Epic Issue + Delete PBL]
+	PROMO --> DECOMP[ai4X Tech Lead<br/>Decompose Epic into Stories]
+	DECOMP --> PO2{PO Approves<br/>Story Decomposition?}
+	PO2 -->|Rejected / Iterate| DECOMP
+	PO2 -->|Approved| STORIES[Story Issues Created<br/>Development Begins]
+```
+
+### Development Flow (per Story)
+
+```mermaid
+flowchart TD
+	STORY[Story Issue] --> O1[ai4X Tech Lead<br/>Stage 1: Triage and Scope]
+	O1 --> NEED_REQ{Story ACs<br/>sufficient?}
+	NEED_REQ -->|No| R[ai4x-requirements<br/>Stage 2: Refine Story ACs]
+	NEED_REQ -->|Yes| NEED_ARCH{Architecture<br/>impact?}
+	R --> NEED_ARCH
+	NEED_ARCH -->|Yes| A[ai4x-architecture-ddd<br/>Stage 3: Architecture]
+	NEED_ARCH -->|No| NEED_CRA{Stage 2 or 3<br/>ran?}
+	A --> CR1[ai4x-critical-reviewer<br/>Stage 4: Review Pass A]
+	NEED_CRA -->|Yes| CR1
+	NEED_CRA -->|No| NEED_AI{AI-heavy?}
+	CR1 -->|High Severity Open| DQ[Decision Question to PO]
+	DQ --> O1
+	CR1 -->|Conditional approve| NEED_AI
+	NEED_AI -->|Yes| S[ai4x-ai-strategy<br/>Stage 5: AI Strategy]
+	NEED_AI -->|No| I
+	S --> I[ai4x-implementation<br/>Stage 6: Implementation]
+	I --> T[ai4x-testing-tdd<br/>Stage 7: Testing]
+	T --> CR2[ai4x-critical-reviewer<br/>Stage 8: Review Pass B]
+	CR2 -->|Issues| I
+	CR2 -->|Conditional approve| O2[ai4X Tech Lead<br/>Stage 9: Final Acceptance]
+	O2 --> DONE[Done: verify doctor docs]
+```
+
+## Completion Gate
+
+A change is complete only if:
+
+1. make verify passes
+2. make doctor passes
+3. docs affected by behavior changes are updated
+4. GitHub workflow changes remain consistent with the current repository structure
+5. repository metadata changes are reconciled through the metadata runbook when applicable
+6. required repository structure is versioned so fresh checkouts contain the paths that verification expects

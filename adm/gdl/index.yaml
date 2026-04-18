@@ -1,0 +1,104 @@
+# GDL Index: Governance, Development, Learning
+
+# This index defines the canonical reading order, dependencies, and scope for governance 
+# documents across ai4X. Optimized for both human comprehension and AI agent parsing.
+
+# Structure:
+# - section: Organizational category (dev, ops, pln)
+# - documents: List of documents in that section
+#   - path: Relative path from adm/gdl/
+#   - title: Human-readable title
+#   - purpose: One-line purpose
+#   - priority: must-read | recommended | optional
+#   - depends_on: List of prerequisite paths (or [] if none)
+#   - audience: dev | ops | pln | all
+#   - scope: Applies to (e.g., "CLI development", "release ops", "planning")
+
+sections:
+  - section: dev
+    title: Development Governance
+    description: Normative guidance for software development, quality, and delivery in ai4X.
+    documents:
+      - path: dev/contracts/engineering-quality.md
+        title: Engineering Quality Contract
+        purpose: Define quality gates, testing, and code review expectations.
+        priority: must-read
+        depends_on: []
+        audience: dev
+        scope: CLI development quality standards
+
+      - path: dev/contracts/typescript-quality.md
+        title: TypeScript Quality Contract
+        purpose: Define TypeScript strict mode, linting, and type coverage standards.
+        priority: must-read
+        depends_on: [dev/contracts/engineering-quality.md]
+        audience: dev
+        scope: TypeScript code in dev/src
+
+      - path: dev/contracts/agent-conformance.md
+        title: Agent Conformance Contract
+        purpose: Define mandatory session-level artifact and gate checks for expert-agent routing.
+        priority: must-read
+        depends_on: [dev/contracts/engineering-quality.md, dev/contracts/typescript-quality.md]
+        audience: dev
+        scope: Multi-agent stage governance and gate discipline
+
+      - path: dev/contracts/agent-conformance-template.md
+        title: Agent Conformance One-Page Template
+        purpose: Provide a compact per-session template for artifact checks, gate status, and blockers.
+        priority: recommended
+        depends_on: [dev/contracts/agent-conformance.md]
+        audience: dev
+        scope: Session execution convenience template for conformance checks
+
+      - path: dev/protocols/workflow.md
+        title: Development Workflow
+        purpose: Normative trunk-based branching, Conventional Commits, CI/CD gates, and PR merge strategy.
+        priority: must-read
+        depends_on: [dev/contracts/engineering-quality.md, dev/contracts/agent-conformance.md]
+        audience: dev
+        scope: All development activity in ai4X
+
+  - section: ops
+    title: Operations Governance
+    description: Normative guidance for repository operations, releases, and infrastructure.
+    documents:
+      - path: ops/github-repo-metadata.md
+        title: GitHub Repository Metadata
+        purpose: Document GitHub metadata syncing, labels, workflows, and automation expectations.
+        priority: recommended
+        depends_on: []
+        audience: ops
+        scope: GitHub repository operations and CI/CD
+
+  - section: pln
+    title: Planning Governance
+    description: Governance for product planning, backlog management, and issue promotion.
+    documents:
+      - path: pln/protocols/workflow.md
+        title: "Planning Workflow: Idea to Epic to Story"
+        purpose: Define work item hierarchy (Idea, Epic, Story, Task), promotion gates, ownership rules, and GitHub Issue conventions.
+        priority: must-read
+        depends_on: [dev/protocols/workflow.md]
+        audience: all
+        scope: Planning, backlog management, Epic/Story promotion, and traceability
+
+# Reading Order for New Agents & Contributors
+# ==============================================
+# Read in this order for full context:
+# 1. .github/agents/ai4x.agent.md — canonical agent definition (product scope, CLI model, explicitness rule)
+# 2. adm/gdl/dev/contracts/engineering-quality.md — quality expectations
+# 3. adm/gdl/dev/contracts/typescript-quality.md — TypeScript standards
+# 4. adm/gdl/dev/contracts/agent-conformance.md — session conformance, gate status, and blocker discipline
+# 5. adm/gdl/dev/protocols/workflow.md — branching, commits, PR flow
+# 6. adm/gdl/pln/protocols/workflow.md — planning, Idea → Epic → Story promotion
+# 7. adm/gdl/ops/github-repo-metadata.md — operations (as needed)
+# Terminology reference: see the Governance Glossary section in adm/gdl/dev/protocols/workflow.md for canonical gate, artifact, and verdict terms.
+
+# For Specific Tasks
+# ==================
+# Feature implementation: read .github/agents/ai4x.agent.md → dev/contracts/* → dev/protocols/workflow.md
+# Planning a feature: read .github/agents/ai4x.agent.md → dev/contracts/* → pln/protocols/workflow.md
+# Setting up repo automation: read .github/agents/ai4x.agent.md → ops/github-repo-metadata.md
+# Onboarding a contributor: read in full order above
+# Workflow terminology alignment: use the Governance Glossary in dev/protocols/workflow.md to avoid gate-term drift.

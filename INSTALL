@@ -1,0 +1,49 @@
+# Installation
+
+`ai4x` is a single CLI project.
+Install and validation focus on repository baseline checks.
+
+## System Requirements
+
+- target platforms: macOS, Linux, Windows
+- `bash`
+- `make`
+- `Node.js` and `npm` when working with `package.json`-based project files
+
+## Prerequisites
+
+- repository cloned locally
+
+Unless stated otherwise, all commands are executed from the repository root (`ai4x/`).
+
+## Quickstart
+
+```bash
+make verify
+make doctor
+make install
+```
+
+Command roles:
+
+- `make verify` checks baseline paths and required root artifacts.
+- `make doctor` validates repository structure readiness.
+- `make install` runs baseline install logic:
+  - if `package.json` is missing, no package installation is performed
+  - if `package.json` exists, it runs `npm ci`
+- `make clean` removes local build/runtime artifacts (`node_modules`, `dist`, `.ai4x`).
+
+## Diagnostics and Operations
+
+```bash
+make doctor
+make clean
+make clean && make install
+make verify
+```
+
+`make clean && make install` is the preferred baseline reset path.
+
+## Notes
+
+- Runtime command behavior (`ai4x curate`, `ai4x spawn`, `ai4x doctor`) follows the documented command contracts.

@@ -1,0 +1,26 @@
+name: verify
+
+on:
+  push:
+    branches: ["trunk"]
+  pull_request:
+    branches: ["trunk"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Verify repository metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash ./utl/gh/repo-metadata.sh --check
+      - name: Verify
+        run: make verify
+      - name: Doctor
+        run: make doctor
