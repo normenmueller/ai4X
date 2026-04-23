@@ -1,0 +1,18 @@
+{
+  "name": "ai4x",
+  "version": "0.1.0",
+  "description": "ai4X CLI — curate, spawn, and doctor for multi-agent systems",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node --test --experimental-strip-types tst/**/*.test.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "typescript": "~5.8.0"
+  }
+}
