@@ -24,7 +24,7 @@ Every non-trivial requirements deliverable must contain the following sections:
 
 ## EARS Format (MUST)
 
-All acceptance criteria must use EARS (Easy Approach to Requirements Syntax) patterns:
+All acceptance criteria must use [EARS (Easy Approach to Requirements Syntax)](https://alistairmavin.com/ears/) patterns:
 
 - **Ubiquitous:** `The [system] shall [action].`
 - **Event-driven:** `When [event], the [system] shall [action].`
