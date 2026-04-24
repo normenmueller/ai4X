@@ -68,7 +68,7 @@ describe("ai4x CLI (integration)", () => {
       assert.equal(exitCode, 1);
       assert.equal(stdout, "");
       assert.ok(
-        stderr.includes("[ai4X|warn] not yet implemented: doctor"),
+        stderr.includes("[ai4x|warn] not yet implemented: doctor"),
         "stderr must contain stub warning for doctor",
       );
     });
@@ -78,7 +78,7 @@ describe("ai4x CLI (integration)", () => {
       assert.equal(exitCode, 1);
       assert.equal(stdout, "");
       assert.ok(
-        stderr.includes("[ai4X|warn] not yet implemented: curate"),
+        stderr.includes("[ai4x|warn] not yet implemented: curate"),
         "stderr must contain stub warning for curate",
       );
     });
@@ -88,7 +88,7 @@ describe("ai4x CLI (integration)", () => {
       assert.equal(exitCode, 1);
       assert.equal(stdout, "");
       assert.ok(
-        stderr.includes("[ai4X|warn] not yet implemented: spawn"),
+        stderr.includes("[ai4x|warn] not yet implemented: spawn"),
         "stderr must contain stub warning for spawn",
       );
     });
@@ -100,7 +100,7 @@ describe("ai4x CLI (integration)", () => {
       assert.equal(exitCode, 2);
       assert.equal(stdout, "");
       assert.ok(
-        stderr.includes("[ai4X|error] missing command"),
+        stderr.includes("[ai4x|error] missing command"),
         "stderr must contain missing command error",
       );
       assert.ok(
@@ -114,7 +114,7 @@ describe("ai4x CLI (integration)", () => {
       assert.equal(exitCode, 2);
       assert.equal(stdout, "");
       assert.ok(
-        stderr.includes("[ai4X|error] unknown command: frobnicate"),
+        stderr.includes("[ai4x|error] unknown command: frobnicate"),
         "stderr must contain unknown command error",
       );
     });
@@ -124,7 +124,7 @@ describe("ai4x CLI (integration)", () => {
       assert.equal(exitCode, 2);
       assert.equal(stdout, "");
       assert.ok(
-        stderr.includes("[ai4X|error] unexpected arguments: extra"),
+        stderr.includes("[ai4x|error] unexpected arguments: extra"),
         "stderr must contain unexpected arguments error",
       );
     });

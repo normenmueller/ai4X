@@ -7,18 +7,18 @@ import {
 
 describe("logLine formatting", () => {
   it("formats info-level messages with app name prefix", () => {
-    assert.equal(logLine("info", "hello"), "[ai4X|info] hello");
+    assert.equal(logLine("info", "hello"), "[ai4x|info] hello");
   });
 
   it("formats warn-level messages with app name prefix", () => {
-    assert.equal(logLine("warn", "caution"), "[ai4X|warn] caution");
+    assert.equal(logLine("warn", "caution"), "[ai4x|warn] caution");
   });
 
   it("formats error-level messages with app name prefix", () => {
-    assert.equal(logLine("error", "fail"), "[ai4X|error] fail");
+    assert.equal(logLine("error", "fail"), "[ai4x|error] fail");
   });
 
   it("accepts an empty message without validation", () => {
-    assert.equal(logLine("info", ""), "[ai4X|info] ");
+    assert.equal(logLine("info", ""), "[ai4x|info] ");
   });
 });

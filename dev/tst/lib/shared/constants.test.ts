@@ -14,8 +14,8 @@ describe("shared constants", () => {
     assert.equal(VERSION, pkg.version);
   });
 
-  it("APP_NAME is ai4X", () => {
-    assert.equal(APP_NAME, "ai4X");
+  it("APP_NAME is ai4x", () => {
+    assert.equal(APP_NAME, "ai4x");
   });
 
   it("COPYRIGHT_YEAR is a non-empty string", () => {
