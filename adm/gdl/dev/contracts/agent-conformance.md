@@ -25,6 +25,8 @@ Gate verdict definitions: see `adm/gdl/dev/protocols/workflow.md` (Governance Gl
 
 ## Required Artifacts
 
+Artifact names follow the canonical definitions in `adm/gdl/dev/protocols/workflow.md` (Governance Glossary, Artifact Terms).
+
 Mandatory (always required):
 1. Requirements Pack (Epic-level ACs at minimum; Story-level refinement if Stage 2 ran)
 2. Implementation Pack
@@ -55,7 +57,7 @@ For a compact working format, use `adm/gdl/dev/contracts/agent-conformance-templ
 
 ## Artifact Presence
 
-- Requirements Pack: present | n/a (Epic ACs sufficient) | missing
+- Requirements Pack: present (Epic-level) | present (Story-refined) | missing
 - Architecture Pack: present | n/a (Stage 3 skipped) | missing
 - Review A Findings: present | n/a (Stage 4 skipped) | missing
 - AI Strategy Note: present | n/a (Stage 5 skipped) | missing

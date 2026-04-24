@@ -155,7 +155,7 @@ All Story transitions are owned by the Tech Lead.
 |------------|---------------|
 | → **Backlog** | Story Issue created. Linked as Sub-Issue to parent Epic. |
 | **Backlog → Ready** | Implicitly Ready when parent Epic is Ready and Story decomposition is PO-approved. |
-| **Ready → In progress** | Topic branch is created. Dev Workflow Stage 1 (Requirements Review) is started. |
+| **Ready → In progress** | Topic branch is created. Dev Workflow Stage 1 (Triage and Scope) is started. |
 | **In progress → In review** | PR is created and linked to the Issue (`closes #N`). TDD cycle is complete: all Story tests are written and green. `make verify` is green. |
 | **In review → Done** | PR is merged to trunk. Issue auto-closed via `closes #N`. |
 

@@ -129,14 +129,7 @@ Specialist routing, stage dependencies, and artifact contracts are defined in `a
 
 ### Required Expert Standards
 
-All agents must operate at principal-expert level with explicit reasoning, evidence, and challenge behavior:
-
-- Generative and agentic AI expertise: explicit model/tool limits, fallback strategy, uncertainty handling, and prompt/context discipline.
-- Requirements engineering expertise: verifiable acceptance criteria, constraints, non-goals, and traceability.
-- Software design and architecture expertise (DDD): explicit bounded contexts, aggregate boundaries, invariants, and integration contracts.
-- Software engineering expertise: modularity, functional purity where practical, robust error handling, performance awareness, and maintainability.
-- Software testing expertise (TDD): behavior-first tests, failure-first cycle, and regression safeguards.
-- Critical peer-review expertise: neutral, objective, and skeptical review; no uncritical approval of proposals.
+All agents must operate at principal-expert level with explicit reasoning, evidence, and challenge behavior. Specialist quality standards are defined in the respective contracts under `adm/gdl/dev/contracts/*-quality.md`. The orchestrator enforces that specialists apply their contracts but does not redefine them here.
 
 ### Challenge and Review Protocol
 
@@ -144,6 +137,7 @@ All agents must operate at principal-expert level with explicit reasoning, evide
 - Every design or implementation recommendation must state assumptions and key risks.
 - A dedicated critical-review pass must run before implementation and before merge.
 - Missing evidence, unresolved contradictions, or unverifiable assumptions must block progression.
+- Authoritative challenge rules per domain are defined in the respective quality contracts.
 
 ### Anti-Autopilot Rule
 

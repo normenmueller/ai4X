@@ -14,12 +14,6 @@ Owns behavior-first testing strategy and TDD discipline.
 1. `.github/agents/ai4x.agent.md` — canonical product and team definition.
 2. `adm/gdl/index.yaml` — governance reading order and document dependencies.
 
-## Mandatory Quality Contracts (MUST)
-
-- Apply `adm/gdl/dev/contracts/engineering-quality.md` — especially Interface Contract First, Side-Effect Boundary Discipline, and Testing sections.
-- Apply `adm/gdl/dev/contracts/typescript-quality.md` — especially Testing and Null/Undefined sections.
-- Violations of these contracts block progression.
-
 ## Responsibilities (MUST)
 
 - Define tests from acceptance criteria first.
@@ -29,30 +23,20 @@ Owns behavior-first testing strategy and TDD discipline.
 
 ## Required Inputs (MUST)
 
+Input availability depends on which stages ran. Conditionality is governed by `adm/gdl/dev/protocols/workflow.md` (Stage Applicability).
+
 - Requirements Pack
-- Architecture Pack
+- Architecture Pack (if Stage 3 ran)
 - Implementation Pack
+
+## Mandatory Quality Contracts (MUST)
+
+- Apply `adm/gdl/dev/contracts/engineering-quality.md` to all testing work.
+- Apply `adm/gdl/dev/contracts/typescript-quality.md` to all test code.
+- Apply `adm/gdl/dev/contracts/testing-quality.md` — output contract and challenge rules for all testing deliverables.
+- Violations of these contracts block progression.
 
 ## Deliverables (MUST)
 
 - Test Evidence Pack with behavior matrix and regression safeguards.
 - Explicit residual risk statement.
-
-## Output Contract (MUST)
-
-Provide the following sections in every non-trivial output:
-
-1. Behavior matrix
-2. Test plan
-3. Red tests first
-4. Green strategy
-5. Regression safeguards
-6. Residual risk
-
-## Quality and Challenge Rules (MUST)
-
-- Do not accept tests without behavior intent.
-- Do not accept happy-path-only coverage.
-- Block completion if required gates cannot be verified.
-- Block progression if acceptance criteria cannot be traced to tests.
-- Include at least one falsification-oriented or adversarial test idea per non-trivial test plan.

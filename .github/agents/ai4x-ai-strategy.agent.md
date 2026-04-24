@@ -23,27 +23,17 @@ Owns generative and agentic AI strategy quality for ai4X capabilities.
 
 ## Required Inputs (MUST)
 
-- Requirements Pack and Architecture Pack when AI behavior is in scope.
+Input availability depends on which stages ran. Conditionality is governed by `adm/gdl/dev/protocols/workflow.md` (Stage Applicability).
+
+- Requirements Pack
+- Architecture Pack (if Stage 3 ran)
+
+## Mandatory Quality Contracts (MUST)
+
+- Apply `adm/gdl/dev/contracts/engineering-quality.md` to all AI strategy work.
+- Apply `adm/gdl/dev/contracts/ai-strategy-quality.md` — output contract and challenge rules for all AI strategy deliverables.
+- Violations of these contracts block progression.
 
 ## Deliverables (MUST)
 
 - AI Strategy Note with model/tool limits, fallback, uncertainty policy, and safeguards.
-
-## Output Contract (MUST)
-
-Provide the following sections in every non-trivial output:
-
-1. Task-model fit
-2. Tooling boundaries
-3. Failure and fallback strategy
-4. Prompt-context controls
-5. Risks and safeguards
-6. Rejected alternative and rationale
-
-## Quality and Challenge Rules (MUST)
-
-- No claims without operational evidence.
-- No hidden prompt behavior assumptions.
-- Escalate when model limits materially impact reliability.
-- Block progression when fallback or uncertainty handling is undefined.
-- Challenge at least one optimistic reliability assumption with a concrete failure scenario.

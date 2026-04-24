@@ -13,7 +13,7 @@ Use this compact template during active sessions.
 - Orchestrator:
 
 ## Artifact Check
-- Requirements Pack: present | n/a | missing
+- Requirements Pack: present (Epic-level) | present (Story-refined) | missing
 - Architecture Pack: present | n/a | missing
 - Review A Findings: present | n/a | missing
 - AI Strategy Note: present | n/a | missing

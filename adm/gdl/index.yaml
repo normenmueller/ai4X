@@ -35,11 +35,59 @@ sections:
         audience: dev
         scope: TypeScript code in dev/src
 
+      - path: dev/contracts/architecture-quality.md
+        title: Architecture Quality Contract
+        purpose: Define output contract and challenge rules for architecture and DDD decisions.
+        priority: must-read
+        depends_on: [dev/contracts/engineering-quality.md]
+        audience: dev
+        scope: Architecture work routed through ai4x-architecture-ddd
+
+      - path: dev/contracts/testing-quality.md
+        title: Testing Quality Contract
+        purpose: Define output contract and challenge rules for TDD and test strategy.
+        priority: must-read
+        depends_on: [dev/contracts/engineering-quality.md, dev/contracts/typescript-quality.md]
+        audience: dev
+        scope: Testing work routed through ai4x-testing-tdd
+
+      - path: dev/contracts/review-quality.md
+        title: Review Quality Contract
+        purpose: Define output contract and challenge rules for peer review.
+        priority: must-read
+        depends_on: [dev/contracts/engineering-quality.md, dev/contracts/typescript-quality.md]
+        audience: dev
+        scope: Review work routed through ai4x-critical-reviewer
+
+      - path: dev/contracts/requirements-quality.md
+        title: Requirements Quality Contract
+        purpose: Define output contract, EARS format, and challenge rules for requirements engineering.
+        priority: must-read
+        depends_on: [dev/contracts/engineering-quality.md]
+        audience: dev
+        scope: Requirements work routed through ai4x-requirements
+
+      - path: dev/contracts/ai-strategy-quality.md
+        title: AI Strategy Quality Contract
+        purpose: Define output contract and challenge rules for AI strategy decisions.
+        priority: must-read
+        depends_on: [dev/contracts/engineering-quality.md]
+        audience: dev
+        scope: AI strategy work routed through ai4x-ai-strategy
+
+      - path: dev/contracts/implementation-quality.md
+        title: Implementation Quality Contract
+        purpose: Define output contract and challenge rules for production implementation deliverables.
+        priority: must-read
+        depends_on: [dev/contracts/engineering-quality.md, dev/contracts/typescript-quality.md]
+        audience: dev
+        scope: Implementation work routed through ai4x-implementation
+
       - path: dev/contracts/agent-conformance.md
         title: Agent Conformance Contract
         purpose: Define mandatory session-level artifact and gate checks for expert-agent routing.
         priority: must-read
-        depends_on: [dev/contracts/engineering-quality.md, dev/contracts/typescript-quality.md]
+        depends_on: [dev/contracts/engineering-quality.md]
         audience: dev
         scope: Multi-agent stage governance and gate discipline
 
@@ -89,10 +137,16 @@ sections:
 # 1. .github/agents/ai4x.agent.md — canonical agent definition (product scope, CLI model, explicitness rule)
 # 2. adm/gdl/dev/contracts/engineering-quality.md — quality expectations
 # 3. adm/gdl/dev/contracts/typescript-quality.md — TypeScript standards
-# 4. adm/gdl/dev/contracts/agent-conformance.md — session conformance, gate status, and blocker discipline
-# 5. adm/gdl/dev/protocols/workflow.md — branching, commits, PR flow
-# 6. adm/gdl/pln/protocols/workflow.md — planning, Idea → Epic → Story promotion
-# 7. adm/gdl/ops/github-repo-metadata.md — operations (as needed)
+# 4. adm/gdl/dev/contracts/architecture-quality.md — architecture and DDD quality
+# 5. adm/gdl/dev/contracts/testing-quality.md — TDD and test strategy quality
+# 6. adm/gdl/dev/contracts/review-quality.md — peer review quality
+# 7. adm/gdl/dev/contracts/requirements-quality.md — requirements engineering quality
+# 8. adm/gdl/dev/contracts/ai-strategy-quality.md — AI strategy quality
+# 9. adm/gdl/dev/contracts/implementation-quality.md — implementation deliverable quality
+# 10. adm/gdl/dev/contracts/agent-conformance.md — session conformance, gate status, and blocker discipline
+# 11. adm/gdl/dev/protocols/workflow.md — branching, commits, PR flow
+# 12. adm/gdl/pln/protocols/workflow.md — planning, Idea → Epic → Story promotion
+# 13. adm/gdl/ops/github-repo-metadata.md — operations (as needed)
 # Terminology reference: see the Governance Glossary section in adm/gdl/dev/protocols/workflow.md for canonical gate, artifact, and verdict terms.
 
 # For Specific Tasks

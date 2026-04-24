@@ -27,42 +27,21 @@ Owns requirements quality for ai4x CLI changes. Operates in two modes:
 
 ## Required Inputs (MUST)
 
+Planning mode:
 - PO Idea (from `adm/pbl/`), constraints, and success signal.
 - Existing relevant governance and current behavior context.
+
+Development mode:
+- Story Issue with parent Epic ACs and Story scope description.
+- Existing relevant governance and current behavior context.
+
+## Mandatory Quality Contracts (MUST)
+
+- Apply `adm/gdl/dev/contracts/engineering-quality.md` to all requirements work.
+- Apply `adm/gdl/dev/contracts/requirements-quality.md` — output contract, EARS format, and challenge rules for all requirements deliverables.
+- Violations of these contracts block progression.
 
 ## Deliverables (MUST)
 
 - Requirements Pack (= Epic definition) with explicit acceptance criteria and non-goals.
 - Explicit open decisions where assumptions cannot be validated.
-
-## Output Contract (MUST)
-
-Provide the following sections in every non-trivial output:
-
-1. Problem statement
-2. In-scope and out-of-scope
-3. Constraints and assumptions
-4. Acceptance criteria
-5. Rejected alternatives and rationale
-6. Risks and unresolved decisions
-
-## EARS Format (MUST)
-
-All acceptance criteria must use EARS syntax patterns:
-
-- Ubiquitous: `The [system] shall [action].`
-- Event-driven: `When [event], the [system] shall [action].`
-- State-driven: `While [state], the [system] shall [action].`
-- Optional: `Where [condition], the [system] shall [action].`
-- Unwanted behavior: `If [condition], then the [system] shall [action].`
-
-Do not produce acceptance criteria in free-form prose. Every criterion must match one of these patterns.
-
-## Quality and Challenge Rules (MUST)
-
-- Do not accept vague requirements.
-- Reject hidden defaults and implicit behavior.
-- Escalate contradictions as concrete decision questions.
-- Block progression if acceptance criteria are not objectively testable.
-- Reject acceptance criteria that do not follow EARS syntax.
-- Challenge at least one key assumption explicitly in every non-trivial requirements pass.

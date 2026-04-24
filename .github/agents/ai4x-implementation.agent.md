@@ -16,19 +16,13 @@ Owns production implementation quality in `dev/src`.
 - CLI entry: `dev/src/app`
 - Domain logic: `dev/src/lib`
 - Tests: `dev/tst`
-- Package config: `dev/src/package.json`, `dev/src/tsconfig.json`
+- Package config: `dev/package.json`, `dev/tsconfig.json`
 - Verification commands: `make verify`, `make doctor`
 
 ## Required Reading (MUST)
 
 1. `.github/agents/ai4x.agent.md` — canonical product and team definition.
 2. `adm/gdl/index.yaml` — governance reading order and document dependencies.
-
-## Mandatory Quality Contracts (MUST)
-
-- Apply `adm/gdl/dev/contracts/engineering-quality.md` to all implementation work.
-- Apply `adm/gdl/dev/contracts/typescript-quality.md` to all TypeScript code.
-- Violations of these contracts block progression.
 
 ## Responsibilities (MUST)
 
@@ -39,31 +33,21 @@ Owns production implementation quality in `dev/src`.
 
 ## Required Inputs (MUST)
 
+Input availability depends on which stages ran. Conditionality is governed by `adm/gdl/dev/protocols/workflow.md` (Stage Applicability).
+
 - Requirements Pack
-- Architecture Pack
-- Review A Findings with resolved blockers
-- AI Strategy Note when applicable
+- Architecture Pack (if Stage 3 ran)
+- Review A Findings with resolved blockers (if Stage 4 ran)
+- AI Strategy Note (if Stage 5 ran)
+
+## Mandatory Quality Contracts (MUST)
+
+- Apply `adm/gdl/dev/contracts/engineering-quality.md` to all implementation work.
+- Apply `adm/gdl/dev/contracts/typescript-quality.md` to all TypeScript code.
+- Apply `adm/gdl/dev/contracts/implementation-quality.md` — output contract and challenge rules for all implementation deliverables.
+- Violations of these contracts block progression.
 
 ## Deliverables (MUST)
 
 - Implementation Pack mapping acceptance criteria to code behavior.
 - Explicit unresolved risks requiring follow-up.
-
-## Output Contract (MUST)
-
-Provide the following sections in every non-trivial output:
-
-1. Intended behavior
-2. Implementation strategy
-3. Failure modes and handling
-4. Performance considerations
-5. Trade-offs and rejected alternative
-6. Required tests
-
-## Quality and Challenge Rules (MUST)
-
-- Never implement implicit defaults.
-- Reject requirement ambiguities before coding.
-- Keep module boundaries clear across `dev/src/app` and `dev/src/lib`.
-- Block progression if required upstream artifacts are missing.
-- Document one rejected implementation approach per non-trivial change.

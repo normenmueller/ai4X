@@ -78,7 +78,7 @@ No hidden defaults in config or CLI resolution.
 For non-trivial work, route execution through the expert team below.
 This workflow executes **per Story**. Epic refinement and Story decomposition are defined in `adm/gdl/pln/protocols/workflow.md`.
 
-1. Triage & Scope (`ai4X`) — mandatory
+1. Triage and Scope (`ai4X`) — mandatory
 - takes Story scope from the parent Epic
 - confirms constraints and required artifacts
 - determines which stages are needed for this Story (see Stage Applicability below)
@@ -120,7 +120,7 @@ The Tech Lead determines in Stage 1 which stages are needed for the current Stor
 
 | Stage | Applicability | Skip condition |
 |-------|--------------|----------------|
-| 1. Triage & Scope | Always | — |
+| 1. Triage and Scope | Always | — |
 | 2. Requirements Refinement | Conditional | Epic ACs are already sufficient for the Story scope |
 | 3. Architecture | Conditional | No module boundary or domain invariant changes |
 | 4. Critical Review A | Conditional | Stages 2 and 3 were both skipped |
@@ -135,7 +135,7 @@ The Tech Lead determines in Stage 1 which stages are needed for the current Stor
 1. Requirements Refinement stage, if run, must produce an updated Requirements Pack (or confirm the Epic-level ACs are sufficient).
 2. Architecture stage, if run, must consume the Requirements Pack and produce an Architecture Pack.
 3. Critical Review Pass A, if run, must consume all artifacts produced by preceding stages and produce Review A Findings.
-4. AI Strategy stage, if run, must produce an AI Strategy Note.
+4. AI Strategy stage, if run, must consume Requirements Pack and Architecture Pack (if produced), and produce an AI Strategy Note.
 5. Implementation stage must consume all available upstream artifacts (Requirements Pack, Architecture Pack if produced, Review A Findings if produced, AI Strategy Note if produced); it must produce an Implementation Pack.
 6. Testing stage must consume Requirements Pack, Architecture Pack (if produced), and Implementation Pack; it must produce a Test Evidence Pack.
 7. Critical Review Pass B must consume Implementation Pack and Test Evidence Pack and produce Review B Findings.
@@ -210,6 +210,11 @@ This glossary defines canonical terms for workflow execution, reviews, and onboa
 4. Task
 - An implementation step within a Story. Represented as a checklist within the Story Issue.
 
+### Qualifier Terms
+
+1. Non-trivial
+- A change is non-trivial if it adds or modifies behavior, contracts, boundaries, acceptance criteria, or domain types. Mechanical changes (typo fixes, formatting, comment-only edits) are trivial. When in doubt, treat the change as non-trivial.
+
 ## Session Conformance Check
 
 For non-trivial work, the orchestrator must execute the session conformance check defined in `adm/gdl/dev/contracts/agent-conformance.md`:
@@ -268,15 +273,16 @@ flowchart TD
 	A --> CR1[ai4x-critical-reviewer<br/>Stage 4: Review Pass A]
 	NEED_CRA -->|Yes| CR1
 	NEED_CRA -->|No| NEED_AI{AI-heavy?}
-	CR1 -->|High Severity Open| DQ[Decision Question to PO]
-	DQ --> O1
+	CR1 -->|Blocked| DQ[Decision Question to PO]
+	DQ --> CR1_FIX[Remediate blocked stage]
+	CR1_FIX --> CR1
 	CR1 -->|Conditional approve| NEED_AI
 	NEED_AI -->|Yes| S[ai4x-ai-strategy<br/>Stage 5: AI Strategy]
 	NEED_AI -->|No| I
 	S --> I[ai4x-implementation<br/>Stage 6: Implementation]
 	I --> T[ai4x-testing-tdd<br/>Stage 7: Testing]
 	T --> CR2[ai4x-critical-reviewer<br/>Stage 8: Review Pass B]
-	CR2 -->|Issues| I
+	CR2 -->|Blocked| I
 	CR2 -->|Conditional approve| O2[ai4X Tech Lead<br/>Stage 9: Final Acceptance]
 	O2 --> DONE[Done: verify doctor docs]
 ```
