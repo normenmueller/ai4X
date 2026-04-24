@@ -5,7 +5,7 @@ const HELP_FLAGS = new Set(['--help', '-h'] as const);
 
 export function parseArgs(argv: readonly string[]): ParseResult {
   if (argv.length === 0) {
-    return { ok: false, error: { kind: 'usage-error', message: 'missing command', exitCode: 2 } };
+    return { ok: false, error: { kind: 'missing-command', exitCode: 2 } };
   }
 
   const first = argv[0];
@@ -22,11 +22,11 @@ export function parseArgs(argv: readonly string[]): ParseResult {
   // Safe: .has() returns false for non-matching values; TS Set.has() requires element type
   if (COMMANDS.has(first as 'doctor' | 'curate' | 'spawn')) {
     if (argv.length > 1) {
-      return { ok: false, error: { kind: 'usage-error', message: `unexpected arguments: ${argv.slice(1).join(' ')}`, exitCode: 2 } };
+      return { ok: false, error: { kind: 'unexpected-args', args: argv.slice(1), exitCode: 2 } };
     }
     // Safe: guarded by COMMANDS.has() check above
     return { ok: true, command: { kind: first as 'doctor' | 'curate' | 'spawn' } };
   }
 
-  return { ok: false, error: { kind: 'usage-error', message: `unknown command: ${first}`, exitCode: 2 } };
+  return { ok: false, error: { kind: 'unknown-command', command: first, exitCode: 2 } };
 }

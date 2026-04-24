@@ -4,6 +4,9 @@ import assert from "node:assert/strict";
 import type {
   CliCommand,
   CliUsageError,
+  MissingCommandError,
+  UnknownCommandError,
+  UnexpectedArgsError,
   ParseResult,
   HelpCommand,
   VersionCommand,
@@ -33,45 +36,67 @@ describe("ParseResult narrowing", () => {
   it("grants access to error when ok is false", () => {
     const result: ParseResult = {
       ok: false,
-      error: { kind: "usage-error", message: "unknown flag", exitCode: 1 },
+      error: { kind: "missing-command", exitCode: 2 },
     };
 
     assert.equal(result.ok, false);
     if (!result.ok) {
-      assert.equal(result.error.kind, "usage-error");
-      assert.equal(result.error.message, "unknown flag");
-      assert.equal(result.error.exitCode, 1);
+      assert.equal(result.error.kind, "missing-command");
+      assert.equal(result.error.exitCode, 2);
     }
   });
 });
 
 describe("CliUsageError structure", () => {
-  it("has kind equal to usage-error", () => {
-    const err: CliUsageError = {
-      kind: "usage-error",
-      message: "bad input",
-      exitCode: 2,
-    };
-    assert.equal(err.kind, "usage-error");
+  it("each variant has a distinct kind value", () => {
+    const missing: MissingCommandError = { kind: "missing-command", exitCode: 2 };
+    const unknown: UnknownCommandError = { kind: "unknown-command", command: "x", exitCode: 2 };
+    const unexpected: UnexpectedArgsError = { kind: "unexpected-args", args: ["a"], exitCode: 2 };
+
+    const kinds = new Set([missing.kind, unknown.kind, unexpected.kind]);
+    assert.equal(kinds.size, 3, "all 3 kind values must be distinct");
   });
 
-  it("carries message and exitCode", () => {
-    const err: CliUsageError = {
-      kind: "usage-error",
-      message: "missing argument",
-      exitCode: 1,
-    };
-    assert.equal(err.message, "missing argument");
-    assert.equal(err.exitCode, 1);
+  it("MissingCommandError has kind missing-command and exitCode 2", () => {
+    const err: MissingCommandError = { kind: "missing-command", exitCode: 2 };
+    assert.equal(err.kind, "missing-command");
+    assert.equal(err.exitCode, 2);
   });
 
-  it("is a plain data record, not an Error instance", () => {
-    const err: CliUsageError = {
-      kind: "usage-error",
-      message: "test",
-      exitCode: 1,
-    };
-    assert.equal(err instanceof Error, false);
+  it("UnknownCommandError carries a command string", () => {
+    const err: UnknownCommandError = { kind: "unknown-command", command: "frobnicate", exitCode: 2 };
+    assert.equal(err.kind, "unknown-command");
+    assert.equal(err.command, "frobnicate");
+    assert.equal(err.exitCode, 2);
+  });
+
+  it("UnexpectedArgsError carries an args array", () => {
+    const err: UnexpectedArgsError = { kind: "unexpected-args", args: ["extra", "stuff"], exitCode: 2 };
+    assert.equal(err.kind, "unexpected-args");
+    assert.deepEqual(err.args, ["extra", "stuff"]);
+    assert.equal(err.exitCode, 2);
+  });
+
+  it("all variants have exitCode 2", () => {
+    const errors: CliUsageError[] = [
+      { kind: "missing-command", exitCode: 2 },
+      { kind: "unknown-command", command: "x", exitCode: 2 },
+      { kind: "unexpected-args", args: [], exitCode: 2 },
+    ];
+    for (const err of errors) {
+      assert.equal(err.exitCode, 2);
+    }
+  });
+
+  it("none are Error instances", () => {
+    const errors: CliUsageError[] = [
+      { kind: "missing-command", exitCode: 2 },
+      { kind: "unknown-command", command: "x", exitCode: 2 },
+      { kind: "unexpected-args", args: [], exitCode: 2 },
+    ];
+    for (const err of errors) {
+      assert.equal(err instanceof Error, false);
+    }
   });
 });
 

@@ -44,35 +44,35 @@ describe("parseArgs", () => {
   });
 
   describe("error cases", () => {
-    it("returns usage error for empty argv", () => {
+    it("returns missing-command error for empty argv", () => {
       const result = parseArgs([]);
       assert.deepStrictEqual(result, {
         ok: false,
-        error: { kind: "usage-error", message: "missing command", exitCode: 2 },
+        error: { kind: "missing-command", exitCode: 2 },
       });
     });
 
-    it("returns usage error for unknown command", () => {
+    it("returns unknown-command error for unrecognized command", () => {
       const result = parseArgs(["frobnicate"]);
       assert.deepStrictEqual(result, {
         ok: false,
-        error: { kind: "usage-error", message: "unknown command: frobnicate", exitCode: 2 },
+        error: { kind: "unknown-command", command: "frobnicate", exitCode: 2 },
       });
     });
 
-    it("returns usage error for unknown flag", () => {
+    it("returns unknown-command error for unrecognized flag", () => {
       const result = parseArgs(["--unknown"]);
       assert.deepStrictEqual(result, {
         ok: false,
-        error: { kind: "usage-error", message: "unknown command: --unknown", exitCode: 2 },
+        error: { kind: "unknown-command", command: "--unknown", exitCode: 2 },
       });
     });
 
-    it("returns usage error when command has trailing arguments", () => {
+    it("returns unexpected-args error when command has trailing arguments", () => {
       const result = parseArgs(["doctor", "extra"]);
       assert.deepStrictEqual(result, {
         ok: false,
-        error: { kind: "usage-error", message: "unexpected arguments: extra", exitCode: 2 },
+        error: { kind: "unexpected-args", args: ["extra"], exitCode: 2 },
       });
     });
   });
@@ -82,7 +82,7 @@ describe("parseArgs", () => {
       const result = parseArgs(["doctor", "--help"]);
       assert.deepStrictEqual(result, {
         ok: false,
-        error: { kind: "usage-error", message: "unexpected arguments: --help", exitCode: 2 },
+        error: { kind: "unexpected-args", args: ["--help"], exitCode: 2 },
       });
     });
 

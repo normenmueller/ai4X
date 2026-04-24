@@ -49,6 +49,7 @@ Error states and optional values must be explicit in domain contracts.
 - Every recoverable failure path must be represented in the contract.
 - Error channels must preserve actionable context for callers.
 - Avoid ambiguous sentinel values to represent failure.
+- Prefer discriminated error variants with typed `kind` discriminators over generic error records with message strings. Dispatch on error kinds must use exhaustive pattern matching, not string comparison.
 
 ## Immutability by Default (MUST)
 
