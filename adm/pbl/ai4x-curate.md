@@ -46,6 +46,23 @@ Resultierende Zielarchitektur:
 2. Orchestrierung im Master-Agent.
 3. Rollenspezifische Durchsetzung in Specialist-Agents.
 
+## Abstraktionsebenen-Regel (verbindlich fuer curate)
+
+Agents und Contracts operieren auf unterschiedlichen Abstraktionsebenen — absichtlich:
+
+- **Agents = Rollen mit Methodik** (das *Wie*): z.B. `ai4x-architecture-ddd` (DDD), `ai4x-testing-tdd` (TDD).
+- **Contracts = Qualitaetsanforderungen fuer ein Fachgebiet** (das *Was*): z.B. `architecture-quality`, `testing-quality`.
+
+Contracts benennen das Fachgebiet, Agents benennen die Rolle + Methodik.
+
+Konsequenz fuer `curate`:
+
+- Contract-Dateinamen verwenden das Fachgebiet, nicht die Methodik: `<fachgebiet>-quality.md`.
+- Agent-Dateinamen verwenden die Rolle und die Methodik: `ai4x-<rolle>-<methodik>.agent.md`.
+- Aendert sich die Methodik (z.B. von DDD zu Hexagonal), wird der Agent umbenannt; der Contract bleibt stabil.
+- Output Contracts und Challenge Rules gehoeren ausschliesslich in Contracts, nicht in Agent-Definitionen.
+- Agents referenzieren ihre Contracts unter "Mandatory Quality Contracts (MUST)" und duplizieren keine Regeln.
+
 # (1) Anforderungsanalyse
 
 Fuehre mit mir eine strukturierte Anforderungsanalyse fuer `ai4x curate` durch.
@@ -145,19 +162,21 @@ Alle Specialist-Agents folgen exakt demselben Schema:
 1. Frontmatter (name, description)
 2. Role (1 Satz)
 3. Required Reading: nur `ai4x.agent.md` + `index.yaml`
-4. Responsibilities (MUST)
-5. Required Inputs (MUST)
-6. Deliverables (MUST)
-7. Output Contract (MUST) — 6 standardisierte Sektionen
-8. Quality and Challenge Rules (MUST) — mindestens 1 Challenge-Regel
+4. Mandatory Quality Contracts (MUST) — Referenz auf zugehoerige Contracts (keine Duplikation)
+5. Responsibilities (MUST)
+6. Required Inputs (MUST)
+7. Deliverables (MUST)
 
 Ausnahme: `ai4x-implementation` hat zusaetzlich "Tech Stack and Runtime Scope" vor Required Reading.
+
+Output Contracts und Quality/Challenge Rules leben ausschliesslich in den referenzierten Contracts unter `adm/gdl/dev/contracts/`.
 
 Konsequenz fuer `curate`:
 
 - Specialist-Template ist einheitlich und mechanisch erzeugbar.
-- Varianz liegt nur in: Role-Text, Responsibilities, Inputs, Deliverables, Output-Sektionen, Challenge-Regeln.
+- Varianz liegt nur in: Role-Text, Responsibilities, Inputs, Deliverables, Contract-Referenzen.
 - Required Reading ist fuer alle identisch und darf nicht variiert werden.
+- Output Contracts und Challenge Rules werden in den zugehoerigen Quality Contracts erzeugt, nicht in Agents.
 
 ## Naming-Konvention
 
