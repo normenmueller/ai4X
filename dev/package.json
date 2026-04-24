@@ -5,11 +5,11 @@
   "type": "module",
   "private": true,
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=23.6.0"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "node --test --experimental-strip-types tst/**/*.test.ts"
+    "test": "node --test tst/**/*.test.ts"
   },
   "devDependencies": {
     "@types/node": "^25.6.0",

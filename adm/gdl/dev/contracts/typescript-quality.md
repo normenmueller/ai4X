@@ -24,6 +24,7 @@ Apply this contract to all TypeScript implementation work in `dev/src` and `dev/
 - `any` is prohibited except at explicit system boundaries with an inline comment stating why.
 - Type assertions (`as T`) require an inline justification when the assertion is non-trivial.
 - Prefer discriminated unions over loose type unions for domain variant modeling.
+- Use literal types for exit codes and error discriminators. Dispatch on `kind` fields, never on string content of message fields.
 - Do not use optional chaining as a substitute for explicit failure modeling at domain contracts.
 
 ## Module Structure (MUST)

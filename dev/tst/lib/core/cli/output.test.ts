@@ -1,7 +1,7 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 
-import { versionText, usageText } from "../../../../src/lib/core/cli/output.ts";
+import { versionText, usageText, errorText } from "../../../../src/lib/core/cli/output.ts";
 import { VERSION, COPYRIGHT_YEAR, AUTHOR } from "../../../../src/lib/shared/constants.ts";
 
 describe("versionText", () => {
@@ -42,5 +42,35 @@ describe("usageText", () => {
 
   it("is multi-line", () => {
     assert.ok(usageText().includes("\n"), "must contain newlines");
+  });
+});
+
+describe("errorText", () => {
+  it("returns 'missing command' for missing-command error", () => {
+    assert.equal(
+      errorText({ kind: "missing-command", exitCode: 2 }),
+      "missing command",
+    );
+  });
+
+  it("returns 'unknown command: <cmd>' for unknown-command error", () => {
+    assert.equal(
+      errorText({ kind: "unknown-command", command: "frobnicate", exitCode: 2 }),
+      "unknown command: frobnicate",
+    );
+  });
+
+  it("returns 'unexpected arguments: <arg>' for single unexpected arg", () => {
+    assert.equal(
+      errorText({ kind: "unexpected-args", args: ["extra"], exitCode: 2 }),
+      "unexpected arguments: extra",
+    );
+  });
+
+  it("joins multiple unexpected args with space", () => {
+    assert.equal(
+      errorText({ kind: "unexpected-args", args: ["--help", "foo"], exitCode: 2 }),
+      "unexpected arguments: --help foo",
+    );
   });
 });
