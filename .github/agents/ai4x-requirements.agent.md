@@ -45,3 +45,7 @@ Development mode:
 
 - Requirements Pack (= Epic definition) with explicit acceptance criteria and non-goals.
 - Explicit open decisions where assumptions cannot be validated.
+
+## Completion Rule (MUST)
+
+Deliver the Requirements Pack when all PO constraints are addressed, acceptance criteria are in EARS format, and open questions are documented. Do not iterate beyond the scope of the PO Idea or Story. If scope is ambiguous, escalate a concrete decision question to the orchestrator rather than expanding coverage speculatively.

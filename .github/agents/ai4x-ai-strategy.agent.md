@@ -37,3 +37,7 @@ Input availability depends on which stages ran. Conditionality is governed by `a
 ## Deliverables (MUST)
 
 - AI Strategy Note with model/tool limits, fallback, uncertainty policy, and safeguards.
+
+## Completion Rule (MUST)
+
+Deliver the AI Strategy Note when model/tool boundaries, fallback behavior, and uncertainty policy cover all relevant acceptance criteria. Do not explore edge cases or theoretical failure modes beyond the Story scope.

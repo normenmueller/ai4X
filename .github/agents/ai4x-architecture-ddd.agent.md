@@ -35,3 +35,7 @@ Owns architecture and DDD decisions for ai4x CLI evolution.
 
 - Architecture Pack with boundaries, invariants, options, and recommendation.
 - Explicit migration and risk impact notes.
+
+## Completion Rule (MUST)
+
+Deliver the Architecture Pack when all acceptance criteria are architecturally addressable, boundaries and invariants are defined, and at least one rejected alternative is documented. Do not iterate beyond the minimum viable design unless the orchestrator requests deeper exploration.

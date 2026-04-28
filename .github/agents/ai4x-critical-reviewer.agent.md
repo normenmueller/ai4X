@@ -41,3 +41,7 @@ Input availability depends on which stages ran. Conditionality is governed by `a
 - Review A Findings for pre-implementation gate.
 - Review B Findings for pre-merge gate.
 - Clear blocker list with severity and required remediation.
+
+## Completion Rule (MUST)
+
+Deliver findings when all applicable artifacts have been reviewed against their contracts, findings are prioritized by severity, and a gate verdict is issued. Do not search for additional findings after the verdict is clear. If evidence is insufficient to issue a verdict, state that explicitly rather than continuing to search.

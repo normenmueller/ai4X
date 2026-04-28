@@ -40,3 +40,7 @@ Input availability depends on which stages ran. Conditionality is governed by `a
 
 - Test Evidence Pack with behavior matrix and regression safeguards.
 - Explicit residual risk statement.
+
+## Completion Rule (MUST)
+
+Deliver the Test Evidence Pack when the behavior matrix covers all acceptance criteria, all tests are green, and residual risk is stated. Do not add speculative tests beyond AC coverage.

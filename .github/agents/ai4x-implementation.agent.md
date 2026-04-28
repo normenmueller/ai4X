@@ -51,3 +51,7 @@ Input availability depends on which stages ran. Conditionality is governed by `a
 
 - Implementation Pack mapping acceptance criteria to code behavior.
 - Explicit unresolved risks requiring follow-up.
+
+## Completion Rule (MUST)
+
+Deliver the Implementation Pack when all acceptance criteria map to implemented behavior, verification passes, and unresolved risks are documented. Do not refactor or extend beyond what the Story requires.
