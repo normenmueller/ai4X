@@ -93,6 +93,8 @@ This document defines the planning workflow for ai4X, following established Scru
    - Link to parent Epic
 4. Tech Lead adds an **AC Coverage Matrix** to the Epic Issue body showing which Story covers which acceptance criterion. This matrix is the authoritative traceability artifact for the Epic.
 
+**Exit Gate**: After Story Issues are created and linked, the Tech Lead must explicitly request the PO's Ready decision for the Epic. No development work may begin until the PO transitions the Epic to Ready. The Tech Lead's prompt must offer support, not just request a binary decision. Example: *"Stories are created. The Epic is in Backlog. Your decision: set the Epic to Ready, or is there anything else I can help you with first?"*
+
 ### Phase 5: Development (Story → PR → Merge)
 
 **Scope**: Each Story follows the 9-stage expert team workflow in `adm/gdl/dev/protocols/workflow.md`.
