@@ -83,7 +83,7 @@ sections:
         audience: dev
         scope: Implementation work routed through ai4x-implementation
 
-      - path: dev/contracts/development-conformance.md
+      - path: dev/protocols/development-conformance.md
         title: Agent Conformance Contract
         purpose: Define mandatory session-level artifact and gate checks for expert-agent routing.
         priority: must-read
@@ -91,11 +91,11 @@ sections:
         audience: dev
         scope: Multi-agent stage governance and gate discipline
 
-      - path: dev/contracts/development-conformance-template.md
+      - path: dev/protocols/development-conformance-template.md
         title: Agent Conformance One-Page Template
         purpose: Provide a compact per-session template for artifact checks, gate status, and blockers.
         priority: recommended
-        depends_on: [dev/contracts/development-conformance.md]
+        depends_on: [dev/protocols/development-conformance.md]
         audience: dev
         scope: Session execution convenience template for conformance checks
 
@@ -103,7 +103,7 @@ sections:
         title: Development Workflow
         purpose: Normative trunk-based branching, Conventional Commits, CI/CD gates, and PR merge strategy.
         priority: must-read
-        depends_on: [dev/contracts/engineering-quality.md, dev/contracts/development-conformance.md]
+        depends_on: [dev/contracts/engineering-quality.md, dev/protocols/development-conformance.md]
         audience: dev
         scope: All development activity in ai4X
 
@@ -139,7 +139,7 @@ sections:
         audience: all
         scope: GitHub Project board transitions for Epics and Stories
 
-      - path: pln/contracts/planning-conformance.md
+      - path: pln/protocols/planning-conformance.md
         title: Planning Conformance Contract
         purpose: Define mandatory planning-lifecycle conformance check before PO Ready decision.
         priority: must-read
@@ -159,18 +159,18 @@ sections:
 # 7. adm/gdl/dev/contracts/requirements-quality.md — requirements engineering quality
 # 8. adm/gdl/dev/contracts/ai-strategy-quality.md — AI strategy quality
 # 9. adm/gdl/dev/contracts/implementation-quality.md — implementation deliverable quality
-# 10. adm/gdl/dev/contracts/development-conformance.md — session conformance, gate status, and blocker discipline
+# 10. adm/gdl/dev/protocols/development-conformance.md — session conformance, gate status, and blocker discipline
 # 11. adm/gdl/dev/protocols/workflow.md — branching, commits, PR flow
 # 12. adm/gdl/pln/protocols/workflow.md — planning, Idea → Epic → Story promotion
 # 13. adm/gdl/pln/protocols/board-policy.md — board transitions, ownership gates, labels
-# 14. adm/gdl/pln/contracts/planning-conformance.md — planning conformance enforcement
+# 14. adm/gdl/pln/protocols/planning-conformance.md — planning conformance enforcement
 # 15. adm/gdl/ops/github-repo-metadata.md — operations (as needed)
 # Terminology reference: see the Governance Glossary section in adm/gdl/dev/protocols/workflow.md for canonical gate, artifact, and verdict terms.
 
 # For Specific Tasks
 # ==================
 # Feature implementation: read .github/agents/ai4x.agent.md → dev/contracts/* → dev/protocols/workflow.md
-# Planning a feature: read .github/agents/ai4x.agent.md → dev/contracts/* → pln/protocols/workflow.md → pln/protocols/board-policy.md → pln/contracts/planning-conformance.md
+# Planning a feature: read .github/agents/ai4x.agent.md → dev/contracts/* → pln/protocols/workflow.md → pln/protocols/board-policy.md → pln/protocols/planning-conformance.md
 # Setting up repo automation: read .github/agents/ai4x.agent.md → ops/github-repo-metadata.md
 # Onboarding a contributor: read in full order above
 # Workflow terminology alignment: use the Governance Glossary in dev/protocols/workflow.md to avoid gate-term drift.

@@ -17,7 +17,7 @@ PO controls Epic gates (Ready, Done). Tech Lead controls all Story transitions a
 | Transition | Owner | Prerequisites |
 |------------|-------|---------------|
 | → **Backlog** | Tech Lead | Epic Issue created after PO approval of PBL draft. |
-| **Backlog → Ready** | PO | Acceptance criteria are complete and testable. PO confirms release for development. Planning conformance check passed (see `adm/gdl/pln/contracts/planning-conformance.md`). |
+| **Backlog → Ready** | PO | Acceptance criteria are complete and testable. PO confirms release for development. Planning conformance check passed (see `adm/gdl/pln/protocols/planning-conformance.md`). |
 | **Ready → In progress** | Tech Lead | Story decomposition is PO-approved. First Story is started. |
 | **In progress → In review** | Tech Lead | All Stories are Done. AC Coverage Matrix is complete. All Story tests are green. |
 | **In review → Done** | PO | PO confirms final acceptance of all ACs. |
@@ -75,5 +75,5 @@ Additional labels (optional but recommended):
 ## References
 
 - `adm/gdl/pln/protocols/workflow.md` — Phase definitions and completion checklists.
-- `adm/gdl/pln/contracts/planning-conformance.md` — Planning conformance check.
+- `adm/gdl/pln/protocols/planning-conformance.md` — Planning conformance check.
 - `adm/gdl/dev/protocols/workflow.md` — 9-stage development workflow (Story execution).
