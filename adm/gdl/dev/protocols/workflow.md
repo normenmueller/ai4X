@@ -217,7 +217,7 @@ This glossary defines canonical terms for workflow execution, reviews, and onboa
 
 ## Session Conformance Check
 
-For non-trivial work, the orchestrator must execute the session conformance check defined in `adm/gdl/dev/contracts/agent-conformance.md`:
+For non-trivial work, the orchestrator must execute the session conformance check defined in `adm/gdl/dev/contracts/development-conformance.md`:
 
 1. before implementation starts
 2. before final acceptance/merge

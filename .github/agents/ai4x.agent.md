@@ -107,13 +107,13 @@ For non-trivial work, route through the expert team as defined in `adm/gdl/dev/p
 The orchestrator must not advance stages unless required artifacts exist and are coherent.
 
 - Authoritative artifact list and stage dependencies: `adm/gdl/dev/protocols/workflow.md` (Stage Input/Output Contract).
-- Conformance checks: `adm/gdl/dev/contracts/agent-conformance.md`.
+- Conformance checks: `adm/gdl/dev/contracts/development-conformance.md`.
 
 If any artifact is missing, contradictory, or not testable, progression is blocked.
 
 ## Session Conformance Check (MUST)
 
-Run the conformance check defined in `adm/gdl/dev/contracts/agent-conformance.md` before implementation and before final acceptance.
+Run the conformance check defined in `adm/gdl/dev/contracts/development-conformance.md` before implementation and before final acceptance.
 
 ## Gate Decision Model (MUST)
 

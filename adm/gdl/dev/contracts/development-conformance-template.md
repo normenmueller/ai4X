@@ -46,4 +46,4 @@ Use this compact template during active sessions.
 ## Usage Rule
 
 - This template is a convenience format.
-- Normative requirements remain defined in `adm/gdl/dev/contracts/agent-conformance.md`.
+- Normative requirements remain defined in `adm/gdl/dev/contracts/development-conformance.md`.
