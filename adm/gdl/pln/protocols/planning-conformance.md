@@ -8,7 +8,7 @@ This check ensures all planning deliverables are present and complete before the
 ## Scope
 
 Applies to all Epics promoted through the planning workflow defined in `adm/gdl/pln/protocols/workflow.md`.
-This contract is the planning counterpart to the development session conformance check in `adm/gdl/dev/contracts/development-conformance.md`.
+This contract is the planning counterpart to the development session conformance check in `adm/gdl/dev/protocols/development-conformance.md`.
 
 ## Planning Conformance Rule (MUST)
 
@@ -44,4 +44,4 @@ If any deliverable is missing, the Tech Lead must resolve it before issuing the 
 
 - `adm/gdl/pln/protocols/workflow.md` — Phase definitions and completion checklists.
 - `adm/gdl/pln/protocols/board-policy.md` — Board transitions and ownership rules.
-- `adm/gdl/dev/contracts/development-conformance.md` — Development session conformance (counterpart).
+- `adm/gdl/dev/protocols/development-conformance.md` — Development session conformance (counterpart).
