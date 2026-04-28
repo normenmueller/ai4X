@@ -246,18 +246,7 @@ For cross-session traceability, the PR description must reference the parent Sto
 
 ### Planning Flow (Idea → Epic → Stories)
 
-```mermaid
-flowchart TD
-	IDEA[PO Idea in adm/pbl] --> TL1[ai4X Tech Lead<br/>Triage and Delegate]
-	TL1 --> RE[ai4x-requirements<br/>Epic Refinement]
-	RE --> PO1{PO Approval?}
-	PO1 -->|Rejected / Iterate| RE
-	PO1 -->|Approved| PROMO[ai4X Tech Lead<br/>Create Epic Issue + Delete PBL]
-	PROMO --> DECOMP[ai4X Tech Lead<br/>Decompose Epic into Stories]
-	DECOMP --> PO2{PO Approves<br/>Story Decomposition?}
-	PO2 -->|Rejected / Iterate| DECOMP
-	PO2 -->|Approved| STORIES[Story Issues Created<br/>Development Begins]
-```
+The planning flow diagram is maintained in `adm/gdl/pln/protocols/workflow.md` (Visual Flow section).
 
 ### Development Flow (per Story)
 

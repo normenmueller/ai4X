@@ -125,11 +125,27 @@ sections:
     documents:
       - path: pln/protocols/workflow.md
         title: "Planning Workflow: Idea to Epic to Story"
-        purpose: Define work item hierarchy (Idea, Epic, Story, Task), promotion gates, ownership rules, and GitHub Issue conventions.
+        purpose: Define work item hierarchy (Idea, Epic, Story, Task), promotion gates, phase completion checklists, and GitHub Issue conventions.
         priority: must-read
         depends_on: [dev/protocols/workflow.md]
         audience: all
         scope: Planning, backlog management, Epic/Story promotion, and traceability
+
+      - path: pln/protocols/board-policy.md
+        title: Board Policy
+        purpose: Define board status transitions, ownership gates, lifecycle diagrams, and label conventions.
+        priority: must-read
+        depends_on: [pln/protocols/workflow.md]
+        audience: all
+        scope: GitHub Project board transitions for Epics and Stories
+
+      - path: pln/contracts/planning-conformance.md
+        title: Planning Conformance Contract
+        purpose: Define mandatory planning-lifecycle conformance check before PO Ready decision.
+        priority: must-read
+        depends_on: [pln/protocols/workflow.md, pln/protocols/board-policy.md]
+        audience: all
+        scope: Planning conformance enforcement and gate discipline
 
 # Reading Order for New Agents & Contributors
 # ==============================================
@@ -146,13 +162,15 @@ sections:
 # 10. adm/gdl/dev/contracts/agent-conformance.md — session conformance, gate status, and blocker discipline
 # 11. adm/gdl/dev/protocols/workflow.md — branching, commits, PR flow
 # 12. adm/gdl/pln/protocols/workflow.md — planning, Idea → Epic → Story promotion
-# 13. adm/gdl/ops/github-repo-metadata.md — operations (as needed)
+# 13. adm/gdl/pln/protocols/board-policy.md — board transitions, ownership gates, labels
+# 14. adm/gdl/pln/contracts/planning-conformance.md — planning conformance enforcement
+# 15. adm/gdl/ops/github-repo-metadata.md — operations (as needed)
 # Terminology reference: see the Governance Glossary section in adm/gdl/dev/protocols/workflow.md for canonical gate, artifact, and verdict terms.
 
 # For Specific Tasks
 # ==================
 # Feature implementation: read .github/agents/ai4x.agent.md → dev/contracts/* → dev/protocols/workflow.md
-# Planning a feature: read .github/agents/ai4x.agent.md → dev/contracts/* → pln/protocols/workflow.md
+# Planning a feature: read .github/agents/ai4x.agent.md → dev/contracts/* → pln/protocols/workflow.md → pln/protocols/board-policy.md → pln/contracts/planning-conformance.md
 # Setting up repo automation: read .github/agents/ai4x.agent.md → ops/github-repo-metadata.md
 # Onboarding a contributor: read in full order above
 # Workflow terminology alignment: use the Governance Glossary in dev/protocols/workflow.md to avoid gate-term drift.

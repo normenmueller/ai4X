@@ -8,7 +8,7 @@ This directory contains normative guidance documents for ai4X development, opera
 |---------|---------|---|
 | **dev/** | Development standards, code quality, workflow | `contracts/engineering-quality.md`, `contracts/typescript-quality.md`, `contracts/agent-conformance.md`, `protocols/workflow.md` |
 | **ops/** | Repository operations, automation, infrastructure | `github-repo-metadata.md` |
-| **pln/** | Planning governance, backlog management, issue promotion | `protocols/workflow.md` |
+| **pln/** | Planning governance, backlog management, issue promotion | `protocols/workflow.md`, `protocols/board-policy.md`, `contracts/planning-conformance.md` |
 
 ## Reading Guide
 
@@ -42,8 +42,11 @@ adm/gdl/
 ├── ops/
 │   └── github-repo-metadata.md       # GitHub automation, labels, releases
 ├── pln/
+│   ├── contracts/
+│   │   └── planning-conformance.md   # Planning conformance and gate discipline
 │   └── protocols/
-│       └── workflow.md               # PBL → Issues → PRs → merge
+│       ├── workflow.md               # PBL → Issues → PRs → merge
+│       └── board-policy.md           # Board transitions, labels, ownership
 ├── index.yaml                        # Structured metadata & reading order (AI-optimized)
 └── README.md                         # This file
 ```

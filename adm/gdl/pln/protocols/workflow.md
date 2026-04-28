@@ -60,6 +60,13 @@ This document defines the planning workflow for ai4X, following established Scru
 
 **Exit**: PO approval of the Requirements Pack. This is the promotion gate.
 
+**Completion Checklist** (Tech Lead must verify before proceeding to Phase 3):
+
+- [ ] Requirements Pack produced (problem, scope, constraints, ACs, non-goals, risks)
+- [ ] All ACs testable
+- [ ] At least one rejected alternative per major design decision
+- [ ] PO reviewed and approved Requirements Pack
+
 ### Phase 3: Epic Promotion (Tech Lead)
 
 **Trigger**: PO approval of Requirements Pack.
@@ -71,6 +78,14 @@ This document defines the planning workflow for ai4X, following established Scru
 4. **Delete PBL entry** from `adm/pbl/`. PBL is temporary; GitHub Issues are the single source of truth.
 
 **Status**: Epic Issue is open on GitHub.
+
+**Completion Checklist** (Tech Lead must verify before proceeding to Phase 4):
+
+- [ ] Epic Issue created with label `epic`
+- [ ] Issue body contains approved Requirements Pack
+- [ ] Issue references PBL origin path for traceability
+- [ ] PBL entry deleted from `adm/pbl/`
+- [ ] Epic added to project board (status: Backlog)
 
 ### Phase 4: Story Decomposition (Tech Lead → PO Approval)
 
@@ -93,7 +108,17 @@ This document defines the planning workflow for ai4X, following established Scru
    - Link to parent Epic
 4. Tech Lead adds an **AC Coverage Matrix** to the Epic Issue body showing which Story covers which acceptance criterion. This matrix is the authoritative traceability artifact for the Epic.
 
-**Exit Gate**: After Story Issues are created and linked, the Tech Lead must explicitly request the PO's Ready decision for the Epic. No development work may begin until the PO transitions the Epic to Ready. The Tech Lead's prompt must offer support, not just request a binary decision. Example: *"Stories are created. The Epic is in Backlog. Your decision: set the Epic to Ready, or is there anything else I can help you with first?"*
+**Exit Gate**: After Story Issues are created and linked, the Tech Lead must run the Planning Conformance Check (see `adm/gdl/pln/contracts/planning-conformance.md`) and then explicitly request the PO's Ready decision for the Epic. No development work may begin until the PO transitions the Epic to Ready. The Tech Lead's prompt must offer support, not just request a binary decision. Example: *"Stories are created. The Epic is in Backlog. Your decision: set the Epic to Ready, or is there anything else I can help you with first?"*
+
+**Completion Checklist** (Tech Lead must verify before issuing Ready-Gate prompt):
+
+- [ ] Story Issues created with label `story`
+- [ ] All Stories linked as Sub-Issues to parent Epic
+- [ ] All Stories added to project board (status: Backlog)
+- [ ] AC Coverage Matrix added to Epic Issue body
+- [ ] All Epic ACs covered — no gaps, no orphans
+- [ ] Planning Conformance Check passed
+- [ ] PO Ready-Gate prompt issued
 
 ### Phase 5: Development (Story → PR → Merge)
 
@@ -133,51 +158,33 @@ This document defines the planning workflow for ai4X, following established Scru
 | **Issue linkage** | Mandatory for Features/Fixes. Optional for Docs/Chore/Refactor. |
 | **Tracking board** | GitHub Project `#3` ([link](https://github.com/users/normenmueller/projects/3)). All Epics and Stories must be tracked there. Private visibility. |
 
-## Board Transition Policy
+Board transitions, ownership gates, and label definitions: see `adm/gdl/pln/protocols/board-policy.md`.
 
-Status transitions on the tracking board are gated. Items must not advance unless all prerequisites are met.
+## Visual Flow
 
-**Ownership principle**: PO controls Epic gates (Ready, Done). Tech Lead controls all Story transitions and Epic execution gates (In progress, In review).
+### Planning Flow (Idea → Epic → Stories)
 
-### Epic Transitions
-
-| Transition | Owner | Prerequisites |
-|------------|-------|---------------|
-| → **Backlog** | Tech Lead | Epic Issue created after PO approval of PBL draft. |
-| **Backlog → Ready** | PO | Acceptance criteria are complete and testable. PO confirms release for development. |
-| **Ready → In progress** | Tech Lead | Story decomposition is PO-approved. First Story is started. |
-| **In progress → In review** | Tech Lead | All Stories are Done. AC Coverage Matrix is complete. All Story tests are green. |
-| **In review → Done** | PO | PO confirms final acceptance of all ACs. |
-
-### Story Transitions
-
-All Story transitions are owned by the Tech Lead.
-
-| Transition | Prerequisites |
-|------------|---------------|
-| → **Backlog** | Story Issue created. Linked as Sub-Issue to parent Epic. |
-| **Backlog → Ready** | Implicitly Ready when parent Epic is Ready and Story decomposition is PO-approved. |
-| **Ready → In progress** | Topic branch is created. Dev Workflow Stage 1 (Triage and Scope) is started. |
-| **In progress → In review** | PR is created and linked to the Issue (`closes #N`). TDD cycle is complete: all Story tests are written and green. `make verify` is green. |
-| **In review → Done** | PR is merged to trunk. Issue auto-closed via `closes #N`. |
-
-## GitHub Labels
-
-The following labels must exist in the repository:
-
-| Label | Color | Description |
-|-------|-------|-------------|
-| `epic` | `#3E4B9E` | Epic: refined requirement scope with acceptance criteria |
-| `story` | `#0E8A16` | Story: implementable unit of work within an Epic |
-| `blocked` | `#D93F0B` | Blocked: cannot proceed, requires action |
-
-Additional labels (optional but recommended):
-
-| Label | Color | Description |
-|-------|-------|-------------|
-| `curate` | `#FBCA04` | Related to the curate sub-command |
-| `spawn` | `#FBCA04` | Related to the spawn sub-command |
-| `doctor` | `#FBCA04` | Related to the doctor sub-command |
+```mermaid
+flowchart TD
+    IDEA[PO Idea in adm/pbl] --> TL1[ai4X Tech Lead<br/>Triage and Delegate]
+    TL1 --> RE[ai4x-requirements<br/>Epic Refinement]
+    RE --> PO1{PO Approval?}
+    PO1 -->|Rejected / Iterate| RE
+    PO1 -->|Approved| CHK2[Phase 2 Checklist ✓]
+    CHK2 --> PROMO[ai4X Tech Lead<br/>Create Epic Issue + Delete PBL]
+    PROMO --> CHK3[Phase 3 Checklist ✓]
+    CHK3 --> DECOMP[ai4X Tech Lead<br/>Decompose Epic into Stories]
+    DECOMP --> PO2{PO Approves<br/>Story Decomposition?}
+    PO2 -->|Rejected / Iterate| DECOMP
+    PO2 -->|Approved| MATRIX[AC Coverage Matrix<br/>added to Epic]
+    MATRIX --> CONF[Planning Conformance<br/>Check]
+    CONF -->|Failed| FIX[Resolve missing<br/>deliverables]
+    FIX --> CONF
+    CONF -->|Passed| READY{PO: Epic Ready?}
+    READY -->|Not yet / Questions| SUPPORT[Tech Lead supports PO]
+    SUPPORT --> READY
+    READY -->|Ready| DEV[Development Begins<br/>per Story]
+```
 
 ## Verification
 
@@ -190,6 +197,8 @@ Additional labels (optional but recommended):
 
 ## References
 
+- `adm/gdl/pln/protocols/board-policy.md` — Board transitions, ownership gates, and label conventions.
+- `adm/gdl/pln/contracts/planning-conformance.md` — Planning conformance check (mandatory before Ready-Gate).
 - `adm/gdl/dev/protocols/workflow.md` — 9-stage expert team routing, branching, commits, and completion gates.
 - `.github/agents/ai4x.agent.md` — Tech Lead definition, interaction model, and product rules.
 - `CONTRIBUTING.md` — informative contributor guidance.

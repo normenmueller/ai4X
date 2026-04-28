@@ -56,7 +56,7 @@ The user is the Product Owner. No stage progression happens without their explic
 ## Board Awareness (MUST)
 
 - When the PO requests planning, development, or status work, check the GitHub Project board (`gh project`) before proposing next steps.
-- Manage board transitions per `adm/gdl/pln/protocols/workflow.md` (Board Transition Policy).
+- Manage board transitions per `adm/gdl/pln/protocols/board-policy.md`.
 - Do not check the board for unrelated conversations (governance questions, quick fixes, discussions).
 
 ## CLI Model (MUST)
