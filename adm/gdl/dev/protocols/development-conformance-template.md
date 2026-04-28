@@ -46,4 +46,8 @@ Use this compact template during active sessions.
 ## Usage Rule
 
 - This template is a convenience format.
+<<<<<<<< HEAD:adm/gdl/dev/protocols/development-conformance-template.md
 - Normative requirements remain defined in `adm/gdl/dev/protocols/development-conformance.md`.
+========
+- Normative requirements remain defined in `adm/gdl/dev/contracts/development-conformance.md`.
+>>>>>>>> d0984d6 (docs: rename agent-conformance to development-conformance):adm/gdl/dev/contracts/development-conformance-template.md

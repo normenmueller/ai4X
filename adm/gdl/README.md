@@ -6,7 +6,7 @@ This directory contains normative guidance documents for ai4X development, opera
 
 | Section | Purpose | Key Documents |
 |---------|---------|---|
-| **dev/** | Development standards, code quality, workflow | `contracts/engineering-quality.md`, `contracts/typescript-quality.md`, `contracts/agent-conformance.md`, `protocols/workflow.md` |
+| **dev/** | Development standards, code quality, workflow | `contracts/engineering-quality.md`, `contracts/typescript-quality.md`, `contracts/development-conformance.md`, `protocols/workflow.md` |
 | **ops/** | Repository operations, automation, infrastructure | `github-repo-metadata.md` |
 | **pln/** | Planning governance, backlog management, issue promotion | `protocols/workflow.md`, `protocols/board-policy.md`, `contracts/planning-conformance.md` |
 
@@ -35,8 +35,8 @@ adm/gdl/
 │   ├── contracts/
 │   │   ├── engineering-quality.md    # Quality gates, testing, review
 │   │   ├── typescript-quality.md     # TypeScript strict mode, linting
-│   │   ├── agent-conformance.md      # Session conformance and gate discipline
-│   │   └── agent-conformance-template.md # One-page session template
+│   │   ├── development-conformance.md      # Session conformance and gate discipline
+│   │   └── development-conformance-template.md # One-page session template
 │   └── protocols/
 │       └── workflow.md               # Trunk-based dev, CI/CD, PR gates
 ├── ops/

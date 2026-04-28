@@ -42,7 +42,11 @@ Conditional (required only when the corresponding stage ran):
 
 Copy and complete this template for each non-trivial session.
 
+<<<<<<<< HEAD:adm/gdl/dev/protocols/development-conformance.md
 For a compact working format, use `adm/gdl/dev/protocols/development-conformance-template.md`.
+========
+For a compact working format, use `adm/gdl/dev/contracts/development-conformance-template.md`.
+>>>>>>>> d0984d6 (docs: rename agent-conformance to development-conformance):adm/gdl/dev/contracts/development-conformance.md
 
 ```md
 # Session Conformance Check
