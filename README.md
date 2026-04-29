@@ -21,11 +21,23 @@ In that model, agent creation and activation follow a clear lifecycle:
 
 That makes agent work easier to understand, easier to reproduce, and easier to evolve with discipline.
 
-This repository provides the canonical ai4X CLI:
+<details>
+<summary>ai4X is also a reference implementation of a strict <strong>agent-first development model</strong> and an <strong>agent-guided documentation model</strong>.</summary>
 
-- `ai4x curate`
-- `ai4x spawn`
-- `ai4x doctor`
+Operational implications:
+
+- Deterministic checks are handled programmatically through TypeScript tests, shell checks, and validation commands such as `verify` and `doctor`.
+- Higher-order semantic review, judgment, and proposal assessment are intentionally designed for execution with agentic AI actors.
+- In this model, **developer** and **operator** roles are primarily modeled as agentic AI roles.
+- `doc/usr/` is the direct human-facing documentation surface.
+- `doc/agn/` is the agent-facing onboarding and navigation surface.
+- `doc/arc/` is human-readable architecture and system-reference documentation.
+- `adm/gdl/dev/` is agent-facing development governance.
+- `adm/gdl/ops/` is agent-facing operations governance.
+
+ai4X is, in that sense, built by agentic AI agents for agentic AI agents.[^eyodf]
+
+</details>
 
 ## Core Model
 
@@ -53,3 +65,5 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 ## License
 
 See [LICENSE](LICENSE). © 2026 [nemron](https://github.com/normenmueller) ([#hgtt](doc/hgtt.md))
+
+[^eyodf]: `#eyodf` = "eat your own dog food". ai4X applies its own agent-first development and operations model to itself.
