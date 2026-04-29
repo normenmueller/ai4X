@@ -78,6 +78,7 @@ describe("Makefile install/uninstall (Story #11)", () => {
 
   describe("install target", () => {
     const destdir = `/tmp/ai4x-test-install-${process.pid}`;
+    const configDir = `/tmp/ai4x-test-install-config-${process.pid}`;
     const bindir = `${destdir}/usr/local/bin`;
     const bashDir = `${destdir}/usr/local/share/bash-completion/completions`;
     const zshDir = `${destdir}/usr/local/share/zsh/site-functions`;
@@ -85,12 +86,14 @@ describe("Makefile install/uninstall (Story #11)", () => {
 
     before(() => {
       cleanup(destdir);
-      const result = runMake("install", { DESTDIR: destdir });
+      cleanup(configDir);
+      const result = runMake("install", { DESTDIR: destdir }, { XDG_CONFIG_HOME: configDir });
       assert.equal(result.exitCode, 0, `make install failed: ${result.stderr}`);
     });
 
     after(() => {
       cleanup(destdir);
+      cleanup(configDir);
     });
 
     describe("launcher", () => {
@@ -159,10 +162,12 @@ describe("Makefile install/uninstall (Story #11)", () => {
 
   describe("uninstall target", () => {
     const destdir = `/tmp/ai4x-test-uninstall-${process.pid}`;
+    const configDir = `/tmp/ai4x-test-uninstall-config-${process.pid}`;
 
     before(() => {
       cleanup(destdir);
-      const install = runMake("install", { DESTDIR: destdir });
+      cleanup(configDir);
+      const install = runMake("install", { DESTDIR: destdir }, { XDG_CONFIG_HOME: configDir });
       assert.equal(install.exitCode, 0, `setup install failed: ${install.stderr}`);
       const uninstall = runMake("uninstall", { DESTDIR: destdir });
       assert.equal(uninstall.exitCode, 0, `make uninstall failed: ${uninstall.stderr}`);
@@ -170,6 +175,7 @@ describe("Makefile install/uninstall (Story #11)", () => {
 
     after(() => {
       cleanup(destdir);
+      cleanup(configDir);
     });
 
     it("AC-13: launcher is removed", () => {
@@ -199,14 +205,17 @@ describe("Makefile install/uninstall (Story #11)", () => {
 
   describe("variable overrides", () => {
     const destdir = `/tmp/ai4x-test-override-${process.pid}`;
+    const configDir = `/tmp/ai4x-test-override-config-${process.pid}`;
 
     after(() => {
       cleanup(destdir);
+      cleanup(configDir);
     });
 
     it("custom PREFIX changes all default paths", () => {
       cleanup(destdir);
-      const result = runMake("install", { DESTDIR: destdir, PREFIX: "/opt/ai4x" });
+      cleanup(configDir);
+      const result = runMake("install", { DESTDIR: destdir, PREFIX: "/opt/ai4x" }, { XDG_CONFIG_HOME: configDir });
       assert.equal(result.exitCode, 0, `make install failed: ${result.stderr}`);
       assert.ok(existsSync(`${destdir}/opt/ai4x/bin/ai4x`), "launcher at custom PREFIX");
       assert.ok(
@@ -225,19 +234,21 @@ describe("Makefile install/uninstall (Story #11)", () => {
 
     it("custom BINDIR overrides PREFIX/bin", () => {
       cleanup(destdir);
-      const result = runMake("install", { DESTDIR: destdir, BINDIR: "/custom/bin" });
+      cleanup(configDir);
+      const result = runMake("install", { DESTDIR: destdir, BINDIR: "/custom/bin" }, { XDG_CONFIG_HOME: configDir });
       assert.equal(result.exitCode, 0, `make install failed: ${result.stderr}`);
       assert.ok(existsSync(`${destdir}/custom/bin/ai4x`), "launcher at custom BINDIR");
     });
 
     it("custom completion dirs override defaults", () => {
       cleanup(destdir);
+      cleanup(configDir);
       const result = runMake("install", {
         DESTDIR: destdir,
         BASH_COMPLETION_DIR: "/etc/bash_completion.d",
         ZSH_COMPLETION_DIR: "/etc/zsh/completions",
         FISH_COMPLETION_DIR: "/etc/fish/completions",
-      });
+      }, { XDG_CONFIG_HOME: configDir });
       assert.equal(result.exitCode, 0, `make install failed: ${result.stderr}`);
       assert.ok(existsSync(`${destdir}/etc/bash_completion.d/ai4x`), "bash at custom dir");
       assert.ok(existsSync(`${destdir}/etc/zsh/completions/_ai4x`), "zsh at custom dir");
@@ -265,7 +276,7 @@ describe("Makefile install/uninstall (Story #11)", () => {
       const result = runMake(
         "install",
         { DESTDIR: "/tmp/ai4x-guard-test" },
-        { PATH: filtered },
+        { PATH: filtered, XDG_CONFIG_HOME: `/tmp/ai4x-test-guard-config-${process.pid}` },
       );
       assert.notEqual(result.exitCode, 0, "make install must fail when node is missing");
       assert.ok(
