@@ -6,6 +6,11 @@
 
 ai4X is an operating model for agentic AI work. It exists to make agent work explicit, reviewable, and reusable — across any "bring your own agent" platform (`#byoa`).
 
+> [!IMPORTANT]
+> **What sets ai4X apart**
+> 1. **Need-first discovery** — A structured interview process identifies the user's actual needs (*why* and *what*, not *how*). The result is a declarative requirements set that captures intent, not implementation.
+> 2. **Curated agentic fulfilment** — From that requirements set, ai4X identifies the cognitive capabilities needed and assembles them as a curated agentic team with an explicit collaboration model — declaratively, reproducibly, and client-agnostic.
+
 Rather than hiding behavior in ad hoc prompts, implicit local setup, or client-specific glue, ai4X brings declarative agent definition, deterministic materialization, and explicit client activation together in one coherent command surface.
 
 In that model, agent creation and activation follow a clear lifecycle:
