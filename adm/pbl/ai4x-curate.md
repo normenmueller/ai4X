@@ -146,13 +146,13 @@ Der Orchestrator (`ai4x.agent.md`) definiert:
 - Teamregeln (Delegation Matrix, Stage Gates, Gate Decision Model, Expert Team Operating Model).
 
 Produktregeln enthalten die normativen Regeln direkt im Orchestrator (sie sind die kanonische Definition).
-Teamregeln verweisen auf autoritative Quellen in `workflow.md` und `agent-conformance.md` — sie kopieren nichts.
+Teamregeln verweisen auf autoritative Quellen in `workflow.md` und `development-conformance.md` — sie kopieren nichts.
 
 Konsequenz fuer `curate`:
 
 - Generierte Orchestrator-Dateien muessen zwischen Produktregeln (inline) und Teamregeln (Verweis) trennen.
 - Delegation Matrix, Stage Gates, Gate Decision Model: nur Verweis auf `workflow.md`.
-- Session Conformance: nur Verweis auf `agent-conformance.md`.
+- Session Conformance: nur Verweis auf `development-conformance.md`.
 - Expert Team Operating Model: Verweis auf `workflow.md` + inline Expert Standards und Challenge Protocol.
 
 ## Specialist-Agent-Struktur

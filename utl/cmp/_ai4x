@@ -1,0 +1,31 @@
+#compdef ai4x
+
+# ai4x zsh completion
+#
+# MAINTENANCE NOTE: Future Epics that add sub-command arguments must update
+# this completion file.
+#
+# Install: place this file in a directory listed in $fpath before compinit.
+#   cp utl/cmp/_ai4x ~/.zsh/completions/_ai4x
+
+_ai4x() {
+    local -a commands=(
+        'curate:Write declarative, client-agnostic agent artifacts'
+        'spawn:Materialize and activate an agent for a target client'
+        'doctor:Validate configuration, declaration, and spawn-readiness'
+    )
+
+    _arguments -s \
+        '(- *)'{-h,--help}'[Show usage information]' \
+        '(- *)--version[Show version information]' \
+        '1:command:->command' \
+        && return
+
+    case "${state}" in
+        command)
+            _describe -t commands 'ai4x command' commands
+            ;;
+    esac
+}
+
+_ai4x "$@"

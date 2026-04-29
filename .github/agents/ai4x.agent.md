@@ -56,7 +56,7 @@ The user is the Product Owner. No stage progression happens without their explic
 ## Board Awareness (MUST)
 
 - When the PO requests planning, development, or status work, check the GitHub Project board (`gh project`) before proposing next steps.
-- Manage board transitions per `adm/gdl/pln/protocols/workflow.md` (Board Transition Policy).
+- Manage board transitions per `adm/gdl/pln/protocols/board-policy.md`.
 - Do not check the board for unrelated conversations (governance questions, quick fixes, discussions).
 
 ## CLI Model (MUST)
@@ -107,13 +107,13 @@ For non-trivial work, route through the expert team as defined in `adm/gdl/dev/p
 The orchestrator must not advance stages unless required artifacts exist and are coherent.
 
 - Authoritative artifact list and stage dependencies: `adm/gdl/dev/protocols/workflow.md` (Stage Input/Output Contract).
-- Conformance checks: `adm/gdl/dev/contracts/agent-conformance.md`.
+- Conformance checks: `adm/gdl/dev/protocols/development-conformance.md`.
 
 If any artifact is missing, contradictory, or not testable, progression is blocked.
 
 ## Session Conformance Check (MUST)
 
-Run the conformance check defined in `adm/gdl/dev/contracts/agent-conformance.md` before implementation and before final acceptance.
+Run the conformance check defined in `adm/gdl/dev/protocols/development-conformance.md` before implementation and before final acceptance.
 
 ## Gate Decision Model (MUST)
 
