@@ -3,9 +3,9 @@ repo: ai4x
 about: "Operating model for fit-for-purpose, consistent agent curation and explicit runtime activation"
 topics:
   - ai
-  - developer-tools
+  - cli
   - ai-agents
-  - ai-runtime
   - agentic-ai
-  - ai-orchestration
-  - ai-skills
+  - agent-curation
+  - requirements-engineering
+  - byoa

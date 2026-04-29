@@ -22,13 +22,14 @@ In that model, agent creation and activation follow a clear lifecycle:
 That makes agent work easier to understand, easier to reproduce, and easier to evolve with discipline.
 
 <details>
-<summary>ai4X is also a reference implementation of a strict <strong>agent-first development model</strong> and an <strong>agent-guided documentation model</strong>.</summary>
+<summary>ai4X is also a reference implementation of a strict <strong>agent-first development model</strong> and an <strong>agent-guided documentation model</strong> for human-facing onboarding and support. (click to expand)</summary>
 
 Operational implications:
 
 - Deterministic checks are handled programmatically through TypeScript tests, shell checks, and validation commands such as `verify` and `doctor`.
 - Higher-order semantic review, judgment, and proposal assessment are intentionally designed for execution with agentic AI actors.
 - In this model, **developer** and **operator** roles are primarily modeled as agentic AI roles.
+- Documentation is authored for human consumption but designed for agent-mediated delivery — users ask an agent rather than reading docs directly.
 - `doc/usr/` is the direct human-facing documentation surface.
 - `doc/agn/` is the agent-facing onboarding and navigation surface.
 - `doc/arc/` is human-readable architecture and system-reference documentation.
