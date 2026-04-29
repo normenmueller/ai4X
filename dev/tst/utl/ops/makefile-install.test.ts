@@ -348,4 +348,54 @@ describe("Makefile install/uninstall (Story #11)", () => {
       );
     });
   });
+
+  // ── Idempotency and Adversarial (#16) ────────────────────────────
+
+  describe("idempotency and adversarial (#16)", () => {
+    it("install twice in succession succeeds", () => {
+      const destdir = `/tmp/ai4x-test-idempotent-${process.pid}`;
+      const configDir = `/tmp/ai4x-test-idempotent-config-${process.pid}`;
+      cleanup(destdir);
+      cleanup(configDir);
+      try {
+        const first = runMake("install", { DESTDIR: destdir }, { XDG_CONFIG_HOME: configDir });
+        assert.equal(first.exitCode, 0, `first install failed: ${first.stderr}`);
+        const second = runMake("install", { DESTDIR: destdir }, { XDG_CONFIG_HOME: configDir });
+        assert.equal(second.exitCode, 0, `second install failed: ${second.stderr}`);
+        assert.ok(existsSync(`${destdir}/usr/local/bin/ai4x`), "launcher must exist after double install");
+      } finally {
+        cleanup(destdir);
+        cleanup(configDir);
+      }
+    });
+
+    it("uninstall when nothing is installed succeeds", () => {
+      const destdir = `/tmp/ai4x-test-noop-uninstall-${process.pid}`;
+      cleanup(destdir);
+      try {
+        const result = runMake("uninstall", { DESTDIR: destdir });
+        assert.equal(result.exitCode, 0, `uninstall on empty DESTDIR failed: ${result.stderr}`);
+      } finally {
+        cleanup(destdir);
+      }
+    });
+
+    it("DESTDIR with spaces works correctly", () => {
+      const destdir = `/tmp/ai4x test spaces ${process.pid}`;
+      const configDir = `/tmp/ai4x-test-spaces-config-${process.pid}`;
+      cleanup(destdir);
+      cleanup(configDir);
+      try {
+        const install = runMake("install", { DESTDIR: destdir }, { XDG_CONFIG_HOME: configDir });
+        assert.equal(install.exitCode, 0, `install with spaces failed: ${install.stderr}`);
+        assert.ok(existsSync(`${destdir}/usr/local/bin/ai4x`), "launcher must exist at spaced path");
+        const uninstall = runMake("uninstall", { DESTDIR: destdir });
+        assert.equal(uninstall.exitCode, 0, `uninstall with spaces failed: ${uninstall.stderr}`);
+        assert.ok(!existsSync(`${destdir}/usr/local/bin/ai4x`), "launcher must be removed");
+      } finally {
+        cleanup(destdir);
+        cleanup(configDir);
+      }
+    });
+  });
 });

@@ -130,13 +130,7 @@ source /usr/local/share/fish/vendor_completions.d/ai4x.fish
 make verify    # check repository baseline paths and artifacts
 make doctor    # validate repository structure readiness
 make clean     # remove local build/runtime artifacts
-make test      # run verify baseline checks
-```
-
-To run the full test suite:
-
-```bash
-cd dev && npm test
+make test      # run verify + Node.js test suite
 ```
 
 `make clean && npm ci --prefix dev && make install` is the full reset path.
