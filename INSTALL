@@ -1,49 +1,142 @@
 # Installation
 
-`ai4x` is a single CLI project.
-Install and validation focus on repository baseline checks.
+ai4x is a TypeScript CLI installed via Makefile.
+The launcher invokes the repository source directly through Node.js,
+so the cloned repository must remain in place after installation.
 
-## System Requirements
+## System Prerequisites
 
-- target platforms: macOS, Linux, Windows
-- `bash`
-- `make`
-- `Node.js` and `npm` when working with `package.json`-based project files
+- Node.js >= 23.6.0 (native TypeScript stripping; checked by `make install`)
+- npm (for installing project dependencies)
+- bash (launcher and shell scripts)
+- make (GNU Make or compatible)
+- Target platforms: macOS, Linux
 
-## Prerequisites
+## Install
 
-- repository cloned locally
-
-Unless stated otherwise, all commands are executed from the repository root (`ai4x/`).
-
-## Quickstart
+All commands run from the repository root.
 
 ```bash
-make verify
-make doctor
+git clone https://github.com/normenmueller/ai4x.git
+cd ai4x
+npm ci --prefix dev
 make install
 ```
 
-Command roles:
+`npm ci --prefix dev` installs project dependencies into `dev/node_modules`.
+This step is a prerequisite for `make install` but is not run automatically,
+following standard Unix convention (make install installs, not builds).
 
-- `make verify` checks baseline paths and required root artifacts.
-- `make doctor` validates repository structure readiness.
-- `make install` runs baseline install logic:
-  - if `package.json` is missing, no package installation is performed
-  - if `package.json` exists, it runs `npm ci`
-- `make clean` removes local build/runtime artifacts (`node_modules`, `dist`, `.ai4x`).
+`make install` performs the following:
 
-## Diagnostics and Operations
+1. Guards: verifies `node` is on `$PATH` and meets the version requirement.
+2. Launcher: generates `$(DESTDIR)$(BINDIR)/ai4x` (a bash script that
+   `exec`s Node.js with the repository entry point). Permissions: 0755.
+3. Shell completions: installs completion files for bash, zsh, and fish.
+4. User config: provisions `~/.config/ai4x/config.yaml` (see CONFIG_MODE below).
+
+### Repository Must Stay in Place
+
+The launcher contains an absolute path to `dev/src/app/ai4x.ts` in the
+cloned repository. Moving or deleting the repository breaks the installed
+command. To relocate, run `make uninstall`, move the repository, then
+`make install` again.
+
+## Customizable Variables
+
+All variables have sensible defaults and can be overridden on the command line.
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `PREFIX` | `/usr/local` | Installation prefix |
+| `DESTDIR` | _(empty)_ | Staging directory for packaging |
+| `BINDIR` | `$(PREFIX)/bin` | Launcher install directory |
+| `BASH_COMPLETION_DIR` | `$(PREFIX)/share/bash-completion/completions` | Bash completion directory |
+| `ZSH_COMPLETION_DIR` | `$(PREFIX)/share/zsh/site-functions` | Zsh completion directory |
+| `FISH_COMPLETION_DIR` | `$(PREFIX)/share/fish/vendor_completions.d` | Fish completion directory |
+| `CONFIG_MODE` | `keep` | User-config provisioning mode (see below) |
+
+Example with custom prefix:
 
 ```bash
-make doctor
-make clean
-make clean && make install
-make verify
+make install PREFIX=/opt/ai4x
 ```
 
-`make clean && make install` is the preferred baseline reset path.
+Example for packaging (staged install):
 
-## Notes
+```bash
+make install DESTDIR=/tmp/pkg PREFIX=/usr
+```
 
-- Runtime command behavior (`ai4x curate`, `ai4x spawn`, `ai4x doctor`) follows the documented command contracts.
+### CONFIG_MODE
+
+Controls how `make install` handles `~/.config/ai4x/config.yaml`:
+
+| Mode | Behavior |
+|------|----------|
+| `keep` (default) | Create config only if it does not exist |
+| `backup` | Rename existing config with a timestamped `.backup.*` suffix, then write new |
+| `force` | Overwrite existing config without backup |
+
+The config directory respects `$XDG_CONFIG_HOME` when set
+(defaults to `$HOME/.config`).
+
+Invalid CONFIG_MODE values cause `make install` to fail with an error message.
+
+## Uninstall
+
+```bash
+make uninstall
+```
+
+Removes the launcher script and all shell completion files.
+User configuration (`~/.config/ai4x/config.yaml`) is intentionally preserved.
+
+## Shell Completion Activation
+
+After `make install`, enable tab-completion for your shell:
+
+### bash
+
+Add to `~/.bashrc`:
+
+```bash
+[ -f /usr/local/share/bash-completion/completions/ai4x ] && \
+  source /usr/local/share/bash-completion/completions/ai4x
+```
+
+Or rely on bash-completion auto-loading if installed.
+
+### zsh
+
+The completion is installed to `site-functions`. If your `$fpath` includes
+this directory (most distributions do), restart your shell or run:
+
+```zsh
+autoload -Uz compinit && compinit
+```
+
+### fish
+
+Fish loads vendor completions automatically. Restart your shell or run:
+
+```fish
+source /usr/local/share/fish/vendor_completions.d/ai4x.fish
+```
+
+## Diagnostics
+
+```bash
+make verify    # check repository baseline paths and artifacts
+make doctor    # validate repository structure readiness
+make clean     # remove local build/runtime artifacts
+make test      # run verify baseline checks
+```
+
+To run the full test suite:
+
+```bash
+cd dev && npm test
+```
+
+`make clean && npm ci --prefix dev && make install` is the full reset path.
