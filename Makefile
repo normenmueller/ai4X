@@ -55,10 +55,14 @@ uninstall:
 	@rm -f "$(DESTDIR)$(BASH_COMPLETION_DIR)/ai4x"
 	@rm -f "$(DESTDIR)$(ZSH_COMPLETION_DIR)/_ai4x"
 	@rm -f "$(DESTDIR)$(FISH_COMPLETION_DIR)/ai4x.fish"
+	@-rmdir -p "$(DESTDIR)$(BINDIR)" 2>/dev/null || true
+	@-rmdir -p "$(DESTDIR)$(BASH_COMPLETION_DIR)" 2>/dev/null || true
+	@-rmdir -p "$(DESTDIR)$(ZSH_COMPLETION_DIR)" 2>/dev/null || true
+	@-rmdir -p "$(DESTDIR)$(FISH_COMPLETION_DIR)" 2>/dev/null || true
 	@echo '[ai4x] uninstalled (user config preserved)'
 
 clean:
-	@PREFIX="$(PREFIX)" DESTDIR="$(DESTDIR)" bash ./utl/ops/clean.sh
+	@bash ./utl/ops/clean.sh
 
 doctor:
 	@PREFIX="$(PREFIX)" DESTDIR="$(DESTDIR)" bash ./utl/ops/doctor.sh
@@ -67,3 +71,4 @@ verify:
 	@bash ./utl/ops/verify.sh
 
 test: verify
+	@cd dev && npm test
