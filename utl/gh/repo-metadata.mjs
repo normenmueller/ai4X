@@ -12,7 +12,7 @@ const REPO_METADATA_VERSION = "0.1.0";
 
 const mode = process.argv[2] ?? "--check";
 if (!["--check", "--check-local", "--apply"].includes(mode)) {
-  process.stderr.write("[repo-metadata|ERROR]: usage: --check | --check-local | --apply\n");
+  process.stderr.write("[gh|error]: usage: --check | --check-local | --apply\n");
   process.exit(2);
 }
 
@@ -25,7 +25,7 @@ function runGit(args) {
 }
 
 function fail(message) {
-  process.stderr.write(`[repo-metadata|ERROR]: ${message}\n`);
+  process.stderr.write(`[gh|error]: ${message}\n`);
   return false;
 }
 
@@ -210,7 +210,7 @@ function ghAvailable() {
 function checkLocalMetadata(metadata) {
   const repoRef = resolveRepoRefFromGit();
   if (!repoRef) {
-    process.stdout.write("[repo-metadata|WARN]: cannot derive owner/repo from git remote; local-only checks applied\n");
+    process.stdout.write("[gh|warn]: cannot derive owner/repo from git remote; local-only checks applied\n");
     return true;
   }
   const repoName = repoRef.split("/")[1] || "";
@@ -222,7 +222,7 @@ function checkLocalMetadata(metadata) {
 
 function checkRemote(metadata) {
   if (!ghAvailable()) {
-    process.stdout.write("[repo-metadata|WARN]: gh auth is unavailable; remote drift check skipped\n");
+    process.stdout.write("[gh|warn]: gh auth is unavailable; remote drift check skipped\n");
     return true;
   }
   const repoRef = runGh(["repo", "view", "--json", "nameWithOwner", "--jq", ".nameWithOwner"]);
@@ -258,7 +258,7 @@ function checkRemote(metadata) {
 
 function applyRemote(metadata) {
   if (!ghAvailable()) {
-    process.stderr.write("[repo-metadata|ERROR]: gh auth is required for --apply\n");
+    process.stderr.write("[gh|error]: gh auth is required for --apply\n");
     return false;
   }
   const repoRef = runGh(["repo", "view", "--json", "nameWithOwner", "--jq", ".nameWithOwner"]);
@@ -281,7 +281,7 @@ function applyRemote(metadata) {
     return fail(`failed to apply topics for ${target}: ${topicsOut.stderr.trim()}`);
   }
 
-  process.stdout.write(`[repo-metadata|INFO]: applied ${target}\n`);
+  process.stdout.write(`[gh|info]: applied ${target}\n`);
   return true;
 }
 
@@ -289,7 +289,7 @@ let metadata;
 try {
   metadata = loadMetadata();
 } catch (error) {
-  process.stderr.write(`[repo-metadata|ERROR]: ${error instanceof Error ? error.message : String(error)}\n`);
+  process.stderr.write(`[gh|error]: ${error instanceof Error ? error.message : String(error)}\n`);
   process.exit(1);
 }
 
@@ -297,7 +297,7 @@ const localOk = checkLocalMetadata(metadata);
 if (!localOk) {
   process.exit(1);
 }
-process.stdout.write("[repo-metadata|INFO]: local metadata contract: ok\n");
+process.stdout.write("[gh|info]: local metadata contract: ok\n");
 
 if (mode === "--check-local") {
   process.exit(0);
@@ -307,11 +307,11 @@ if (mode === "--check") {
   if (!checkRemote(metadata)) {
     process.exit(1);
   }
-  process.stdout.write("[repo-metadata|INFO]: remote metadata check: ok\n");
+  process.stdout.write("[gh|info]: remote metadata check: ok\n");
   process.exit(0);
 }
 
 if (!applyRemote(metadata)) {
   process.exit(1);
 }
-process.stdout.write("[repo-metadata|INFO]: apply completed\n");
+process.stdout.write("[gh|info]: apply completed\n");
