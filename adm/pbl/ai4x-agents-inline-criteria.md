@@ -16,4 +16,4 @@ For strong LLMs this indirection is fine — they read the contracts. For weaker
 
 Monitor in real-world usage whether agents correctly apply their referenced contracts. If compliance drops, consider adding a brief inline `## Success Criteria` summary block to each specialist agent that distills the contract's key acceptance bar into 2–3 bullet points.
 
-No action required now. Re-evaluate after the first Epic completes the full 9-stage workflow.
+No action required now. Re-evaluate after the first Epic completes the full 10-stage workflow.

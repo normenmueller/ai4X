@@ -76,4 +76,4 @@ Additional labels (optional but recommended):
 
 - `adm/gdl/pln/protocols/workflow.md` — Phase definitions and completion checklists.
 - `adm/gdl/pln/protocols/planning-conformance.md` — Planning conformance check.
-- `adm/gdl/dev/protocols/workflow.md` — 9-stage development workflow (Story execution).
+- `adm/gdl/dev/protocols/workflow.md` — 10-stage development workflow (Story execution).

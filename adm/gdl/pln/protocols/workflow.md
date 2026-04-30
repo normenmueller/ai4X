@@ -7,7 +7,7 @@ This document defines the planning workflow for ai4X, following established Scru
 - **Ideas** are drafted by the Product Owner (PO) in `adm/pbl/` as a temporary exploration area.
 - The expert team refines Ideas into **Epics** with explicit acceptance criteria.
 - The Tech Lead decomposes approved Epics into **Stories** (GitHub Issues).
-- Development executes per Story through the 9-stage expert team workflow.
+- Development executes per Story through the 10-stage expert team workflow.
 - GitHub Issues are the single source of truth once promoted. PBL entries are deleted after promotion.
 
 ## Work Item Hierarchy
@@ -122,11 +122,11 @@ This document defines the planning workflow for ai4X, following established Scru
 
 ### Phase 5: Development (Story → PR → Merge)
 
-**Scope**: Each Story follows the 9-stage expert team workflow in `adm/gdl/dev/protocols/workflow.md`.
+**Scope**: Each Story follows the 10-stage expert team workflow in `adm/gdl/dev/protocols/workflow.md`.
 
 **Process**:
 1. Tech Lead creates a topic branch (`feat/*`, `fix/*`, etc.) for the Story.
-2. The 9-stage dev workflow executes against that Story. The Tech Lead determines in Stage 1 which conditional stages apply.
+2. The 10-stage dev workflow executes against that Story. The Tech Lead determines in Stage 1 which conditional stages apply.
 3. PR is linked to the Story Issue (via `closes #N`).
 4. PR description references the parent Epic and summarizes key artifacts for traceability.
 
@@ -199,6 +199,6 @@ flowchart TD
 
 - `adm/gdl/pln/protocols/board-policy.md` — Board transitions, ownership gates, and label conventions.
 - `adm/gdl/pln/protocols/planning-conformance.md` — Planning conformance check (mandatory before Ready-Gate).
-- `adm/gdl/dev/protocols/workflow.md` — 9-stage expert team routing, branching, commits, and completion gates.
+- `adm/gdl/dev/protocols/workflow.md` — 10-stage expert team routing, branching, commits, and completion gates.
 - `.github/agents/ai4x.agent.md` — Tech Lead definition, interaction model, and product rules.
 - `CONTRIBUTING.md` — informative contributor guidance.

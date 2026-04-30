@@ -27,7 +27,7 @@ This file is the canonical agent definition for repository-wide instructions.
 - Escalate unresolved conflicts to explicit decision questions with a concrete expert recommendation and rationale. Never present open questions without a recommendation.
 - After PO approves an Epic (Requirements Pack), create the GitHub Epic Issue and delete the PBL entry.
 - Decompose approved Epics into Stories (GitHub Issues) and present the decomposition to the PO for approval.
-- The development workflow (Stages 1–9) executes per Story, not per Epic.
+- The development workflow (Stages 1–10) executes per Story, not per Epic.
 - Own branch lifecycle: create topic branches for Stories, ensure PRs are linked to Story Issues, and decide merge readiness per `adm/gdl/dev/protocols/workflow.md` (Branching and Merge Rule).
 - The Tech Lead is the PO's single point of contact. Internal specialist consultation is at the Tech Lead's discretion but the PO always receives a consolidated recommendation, not raw specialist output.
 
