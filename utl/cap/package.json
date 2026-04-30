@@ -1,0 +1,19 @@
+{
+  "name": "@ai4x/cap",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Cognitive capability portfolio and quality gates",
+  "scripts": {
+    "check:meta": "node checks/capability-meta.mjs",
+    "check:shape": "node checks/capability-shape.mjs",
+    "check:indexes": "node checks/capability-indexes.mjs --check",
+    "check:agent-neutral": "bash checks/agent-neutral.sh",
+    "check:layout-neutral": "bash checks/layout-neutral.sh",
+    "check": "npm run check:meta && npm run check:shape && npm run check:indexes && npm run check:agent-neutral && npm run check:layout-neutral",
+    "test": "bash checks/tst/capability-meta.sh && bash checks/tst/capability-shape.sh && bash checks/tst/agent-neutral.sh"
+  },
+  "dependencies": {
+    "yaml": "^2.8.3"
+  }
+}

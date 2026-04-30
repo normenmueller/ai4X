@@ -1,5 +1,6 @@
 .ai4x/
 .DS_Store
 .vscode/
+node_modules/
 
 SCRATCH.md
