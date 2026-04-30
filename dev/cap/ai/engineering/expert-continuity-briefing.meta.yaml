@@ -1,0 +1,13 @@
+id: expert-continuity-briefing
+version: 0.1.0
+status: active
+approved_by: ["nemron"]
+approved_at: 2026-03-23T00:00:00+01:00
+scope: cognitive
+owner: nemron
+review_due: 2026-12-31
+requires: ["deterministic-reasoning","statement-extraction-rigor","fact-interpretation-separation"]
+conflicts: []
+do_not_use_when: ["the task is a project or repository reboot handover rather than discussion continuity","simple summarization is sufficient and no receiving expert must continue the work directly"]
+distinguish_from: ["statement-extraction-rigor: extracts relevant source statements without building a continuity-ready expert brief","decision-structuring-discipline: structures decision artifacts instead of preserving full discussion continuity","context-engineering-discipline: shapes model context boundaries instead of producing a transfer brief for a receiving expert","project handover protocol/report: governs reboot and repository handover rather than discussion continuity"]
+sources: []

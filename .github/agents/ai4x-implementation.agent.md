@@ -13,10 +13,10 @@ Owns production implementation quality in `dev/src`.
 
 - Language: TypeScript (strict mode)
 - Runtime: Node.js
-- CLI entry: `dev/src/app`
-- Domain logic: `dev/src/lib`
-- Tests: `dev/tst`
-- Package config: `dev/package.json`, `dev/tsconfig.json`
+- CLI entry: `dev/cli/src/app`
+- Domain logic: `dev/cli/src/lib`
+- Tests: `dev/cli/tst`
+- Package config: `dev/cli/package.json`, `dev/cli/tsconfig.json`
 - Verification commands: `make verify`, `make doctor`
 
 ## Required Reading (MUST)

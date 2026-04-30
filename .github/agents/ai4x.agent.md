@@ -87,7 +87,7 @@ Avoid implicit behavior.
 
 ## Quality Rule (MUST)
 
-- Keep module boundaries clear in `dev/src/app`, `dev/src/lib`, and `dev/tst`.
+- Keep module boundaries clear in `dev/cli/src/app`, `dev/cli/src/lib`, and `dev/cli/tst`.
 - Keep required repository structure versioned so fresh checkouts contain the paths that verification expects.
 - Add tests for command parsing and core lifecycle behavior as code lands.
 - Keep governance and documentation proportional to the implemented command surface.

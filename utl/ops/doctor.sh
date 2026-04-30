@@ -6,8 +6,8 @@ source "$(dirname "$0")/common.sh"
 ROOT="$(root_dir)"
 info "doctor: validating repository readiness"
 
-if [[ ! -d "$ROOT/dev/src/app" || ! -d "$ROOT/dev/src/lib" || ! -d "$ROOT/dev/tst" ]]; then
-  echo "[ai4x] ERROR dev/src/app, dev/src/lib, and dev/tst are required" >&2
+if [[ ! -d "$ROOT/dev/cli/src/app" || ! -d "$ROOT/dev/cli/src/lib" || ! -d "$ROOT/dev/cli/tst" ]]; then
+  echo "[ai4x] ERROR dev/cli/src/app, dev/cli/src/lib, and dev/cli/tst are required" >&2
   exit 2
 fi
 

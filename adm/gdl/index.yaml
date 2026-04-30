@@ -83,6 +83,14 @@ sections:
         audience: dev
         scope: Implementation work routed through ai4x-implementation
 
+      - path: dev/contracts/capability-authoring-governance.md
+        title: Capability Authoring Governance
+        purpose: Define normative quality and neutrality rules for cognitive capability authoring and metadata.
+        priority: must-read
+        depends_on: [dev/contracts/engineering-quality.md]
+        audience: dev
+        scope: Cognitive capability portfolio under dev/cap
+
       - path: dev/protocols/development-conformance.md
         title: Agent Conformance Contract
         purpose: Define mandatory session-level artifact and gate checks for expert-agent routing.

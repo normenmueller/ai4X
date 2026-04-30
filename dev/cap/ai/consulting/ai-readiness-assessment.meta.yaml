@@ -1,0 +1,28 @@
+id: ai-readiness-assessment
+version: 0.1.0
+status: active
+approved_by: ["nemron"]
+approved_at: 2026-03-20T00:00:00+01:00
+scope: cognitive
+owner: nemron
+review_due: 2026-12-31
+requires: ["decision-gates","strategy-diagnosis","strategic-fit"]
+conflicts: []
+do_not_use_when: []
+distinguish_from: []
+sources:
+  - title: "Maturity model overview"
+    organization: "Microsoft"
+    url: "https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/maturity-model-overview"
+    kind: "adoption-guidance"
+    accessed_at: "2026-03-20"
+  - title: "Organization and people readiness plan"
+    organization: "Microsoft"
+    url: "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai-agents/organization-people-readiness-plan"
+    kind: "adoption-guidance"
+    accessed_at: "2026-03-20"
+  - title: "Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile"
+    organization: "NIST"
+    url: "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence"
+    kind: "standard"
+    accessed_at: "2026-03-20"

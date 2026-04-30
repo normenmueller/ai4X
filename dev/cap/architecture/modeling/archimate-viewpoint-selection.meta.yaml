@@ -1,0 +1,18 @@
+id: archimate-viewpoint-selection
+version: 0.1.0
+status: active
+approved_by: ["nemron"]
+approved_at: 2026-03-19T00:00:00+01:00
+scope: cognitive
+owner: nemron
+review_due: 2026-12-31
+requires: ["togaf-adm-discipline"]
+conflicts: []
+do_not_use_when: ["when the relevant problem is cross-layer inconsistency rather than viewpoint fit for a stakeholder question"]
+distinguish_from: ["archimate-cross-layer-consistency"]
+sources:
+  - title: "The TOGAF Standard, 10th Edition"
+    organization: "The Open Group"
+    url: "https://publications.opengroup.org/c220"
+    kind: "standard"
+    accessed_at: "2026-03-20"

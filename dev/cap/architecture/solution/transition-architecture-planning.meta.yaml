@@ -1,0 +1,18 @@
+id: transition-architecture-planning
+version: 0.1.0
+status: active
+approved_by: ["nemron"]
+approved_at: 2026-03-19T00:00:00+01:00
+scope: cognitive
+owner: nemron
+review_due: 2026-12-31
+requires: ["baseline-target-gap-analysis"]
+conflicts: []
+do_not_use_when: ["when baseline and target have not been compared yet","when the task is a single target-state compliance check rather than staged change design"]
+distinguish_from: ["baseline-target-gap-analysis","solution-realization-architecture"]
+sources:
+  - title: "The TOGAF Standard, 10th Edition"
+    organization: "The Open Group"
+    url: "https://publications.opengroup.org/c220"
+    kind: "standard"
+    accessed_at: "2026-03-20"

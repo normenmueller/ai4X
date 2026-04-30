@@ -1,0 +1,23 @@
+id: ai-use-case-framing
+version: 0.1.0
+status: active
+approved_by: ["nemron"]
+approved_at: 2026-03-20T00:00:00+01:00
+scope: cognitive
+owner: nemron
+review_due: 2026-12-31
+requires: ["decision-gates","strategy-diagnosis"]
+conflicts: []
+do_not_use_when: []
+distinguish_from: []
+sources:
+  - title: "Maturity model overview"
+    organization: "Microsoft"
+    url: "https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/maturity-model-overview"
+    kind: "adoption-guidance"
+    accessed_at: "2026-03-20"
+  - title: "Generative AI Lens - AWS Well-Architected Framework"
+    organization: "AWS"
+    url: "https://docs.aws.amazon.com/wellarchitected/latest/generative-ai-lens/generative-ai-lens.html"
+    kind: "architecture-guidance"
+    accessed_at: "2026-03-20"

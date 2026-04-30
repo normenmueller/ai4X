@@ -1,0 +1,23 @@
+id: application-integration-architecture
+version: 0.1.0
+status: active
+approved_by: ["nemron"]
+approved_at: 2026-03-24T00:00:00+01:00
+scope: cognitive
+owner: nemron
+review_due: 2026-12-31
+requires: ["segment-architecture-stewardship","architecture-decision-rigor"]
+conflicts: []
+do_not_use_when: ["when the problem is primarily data governance or technology platform architecture","when one concrete solution change needs realization governance more than domain architecture"]
+distinguish_from: ["data-governance-architecture","technology-platform-architecture","solution-realization-architecture"]
+sources:
+  - title: "Architecture Roles and Skills - Segment Architect (Business and Technical)"
+    organization: "The Open Group"
+    url: "https://pubs.opengroup.org/togaf-standard/architecture-roles-and-skills/chap04.html#_segment_architect_business_and_technical"
+    kind: "standard"
+    accessed_at: "2026-03-24"
+  - title: "Architecture Roles and Skills - Skill/Architecture Role Matrix"
+    organization: "The Open Group"
+    url: "https://pubs.opengroup.org/togaf-standard/architecture-roles-and-skills/chap05.html#tbl-Skill-Architecture-Role_Matrix"
+    kind: "standard"
+    accessed_at: "2026-03-24"

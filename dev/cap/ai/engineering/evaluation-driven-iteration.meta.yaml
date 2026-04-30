@@ -1,0 +1,28 @@
+id: evaluation-driven-iteration
+version: 0.1.0
+status: active
+approved_by: ["nemron"]
+approved_at: 2026-03-20T00:00:00+01:00
+scope: cognitive
+owner: nemron
+review_due: 2026-12-31
+requires: ["deterministic-reasoning","critical-peer-discipline"]
+conflicts: []
+do_not_use_when: []
+distinguish_from: []
+sources:
+  - title: "Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile"
+    organization: "NIST"
+    url: "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence"
+    kind: "standard"
+    accessed_at: "2026-03-20"
+  - title: "What are AI workloads?"
+    organization: "Microsoft"
+    url: "https://learn.microsoft.com/en-us/azure/well-architected/ai/get-started"
+    kind: "architecture-guidance"
+    accessed_at: "2026-03-20"
+  - title: "Generative AI Lens - AWS Well-Architected Framework"
+    organization: "AWS"
+    url: "https://docs.aws.amazon.com/wellarchitected/latest/generative-ai-lens/generative-ai-lens.html"
+    kind: "architecture-guidance"
+    accessed_at: "2026-03-20"

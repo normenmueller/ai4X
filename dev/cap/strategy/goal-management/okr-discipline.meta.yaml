@@ -1,0 +1,23 @@
+id: okr-discipline
+version: 0.2.0
+status: active
+approved_by: ["nemron"]
+approved_at: 2026-03-19T00:00:00+01:00
+scope: cognitive
+owner: nemron
+review_due: 2026-12-31
+requires: ["goal-quality-discipline","goal-cascade-and-alignment","cadence-and-review-discipline","critical-peer-discipline"]
+conflicts: []
+do_not_use_when: []
+distinguish_from: []
+sources:
+  - title: "Measure What Matters"
+    organization: "John Doerr / What Matters"
+    url: "https://www.whatmatters.com/"
+    kind: "adoption-guidance"
+    accessed_at: 2026-04-30
+  - title: "FAQs About OKRs (Objectives and Key Results)"
+    organization: "What Matters"
+    url: "https://www.whatmatters.com/faqs/faqs-about-okrs-objectives-and-key-results"
+    kind: "adoption-guidance"
+    accessed_at: 2026-04-30

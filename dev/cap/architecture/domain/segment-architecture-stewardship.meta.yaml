@@ -1,0 +1,18 @@
+id: segment-architecture-stewardship
+version: 0.1.0
+status: active
+approved_by: ["nemron"]
+approved_at: 2026-03-24T00:00:00+01:00
+scope: cognitive
+owner: nemron
+review_due: 2026-12-31
+requires: ["togaf-adm-discipline","baseline-target-gap-analysis"]
+conflicts: []
+do_not_use_when: ["when the task is enterprise-wide cross-segment integration rather than stewardship of one segment","when the task is detailed realization of one concrete solution rather than segment evolution"]
+distinguish_from: ["enterprise-architecture-integration","solution-realization-architecture","capability-map-governance"]
+sources:
+  - title: "Architecture Roles and Skills - Segment Architect (Business and Technical)"
+    organization: "The Open Group"
+    url: "https://pubs.opengroup.org/togaf-standard/architecture-roles-and-skills/chap04.html#_segment_architect_business_and_technical"
+    kind: "standard"
+    accessed_at: "2026-03-24"
