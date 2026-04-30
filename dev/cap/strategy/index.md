@@ -41,7 +41,6 @@ This index exposes the local capability selection surface for `strategy`.
 
 | ID | File | Purpose | Use When | Do Not Use When | Requires | Conflicts | Distinguish From |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `kpi-okr-coupling` | `kpi-okr-coupling.md` | Couple OKRs to KPIs according to AM2 semantics: Key Results set KPI targets, KPIs provide actual values, and their comparison reveals a performance gap. | Use when OKRs are defined, reviewed, or challenged against strategic measurement logic. | `[]` | `[kpi-system, okr-discipline]` | `[]` | `[]` |
 | `kpi-system` | `kpi-system.md` | Define KPI-Domains and KPIs as stable, reviewable measurement semantics for strategic decisions, OKR targets, and operational steering. | Use when strategic choices, interventions, or reviews depend on explicit measurement semantics. | `[]` | `[deterministic-reasoning]` | `[]` | `[]` |
 
 ## Operation
