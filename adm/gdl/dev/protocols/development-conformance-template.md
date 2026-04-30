@@ -17,6 +17,7 @@ Use this compact template during active sessions.
 - Architecture Pack: present | n/a | missing
 - Review A Findings: present | n/a | missing
 - AI Strategy Note: present | n/a | missing
+- Capability Assessment Report: present | n/a | missing
 - Implementation Pack: present | missing
 - Test Evidence Pack: present | missing
 - Review B Findings: present | missing

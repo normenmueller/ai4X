@@ -2,8 +2,9 @@
 child: Contract
 title: Capability Authoring Governance
 scope: ai4x
-version: 0.1.0
+version: 0.2.0
 status: released
+owner: ai4x-capability-governance
 ---
 
 Status: released. Normative governance for authoring cognitive capability modules in ai4X.
@@ -111,3 +112,48 @@ Metadata rules:
 - Use plain Markdown source without runtime- or client-specific instructions.
 - ASCII-first applies, except German umlauts and `ß` where German text requires them.
 - Use plain `"` quotes instead of typographic Unicode quotes.
+
+# Admission Process
+
+A new capability is admitted only when:
+
+1. A demand signal exists (feature requirement, portfolio gap identified during sweep, or explicit PO request).
+2. Nearest-neighbor comparison confirms no existing capability already covers the semantic job.
+3. If overlap exists, the decision is: extend existing capability OR split into two with clear boundary — never silently duplicate.
+4. The `ai4x-capability-governance` agent performs the nearest-neighbor analysis and proposes the admission decision.
+5. PO approves admission before authoring begins.
+
+When extending an existing capability constitutes a material semantic change, normal versioning rules apply.
+
+# Deprecation and Retirement Process
+
+1. A capability enters `deprecated` status when it is superseded, semantically stale, or no longer portfolio-relevant.
+2. Deprecation requires a `migration_note` in metadata explaining the successor or removal rationale.
+3. Deprecated capabilities remain in the portfolio for at least one release cycle to allow downstream adjustment.
+4. Retirement (physical removal) requires explicit PO approval and confirmation that no active composition references the capability.
+5. Status transitions: `active` → `deprecated` → `retired` (removed from repository).
+
+# Portfolio Review Cadence
+
+- The `ai4x-capability-governance` agent performs a portfolio health sweep when triggered by:
+  1. Tech Lead or PO explicit request.
+  2. Before major feature work that depends on capability composition (e.g., curate implementation).
+  3. Periodic cadence as agreed with PO (recommended: before each release milestone).
+- Sweep output: Capability Assessment Report with findings categorized as high/medium/low severity.
+- High-severity findings (semantic overlap, stale triggers, broken differentiation) become Stories in the PBL.
+- Low-severity findings are tracked as tasks within existing Stories or deferred to next sweep.
+
+# Versioning Semantics
+
+- **Major** (breaking): Semantic change to `Purpose`, `Trigger`, or `Minimal Output Contract` that alters the cognitive job or activation boundary.
+- **Minor** (non-breaking): Addition of new rules, refinement of `Fallback`, or extension of the output contract without altering existing semantics.
+- **Patch**: Metadata-only changes, wording clarification without semantic shift, typo fixes.
+
+When a version bump is required:
+- Update `version` in `.meta.yaml`.
+- Update `approved_by` and `approved_at` for minor and major changes.
+- Major changes require PO approval before commit.
+
+# Scope Field Semantics
+
+The `scope` field in capability metadata identifies the **capability domain classification** (e.g., `cognitive`), not the repository name. It enables filtering and routing within a multi-domain portfolio. The value must be consistent across all capabilities in the same portfolio.

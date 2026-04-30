@@ -3,11 +3,11 @@
 ## Purpose
 
 Define a mandatory conformance check for each non-trivial Story execution in the ai4X expert-agent model.
-This check runs within the 9-stage development workflow (per Story), not during planning phases (Idea → Epic → Story decomposition).
+This check runs within the 10-stage development workflow (per Story), not during planning phases (Idea → Epic → Story decomposition).
 
 ## Scope
 
-Applies to all non-trivial changes routed through `ai4X`, `ai4x-requirements`, `ai4x-architecture-ddd`, `ai4x-ai-strategy`, `ai4x-implementation`, `ai4x-testing-tdd`, and `ai4x-critical-reviewer`.
+Applies to all non-trivial changes routed through `ai4X`, `ai4x-requirements`, `ai4x-architecture-ddd`, `ai4x-ai-strategy`, `ai4x-capability-governance`, `ai4x-implementation`, `ai4x-testing-tdd`, and `ai4x-critical-reviewer`.
 
 ## Session Conformance Rule (MUST)
 
@@ -37,6 +37,7 @@ Conditional (required only when the corresponding stage ran):
 5. Architecture Pack (Stage 3)
 6. Review A Findings (Stage 4)
 7. AI Strategy Note (Stage 5)
+8. Capability Assessment Report (Stage 6)
 
 ## Conformance Template
 
@@ -61,6 +62,7 @@ For a compact working format, use `adm/gdl/dev/protocols/development-conformance
 - Architecture Pack: present | n/a (Stage 3 skipped) | missing
 - Review A Findings: present | n/a (Stage 4 skipped) | missing
 - AI Strategy Note: present | n/a (Stage 5 skipped) | missing
+- Capability Assessment Report: present | n/a (Stage 6 skipped) | missing
 - Implementation Pack: present | missing
 - Test Evidence Pack: present | missing
 - Review B Findings: present | missing

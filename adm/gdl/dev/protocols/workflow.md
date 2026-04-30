@@ -101,16 +101,20 @@ This workflow executes **per Story**. Epic refinement and Story decomposition ar
 - validates model/tool constraints, fallback behavior, and uncertainty policy
 - only when the Story involves AI/LLM behavior
 
-6. Implementation (`ai4x-implementation`) — mandatory
+6. Capability Governance (`ai4x-capability-governance`) — conditional
+- validates portfolio coverage, authors or revises capabilities, performs semantic fitness checks
+- only when the Story involves cognitive capability authoring, evaluation, or portfolio change
+
+7. Implementation (`ai4x-implementation`) — mandatory
 - implements approved behavior with explicit error handling and modular boundaries
 
-7. Testing (`ai4x-testing-tdd`) — mandatory
+8. Testing (`ai4x-testing-tdd`) — mandatory
 - drives behavior-first tests and regression safeguards
 
-8. Critical Review Pass B (`ai4x-critical-reviewer`) — mandatory
+9. Critical Review Pass B (`ai4x-critical-reviewer`) — mandatory
 - independent review of implementation and tests before merge
 
-9. Final Acceptance (`ai4X`) — mandatory
+10. Final Acceptance (`ai4X`) — mandatory
 - final gate decision and completion check
 - only this stage can issue final `approved`
 
@@ -125,10 +129,11 @@ The Tech Lead determines in Stage 1 which stages are needed for the current Stor
 | 3. Architecture | Conditional | No module boundary or domain invariant changes |
 | 4. Critical Review A | Conditional | Stages 2 and 3 were both skipped |
 | 5. AI Strategy | Conditional | Story does not involve AI/LLM behavior |
-| 6. Implementation | Always | — |
-| 7. Testing | Always | — |
-| 8. Critical Review B | Always | — |
-| 9. Final Acceptance | Always | — |
+| 6. Capability Governance | Conditional | Story does not involve cognitive capability authoring, evaluation, or portfolio change |
+| 7. Implementation | Always | — |
+| 8. Testing | Always | — |
+| 9. Critical Review B | Always | — |
+| 10. Final Acceptance | Always | — |
 
 ### Stage Input/Output Contract
 
@@ -136,11 +141,12 @@ The Tech Lead determines in Stage 1 which stages are needed for the current Stor
 2. Architecture stage, if run, must consume the Requirements Pack and produce an Architecture Pack.
 3. Critical Review Pass A, if run, must consume all artifacts produced by preceding stages and produce Review A Findings.
 4. AI Strategy stage, if run, must consume Requirements Pack and Architecture Pack (if produced), and produce an AI Strategy Note.
-5. Implementation stage must consume all available upstream artifacts (Requirements Pack, Architecture Pack if produced, Review A Findings if produced, AI Strategy Note if produced); it must produce an Implementation Pack.
-6. Testing stage must consume Requirements Pack, Architecture Pack (if produced), and Implementation Pack; it must produce a Test Evidence Pack.
-7. Critical Review Pass B must consume Implementation Pack and Test Evidence Pack and produce Review B Findings.
-8. Missing mandatory artifacts, unresolved contradictions, or unresolved high-severity findings block progression.
-9. When a conditional stage is skipped, its output artifact is marked `n/a` in the conformance record.
+5. Capability Governance stage, if run, must consume Requirements Pack, Architecture Pack (if produced), and portfolio state (`dev/cap/**`); it must produce a Capability Assessment Report and, when applicable, new or revised capability artifacts.
+6. Implementation stage must consume all available upstream artifacts (Requirements Pack, Architecture Pack if produced, Review A Findings if produced, AI Strategy Note if produced, Capability Assessment Report if produced); it must produce an Implementation Pack.
+7. Testing stage must consume Requirements Pack, Architecture Pack (if produced), and Implementation Pack; it must produce a Test Evidence Pack.
+8. Critical Review Pass B must consume Implementation Pack and Test Evidence Pack and produce Review B Findings.
+9. Missing mandatory artifacts, unresolved contradictions, or unresolved high-severity findings block progression.
+10. When a conditional stage is skipped, its output artifact is marked `n/a` in the conformance record.
 
 ### Gate Decision Semantics
 
@@ -176,13 +182,16 @@ This glossary defines canonical terms for workflow execution, reviews, and onboa
 4. AI Strategy Note
 - Model/tool limits, fallback behavior, uncertainty policy, and safeguards.
 
-5. Implementation Pack
+5. Capability Assessment Report
+- Portfolio health verdict, gap analysis, overlap findings, and recommended portfolio actions.
+
+6. Implementation Pack
 - Behavior mapping to code, failure modes, and trade-offs.
 
-6. Test Evidence Pack
+7. Test Evidence Pack
 - Behavior matrix, test strategy evidence, and regression safeguards.
 
-7. Review B Findings
+8. Review B Findings
 - Pre-merge findings, blocker status, and residual risk statement.
 
 ### Verdict Terms
@@ -236,6 +245,8 @@ Artifacts produced during workflow execution persist as follows:
 | Architecture Pack | Chat session (referenced in PR description for traceability) |
 | Review A/B Findings | Chat session (blocking findings summarized in PR description) |
 | AI Strategy Note | Chat session (referenced in PR description when applicable) |
+| Capability Assessment Report | Chat session (referenced in PR description when applicable) |
+| New/Revised Capability Artifacts | `dev/cap/**` in topic branch |
 | Implementation Pack | Code in topic branch + PR description |
 | Test Evidence Pack | Test files in topic branch + CI results |
 | Conformance Record | Chat session (summary in PR description) |
@@ -267,12 +278,15 @@ flowchart TD
 	CR1_FIX --> CR1
 	CR1 -->|Conditional approve| NEED_AI
 	NEED_AI -->|Yes| S[ai4x-ai-strategy<br/>Stage 5: AI Strategy]
-	NEED_AI -->|No| I
-	S --> I[ai4x-implementation<br/>Stage 6: Implementation]
-	I --> T[ai4x-testing-tdd<br/>Stage 7: Testing]
-	T --> CR2[ai4x-critical-reviewer<br/>Stage 8: Review Pass B]
+	NEED_AI -->|No| NEED_CAP{Capability<br/>work?}
+	S --> NEED_CAP
+	NEED_CAP -->|Yes| CG[ai4x-capability-governance<br/>Stage 6: Capability Governance]
+	NEED_CAP -->|No| I
+	CG --> I[ai4x-implementation<br/>Stage 7: Implementation]
+	I --> T[ai4x-testing-tdd<br/>Stage 8: Testing]
+	T --> CR2[ai4x-critical-reviewer<br/>Stage 9: Review Pass B]
 	CR2 -->|Blocked| I
-	CR2 -->|Conditional approve| O2[ai4X Tech Lead<br/>Stage 9: Final Acceptance]
+	CR2 -->|Conditional approve| O2[ai4X Tech Lead<br/>Stage 10: Final Acceptance]
 	O2 --> DONE[Done: verify doctor docs]
 ```
 

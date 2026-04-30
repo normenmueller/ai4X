@@ -115,6 +115,14 @@ sections:
         audience: dev
         scope: All development activity in ai4X
 
+      - path: dev/protocols/capability-sweep.md
+        title: Capability Sweep Protocol
+        purpose: Define out-of-band protocol for proactive cognitive capability portfolio health assessments.
+        priority: recommended
+        depends_on: [dev/contracts/capability-authoring-governance.md, dev/protocols/workflow.md]
+        audience: dev
+        scope: Cognitive capability portfolio maintenance outside per-Story flow
+
   - section: ops
     title: Operations Governance
     description: Normative guidance for repository operations, releases, and infrastructure.

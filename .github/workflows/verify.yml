@@ -24,3 +24,7 @@ jobs:
         run: make verify
       - name: Doctor
         run: make doctor
+      - name: Capability quality gates
+        run: cd utl/cap && npm ci && npm run check
+      - name: Capability tests
+        run: cd utl/cap && npm test

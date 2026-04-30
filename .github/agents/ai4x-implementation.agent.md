@@ -7,7 +7,7 @@ description: "Use this agent for principal-level TypeScript implementation with 
 
 ## Role
 
-Owns production implementation quality in `dev/src`.
+Owns production implementation quality in `dev/cli/src`.
 
 ## Tech Stack and Runtime Scope (MUST)
 

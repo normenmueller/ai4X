@@ -72,3 +72,4 @@ verify:
 
 test: verify
 	@cd dev/cli && npm test
+	@cd utl/cap && npm test
