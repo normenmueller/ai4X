@@ -1,3 +1,27 @@
+# Capability Review: kpi-okr-coupling
+
+## Scope
+
+Review `kpi-okr-coupling` for domain correctness and agent-readiness. The original capability files have been removed from `dev/cap/` and are preserved inline below.
+
+## Constraints
+
+- Must remain independently reviewable from `okr-discipline` and `kpi-system`.
+
+## Open Design Question
+
+When `curate` materializes an agent system that includes both `kpi-system` and `okr-discipline`, how do we ensure that `kpi-okr-coupling` is automatically co-curated? The metadata `requires: ["kpi-system","okr-discipline"]` expresses a dependency, but no mechanism currently enforces co-curation in the reverse direction (i.e., "if both dependencies are present, this coupling capability must also be included").
+
+## Review Criteria
+
+1. **Domain correctness (Fachlichkeit):** Are rules, triggers, fallback, and output contract sound according to AM2 KPI-OKR coupling semantics?
+2. **Agent-readiness (Agententauglichkeit):** Does the capability text satisfy the Capability Authoring Governance contract (`adm/gdl/dev/contracts/capability-authoring-governance.md`) — semantic triggers, deterministic rules, actionable fallback, material output contract?
+
+---
+
+## Inline Backup: kpi-okr-coupling.md
+
+```markdown
 # KPI-OKR Coupling (MUST)
 
 ## Purpose
@@ -39,3 +63,22 @@ Use when OKRs are defined, reviewed, or challenged against strategic measurement
 - coupling logic between course of action, key result, and KPI
 - guardrails or side effects (if relevant)
 - validation rule
+```
+
+## Inline Backup: kpi-okr-coupling.meta.yaml
+
+```yaml
+id: kpi-okr-coupling
+version: 0.1.2
+status: active
+approved_by: ["nemron"]
+approved_at: 2026-03-19T00:00:00+01:00
+scope: cognitive
+owner: nemron
+review_due: 2026-12-31
+requires: ["kpi-system","okr-discipline"]
+conflicts: []
+do_not_use_when: []
+distinguish_from: []
+sources: []
+```
