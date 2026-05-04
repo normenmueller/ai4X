@@ -1,13 +1,26 @@
 id: kpi-system
-version: 0.1.1
+version: 0.2.0
 status: active
 approved_by: ["nemron"]
-approved_at: 2026-03-19T00:00:00+01:00
+approved_at: 2026-05-04T00:00:00+02:00
 scope: cognitive
 owner: nemron
 review_due: 2026-12-31
 requires: ["deterministic-reasoning"]
 conflicts: []
-do_not_use_when: []
-distinguish_from: []
-sources: []
+do_not_use_when:
+  - "Setting stretch goals or defining change-oriented objectives with measurable key results — use okr-discipline instead."
+distinguish_from:
+  - id: okr-discipline
+    boundary: "okr-discipline defines goal-setting for intentional change with measurable Key Results; kpi-system defines stable measurement semantics for ongoing health monitoring and decision support. KPIs measure state, OKRs drive change."
+sources:
+  - title: "Key Performance Indicators: Developing, Implementing, and Using Winning KPIs"
+    organization: "David Parmenter"
+    url: "https://www.wiley.com/en-us/Key+Performance+Indicators-p-9781119620778"
+    kind: "standard"
+    accessed_at: 2026-05-04
+  - title: "The Balanced Scorecard: Translating Strategy into Action"
+    organization: "Robert S. Kaplan, David P. Norton"
+    url: "https://hbsp.harvard.edu/product/8584-HBK-ENG"
+    kind: "standard"
+    accessed_at: 2026-05-04

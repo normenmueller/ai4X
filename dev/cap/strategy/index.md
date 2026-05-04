@@ -29,7 +29,7 @@ This index exposes the local capability selection surface for `strategy`.
 | `cadence-and-review-discipline` | `cadence-and-review-discipline.md` | Keep goals alive through explicit review cadence, evidence updates, learning, decisions, and adaptation instead of treating goals as static planning artifacts. | Use when goals, outcomes, OKRs, initiatives, or execution commitments need check-ins, progress review, scoring, adaptation, or closure. | `[]` | `[goal-quality-discipline, critical-peer-discipline]` | `[]` | `[]` |
 | `goal-cascade-and-alignment` | `goal-cascade-and-alignment.md` | Align goals across levels, teams, or domains so local goals contribute to shared intent without mechanical cascading, hidden conflicts, or ownership dilution. | Use when goals are translated, cascaded, aligned, decomposed, or reviewed across teams, levels, portfolios, or organizational boundaries. | `[]` | `[goal-quality-discipline, critical-peer-discipline]` | `[]` | `[]` |
 | `goal-quality-discipline` | `goal-quality-discipline.md` | Shape goals so they are material, outcome-oriented, understandable, owned, and usable for steering rather than vague aspiration or activity tracking. | Use when goals, objectives, outcomes, or target statements are proposed, reviewed, prioritized, or challenged. | `[]` | `[critical-peer-discipline]` | `[]` | `[]` |
-| `okr-discipline` | `okr-discipline.md` | Apply OKRs as a disciplined goal-setting and execution system that creates focus, alignment, measurable progress, learning, and accountability around the goals that matter most. | Use when OKRs are proposed, designed, reviewed, scored, or challenged for goal management, alignment, or execution focus. | `[]` | `[goal-quality-discipline, goal-cascade-and-alignment, cadence-and-review-discipline, critical-peer-discipline]` | `[]` | `[]` |
+| `okr-discipline` | `okr-discipline.md` | Apply OKRs as a disciplined goal-setting and execution system that creates focus, alignment, measurable progress, learning, and accountability around the goals that matter most. | Use when OKRs are proposed, designed, reviewed, scored, or challenged for goal management, alignment, or execution focus. | Measuring ongoing operational health or business-as-usual without change intent — use kpi-system instead. | `[goal-quality-discipline, goal-cascade-and-alignment, cadence-and-review-discipline, critical-peer-discipline]` | `[]` | [object Object]<br>[object Object] |
 
 ## Governance
 
@@ -41,7 +41,7 @@ This index exposes the local capability selection surface for `strategy`.
 
 | ID | File | Purpose | Use When | Do Not Use When | Requires | Conflicts | Distinguish From |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `kpi-system` | `kpi-system.md` | Define KPI-Domains and KPIs as stable, reviewable measurement semantics for strategic decisions, OKR targets, and operational steering. | Use when strategic choices, interventions, or reviews depend on explicit measurement semantics. | `[]` | `[deterministic-reasoning]` | `[]` | `[]` |
+| `kpi-system` | `kpi-system.md` | Define KPI-Domains and KPIs as stable, reviewable measurement semantics for strategic decisions, goal tracking, and operational steering. | Use when strategic choices, interventions, or reviews depend on explicit measurement semantics. | Setting stretch goals or defining change-oriented objectives with measurable key results — use okr-discipline instead. | `[deterministic-reasoning]` | `[]` | [object Object] |
 
 ## Operation
 
