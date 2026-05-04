@@ -17,10 +17,10 @@ sources:
   - title: "Key Performance Indicators: Developing, Implementing, and Using Winning KPIs"
     organization: "David Parmenter"
     url: "https://www.wiley.com/en-us/Key+Performance+Indicators-p-9781119620778"
-    kind: "standard"
+    kind: "domain-reference"
     accessed_at: 2026-05-04
   - title: "The Balanced Scorecard: Translating Strategy into Action"
     organization: "Robert S. Kaplan, David P. Norton"
     url: "https://hbsp.harvard.edu/product/8584-HBK-ENG"
-    kind: "standard"
+    kind: "domain-reference"
     accessed_at: 2026-05-04
