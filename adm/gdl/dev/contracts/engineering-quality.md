@@ -95,3 +95,13 @@ All written artifacts must use English.
 - All documentation, README content, and inline doc comments must be in English.
 - All commit messages, branch names, GitHub Issue titles/descriptions, and PR content must be in English.
 - Conversational interaction with the PO is in German; this rule applies only to persisted artifacts.
+
+## Determinism Priority (MUST)
+
+Prefer deterministic solutions over LLM-based solutions.
+
+- What can be decided by rules, graph traversal, constraint checking, or structured data must not be delegated to an LLM.
+- LLM involvement is justified only where semantic judgment is required that no rule system can reliably cover.
+- Every design that involves AI components must make the deterministic/indeterministic boundary explicit.
+- Deterministic components must be testable without LLM involvement.
+- When uncertain whether a task requires LLM judgment, default to a deterministic implementation and escalate the decision.
