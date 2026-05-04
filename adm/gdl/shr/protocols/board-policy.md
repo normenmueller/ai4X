@@ -6,11 +6,11 @@ Define status transitions, ownership gates, and label conventions for the ai4X t
 
 ## Scope
 
-Applies to all Epics and Stories tracked on GitHub Project `#3` ([link](https://github.com/users/normenmueller/projects/3)). Private visibility.
+Applies to all Epics, Stories, and lightweight Issues tracked on GitHub Project `#3` ([link](https://github.com/users/normenmueller/projects/3)). Private visibility.
 
 ## Ownership Principle (MUST)
 
-PO controls Epic gates (Ready, Done). Tech Lead controls all Story transitions and Epic execution gates (In progress, In review).
+PO controls Epic gates (Ready, Done) and lightweight Issue gates (Ready, Done). Tech Lead controls all Story transitions and Epic execution gates (In progress, In review).
 
 ## Epic Transitions
 
@@ -54,6 +54,28 @@ flowchart LR
     IR -->|PR merged| D[Done]
 ```
 
+## Lightweight Issue Transitions (Docs, Chore, Refactor)
+
+Lightweight Issues are standalone work items without a parent Epic. They follow the same board lifecycle but with simplified gates.
+
+| Transition | Owner | Prerequisites |
+|------------|-------|---------------|
+| → **Backlog** | Tech Lead | Issue created with label `chore`, `docs`, or `refactor`. PBL entry deleted. |
+| **Backlog → Ready** | PO | PO confirms scope and releases for development. |
+| **Ready → In progress** | Tech Lead | Topic branch created (if needed). Dev Workflow Stage 1 started. |
+| **In progress → In review** | Tech Lead | PR created and linked to Issue (`closes #N`). Applicable checks green. |
+| **In review → Done** | PO | PO confirms acceptance. PR merged. Issue auto-closed. |
+
+### Lightweight Issue Lifecycle
+
+```mermaid
+flowchart LR
+    B[Backlog] -->|PO: Ready decision| R[Ready]
+    R -->|Tech Lead: branch + triage| IP[In progress]
+    IP -->|Tech Lead: PR created| IR[In review]
+    IR -->|PO: acceptance + merge| D[Done]
+```
+
 ## GitHub Labels
 
 The following labels must exist in the repository:
@@ -68,6 +90,9 @@ Additional labels (optional but recommended):
 
 | Label | Color | Description |
 |-------|-------|-------------|
+| `chore` | `#C5DEF5` | Chore: maintenance, governance, or housekeeping work |
+| `docs` | `#C5DEF5` | Documentation work |
+| `refactor` | `#C5DEF5` | Refactoring without behavior change |
 | `curate` | `#FBCA04` | Related to the curate sub-command |
 | `spawn` | `#FBCA04` | Related to the spawn sub-command |
 | `doctor` | `#FBCA04` | Related to the doctor sub-command |
