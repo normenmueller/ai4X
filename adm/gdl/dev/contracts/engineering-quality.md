@@ -105,3 +105,12 @@ Prefer deterministic solutions over LLM-based solutions.
 - Every design that involves AI components must make the deterministic/indeterministic boundary explicit.
 - Deterministic components must be testable without LLM involvement.
 - When uncertain whether a task requires LLM judgment, default to a deterministic implementation and escalate the decision.
+
+## Single Authoritative Source (MUST)
+
+No artifact may redundantly store data that is deterministically derivable from an authoritative source.
+
+- If information is already canonical in Git history, filesystem structure, a registry, or another designated source of truth, it must not be duplicated in metadata, prose, or configuration.
+- Derived data may be generated into transient or cached artifacts, but those are not sources of truth.
+- When a field or section is found to duplicate an authoritative source, it must be removed and its consumers redirected to the canonical source.
+- Tooling must derive rather than require manual synchronization.

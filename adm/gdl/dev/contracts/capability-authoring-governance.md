@@ -55,7 +55,7 @@ It does not define curatable runtime behavior bundles; those belong in the capab
 - Neighboring capabilities must keep terminology and semantic boundaries consistent enough that the same semantic core is not silently renamed or ambiguously duplicated.
 - New or materially changed capabilities must be admitted only after explicit nearest-neighbor comparison and primary semantic owner judgment.
 
-# Schema-Text Boundary
+# Metadata-Text Boundary
 
 Capability text and metadata serve different consumers and must not duplicate information.
 
