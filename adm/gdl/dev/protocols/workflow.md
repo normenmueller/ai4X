@@ -36,10 +36,10 @@ No hidden defaults in config or CLI resolution.
 ## Branching and Merge Rule
 
 1. `trunk` is the integration line.
-2. Non-trivial work goes on short-lived topic branches.
+2. Every Issue (Story or standalone) is developed on a short-lived topic branch.
 3. Topic branches use the standard prefixes `feat/*`, `fix/*`, `docs/*`, `chore/*`, or `refactor/*`.
-4. Merge to `trunk` normally happens through pull requests.
-5. Direct commits to `trunk` require explicit approval.
+4. Every topic branch is merged to `trunk` through a pull request linked to the Issue (`closes #N`).
+5. No direct commits to `trunk`.
 6. Merging uses squash as standard.
 
 ## Commit Message Rule

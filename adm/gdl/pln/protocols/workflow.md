@@ -148,16 +148,16 @@ This document defines the planning workflow for ai4X, following established Scru
 |--------|----------|
 | **Work item hierarchy** | Idea → Epic → Story → Task (standard Scrum/SAFe). |
 | **Epic promotion** | Mandatory for Features and Fixes. Optional for Docs, Chore, and Refactor. |
-| **Lightweight path** | For Docs/Chore/Refactor without Epic promotion: the Tech Lead creates a GitHub Issue with label `chore`, `docs`, or `refactor`, adds it to the board (Backlog), and deletes the PBL entry. The PO sets the Issue to Ready before the Tech Lead may begin work. The development workflow stages apply per Stage Applicability rules. |
+| **Standalone Issue path** | For Docs/Chore/Refactor without Epic promotion: the Tech Lead creates a GitHub Issue with label `chore`, `docs`, or `refactor`, adds it to the board (Backlog), and deletes the PBL entry. The PO sets the Issue to Ready before the Tech Lead may begin work. The development workflow stages apply per Stage Applicability rules. |
 | **Story linkage** | Every Story must link to a parent Epic via GitHub Sub-Issues. |
 | **AC traceability** | Every Epic must contain an AC Coverage Matrix mapping each acceptance criterion to its covering Story. |
-| **PBL retention** | Temporary only. Delete after promotion to GitHub Issue (Epic or lightweight). No archive. |
+| **PBL retention** | Temporary only. Delete after promotion to GitHub Issue (Epic or standalone). No archive. |
 | **Single source of truth** | GitHub Issues once promoted. PBL is draft-only. |
 | **PO control** | PO approves: Epic content, Story decomposition, and final acceptance. |
 | **Backlog priority** | Only the PO sets and changes priority. |
 | **Issue labels** | `epic` and `story` are mandatory. Additional labels optional. |
 | **Issue linkage** | Mandatory for Features/Fixes. Optional for Docs/Chore/Refactor. |
-| **Tracking board** | GitHub Project `#3` ([link](https://github.com/users/normenmueller/projects/3)). All Epics, Stories, and lightweight Issues must be tracked there. Private visibility. |
+| **Tracking board** | GitHub Project `#3` ([link](https://github.com/users/normenmueller/projects/3)). All Epics, Stories, and standalone Issues must be tracked there. Private visibility. |
 
 Board transitions, ownership gates, and label definitions: see `adm/gdl/shr/protocols/board-policy.md`.
 
