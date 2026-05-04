@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Define KPI-Domains and KPIs as stable, reviewable measurement semantics for strategic decisions, OKR targets, and operational steering.
+Define KPI-Domains and KPIs as stable, reviewable measurement semantics for strategic decisions, goal tracking, and operational steering.
 
 ## Trigger
 
@@ -34,3 +34,4 @@ Use when strategic choices, interventions, or reviews depend on explicit measure
 - data source and cadence
 - baseline (`as-of`)
 - target value (optional, with time point)
+- KPI role (north star | supporting | guardrail) when hierarchy applies
