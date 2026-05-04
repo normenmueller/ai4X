@@ -1,15 +1,20 @@
 id: okr-discipline
-version: 0.2.0
+version: 0.3.0
 status: active
 approved_by: ["nemron"]
-approved_at: 2026-03-19T00:00:00+01:00
+approved_at: 2026-05-04T00:00:00+02:00
 scope: cognitive
 owner: nemron
 review_due: 2026-12-31
 requires: ["goal-quality-discipline","goal-cascade-and-alignment","cadence-and-review-discipline","critical-peer-discipline"]
 conflicts: []
-do_not_use_when: []
-distinguish_from: []
+do_not_use_when:
+  - "Measuring ongoing operational health or business-as-usual without change intent — use kpi-system instead."
+distinguish_from:
+  - id: kpi-system
+    boundary: "kpi-system defines stable measurement semantics for health indicators; okr-discipline defines goal-setting for change with measurable Key Results. OKRs drive change, KPIs monitor health."
+  - id: goal-quality-discipline
+    boundary: "goal-quality-discipline shapes any goal statement for materiality and clarity; okr-discipline applies the specific OKR framework structure (Objective + Key Results + classification + cadence)."
 sources:
   - title: "Measure What Matters"
     organization: "John Doerr / What Matters"

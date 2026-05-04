@@ -14,8 +14,9 @@ Use when OKRs are proposed, designed, reviewed, scored, or challenged for goal m
 - An Objective must state a significant, concrete, action-oriented, and motivating outcome.
 - A Key Result must state measurable, verifiable evidence that the Objective is being achieved.
 - Key Results must measure outcomes or effects, not tasks, milestones, activities, or deliverables.
+- Key Results must be time-bound with an explicit deadline or cycle endpoint; open-ended Key Results are not valid.
 - Keep OKR sets focused: prefer few Objectives and few Key Results over exhaustive coverage.
-- Distinguish committed OKRs from aspirational or stretch OKRs before scoring or review.
+- Classify each OKR as committed, aspirational, or learning before scoring or review; committed OKRs must be achieved by cycle end, aspirational OKRs set stretch targets that may carry forward, and learning OKRs define validated understanding as the primary outcome.
 - Make alignment explicit across teams and levels; do not mechanically cascade OKRs when local ownership or contribution logic is weak.
 - Separate initiatives from Key Results: initiatives are candidate actions or hypotheses, while Key Results define evidence of success.
 - Define the review cadence before execution starts, including check-ins, confidence updates, and retrospective scoring.
@@ -33,8 +34,8 @@ Use when OKRs are proposed, designed, reviewed, scored, or challenged for goal m
 
 - objective
 - objective rationale or priority logic
-- 2-5 key results with measurable target, baseline when relevant, and time point
-- committed or aspirational classification
+- 3-5 key results with measurable target, baseline when relevant, and time point
+- committed, aspirational, or learning classification
 - owner or accountable team
 - review cadence and confidence update method
 - scoring or retrospective rule
