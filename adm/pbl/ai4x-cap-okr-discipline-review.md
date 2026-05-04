@@ -1,5 +1,7 @@
 # Capability Review: okr-discipline
 
+Ich möchte, dass ein AI Agent, welcher mit dieser kognitiven Fähigkeit ausgestattet ist, oder soll ich sagen, welcher mit dieser kognitiven Fähigkeit kuratiert wurde, das OKR Framework nach den in .meta referenzierten Ressourcen perfekt beherrscht und anwenden kann. Er soll also das OKR Framework sozusagen in und auswendig kennen und anwenden können. 
+
 ## Scope
 
 Review `dev/cap/strategy/goal-management/okr-discipline.md` (and `.meta.yaml`) for domain correctness and agent-readiness.

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Define a lightweight, out-of-band protocol for proactive cognitive capability portfolio health assessments that are not tied to a specific Story.
+Define a protocol for proactive cognitive capability portfolio health assessments. Findings enter the Planning Workflow as PBL entries and follow the normal Idea-to-Story path.
 
 ## Scope
 
@@ -39,8 +39,8 @@ A capability sweep is initiated when:
 ## Governance
 
 - Quality gates (`utl/cap/` checks) must pass after any portfolio change resulting from sweep findings.
-- The sweep itself does not require the full 10-stage development workflow — it is an assessment, not implementation.
-- Remediation of sweep findings follows the normal per-Story workflow (including Stage 6 when applicable).
+- The sweep is an assessment, not implementation. It produces PBL entries that enter the Planning Workflow (`adm/gdl/pln/protocols/workflow.md`).
+- Remediation of sweep findings follows the normal Idea-to-Story path (including Stage 6 when applicable).
 
 ## Distinction from Stage 6
 
@@ -49,4 +49,4 @@ A capability sweep is initiated when:
 | Trigger | Story involves capability work | Tech Lead/PO initiative |
 | Scope | Story-scoped (validate coverage for feature) | Portfolio-wide or domain-wide |
 | Output | Targeted assessment + capability artifacts | Comprehensive health report + PBL entries |
-| Workflow | Part of 10-stage flow | Out-of-band, feeds into planning |
+| Workflow | Part of 10-stage flow | Portfolio assessment; findings enter Planning Workflow |

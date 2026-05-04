@@ -117,11 +117,11 @@ sections:
 
       - path: dev/protocols/capability-sweep.md
         title: Capability Sweep Protocol
-        purpose: Define out-of-band protocol for proactive cognitive capability portfolio health assessments.
+        purpose: Define protocol for proactive cognitive capability portfolio health assessments feeding the Planning Workflow.
         priority: recommended
         depends_on: [dev/contracts/capability-authoring-governance.md, dev/protocols/workflow.md]
         audience: dev
-        scope: Cognitive capability portfolio maintenance outside per-Story flow
+        scope: Cognitive capability portfolio assessment; findings enter Planning Workflow
 
   - section: ops
     title: Operations Governance
@@ -135,6 +135,18 @@ sections:
         audience: ops
         scope: GitHub repository operations and CI/CD
 
+  - section: shr
+    title: Shared Governance
+    description: Cross-cutting governance protocols used by both planning and development.
+    documents:
+      - path: shr/protocols/board-policy.md
+        title: Board Policy
+        purpose: Define board status transitions, ownership gates, lifecycle diagrams, and label conventions.
+        priority: must-read
+        depends_on: [pln/protocols/workflow.md]
+        audience: all
+        scope: GitHub Project board transitions for Epics and Stories
+
   - section: pln
     title: Planning Governance
     description: Governance for product planning, backlog management, and issue promotion.
@@ -147,19 +159,11 @@ sections:
         audience: all
         scope: Planning, backlog management, Epic/Story promotion, and traceability
 
-      - path: pln/protocols/board-policy.md
-        title: Board Policy
-        purpose: Define board status transitions, ownership gates, lifecycle diagrams, and label conventions.
-        priority: must-read
-        depends_on: [pln/protocols/workflow.md]
-        audience: all
-        scope: GitHub Project board transitions for Epics and Stories
-
       - path: pln/protocols/planning-conformance.md
         title: Planning Conformance Contract
         purpose: Define mandatory planning-lifecycle conformance check before PO Ready decision.
         priority: must-read
-        depends_on: [pln/protocols/workflow.md, pln/protocols/board-policy.md]
+        depends_on: [pln/protocols/workflow.md, shr/protocols/board-policy.md]
         audience: all
         scope: Planning conformance enforcement and gate discipline
 
@@ -178,7 +182,7 @@ sections:
 # 10. adm/gdl/dev/protocols/development-conformance.md — session conformance, gate status, and blocker discipline
 # 11. adm/gdl/dev/protocols/workflow.md — branching, commits, PR flow
 # 12. adm/gdl/pln/protocols/workflow.md — planning, Idea → Epic → Story promotion
-# 13. adm/gdl/pln/protocols/board-policy.md — board transitions, ownership gates, labels
+# 13. adm/gdl/shr/protocols/board-policy.md — board transitions, ownership gates, labels
 # 14. adm/gdl/pln/protocols/planning-conformance.md — planning conformance enforcement
 # 15. adm/gdl/ops/github-repo-metadata.md — operations (as needed)
 # Terminology reference: see the Governance Glossary section in adm/gdl/dev/protocols/workflow.md for canonical gate, artifact, and verdict terms.
@@ -186,7 +190,7 @@ sections:
 # For Specific Tasks
 # ==================
 # Feature implementation: read .github/agents/ai4x.agent.md → dev/contracts/* → dev/protocols/workflow.md
-# Planning a feature: read .github/agents/ai4x.agent.md → dev/contracts/* → pln/protocols/workflow.md → pln/protocols/board-policy.md → pln/protocols/planning-conformance.md
+# Planning a feature: read .github/agents/ai4x.agent.md → dev/contracts/* → pln/protocols/workflow.md → shr/protocols/board-policy.md → pln/protocols/planning-conformance.md
 # Setting up repo automation: read .github/agents/ai4x.agent.md → ops/github-repo-metadata.md
 # Onboarding a contributor: read in full order above
 # Workflow terminology alignment: use the Governance Glossary in dev/protocols/workflow.md to avoid gate-term drift.

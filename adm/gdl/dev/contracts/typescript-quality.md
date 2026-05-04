@@ -7,7 +7,7 @@ It supplements the engineering quality contract with language-level and toolchai
 
 ## Scope
 
-Apply this contract to all TypeScript implementation work in `dev/src` and `dev/tst`.
+Apply this contract to all TypeScript implementation work in `dev/cli/src` and `dev/cli/tst`.
 
 ---
 
@@ -29,15 +29,15 @@ Apply this contract to all TypeScript implementation work in `dev/src` and `dev/
 
 ## Module Structure (MUST)
 
-- `dev/src/app` is restricted to CLI entry points and command orchestration.
+- `dev/cli/src/app` is restricted to CLI entry points and command orchestration.
   - No domain logic in `app`.
   - No direct IO beyond process entry and exit.
-- `dev/src/lib` contains domain logic and reusable contracts.
+- `dev/cli/src/lib` contains domain logic and reusable contracts.
   - No direct CLI or process-control dependencies in `lib`.
   - Exports from `lib` define the domain contract surface.
-- `dev/tst` contains all tests.
-  - Test files mirror the structure of `dev/src`.
-  - No test helpers or fixtures leak into `dev/src`.
+- `dev/cli/tst` contains all tests.
+  - Test files mirror the structure of `dev/cli/src`.
+  - No test helpers or fixtures leak into `dev/cli/src`.
 
 ## Error Handling (MUST)
 

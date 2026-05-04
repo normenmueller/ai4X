@@ -148,6 +148,7 @@ This document defines the planning workflow for ai4X, following established Scru
 |--------|----------|
 | **Work item hierarchy** | Idea → Epic → Story → Task (standard Scrum/SAFe). |
 | **Epic promotion** | Mandatory for Features and Fixes. Optional for Docs, Chore, and Refactor. |
+| **Lightweight path** | For Docs/Chore/Refactor without Epic promotion: the Tech Lead may proceed directly to development from a PBL entry, provided the PO has approved the scope in-session. The development workflow stages still apply per Stage Applicability rules. |
 | **Story linkage** | Every Story must link to a parent Epic via GitHub Sub-Issues. |
 | **AC traceability** | Every Epic must contain an AC Coverage Matrix mapping each acceptance criterion to its covering Story. |
 | **PBL retention** | Temporary only. Delete after Epic promotion. No archive. |
@@ -158,7 +159,7 @@ This document defines the planning workflow for ai4X, following established Scru
 | **Issue linkage** | Mandatory for Features/Fixes. Optional for Docs/Chore/Refactor. |
 | **Tracking board** | GitHub Project `#3` ([link](https://github.com/users/normenmueller/projects/3)). All Epics and Stories must be tracked there. Private visibility. |
 
-Board transitions, ownership gates, and label definitions: see `adm/gdl/pln/protocols/board-policy.md`.
+Board transitions, ownership gates, and label definitions: see `adm/gdl/shr/protocols/board-policy.md`.
 
 ## Visual Flow
 
@@ -197,7 +198,7 @@ flowchart TD
 
 ## References
 
-- `adm/gdl/pln/protocols/board-policy.md` — Board transitions, ownership gates, and label conventions.
+- `adm/gdl/shr/protocols/board-policy.md` — Board transitions, ownership gates, and label conventions.
 - `adm/gdl/pln/protocols/planning-conformance.md` — Planning conformance check (mandatory before Ready-Gate).
 - `adm/gdl/dev/protocols/workflow.md` — 10-stage expert team routing, branching, commits, and completion gates.
 - `.github/agents/ai4x.agent.md` — Tech Lead definition, interaction model, and product rules.

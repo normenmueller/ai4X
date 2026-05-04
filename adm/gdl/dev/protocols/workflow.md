@@ -146,8 +146,7 @@ The Tech Lead determines in Stage 1 which stages are needed for the current Stor
 7. Testing stage must consume Requirements Pack, Architecture Pack (if produced), and Implementation Pack; it must produce a Test Evidence Pack.
 8. Critical Review Pass B must consume Implementation Pack and Test Evidence Pack and produce Review B Findings.
 9. Missing mandatory artifacts, unresolved contradictions, or unresolved high-severity findings block progression.
-10. When a conditional stage is skipped, its output artifact is marked `n/a` in the conformance record.
-
+10. When a conditional stage is skipped, its output artifact is marked `n/a` in the conformance record.12. When Review B blocks and returns to Implementation, Stages 7–8 re-execute before resubmitting to Review B.
 ### Gate Decision Semantics
 
 1. Specialist gate outputs are `blocked` or `conditional-approve`.

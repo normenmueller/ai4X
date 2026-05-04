@@ -8,7 +8,8 @@ This directory contains normative guidance documents for ai4X development, opera
 |---------|---------|---|
 | **dev/** | Development standards, code quality, workflow | `contracts/engineering-quality.md`, `contracts/typescript-quality.md`, `protocols/development-conformance.md`, `protocols/workflow.md` |
 | **ops/** | Repository operations, automation, infrastructure | `github-repo-metadata.md` |
-| **pln/** | Planning governance, backlog management, issue promotion | `protocols/workflow.md`, `protocols/board-policy.md`, `protocols/planning-conformance.md` |
+| **pln/** | Planning governance, backlog management, issue promotion | `protocols/workflow.md`, `protocols/planning-conformance.md` |
+| **shr/** | Cross-cutting governance (planning + development) | `protocols/board-policy.md` |
 
 ## Reading Guide
 
@@ -40,18 +41,22 @@ adm/gdl/
 │   │   ├── architecture-quality.md           # Architecture deliverables
 │   │   ├── testing-quality.md               # Testing deliverables
 │   │   ├── review-quality.md                # Review deliverables
-│   │   └── ai-strategy-quality.md           # AI strategy deliverables
+│   │   ├── ai-strategy-quality.md           # AI strategy deliverables
+│   │   └── capability-authoring-governance.md # Capability authoring lifecycle
 │   └── protocols/                            # Processes and enforcement (how to work)
 │       ├── workflow.md                      # Trunk-based dev, CI/CD, PR gates
 │       ├── development-conformance.md       # Session conformance gate
-│       └── development-conformance-template.md # One-page session template
+│       ├── development-conformance-template.md # One-page session template
+│       └── capability-sweep.md              # Portfolio health assessment
 ├── ops/
 │   └── github-repo-metadata.md              # GitHub automation, labels, releases
 ├── pln/
 │   └── protocols/                            # Processes and enforcement (how to plan)
 │       ├── workflow.md                      # PBL → Issues → PRs → merge
-│       ├── board-policy.md                  # Board transitions, labels, ownership
 │       └── planning-conformance.md          # Planning conformance gate
+├── shr/
+│   └── protocols/                            # Cross-cutting processes (planning + development)
+│       └── board-policy.md                  # Board transitions, labels, ownership
 ├── index.yaml                                # Structured metadata & reading order
 └── README.md                                 # This file
 ```

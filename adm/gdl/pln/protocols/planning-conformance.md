@@ -43,5 +43,5 @@ If any deliverable is missing, the Tech Lead must resolve it before issuing the 
 ## References
 
 - `adm/gdl/pln/protocols/workflow.md` — Phase definitions and completion checklists.
-- `adm/gdl/pln/protocols/board-policy.md` — Board transitions and ownership rules.
+- `adm/gdl/shr/protocols/board-policy.md` — Board transitions and ownership rules.
 - `adm/gdl/dev/protocols/development-conformance.md` — Development session conformance (counterpart).

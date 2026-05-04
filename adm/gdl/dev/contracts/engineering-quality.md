@@ -3,7 +3,7 @@
 ## Purpose
 
 This contract defines the mandatory quality bar for implementation work in the ai4X CLI.
-It applies whenever code is written, reviewed, or changed in `dev/src` or `dev/tst`.
+It applies whenever code is written, reviewed, or changed in `dev/cli/src` or `dev/cli/tst`.
 
 ## Scope
 
@@ -23,9 +23,9 @@ Define input, output, invariants, and failure semantics before internal implemen
 
 Align module boundaries with change, policy, and responsibility — not with file convenience.
 
-- `dev/src/app` owns CLI entry points and command orchestration only.
-- `dev/src/lib` owns domain logic and reusable contracts only.
-- `dev/tst` owns test coverage for boundary and domain behavior.
+- `dev/cli/src/app` owns CLI entry points and command orchestration only.
+- `dev/cli/src/lib` owns domain logic and reusable contracts only.
+- `dev/cli/tst` owns test coverage for boundary and domain behavior.
 - Boundaries must hide internal churn behind narrow semantic interfaces.
 - Do not leak framework, transport, or filesystem details across domain boundaries.
 - Cross-boundary contracts must be intentional, minimal, and explicit.

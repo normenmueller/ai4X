@@ -23,6 +23,8 @@ Owns architecture and DDD decisions for ai4x CLI evolution.
 
 ## Required Inputs (MUST)
 
+Input availability depends on which stages ran. Conditionality is governed by `adm/gdl/dev/protocols/workflow.md` (Stage Applicability).
+
 - Requirements Pack (from ai4x-requirements if Stage 2 ran, otherwise Epic-level ACs).
 
 ## Mandatory Quality Contracts (MUST)

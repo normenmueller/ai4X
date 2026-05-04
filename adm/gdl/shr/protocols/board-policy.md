@@ -16,7 +16,7 @@ PO controls Epic gates (Ready, Done). Tech Lead controls all Story transitions a
 
 | Transition | Owner | Prerequisites |
 |------------|-------|---------------|
-| → **Backlog** | Tech Lead | Epic Issue created after PO approval of PBL draft. |
+| → **Backlog** | Tech Lead | Epic Issue created after PO approval of Requirements Pack (Phase 2 exit gate). |
 | **Backlog → Ready** | PO | Acceptance criteria are complete and testable. PO confirms release for development. Planning conformance check passed (see `adm/gdl/pln/protocols/planning-conformance.md`). |
 | **Ready → In progress** | Tech Lead | Story decomposition is PO-approved. First Story is started. |
 | **In progress → In review** | Tech Lead | All Stories are Done. AC Coverage Matrix is complete. All Story tests are green. |
