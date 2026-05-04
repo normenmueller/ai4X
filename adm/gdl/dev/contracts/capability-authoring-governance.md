@@ -55,6 +55,15 @@ It does not define curatable runtime behavior bundles; those belong in the capab
 - Neighboring capabilities must keep terminology and semantic boundaries consistent enough that the same semantic core is not silently renamed or ambiguously duplicated.
 - New or materially changed capabilities must be admitted only after explicit nearest-neighbor comparison and primary semantic owner judgment.
 
+# Schema-Text Boundary
+
+Capability text and metadata serve different consumers and must not duplicate information.
+
+- Capability text (`.md`) is the canonical source for the cognitive contract: Purpose, Trigger, Rules, Fallback, Minimal Output Contract. It serves semantic disambiguation by LLM-based agents.
+- Capability metadata (`.meta.yaml`) is the canonical source for machine-checkable signals: identity, lifecycle, relationships, disambiguation constraints, and provenance. It serves deterministic pre-filtering by tooling.
+- No field may exist in both text and metadata. If information appears in both, one must be designated canonical and the other removed.
+- A generated selection index may combine text and metadata into a unified surface for agent consumption, but the generation is a derived artifact, not a source of truth.
+
 # Metadata Contract
 
 Every capability is authored as a mandatory pair:
