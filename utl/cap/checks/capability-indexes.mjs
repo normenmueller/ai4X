@@ -30,6 +30,16 @@ function asStringArray(value) {
   return value.map(String);
 }
 
+function asDistinguishFromArray(value) {
+  if (!Array.isArray(value)) return [];
+  return value.map((entry) => {
+    if (entry != null && typeof entry === "object" && entry.id) {
+      return entry.boundary ? `${entry.id}: ${entry.boundary}` : String(entry.id);
+    }
+    return String(entry);
+  });
+}
+
 function extractSection(markdown, heading) {
   const pattern = new RegExp(`^## ${heading}\\s*$`, "m");
   const match = markdown.match(pattern);
@@ -98,7 +108,7 @@ function getDirectCapabilities(absDir) {
         doNotUseWhen: asStringArray(meta.do_not_use_when),
         requires: asStringArray(meta.requires),
         conflicts: asStringArray(meta.conflicts),
-        distinguishFrom: asStringArray(meta.distinguish_from),
+        distinguishFrom: asDistinguishFromArray(meta.distinguish_from),
       };
     })
     .sort((a, b) => a.id.localeCompare(b.id));

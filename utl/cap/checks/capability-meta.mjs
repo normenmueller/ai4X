@@ -38,7 +38,7 @@ const requiredKeys = [
 ];
 const allowedStatus = new Set(["draft", "active", "deprecated", "retired"]);
 const allowedSourceKeys = new Set(["title", "organization", "url", "kind", "accessed_at"]);
-const allowedSourceKinds = new Set(["standard", "architecture-guidance", "security-guidance", "adoption-guidance"]);
+const allowedSourceKinds = new Set(["standard", "architecture-guidance", "security-guidance", "adoption-guidance", "domain-reference"]);
 
 let requiredFail = 0;
 let advisoryFail = 0;
