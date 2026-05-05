@@ -19,11 +19,11 @@ All commands run from the repository root.
 ```bash
 git clone https://github.com/normenmueller/ai4x.git
 cd ai4x
-npm ci --prefix dev
+npm ci --prefix dev/cli
 make install
 ```
 
-`npm ci --prefix dev` installs project dependencies into `dev/node_modules`.
+`npm ci --prefix dev/cli` installs project dependencies into `dev/cli/node_modules`.
 This step is a prerequisite for `make install` but is not run automatically,
 following standard Unix convention (make install installs, not builds).
 
@@ -133,4 +133,4 @@ make clean     # remove local build/runtime artifacts
 make test      # run verify + Node.js test suite
 ```
 
-`make clean && npm ci --prefix dev && make install` is the full reset path.
+`make clean && npm ci --prefix dev/cli && make install` is the full reset path.
