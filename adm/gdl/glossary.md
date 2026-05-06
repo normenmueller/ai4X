@@ -3,6 +3,8 @@
 Canonical term definitions for the ai4X governance layer.
 Terms defined here are the single authoritative source. Other documents reference this file rather than restating definitions.
 
+**Scope:** This file contains reference-safe terms only (Planning Terms, Qualifier Terms). Dispatch-critical terms (Gate Terms, Artifact Terms, Verdict Terms) remain inline at their point of use in `dev/protocols/workflow.md`. See `doc/arc/09_architecture_decisions.md` § ADR-001 for rationale.
+
 ## Planning Terms
 
 1. **Idea**
