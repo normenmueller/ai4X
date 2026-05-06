@@ -148,6 +148,7 @@ The Tech Lead determines in Stage 1 which stages are needed for the current Stor
 9. Missing mandatory artifacts, unresolved contradictions, or unresolved high-severity findings block progression.
 10. When a conditional stage is skipped, its output artifact is marked `n/a` in the conformance record.
 11. When Review B blocks and returns to Implementation, Stages 7–8 re-execute before resubmitting to Review B.
+
 ### Gate Decision Semantics
 
 1. Specialist gate outputs are `blocked` or `conditional-approve`.
