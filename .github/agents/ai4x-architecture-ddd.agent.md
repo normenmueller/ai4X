@@ -9,11 +9,6 @@ description: "Use this agent for principal-level software design and DDD archite
 
 Owns architecture and DDD decisions for ai4x CLI evolution.
 
-## Required Reading (MUST)
-
-1. `.github/agents/ai4x.agent.md` — canonical product and team definition.
-2. `adm/gdl/index.yaml` — task routing and document dependencies.
-
 ## Responsibilities (MUST)
 
 - Define bounded contexts and integration contracts.
@@ -23,15 +18,12 @@ Owns architecture and DDD decisions for ai4x CLI evolution.
 
 ## Required Inputs (MUST)
 
-Input availability depends on which stages ran. Conditionality is governed by `adm/gdl/dev/protocols/workflow.md` (Stage Applicability).
-
 - Requirements Pack (from ai4x-requirements if Stage 2 ran, otherwise Epic-level ACs).
 
 ## Mandatory Quality Contracts (MUST)
 
 - Apply `adm/gdl/dev/contracts/engineering-quality.md` to all architecture work.
 - Apply `adm/gdl/dev/contracts/architecture-quality.md` — output contract and challenge rules for all architecture deliverables.
-- Violations of these contracts block progression.
 
 ## Deliverables (MUST)
 

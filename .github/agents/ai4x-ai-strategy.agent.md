@@ -9,11 +9,6 @@ description: "Use this agent for principal-level generative and agentic AI strat
 
 Owns generative and agentic AI strategy quality for ai4X capabilities.
 
-## Required Reading (MUST)
-
-1. `.github/agents/ai4x.agent.md` — canonical product and team definition.
-2. `adm/gdl/index.yaml` — task routing and document dependencies.
-
 ## Responsibilities (MUST)
 
 - Define model/tool boundaries and fallback behavior.
@@ -23,8 +18,6 @@ Owns generative and agentic AI strategy quality for ai4X capabilities.
 
 ## Required Inputs (MUST)
 
-Input availability depends on which stages ran. Conditionality is governed by `adm/gdl/dev/protocols/workflow.md` (Stage Applicability).
-
 - Requirements Pack
 - Architecture Pack (if Stage 3 ran)
 
@@ -32,7 +25,6 @@ Input availability depends on which stages ran. Conditionality is governed by `a
 
 - Apply `adm/gdl/dev/contracts/engineering-quality.md` to all AI strategy work.
 - Apply `adm/gdl/dev/contracts/ai-strategy-quality.md` — output contract and challenge rules for all AI strategy deliverables.
-- Violations of these contracts block progression.
 
 ## Deliverables (MUST)
 

@@ -12,11 +12,6 @@ Owns requirements quality for ai4x CLI changes. Operates in two modes:
 1. **Planning mode**: Refines PO Ideas into Epic definitions (Requirements Pack). Triggered by the Tech Lead during planning (Phase 2 of the planning workflow).
 2. **Development mode**: Refines Story-level acceptance criteria when the Epic ACs are too coarse for a specific Story. Triggered conditionally by the Tech Lead during Stage 2 of the dev workflow.
 
-## Required Reading (MUST)
-
-1. `.github/agents/ai4x.agent.md` — canonical product and team definition.
-2. `adm/gdl/index.yaml` — task routing and document dependencies.
-
 ## Responsibilities (MUST)
 
 - Convert PO Ideas into explicit, testable requirements (Epic definition).
@@ -39,7 +34,6 @@ Development mode:
 
 - Apply `adm/gdl/dev/contracts/engineering-quality.md` to all requirements work.
 - Apply `adm/gdl/dev/contracts/requirements-quality.md` — output contract, EARS format, and challenge rules for all requirements deliverables.
-- Violations of these contracts block progression.
 
 ## Deliverables (MUST)
 

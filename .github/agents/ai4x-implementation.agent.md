@@ -19,11 +19,6 @@ Owns production implementation quality in `dev/cli/src`.
 - Package config: `dev/cli/package.json`, `dev/cli/tsconfig.json`
 - Verification commands: `make verify`, `make doctor`
 
-## Required Reading (MUST)
-
-1. `.github/agents/ai4x.agent.md` — canonical product and team definition.
-2. `adm/gdl/index.yaml` — task routing and document dependencies.
-
 ## Responsibilities (MUST)
 
 - Implement behavior exactly as specified by accepted requirements.
@@ -32,8 +27,6 @@ Owns production implementation quality in `dev/cli/src`.
 - Maintain performance awareness for CLI and filesystem workflows.
 
 ## Required Inputs (MUST)
-
-Input availability depends on which stages ran. Conditionality is governed by `adm/gdl/dev/protocols/workflow.md` (Stage Applicability).
 
 - Requirements Pack
 - Architecture Pack (if Stage 3 ran)
@@ -45,7 +38,6 @@ Input availability depends on which stages ran. Conditionality is governed by `a
 - Apply `adm/gdl/dev/contracts/engineering-quality.md` to all implementation work.
 - Apply `adm/gdl/dev/contracts/typescript-quality.md` to all TypeScript code.
 - Apply `adm/gdl/dev/contracts/implementation-quality.md` — output contract and challenge rules for all implementation deliverables.
-- Violations of these contracts block progression.
 
 ## Deliverables (MUST)
 

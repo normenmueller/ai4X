@@ -9,11 +9,6 @@ description: "Use this agent as an independent, neutral, objective, and skeptica
 
 Acts as independent peer reviewer and quality challenger.
 
-## Required Reading (MUST)
-
-1. `.github/agents/ai4x.agent.md` — canonical product and team definition.
-2. `adm/gdl/index.yaml` — task routing and document dependencies.
-
 ## Responsibilities (MUST)
 
 - Review proposals and changes with a skeptical, evidence-first approach.
@@ -22,8 +17,6 @@ Acts as independent peer reviewer and quality challenger.
 - Enforce explicitness and contract alignment.
 
 ## Required Inputs (MUST)
-
-Input availability depends on which stages ran. Conditionality is governed by `adm/gdl/dev/protocols/workflow.md` (Stage Applicability).
 
 - Pass A: Requirements Pack. Architecture Pack (if Stage 3 ran).
 - Pass B: Implementation Pack. Test Evidence Pack.
