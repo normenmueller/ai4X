@@ -6,10 +6,11 @@ This directory contains normative guidance documents for ai4X development, opera
 
 | Section | Purpose | Key Documents |
 |---------|---------|---|
-| **dev/** | Development standards, code quality, workflow | `contracts/engineering-quality.md`, `contracts/typescript-quality.md`, `protocols/development-conformance.md`, `protocols/workflow.md` |
+| **dev/** | Development standards, code quality, workflow | `contracts/engineering-quality.md`, `contracts/typescript-quality.md`, `protocols/development-conformance.md`, `protocols/development-conformance-template.md`, `protocols/workflow.md` |
 | **ops/** | Repository operations, automation, infrastructure | `github-repo-metadata.md` |
 | **pln/** | Planning governance, backlog management, issue promotion | `protocols/workflow.md`, `protocols/planning-conformance.md` |
 | **shr/** | Cross-cutting governance (planning + development) | `protocols/board-policy.md` |
+| **glossary.md** | Canonical term definitions (Planning Terms, Qualifier Terms) | `glossary.md` |
 
 ## Reading Guide
 
@@ -27,39 +28,6 @@ See [index.yaml](index.yaml) for the canonical sequence.
 ## Document Status
 
 All documents in this directory are **normative** (binding governance). Deviations require decision logged in [../CHANGELOG](../CHANGELOG).
-
-## File Structure
-
-```
-adm/gdl/
-├── dev/
-│   ├── contracts/                            # Deliverable specifications (what to produce)
-│   │   ├── engineering-quality.md            # Cross-cutting quality gates
-│   │   ├── typescript-quality.md             # TypeScript-specific rules
-│   │   ├── implementation-quality.md         # Implementation deliverables
-│   │   ├── requirements-quality.md           # Requirements deliverables
-│   │   ├── architecture-quality.md           # Architecture deliverables
-│   │   ├── testing-quality.md               # Testing deliverables
-│   │   ├── review-quality.md                # Review deliverables
-│   │   ├── ai-strategy-quality.md           # AI strategy deliverables
-│   │   └── capability-authoring-governance.md # Capability authoring lifecycle
-│   └── protocols/                            # Processes and enforcement (how to work)
-│       ├── workflow.md                      # Trunk-based dev, CI/CD, PR gates
-│       ├── development-conformance.md       # Session conformance gate
-│       ├── development-conformance-template.md # One-page session template
-│       └── capability-sweep.md              # Portfolio health assessment
-├── ops/
-│   └── github-repo-metadata.md              # GitHub automation, labels, releases
-├── pln/
-│   └── protocols/                            # Processes and enforcement (how to plan)
-│       ├── workflow.md                      # PBL → Issues → PRs → merge
-│       └── planning-conformance.md          # Planning conformance gate
-├── shr/
-│   └── protocols/                            # Cross-cutting processes (planning + development)
-│       └── board-policy.md                  # Board transitions, labels, ownership
-├── index.yaml                                # Structured metadata & reading order
-└── README.md                                 # This file
-```
 
 ## Key Principles
 

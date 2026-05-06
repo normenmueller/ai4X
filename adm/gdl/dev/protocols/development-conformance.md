@@ -41,57 +41,7 @@ Conditional (required only when the corresponding stage ran):
 
 ## Conformance Template
 
-Copy and complete this template for each non-trivial session.
-
-For a compact working format, use `adm/gdl/dev/protocols/development-conformance-template.md`.
-
-```md
-# Session Conformance Check
-
-## Metadata
-
-- Date:
-- Story: (GitHub Issue reference, e.g. #42)
-- Parent Epic: (GitHub Issue reference, e.g. #40)
-- Orchestrator:
-- Current Stage:
-
-## Artifact Presence
-
-- Requirements Pack: present (Epic-level) | present (Story-refined) | missing
-- Architecture Pack: present | n/a (Stage 3 skipped) | missing
-- Review A Findings: present | n/a (Stage 4 skipped) | missing
-- AI Strategy Note: present | n/a (Stage 5 skipped) | missing
-- Capability Assessment Report: present | n/a (Stage 6 skipped) | missing
-- Implementation Pack: present | missing
-- Test Evidence Pack: present | missing
-- Review B Findings: present | missing
-
-## Coherence and Testability
-
-- Contradictions found: none | yes (list)
-- Unverifiable assumptions: none | yes (list)
-- Acceptance criteria traceable to tests: yes | no
-
-## Gate Status
-
-- Gate decision: blocked | conditional-approve | approved
-- Blocking reasons:
-- Required remediation:
-- Owner per remediation:
-
-## Reviewer Severity Snapshot
-
-- High:
-- Medium:
-- Low:
-- Residual risk statement:
-
-## Final Orchestrator Decision
-
-- Proceed to next stage: yes | no
-- Escalation question to PO (if needed):
-```
+Use `adm/gdl/dev/protocols/development-conformance-template.md` as the single conformance template for each non-trivial session. Copy and complete it per session.
 
 ## Quality Rule (MUST)
 
