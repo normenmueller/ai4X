@@ -34,7 +34,6 @@ Operational implications:
 - `doc/agn/` is the agent-facing onboarding and navigation surface.
 - `doc/arc/` is human-readable architecture and system-reference documentation.
 - `adm/gdl/dev/` is agent-facing development governance.
-- `adm/gdl/ops/` is agent-facing operations governance.
 
 ai4X is, in that sense, built by agentic AI agents for agentic AI agents.[^eyodf]
 

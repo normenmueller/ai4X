@@ -53,7 +53,8 @@ tasks:
     - glossary.md
 
   repo_automation:
-    - ops/github-repo-metadata.md
+    # Project-specific runbook outside governance scope.
+    # See: utl/gh/RUNBOOK.md
 
   terminology:
     - glossary.md
@@ -115,10 +116,6 @@ library:
   - path: dev/protocols/capability-sweep.md
     shape: protocol
     depends_on: [dev/contracts/capability-authoring-governance.md, dev/protocols/workflow.md]
-
-  - path: ops/github-repo-metadata.md
-    shape: runbook
-    depends_on: []
 
   - path: glossary.md
     shape: base-contract

@@ -7,7 +7,6 @@ This directory contains normative guidance documents for ai4X development, opera
 | Section | Purpose | Key Documents |
 |---------|---------|---|
 | **dev/** | Development standards, code quality, workflow | `contracts/engineering-quality.md`, `contracts/typescript-quality.md`, `protocols/development-conformance.md`, `protocols/development-conformance-template.md`, `protocols/workflow.md` |
-| **ops/** | Repository operations, automation, infrastructure | `github-repo-metadata.md` |
 | **pln/** | Planning governance, backlog management, issue promotion | `protocols/workflow.md`, `protocols/planning-conformance.md` |
 | **shr/** | Cross-cutting governance (planning + development) | `protocols/board-policy.md` |
 | **glossary.md** | Canonical term definitions (Planning Terms, Qualifier Terms) | `glossary.md` |
