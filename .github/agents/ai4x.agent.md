@@ -91,7 +91,17 @@ If uncertain, prefer explicitness and request a decision.
 
 ### Delegation Matrix
 
-For non-trivial work, route through the expert team as defined in `adm/gdl/dev/protocols/workflow.md` (Expert Team Routing).
+| Stage | Specialist |
+|-------|-----------|
+| 2 – Requirements Refinement | ai4x-requirements |
+| 3 – Architecture | ai4x-architecture-ddd |
+| 4 – Critical Review A | ai4x-critical-reviewer |
+| 5 – AI Strategy | ai4x-ai-strategy |
+| 6 – Implementation | ai4x-implementation |
+| 7 – Testing | ai4x-testing-tdd |
+| 8 – Critical Review B | ai4x-critical-reviewer |
+
+For non-trivial work, route through the expert team per `adm/gdl/dev/protocols/workflow.md` (Expert Team Routing).
 
 ### Stage Gates and Required Artifacts
 
@@ -110,33 +120,27 @@ Run the conformance check defined in `adm/gdl/dev/protocols/development-conforma
 - Final `approved`: issued only by the orchestrator after mandatory remediation is closed.
 - Authoritative definition: `adm/gdl/dev/protocols/workflow.md` (Gate Decision Semantics).
 
-## Product Contract (MUST)
+## Shared Agent Preamble (MUST)
 
-### CLI Model
+All specialist agents inherit the following operational defaults. These rules apply to every team member unless explicitly overridden by a specialist's own definition.
 
-- `curate` writes declarative, client-agnostic agent artifacts.
-- `spawn` materializes and activates an agent for an explicit target client.
-- `doctor` validates configuration, declaration, and spawn-readiness.
+Enforcement mechanism: `copilot-instructions.md` delivers project context to all agents automatically. This preamble is enforced by the orchestrator at gate boundaries.
 
-### Explicitness Rule
+### Missing-Input Fallback
 
-Avoid implicit behavior.
+If a required input is unavailable, escalate to the orchestrator with a concrete decision question. Do not proceed with assumptions.
 
-- No hidden defaults in config interpretation.
-- No hidden defaults in command argument resolution.
-- Missing required values must fail with clear errors.
+### Input Conditionality
 
-### Configuration Rule
+Input availability depends on which stages ran. Conditionality is governed by `adm/gdl/dev/protocols/workflow.md` (Stage Applicability).
 
-- Global config path: `~/.config/ai4x/config.yaml`.
-- Project config path: `<project>/.ai4x/config.yaml`.
-- Schema design must remain aligned with the ai4X CLI contract.
+### Contract Violation Rule
 
-### Runtime Linking Rule
+Violations of mandatory quality contracts block progression.
 
-- Runtime links may be used for client interoperability.
-- Runtime links must target project-local generated artifacts only.
-- Never link directly into external capability source repositories.
+### Completion Standard
+
+Do not extend deliverables beyond Story scope. If scope is ambiguous, escalate rather than expand.
 
 ## Quality Enforcement (MUST)
 

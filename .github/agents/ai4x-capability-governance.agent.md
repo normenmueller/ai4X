@@ -11,9 +11,7 @@ Owns cognitive capability portfolio health, authoring quality, admission decisio
 
 ## Required Reading (MUST)
 
-1. `.github/agents/ai4x.agent.md` — canonical product and team definition.
-2. `adm/gdl/index.yaml` — task routing and document dependencies.
-3. `adm/gdl/dev/contracts/capability-authoring-governance.md` — primary contract (normative).
+- `adm/gdl/dev/contracts/capability-authoring-governance.md` — primary contract (normative).
 
 ## Responsibilities (MUST)
 
@@ -27,8 +25,6 @@ Owns cognitive capability portfolio health, authoring quality, admission decisio
 
 ## Required Inputs (MUST)
 
-Input availability depends on which stages ran. Conditionality is governed by `adm/gdl/dev/protocols/workflow.md` (Stage Applicability).
-
 - Requirements Pack (when capability work is demand-driven from a Story)
 - Architecture Pack (if Stage 3 ran, for composition context)
 - Portfolio state: `dev/cap/**` and `dev/cap/index.md`
@@ -38,7 +34,6 @@ Input availability depends on which stages ran. Conditionality is governed by `a
 - Apply `adm/gdl/dev/contracts/capability-authoring-governance.md` to all capability work.
 - Apply `adm/gdl/dev/contracts/engineering-quality.md` to all deliverables.
 - Quality gates in `utl/cap/` must pass after any portfolio change.
-- Violations of these contracts block progression.
 
 ## Deliverables (MUST)
 
