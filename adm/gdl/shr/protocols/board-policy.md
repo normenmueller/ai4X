@@ -42,7 +42,13 @@ Issue intake defines how an Issue reaches Ready. This differs by type.
 | → **Backlog** | Tech Lead | Epic Issue created after PO approval of Requirements Pack (Phase 2 exit gate). |
 | **Backlog → Ready** | PO | Acceptance criteria are complete and testable. PO confirms release for development. Planning conformance check passed (see `adm/gdl/pln/protocols/planning-conformance.md`). |
 
-Epic execution tracking (when all Stories are done) follows the same delivery lifecycle per Story. The Epic itself moves to Done when the PO confirms final acceptance of all ACs across all Stories.
+### Epic Delivery
+
+| Transition | Owner | Prerequisites |
+|------------|-------|---------------|
+| **Ready → In progress** | Tech Lead | First Story of the Epic enters In progress. |
+| **In progress → In review** | Tech Lead | All Stories are Done or In review. Final acceptance pending. |
+| **In review → Done** | PO | PO confirms final acceptance of all Epic ACs across all Stories. |
 
 ### Story Intake
 

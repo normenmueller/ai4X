@@ -139,6 +139,14 @@ sections:
     title: Shared Governance
     description: Cross-cutting governance protocols used by both planning and development.
     documents:
+      - path: glossary.md
+        title: Governance Glossary
+        purpose: Define canonical planning and qualifier terms as single authoritative source.
+        priority: must-read
+        depends_on: []
+        audience: all
+        scope: Term definitions referenced by all governance documents
+
       - path: shr/protocols/board-policy.md
         title: Board Policy
         purpose: Define board status transitions, ownership gates, lifecycle diagrams, and label conventions.
@@ -185,7 +193,8 @@ sections:
 # 13. adm/gdl/shr/protocols/board-policy.md — board transitions, ownership gates, labels
 # 14. adm/gdl/pln/protocols/planning-conformance.md — planning conformance enforcement
 # 15. adm/gdl/ops/github-repo-metadata.md — operations (as needed)
-# Terminology reference: see the Governance Glossary section in adm/gdl/dev/protocols/workflow.md for canonical gate, artifact, and verdict terms.
+# Terminology reference: see adm/gdl/glossary.md for planning/qualifier terms;
+#   see the Governance Glossary section in adm/gdl/dev/protocols/workflow.md for gate, artifact, and verdict terms.
 
 # For Specific Tasks
 # ==================
@@ -193,4 +202,5 @@ sections:
 # Planning a feature: read .github/agents/ai4x.agent.md → dev/contracts/* → pln/protocols/workflow.md → shr/protocols/board-policy.md → pln/protocols/planning-conformance.md
 # Setting up repo automation: read .github/agents/ai4x.agent.md → ops/github-repo-metadata.md
 # Onboarding a contributor: read in full order above
-# Workflow terminology alignment: use the Governance Glossary in dev/protocols/workflow.md to avoid gate-term drift.
+# Workflow terminology alignment: use adm/gdl/glossary.md for planning/qualifier terms;
+#   use the Governance Glossary in dev/protocols/workflow.md for gate, artifact, and verdict terms.
