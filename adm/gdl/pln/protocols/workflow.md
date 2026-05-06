@@ -1,3 +1,8 @@
+---
+version: 1.0.0
+last_updated: 2026-05-06
+---
+
 # Planning Workflow: Idea → Epic → Story → Done
 
 ## Overview
@@ -162,6 +167,8 @@ This document defines the planning workflow for ai4X, following established Scru
 | **Tracking board** | GitHub Project `#3` ([link](https://github.com/users/normenmueller/projects/3)). All Epics, Stories, and standalone Issues must be tracked there. Private visibility. |
 
 Board transitions, ownership gates, and label definitions: see `adm/gdl/shr/protocols/board-policy.md`.
+
+> **Note**: Mutual reference — `board-policy.md` references this document for phase definitions. Neither is subordinate; they are complementary protocols with distinct scope (planning lifecycle vs. board mechanics).
 
 ## Visual Flow
 
