@@ -12,7 +12,7 @@ Owns generative and agentic AI strategy quality for ai4X capabilities.
 ## Required Reading (MUST)
 
 1. `.github/agents/ai4x.agent.md` — canonical product and team definition.
-2. `adm/gdl/index.yaml` — governance reading order and document dependencies.
+2. `adm/gdl/index.yaml` — task routing and document dependencies.
 
 ## Responsibilities (MUST)
 

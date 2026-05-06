@@ -1,206 +1,137 @@
-# GDL Index: Governance, Development, Learning
+# Governance Document Index
+#
+# Primary consumer: AI agents (task routing)
+# Secondary consumer: CI tooling (validation)
+#
+# Invariant: Every library entry must be referenced by at least one task.
 
-# This index defines the canonical reading order, dependencies, and scope for governance 
-# documents across ai4X. Optimized for both human comprehension and AI agent parsing.
+tasks:
+  feature_implementation:
+    - dev/contracts/engineering-quality.md
+    - dev/contracts/typescript-quality.md
+    - dev/contracts/implementation-quality.md
+    - dev/protocols/development-conformance.md
+    - dev/protocols/workflow.md
 
-# Structure:
-# - section: Organizational category (dev, ops, pln)
-# - documents: List of documents in that section
-#   - path: Relative path from adm/gdl/
-#   - title: Human-readable title
-#   - purpose: One-line purpose
-#   - priority: must-read | recommended | optional
-#   - depends_on: List of prerequisite paths (or [] if none)
-#   - audience: dev | ops | pln | all
-#   - scope: Applies to (e.g., "CLI development", "release ops", "planning")
+  architecture:
+    - dev/contracts/engineering-quality.md
+    - dev/contracts/architecture-quality.md
+    - dev/protocols/workflow.md
 
-sections:
-  - section: dev
-    title: Development Governance
-    description: Normative guidance for software development, quality, and delivery in ai4X.
-    documents:
-      - path: dev/contracts/engineering-quality.md
-        title: Engineering Quality Contract
-        purpose: Define quality gates, testing, and code review expectations.
-        priority: must-read
-        depends_on: []
-        audience: dev
-        scope: CLI development quality standards
+  testing:
+    - dev/contracts/engineering-quality.md
+    - dev/contracts/typescript-quality.md
+    - dev/contracts/testing-quality.md
+    - dev/protocols/workflow.md
 
-      - path: dev/contracts/typescript-quality.md
-        title: TypeScript Quality Contract
-        purpose: Define TypeScript strict mode, linting, and type coverage standards.
-        priority: must-read
-        depends_on: [dev/contracts/engineering-quality.md]
-        audience: dev
-        scope: TypeScript code in dev/src
+  review:
+    - dev/contracts/engineering-quality.md
+    - dev/contracts/typescript-quality.md
+    - dev/contracts/review-quality.md
+    - dev/protocols/workflow.md
 
-      - path: dev/contracts/architecture-quality.md
-        title: Architecture Quality Contract
-        purpose: Define output contract and challenge rules for architecture and DDD decisions.
-        priority: must-read
-        depends_on: [dev/contracts/engineering-quality.md]
-        audience: dev
-        scope: Architecture work routed through ai4x-architecture-ddd
+  requirements:
+    - dev/contracts/engineering-quality.md
+    - dev/contracts/requirements-quality.md
+    - dev/protocols/workflow.md
 
-      - path: dev/contracts/testing-quality.md
-        title: Testing Quality Contract
-        purpose: Define output contract and challenge rules for TDD and test strategy.
-        priority: must-read
-        depends_on: [dev/contracts/engineering-quality.md, dev/contracts/typescript-quality.md]
-        audience: dev
-        scope: Testing work routed through ai4x-testing-tdd
+  ai_strategy:
+    - dev/contracts/engineering-quality.md
+    - dev/contracts/ai-strategy-quality.md
+    - dev/protocols/workflow.md
 
-      - path: dev/contracts/review-quality.md
-        title: Review Quality Contract
-        purpose: Define output contract and challenge rules for peer review.
-        priority: must-read
-        depends_on: [dev/contracts/engineering-quality.md, dev/contracts/typescript-quality.md]
-        audience: dev
-        scope: Review work routed through ai4x-critical-reviewer
+  capability_authoring:
+    - dev/contracts/engineering-quality.md
+    - dev/contracts/capability-authoring-governance.md
+    - dev/protocols/capability-sweep.md
+    - dev/protocols/workflow.md
 
-      - path: dev/contracts/requirements-quality.md
-        title: Requirements Quality Contract
-        purpose: Define output contract, EARS format, and challenge rules for requirements engineering.
-        priority: must-read
-        depends_on: [dev/contracts/engineering-quality.md]
-        audience: dev
-        scope: Requirements work routed through ai4x-requirements
+  planning:
+    - pln/protocols/workflow.md
+    - pln/protocols/planning-conformance.md
+    - shr/protocols/board-policy.md
+    - glossary.md
 
-      - path: dev/contracts/ai-strategy-quality.md
-        title: AI Strategy Quality Contract
-        purpose: Define output contract and challenge rules for AI strategy decisions.
-        priority: must-read
-        depends_on: [dev/contracts/engineering-quality.md]
-        audience: dev
-        scope: AI strategy work routed through ai4x-ai-strategy
+  repo_automation:
+    - ops/github-repo-metadata.md
 
-      - path: dev/contracts/implementation-quality.md
-        title: Implementation Quality Contract
-        purpose: Define output contract and challenge rules for production implementation deliverables.
-        priority: must-read
-        depends_on: [dev/contracts/engineering-quality.md, dev/contracts/typescript-quality.md]
-        audience: dev
-        scope: Implementation work routed through ai4x-implementation
+  terminology:
+    - glossary.md
+    - dev/protocols/workflow.md
 
-      - path: dev/contracts/capability-authoring-governance.md
-        title: Capability Authoring Governance
-        purpose: Define normative quality and neutrality rules for cognitive capability authoring and metadata.
-        priority: must-read
-        depends_on: [dev/contracts/engineering-quality.md]
-        audience: dev
-        scope: Cognitive capability portfolio under dev/cap
+  conformance:
+    - dev/protocols/development-conformance.md
+    - dev/protocols/development-conformance-template.md
 
-      - path: dev/protocols/development-conformance.md
-        title: Agent Conformance Contract
-        purpose: Define mandatory session-level artifact and gate checks for expert-agent routing.
-        priority: must-read
-        depends_on: [dev/contracts/engineering-quality.md]
-        audience: dev
-        scope: Multi-agent stage governance and gate discipline
+library:
+  - path: dev/contracts/engineering-quality.md
+    shape: base-contract
+    depends_on: []
 
-      - path: dev/protocols/development-conformance-template.md
-        title: Agent Conformance One-Page Template
-        purpose: Provide a compact per-session template for artifact checks, gate status, and blockers.
-        priority: recommended
-        depends_on: [dev/protocols/development-conformance.md]
-        audience: dev
-        scope: Session execution convenience template for conformance checks
+  - path: dev/contracts/typescript-quality.md
+    shape: base-contract
+    depends_on: [dev/contracts/engineering-quality.md]
 
-      - path: dev/protocols/workflow.md
-        title: Development Workflow
-        purpose: Normative trunk-based branching, Conventional Commits, CI/CD gates, and PR merge strategy.
-        priority: must-read
-        depends_on: [dev/contracts/engineering-quality.md, dev/protocols/development-conformance.md]
-        audience: dev
-        scope: All development activity in ai4X
+  - path: dev/contracts/architecture-quality.md
+    shape: stage-output-contract
+    depends_on: [dev/contracts/engineering-quality.md]
 
-      - path: dev/protocols/capability-sweep.md
-        title: Capability Sweep Protocol
-        purpose: Define protocol for proactive cognitive capability portfolio health assessments feeding the Planning Workflow.
-        priority: recommended
-        depends_on: [dev/contracts/capability-authoring-governance.md, dev/protocols/workflow.md]
-        audience: dev
-        scope: Cognitive capability portfolio assessment; findings enter Planning Workflow
+  - path: dev/contracts/testing-quality.md
+    shape: stage-output-contract
+    depends_on: [dev/contracts/engineering-quality.md, dev/contracts/typescript-quality.md]
 
-  - section: ops
-    title: Operations Governance
-    description: Normative guidance for repository operations, releases, and infrastructure.
-    documents:
-      - path: ops/github-repo-metadata.md
-        title: GitHub Repository Metadata
-        purpose: Document GitHub metadata syncing, labels, workflows, and automation expectations.
-        priority: recommended
-        depends_on: []
-        audience: ops
-        scope: GitHub repository operations and CI/CD
+  - path: dev/contracts/review-quality.md
+    shape: stage-output-contract
+    depends_on: [dev/contracts/engineering-quality.md, dev/contracts/typescript-quality.md]
 
-  - section: shr
-    title: Shared Governance
-    description: Cross-cutting governance protocols used by both planning and development.
-    documents:
-      - path: glossary.md
-        title: Governance Glossary
-        purpose: Define canonical planning and qualifier terms as single authoritative source.
-        priority: must-read
-        depends_on: []
-        audience: all
-        scope: Term definitions referenced by all governance documents
+  - path: dev/contracts/requirements-quality.md
+    shape: stage-output-contract
+    depends_on: [dev/contracts/engineering-quality.md]
 
-      - path: shr/protocols/board-policy.md
-        title: Board Policy
-        purpose: Define board status transitions, ownership gates, lifecycle diagrams, and label conventions.
-        priority: must-read
-        depends_on: [pln/protocols/workflow.md]
-        audience: all
-        scope: GitHub Project board transitions for Epics and Stories
+  - path: dev/contracts/ai-strategy-quality.md
+    shape: stage-output-contract
+    depends_on: [dev/contracts/engineering-quality.md]
 
-  - section: pln
-    title: Planning Governance
-    description: Governance for product planning, backlog management, and issue promotion.
-    documents:
-      - path: pln/protocols/workflow.md
-        title: "Planning Workflow: Idea to Epic to Story"
-        purpose: Define work item hierarchy (Idea, Epic, Story, Task), promotion gates, phase completion checklists, and GitHub Issue conventions.
-        priority: must-read
-        depends_on: [dev/protocols/workflow.md]
-        audience: all
-        scope: Planning, backlog management, Epic/Story promotion, and traceability
+  - path: dev/contracts/implementation-quality.md
+    shape: stage-output-contract
+    depends_on: [dev/contracts/engineering-quality.md, dev/contracts/typescript-quality.md]
 
-      - path: pln/protocols/planning-conformance.md
-        title: Planning Conformance Contract
-        purpose: Define mandatory planning-lifecycle conformance check before PO Ready decision.
-        priority: must-read
-        depends_on: [pln/protocols/workflow.md, shr/protocols/board-policy.md]
-        audience: all
-        scope: Planning conformance enforcement and gate discipline
+  - path: dev/contracts/capability-authoring-governance.md
+    shape: base-contract
+    depends_on: [dev/contracts/engineering-quality.md]
 
-# Reading Order for New Agents & Contributors
-# ==============================================
-# Read in this order for full context:
-# 1. .github/agents/ai4x.agent.md — canonical agent definition (product scope, CLI model, explicitness rule)
-# 2. adm/gdl/dev/contracts/engineering-quality.md — quality expectations
-# 3. adm/gdl/dev/contracts/typescript-quality.md — TypeScript standards
-# 4. adm/gdl/dev/contracts/architecture-quality.md — architecture and DDD quality
-# 5. adm/gdl/dev/contracts/testing-quality.md — TDD and test strategy quality
-# 6. adm/gdl/dev/contracts/review-quality.md — peer review quality
-# 7. adm/gdl/dev/contracts/requirements-quality.md — requirements engineering quality
-# 8. adm/gdl/dev/contracts/ai-strategy-quality.md — AI strategy quality
-# 9. adm/gdl/dev/contracts/implementation-quality.md — implementation deliverable quality
-# 10. adm/gdl/dev/protocols/development-conformance.md — session conformance, gate status, and blocker discipline
-# 11. adm/gdl/dev/protocols/workflow.md — branching, commits, PR flow
-# 12. adm/gdl/pln/protocols/workflow.md — planning, Idea → Epic → Story promotion
-# 13. adm/gdl/shr/protocols/board-policy.md — board transitions, ownership gates, labels
-# 14. adm/gdl/pln/protocols/planning-conformance.md — planning conformance enforcement
-# 15. adm/gdl/ops/github-repo-metadata.md — operations (as needed)
-# Terminology reference: see adm/gdl/glossary.md for planning/qualifier terms;
-#   see the Governance Glossary section in adm/gdl/dev/protocols/workflow.md for gate, artifact, and verdict terms.
+  - path: dev/protocols/development-conformance.md
+    shape: protocol
+    depends_on: [dev/contracts/engineering-quality.md]
 
-# For Specific Tasks
-# ==================
-# Feature implementation: read .github/agents/ai4x.agent.md → dev/contracts/* → dev/protocols/workflow.md
-# Planning a feature: read .github/agents/ai4x.agent.md → dev/contracts/* → pln/protocols/workflow.md → shr/protocols/board-policy.md → pln/protocols/planning-conformance.md
-# Setting up repo automation: read .github/agents/ai4x.agent.md → ops/github-repo-metadata.md
-# Onboarding a contributor: read in full order above
-# Workflow terminology alignment: use adm/gdl/glossary.md for planning/qualifier terms;
-#   use the Governance Glossary in dev/protocols/workflow.md for gate, artifact, and verdict terms.
+  - path: dev/protocols/development-conformance-template.md
+    shape: protocol
+    depends_on: [dev/protocols/development-conformance.md]
+
+  - path: dev/protocols/workflow.md
+    shape: protocol
+    depends_on: [dev/contracts/engineering-quality.md, dev/protocols/development-conformance.md]
+
+  - path: dev/protocols/capability-sweep.md
+    shape: protocol
+    depends_on: [dev/contracts/capability-authoring-governance.md, dev/protocols/workflow.md]
+
+  - path: ops/github-repo-metadata.md
+    shape: runbook
+    depends_on: []
+
+  - path: glossary.md
+    shape: base-contract
+    depends_on: []
+
+  - path: shr/protocols/board-policy.md
+    shape: protocol
+    depends_on: [pln/protocols/workflow.md]
+
+  - path: pln/protocols/workflow.md
+    shape: protocol
+    depends_on: [dev/protocols/workflow.md]
+
+  - path: pln/protocols/planning-conformance.md
+    shape: protocol
+    depends_on: [pln/protocols/workflow.md, shr/protocols/board-policy.md]

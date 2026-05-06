@@ -16,14 +16,14 @@ This directory contains normative guidance documents for ai4X development, opera
 
 **All readers start here:**
 1. [../.github/agents/ai4x.agent.md](../.github/agents/ai4x.agent.md) — Canonical Agent Definition (product scope, CLI model, explicitness rule).
-2. [index.yaml](index.yaml) — Structured metadata and dependencies (AI-optimized).
+2. [index.yaml](index.yaml) — Task routing and document dependency graph (AI-optimized).
 
-**By role:**
+**By task:**
 
-See [index.yaml](index.yaml) for task-specific reading paths (feature implementation, planning, operations, onboarding).
+See [index.yaml](index.yaml) `tasks` section for pre-resolved reading lists per activity (feature implementation, architecture, testing, planning, etc.).
 
-**Full reading order** (for new contributors or agents):
-See [index.yaml](index.yaml) for the canonical sequence.
+**Dependency graph** (for onboarding or tooling):
+See [index.yaml](index.yaml) `library` section — each entry declares `depends_on` for topological ordering.
 
 ## Document Status
 

@@ -13,7 +13,7 @@ Keep the implementation focused on the single-CLI scope.
 
 ## Working Rules
 
-- Read `adm/gdl/index.yaml` for the canonical governance reading order.
+- Read `adm/gdl/index.yaml` for task routing and document dependencies.
 - Keep behavior explicit:
   - no hidden config defaults
   - no hidden CLI argument defaults
