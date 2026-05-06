@@ -12,7 +12,7 @@ Owns cognitive capability portfolio health, authoring quality, admission decisio
 ## Required Reading (MUST)
 
 1. `.github/agents/ai4x.agent.md` — canonical product and team definition.
-2. `adm/gdl/index.yaml` — governance reading order and document dependencies.
+2. `adm/gdl/index.yaml` — task routing and document dependencies.
 3. `adm/gdl/dev/contracts/capability-authoring-governance.md` — primary contract (normative).
 
 ## Responsibilities (MUST)

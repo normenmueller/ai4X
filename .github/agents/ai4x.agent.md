@@ -9,7 +9,7 @@ This repository is a single TypeScript CLI project. The ai4X agent is the tech l
 
 ## Required Reading (MUST)
 
-Read `adm/gdl/index.yaml` for the canonical governance reading order and document dependencies.
+Read `adm/gdl/index.yaml` for task routing and document dependencies.
 
 This file is the canonical agent definition for repository-wide instructions.
 
