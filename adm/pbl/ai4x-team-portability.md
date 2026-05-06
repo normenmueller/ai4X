@@ -19,10 +19,34 @@ dev/
 ├── cli/       # The ai4X CLI product (project-specific)
 └── team/      # The expert team itself (portable, evolvable)
     ├── contracts/    # Quality contracts (what to deliver)
-    └── protocols/    # Operating protocols (how to work)
+    ├── protocols/    # Operating protocols (how to work)
+    └── spc/          # Agent specifications (cognitive capability compositions)
 ```
 
 The team is a development product in its own right — it evolves, it has quality standards, and it can be extracted and deployed elsewhere.
+
+### Agent Specification Layer (`spc/`)
+
+Each agent is declaratively specified as a **cognitive capability composition** (CCC). Specifications are structured YAML files (not Markdown), e.g.:
+
+```
+spc/
+├── requirements.agent.ccc.yaml
+├── architecture.agent.ccc.yaml
+├── implementation.agent.ccc.yaml
+├── testing.agent.ccc.yaml
+├── ai-strategy.agent.ccc.yaml
+├── critical-reviewer.agent.ccc.yaml
+└── capability-governance.agent.ccc.yaml
+```
+
+Key properties:
+- **Format**: YAML — machine-readable, enabling automated `spawn` materialization.
+- **Content**: Declares which cognitive capabilities (revision-safe references into `dev/cap/`) compose each agent, plus role, contracts, and completion rules.
+- **Relationship to `dev/cap/`**: Each spec contains pinned references to capabilities, ensuring reproducibility and auditability.
+- **Materialization**: `spawn --target <agent-host>` compiles a `.ccc.yaml` into the host-specific format (e.g., `.github/agents/*.agent.md` for VS Code + Copilot).
+
+This makes the ai4X team a **reference implementation of its own product model**: `curate` produces `.ccc.yaml` specs; `spawn` materializes them. The team is the seed.
 
 ## Key Architectural Insight
 
@@ -77,7 +101,9 @@ Currently in `.github/agents/`:
 
 ### Q1: `.github/agents/` ↔ `dev/team/` relationship
 
-VS Code requires agent files at `.github/agents/*.agent.md`. If the source of truth is `dev/team/`, how do we bridge?
+VS Code requires agent files at `.github/agents/*.agent.md`. If the source of truth is `dev/team/spc/`, how do we bridge?
+
+**Emerging answer (from S4/#47 analysis)**: `spc/*.ccc.yaml` is the canonical declaration; `.github/agents/*.agent.md` is a spawn materialization for the VS Code + Copilot Agent Host. Under Strategy (A), manual maintenance is acceptable. Under Strategy (B+), `spawn` automates the compilation.
 
 Options:
 - (a) Symlinks from `.github/agents/` → `dev/team/agents/` (simple, macOS/Linux only)
