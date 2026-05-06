@@ -146,7 +146,8 @@ The Tech Lead determines in Stage 1 which stages are needed for the current Stor
 7. Testing stage must consume Requirements Pack, Architecture Pack (if produced), and Implementation Pack; it must produce a Test Evidence Pack.
 8. Critical Review Pass B must consume Implementation Pack and Test Evidence Pack and produce Review B Findings.
 9. Missing mandatory artifacts, unresolved contradictions, or unresolved high-severity findings block progression.
-10. When a conditional stage is skipped, its output artifact is marked `n/a` in the conformance record.12. When Review B blocks and returns to Implementation, Stages 7–8 re-execute before resubmitting to Review B.
+10. When a conditional stage is skipped, its output artifact is marked `n/a` in the conformance record.
+11. When Review B blocks and returns to Implementation, Stages 7–8 re-execute before resubmitting to Review B.
 ### Gate Decision Semantics
 
 1. Specialist gate outputs are `blocked` or `conditional-approve`.
@@ -155,6 +156,8 @@ The Tech Lead determines in Stage 1 which stages are needed for the current Stor
 ## Governance Glossary
 
 This glossary defines canonical terms for workflow execution, reviews, and onboarding.
+
+> **Planning Terms** and **Qualifier Terms** — see `adm/gdl/glossary.md` for canonical definitions.
 
 ### Gate Terms
 
@@ -203,25 +206,6 @@ This glossary defines canonical terms for workflow execution, reviews, and onboa
 
 3. approved
 - Final acceptance verdict by orchestration only, after all mandatory remediation is closed.
-
-### Planning Terms
-
-1. Idea
-- A vague intent or exploration drafted by the PO in `adm/pbl/`. Temporary.
-
-2. Epic
-- A refined requirement scope with acceptance criteria. Promoted to a GitHub Issue with label `epic`.
-
-3. Story
-- An implementable unit of work within an Epic. GitHub Issue with label `story`, linked to parent Epic.
-
-4. Task
-- An implementation step within a Story. Represented as a checklist within the Story Issue.
-
-### Qualifier Terms
-
-1. Non-trivial
-- A change is non-trivial if it adds or modifies behavior, contracts, boundaries, acceptance criteria, or domain types. Mechanical changes (typo fixes, formatting, comment-only edits) are trivial. When in doubt, treat the change as non-trivial.
 
 ## Session Conformance Check
 

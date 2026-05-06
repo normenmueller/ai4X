@@ -12,6 +12,8 @@ This document defines the planning workflow for ai4X, following established Scru
 
 ## Work Item Hierarchy
 
+> Canonical term definitions: see `adm/gdl/glossary.md` § Planning Terms.
+
 | Level | What | Who creates | Who approves | GitHub representation |
 |-------|------|-------------|-------------|----------------------|
 | **Idea** | Vague intent, exploration | PO | — | `adm/pbl/*.md` (temporary) |
