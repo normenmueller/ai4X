@@ -21,7 +21,6 @@ Normative development governance for this repository lives in:
 1. .github/agents/ai4x.agent.md
 2. adm/gdl/dev/contracts/*
 3. adm/gdl/dev/protocols/*
-4. adm/gdl/ops/*
 
 All artifacts under adm/gdl are normative governance artifacts.
 
@@ -75,8 +74,7 @@ No hidden defaults in config or CLI resolution.
 - keep GitHub Actions workflows aligned with the current repository layout and active verification entrypoints
 
 6. Repository metadata changes
-- keep acc/repo-metadata.yaml aligned with intended GitHub About and Topics
-- run the metadata check/apply path when repository metadata is intentionally changed
+- follow the runbook in `utl/gh/RUNBOOK.md`
 
 ## Expert Team Routing
 
