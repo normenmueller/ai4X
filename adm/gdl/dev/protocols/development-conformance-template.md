@@ -1,3 +1,8 @@
+---
+version: 1.0.0
+last_updated: 2026-05-06
+---
+
 # Agent Conformance One-Page Template
 
 Use this compact template during active sessions.

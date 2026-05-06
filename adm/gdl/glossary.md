@@ -1,3 +1,8 @@
+---
+version: 1.0.0
+last_updated: 2026-05-06
+---
+
 # Governance Glossary
 
 Canonical term definitions for the ai4X governance layer.

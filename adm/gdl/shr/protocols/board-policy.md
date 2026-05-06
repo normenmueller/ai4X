@@ -1,3 +1,8 @@
+---
+version: 1.0.0
+last_updated: 2026-05-06
+---
+
 # Board Policy
 
 ## Purpose
@@ -88,5 +93,7 @@ Additional labels (optional but recommended):
 ## References
 
 - `adm/gdl/pln/protocols/workflow.md` — Phase definitions and completion checklists.
+
+> **Note**: Mutual reference — `pln/protocols/workflow.md` references this document for board transitions. Neither is subordinate; they are complementary protocols with distinct scope (planning lifecycle vs. board mechanics).
 - `adm/gdl/pln/protocols/planning-conformance.md` — Planning conformance check.
 - `adm/gdl/dev/protocols/workflow.md` — 10-stage development workflow (Story execution).

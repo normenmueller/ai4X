@@ -3,6 +3,7 @@ child: Contract
 title: Capability Authoring Governance
 scope: ai4x
 version: 0.2.0
+last_updated: 2026-05-06
 status: released
 owner: ai4x-capability-governance
 ---
