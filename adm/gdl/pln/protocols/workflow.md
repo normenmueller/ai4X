@@ -167,24 +167,41 @@ Board transitions, ownership gates, and label definitions: see `adm/gdl/shr/prot
 
 ```mermaid
 flowchart TD
-    IDEA[PO Idea in adm/pbl] --> TL1[ai4X Tech Lead<br/>Triage and Delegate]
-    TL1 --> RE[ai4x-requirements<br/>Epic Refinement]
-    RE --> PO1{PO Approval?}
-    PO1 -->|Rejected / Iterate| RE
-    PO1 -->|Approved| CHK2[Phase 2 Checklist ✓]
-    CHK2 --> PROMO[ai4X Tech Lead<br/>Create Epic Issue + Delete PBL]
-    PROMO --> CHK3[Phase 3 Checklist ✓]
-    CHK3 --> DECOMP[ai4X Tech Lead<br/>Decompose Epic into Stories]
-    DECOMP --> PO2{PO Approves<br/>Story Decomposition?}
-    PO2 -->|Rejected / Iterate| DECOMP
-    PO2 -->|Approved| MATRIX[AC Coverage Matrix<br/>added to Epic]
-    MATRIX --> CONF[Planning Conformance<br/>Check]
-    CONF -->|Failed| FIX[Resolve missing<br/>deliverables]
-    FIX --> CONF
-    CONF -->|Passed| READY{PO: Epic Ready?}
-    READY -->|Not yet / Questions| SUPPORT[Tech Lead supports PO]
-    SUPPORT --> READY
-    READY -->|Ready| DEV[Development Begins<br/>per Story]
+    subgraph P1["Phase 1: Idea"]
+        IDEA[PO writes Idea in adm/pbl/]
+    end
+
+    subgraph P2["Phase 2: Epic Refinement"]
+        TL1[Tech Lead triages + delegates] --> RE[RE produces Requirements Pack]
+        RE --> PO1{PO Approval?}
+        PO1 -->|Iterate| RE
+    end
+
+    subgraph P3["Phase 3: Epic Promotion"]
+        PROMO[Tech Lead creates Epic Issue] --> DEL[Delete PBL entry]
+    end
+
+    subgraph P4["Phase 4: Story Decomposition"]
+        DECOMP[Tech Lead decomposes Epic] --> PO2{PO Approves Stories?}
+        PO2 -->|Iterate| DECOMP
+        PO2 -->|Approved| STORIES[Create Story Issues + link to Epic]
+        STORIES --> MATRIX[AC Coverage Matrix added to Epic]
+        MATRIX --> CONF[Planning Conformance Check]
+        CONF -->|Failed| FIX[Resolve gaps]
+        FIX --> CONF
+        CONF -->|Passed| READY{PO: Epic Ready?}
+        READY -->|Questions| SUPPORT[Tech Lead supports PO]
+        SUPPORT --> READY
+    end
+
+    subgraph P5["Phase 5: Development"]
+        DEV[Dev workflow per Story]
+    end
+
+    IDEA --> TL1
+    PO1 -->|Approved| PROMO
+    DEL --> DECOMP
+    READY -->|Ready| DEV
 ```
 
 ## Verification
