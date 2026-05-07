@@ -16,7 +16,7 @@ ai4X is an operating model for agentic AI work. Its value proposition rests on t
 
 ## Agent-Host Agnosticism Principle
 
-Agent declarations in ai4X are independent of any specific runtime environment (Agent Host). A Cognitive Capability Composition (CCC) declares *what* an agent knows and *how* it reasons — never *where* it runs.
+Agent declarations in ai4X are independent of any specific runtime environment (Agent Host). A Cognitive Capability Composition (CCC) *(Design Target)* declares *what* an agent knows and *how* it reasons — not *where* it runs.
 
 This separation creates a clear boundary: everything before materialization is host-agnostic; everything after is host-specific. The same CCC can be materialized for VS Code with GitHub Copilot, Codex CLI, Claude Code, or any future Agent Host without changing the declaration.
 
@@ -64,4 +64,4 @@ Binding is coupled to both the topology (it must respect the role structure) and
 
 The Team Declaration is the aggregate output of `ai4x curate`. It binds a Collaboration Topology to a concrete set of agents with explicit role assignments. A Team Declaration is the complete, reproducible specification of an agentic team — topology, agents, and their binding — ready for materialization.
 
-**Architectural consequence:** The three layers enforce separation of concerns. Topologies can be developed and versioned independently of agents. Agents can be composed independently of how they will collaborate. Only the Team Declaration couples them — and it does so explicitly, declaratively, and reproducibly.
+**Architectural consequence:** Topology definitions must not reference specific agents or CCCs. Agent definitions must not reference specific topologies. Only the Team Declaration may couple them — explicitly, declaratively, and reproducibly.
