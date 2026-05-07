@@ -7,9 +7,10 @@
 ai4X is an operating model for agentic AI work. It exists to make agent work explicit, reviewable, and reusable — across any "bring your own agent" platform (`#byoa`).
 
 > [!IMPORTANT]
-> **What sets ai4X apart**
-> 1. **Need-first discovery** — A structured interview process identifies the user's actual needs (*why* and *what*, not *how*). The result is a declarative requirements set that captures intent, not implementation.
-> 2. **Curated agentic fulfilment** — From that requirements set, ai4X identifies the cognitive capabilities needed and assembles them as a curated agentic team with an explicit collaboration model — declaratively, reproducibly, and client-agnostic.
+> **What sets ai4X apart** is a single operating model with three differentiating properties:
+> 1. **Need-first** — A structured interview identifies actual needs (*why* and *what*, not *how*). The result is a declarative requirements set that captures intent, not implementation.
+> 2. **Host-agnostic** — Agent declarations are independent of any runtime environment. The same declaration materializes for any agent host — declaratively and reproducibly.
+> 3. **Self-validating** *(design goal)* — ai4X is designed to apply its own operating model to itself: the team that builds ai4X will itself be curated, materialized, and validated by ai4X (`#eyodf`).
 
 Rather than hiding behavior in ad hoc prompts, implicit local setup, or client-specific glue, ai4X brings declarative agent definition, deterministic materialization, and explicit client activation together in one coherent command surface.
 
@@ -22,20 +23,18 @@ In that model, agent creation and activation follow a clear lifecycle:
 That makes agent work easier to understand, easier to reproduce, and easier to evolve with discipline.
 
 <details>
-<summary>ai4X is also a reference implementation of a strict <strong>agent-first development model</strong> and an <strong>agent-guided documentation model</strong> for human-facing onboarding and support. (click to expand)</summary>
+<summary>ai4X applies its own operating model to its own development — the <strong>self-validating</strong> property in practice. (click to expand)</summary>
 
 Operational implications:
 
 - Deterministic checks are handled programmatically through TypeScript tests, shell checks, and validation commands such as `verify` and `doctor`.
-- Higher-order semantic review, judgment, and proposal assessment are intentionally designed for execution with agentic AI actors.
-- In this model, **developer** and **operator** roles are primarily modeled as agentic AI roles.
+- Higher-order semantic review, judgment, and proposal assessment are executed by the ai4X agent team.
+- **Developer** and **operator** roles are modeled as agentic AI roles.
 - Documentation is authored for human consumption but designed for agent-mediated delivery — users ask an agent rather than reading docs directly.
 - `doc/usr/` is the direct human-facing documentation surface.
 - `doc/agn/` is the agent-facing onboarding and navigation surface.
 - `doc/arc/` is human-readable architecture and system-reference documentation.
 - `adm/gdl/dev/` is agent-facing development governance.
-
-ai4X is, in that sense, built by agentic AI agents for agentic AI agents.[^eyodf]
 
 </details>
 
@@ -65,5 +64,3 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 ## License
 
 See [LICENSE](LICENSE). © 2026 [nemron](https://github.com/normenmueller) ([#hgtt](doc/hgtt.md))
-
-[^eyodf]: `#eyodf` = "eat your own dog food". ai4X applies its own agent-first development and operations model to itself.
