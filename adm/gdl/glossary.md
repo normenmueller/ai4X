@@ -32,7 +32,7 @@ Terms defined here are the single authoritative source. Other documents referenc
 ## Architecture Terms
 
 1. **Agent Host**
-   - A runtime environment that executes agentic AI agents. Examples: VS Code with GitHub Copilot, Codex CLI, Claude Code. ai4X is agent-host-agnostic — it declares agents independently and materializes them for a specific host at activation time.
+   - A runtime environment that hosts and executes AI agents. Examples: VS Code with GitHub Copilot, Codex CLI, Claude Code. ai4X is agent-host-agnostic — it declares agents independently and materializes them for a specific host at activation time.
 
 2. **Cognitive Capability Composition (CCC)** *(Design Target)*
    - A declarative specification that defines an agent by composing revision-safe references to cognitive capabilities from the ai4X corpus (`dev/cap/`). A CCC declares *what* an agent knows and *how* it reasons — not *where* it runs. CCCs are the input to materialization.
@@ -41,7 +41,7 @@ Terms defined here are the single authoritative source. Other documents referenc
    - A reusable, abstract collaboration pattern that defines roles and coordination structure for a team of agents — independent of which concrete agents fill those roles. Examples: leader–specialists, swarm, pipeline. Topologies are value objects: "leader + n specialists" is the same pattern regardless of the agents involved.
 
 4. **Materialization** *(Design Target)*
-   - The deterministic transformation of a host-agnostic agent declaration (CCC) into the format required by a specific Agent Host. `ai4x spawn --target <agent-host>` performs this transformation. Materialization is a pure function: same declaration and target produce the same output.
+   - The deterministic transformation of a host-agnostic agent declaration (CCC) into the format required by a specific Agent Host. Materialization is the first step of the `spawn` lifecycle — it produces the host-specific artifacts that `spawn` then activates. Same declaration and same target always produce the same output.
 
 5. **Team Declaration** *(Design Target)*
    - The aggregate output of `ai4x curate`. Binds a collaboration topology to a concrete set of agents with explicit role assignments. A Team Declaration is the complete, reproducible specification of an agentic team — topology, agents, and their binding — ready for materialization.

@@ -39,7 +39,7 @@ Term definitions are split into two categories based on their operational critic
 
 ### Consequences
 
-- `adm/gdl/glossary.md` contains ONLY reference-safe terms (Planning Terms, Qualifier Terms).
+- `adm/gdl/glossary.md` contains ONLY reference-safe terms (Planning Terms, Qualifier Terms, Architecture Terms).
 - Gate Terms, Artifact Terms, and Verdict Terms MUST remain inline in `dev/protocols/workflow.md`.
 - If a future dry-run reveals an agent failing to follow a glossary reference, the failing term must be inlined back immediately (fallback rule).
 - New terms must be classified before placement. The classification criterion is: "Does an agent dispatch on this term's exact definition?" If yes → inline. If no → glossary.
