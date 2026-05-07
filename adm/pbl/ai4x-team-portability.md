@@ -48,6 +48,20 @@ Key properties:
 
 This makes the ai4X team a **reference implementation of its own product model**: `curate` produces `.ccc.yaml` specs; `spawn` materializes them. The team is the seed.
 
+## Concern-Separation Model
+
+The operating model separates three orthogonal concerns. Each concern has its own lifecycle, ownership, and artifact location:
+
+| Layer | Concern | What it contains | Portability |
+|-------|---------|-----------------|-------------|
+| **Team Methodology** | How the team works | Quality contracts, operating protocols, collaboration topologies | Fully portable — travels with the team |
+| **Agent Activation** | What the agents are and how they materialize | CCCs, spawn materialization, agent host bindings | Portable — same declarations, different targets |
+| **Project Brief** | What the project needs | Domain vocabulary, command surface, project-specific paths, board config | Project-bound — written fresh per engagement |
+
+This model is orthogonal to the Three-Layer Model (Topology / Binding / Team Declaration) documented in `doc/arc/08_concepts.md`. The Three-Layer Model describes how a team is *composed* from topologies and agents. The Concern-Separation Model describes how team-level artifacts are *separated from project-level artifacts* to enable portability.
+
+Both models must be documented in `doc/arc/08_concepts.md` when this PBL is promoted to an Epic.
+
 ## Key Architectural Insight
 
 VS Code's agent injection model provides a natural separation mechanism:
