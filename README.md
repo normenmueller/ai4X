@@ -23,7 +23,7 @@ In that model, agent creation and activation follow a clear lifecycle:
 That makes agent work easier to understand, easier to reproduce, and easier to evolve with discipline.
 
 <details>
-<summary>ai4X applies its own operating model to its own development — the <strong>self-validating</strong> property in practice. (click to expand)</summary>
+<summary>ai4X works toward the <strong>self-validating</strong> design goal by applying its own operating model to its own development. (click to expand)</summary>
 
 Operational implications:
 
