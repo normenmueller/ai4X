@@ -120,6 +120,41 @@ Run the conformance check defined in `adm/gdl/dev/protocols/development-conforma
 - Final `approved`: issued only by the orchestrator after mandatory remediation is closed.
 - Authoritative definition: `adm/gdl/dev/protocols/workflow.md` (Gate Decision Semantics).
 
+### Handoff Schema
+
+When invoking a specialist, the orchestrator's task prompt MUST include:
+
+1. Story reference (Issue number + title).
+2. Applicable acceptance criteria (verbatim, not by reference).
+3. Prior stage artifacts (inline or as file paths the specialist can read).
+4. Resolved blockers from prior reviews (empty list if none).
+5. Scope constraints and non-goals for this invocation.
+
+The task prompt IS the handoff. Specialists cannot access the orchestrator's agent file at runtime.
+
+### Authority Stack
+
+In case of conflict, authority resolves top-down:
+
+1. Quality Contracts (`adm/gdl/dev/contracts/*`)
+2. Protocols (`adm/gdl/dev/protocols/*`)
+3. Orchestrator directives (this file)
+4. Specialist judgment
+5. PO Override (explicit, documented)
+
+PO Override does not mean the PO is subordinate to the system. The default flow respects contracts as structural guardrails. The PO can override any guardrail, but must do so explicitly with documented rationale. An undocumented PO preference does NOT override a contract.
+
+### Blocked Protocol
+
+When a specialist issues `blocked`:
+
+1. State the blocker with severity and affected artifact.
+2. Propose concrete remediation (at least one option).
+3. The orchestrator routes remediation to the responsible specialist.
+4. After remediation, the blocking specialist re-evaluates.
+5. If remediation fails after one cycle (block → remediate → re-block on same issue), escalate to the orchestrator with both specialist assessments for a consolidated PO decision.
+6. PO Override: the PO may explicitly accept a risk and override a block with documented rationale.
+
 ## Shared Agent Preamble (MUST)
 
 All specialist agents inherit the following operational defaults. These rules apply to every team member unless explicitly overridden by a specialist's own definition.
@@ -141,6 +176,18 @@ Violations of mandatory quality contracts block progression.
 ### Completion Standard
 
 Do not extend deliverables beyond Story scope. If scope is ambiguous, escalate rather than expand.
+
+### Self-Scoping Rule
+
+Before producing deliverables, verify that the requested work maps to at least one item in this agent's "Responsibilities (MUST)" section. If no mapping exists, respond with: "This task does not map to my declared responsibilities. Escalating to orchestrator."
+
+### Contract Precedence
+
+When two contracts impose conflicting requirements:
+
+1. The more specific contract takes precedence (e.g., `typescript-quality.md` over `engineering-quality.md`).
+2. If both contracts are at the same specificity level, escalate to the orchestrator with both contract references and the conflicting clauses.
+3. The orchestrator resolves by consulting the PO or issuing a precedence ruling documented in the affected contracts.
 
 ## Quality Enforcement (MUST)
 

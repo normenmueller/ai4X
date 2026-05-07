@@ -34,3 +34,24 @@ Before any work, read `.github/agents/ai4x.agent.md` — the canonical agent def
 - Runtime links may be used for client interoperability.
 - Runtime links must target project-local generated artifacts only.
 - Never link directly into external capability source repositories.
+
+## Authority Stack
+
+<!-- Canonical source: .github/agents/ai4x.agent.md § Authority Stack -->
+
+In case of conflict, authority resolves top-down:
+
+1. Quality Contracts (`adm/gdl/dev/contracts/*`)
+2. Protocols (`adm/gdl/dev/protocols/*`)
+3. Orchestrator directives (`.github/agents/ai4x.agent.md`)
+4. Specialist judgment
+5. PO Override (explicit, documented)
+
+## Contract Precedence
+
+<!-- Canonical source: .github/agents/ai4x.agent.md § Contract Precedence -->
+
+When two contracts impose conflicting requirements:
+
+1. The more specific contract takes precedence.
+2. If both are at the same specificity level, escalate to the orchestrator.
