@@ -40,8 +40,11 @@ Terms defined here are the single authoritative source. Other documents referenc
 3. **Collaboration Topology** *(Design Target)*
    - A reusable, abstract collaboration pattern that defines roles and coordination structure for a team of agents — independent of which concrete agents fill those roles. Examples: leader–specialists, swarm, pipeline. Topologies are value objects: "leader + n specialists" is the same pattern regardless of the agents involved.
 
-4. **Materialization** *(Design Target)*
+4. **Corpus (`crp/`)**
+   - The product corpus: the authoritative, client-agnostic source tree consumed by `curate`. Contains cognitive capabilities (`crp/cap/`), the agent catalog (`crp/agn/`), and governance templates (`crp/gov/`) including quality contracts (`crp/gov/qlt/`), process protocols (`crp/gov/prc/`), and collaboration topologies (`crp/gov/top/`).
+
+5. **Materialization** *(Design Target)*
    - The deterministic transformation of a host-agnostic agent declaration (CCC) into the format required by a specific Agent Host. Materialization is the first step of the `spawn` lifecycle — it produces the host-specific artifacts that `spawn` then activates. Same declaration and same target always produce the same output.
 
-5. **Team Declaration** *(Design Target)*
+6. **Team Declaration** *(Design Target)*
    - The aggregate output of `ai4x curate`. Binds a collaboration topology to a concrete set of agents with explicit role assignments. A Team Declaration is the complete, reproducible specification of an agentic team — topology, agents, and their binding — ready for materialization.

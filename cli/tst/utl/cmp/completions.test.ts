@@ -13,7 +13,7 @@ const bashFile = resolve(repoRoot, "utl/cmp/ai4x.bash");
 const zshFile = resolve(repoRoot, "utl/cmp/_ai4x");
 const fishFile = resolve(repoRoot, "utl/cmp/ai4x.fish");
 
-// Canonical sub-commands and global flags — source of truth: dev/src/lib/core/cli/args.ts
+// Canonical sub-commands and global flags — source of truth: cli/src/lib/core/cli/args.ts
 // (COMMANDS set and flag handling in parseArgs)
 const EXPECTED_SUBCOMMANDS = ["curate", "spawn", "doctor"];
 const EXPECTED_GLOBAL_FLAGS = ["--help", "-h", "--version"];
