@@ -115,7 +115,7 @@ This document defines the planning workflow for ai4X, following established Scru
    - Link to parent Epic
 4. Tech Lead adds an **AC Coverage Matrix** to the Epic Issue body showing which Story covers which acceptance criterion. This matrix is the authoritative traceability artifact for the Epic.
 
-**Exit Gate**: After Story Issues are created and linked, the Tech Lead must run the Planning Conformance Check (see `adm/gdl/pln/protocols/planning-conformance.md`) and then explicitly request the PO's Ready decision for the Epic. No development work may begin until the PO transitions the Epic to Ready. The Tech Lead's prompt must offer support, not just request a binary decision. Example: *"Stories are created. The Epic is in Backlog. Your decision: set the Epic to Ready, or is there anything else I can help you with first?"*
+**Exit Gate**: After Story Issues are created and linked, the Tech Lead must run the Planning Conformance Check (see `adm/gdl/planning-conformance.md`) and then explicitly request the PO's Ready decision for the Epic. No development work may begin until the PO transitions the Epic to Ready. The Tech Lead's prompt must offer support, not just request a binary decision. Example: *"Stories are created. The Epic is in Backlog. Your decision: set the Epic to Ready, or is there anything else I can help you with first?"*
 
 **Completion Checklist** (Tech Lead must verify before issuing Ready-Gate prompt):
 
@@ -166,7 +166,7 @@ This document defines the planning workflow for ai4X, following established Scru
 | **Issue linkage** | Mandatory for Features/Fixes. Optional for Docs/Chore/Refactor. |
 | **Tracking board** | GitHub Project `#3` ([link](https://github.com/users/normenmueller/projects/3)). All Epics, Stories, and standalone Issues must be tracked there. Private visibility. |
 
-Board transitions, ownership gates, and label definitions: see `adm/gdl/shr/protocols/board-policy.md`.
+Board transitions, ownership gates, and label definitions: see `adm/gdl/board-policy.md`.
 
 > **Note**: Mutual reference — `board-policy.md` references this document for phase definitions. Neither is subordinate; they are complementary protocols with distinct scope (planning lifecycle vs. board mechanics).
 
@@ -224,8 +224,8 @@ flowchart TD
 
 ## References
 
-- `adm/gdl/shr/protocols/board-policy.md` — Board transitions, ownership gates, and label conventions.
-- `adm/gdl/pln/protocols/planning-conformance.md` — Planning conformance check (mandatory before Ready-Gate).
+- `adm/gdl/board-policy.md` — Board transitions, ownership gates, and label conventions.
+- `adm/gdl/planning-conformance.md` — Planning conformance check (mandatory before Ready-Gate).
 - `crp/gov/prc/workflow.md` — 10-stage expert team routing, branching, commits, and completion gates.
 - `.github/agents/ai4x.agent.md` — Tech Lead definition, interaction model, and product rules.
 - `CONTRIBUTING.md` — informative contributor guidance.

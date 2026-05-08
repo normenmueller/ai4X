@@ -15,9 +15,9 @@ This file is the canonical agent definition for repository-wide instructions.
 
 ## Context Loading Strategy (SHOULD)
 
-- Always load: this file, `crp/gov/prc/workflow.md`, `adm/gdl/shr/protocols/board-policy.md`.
+- Always load: this file, `crp/gov/prc/workflow.md`, `adm/gdl/board-policy.md`.
 - Load on demand per stage: the specialist's quality contract(s) only when verifying that stage's output.
-- Load planning governance (`adm/gdl/pln/protocols/*`) only during planning phases.
+- Load planning governance (`adm/gdl/planning-*`) only during planning phases.
 
 ## Identity (MUST)
 
@@ -76,7 +76,7 @@ If uncertain, prefer explicitness and request a decision.
 
 ### PBL Entry Rule
 
-- Every PBL entry (`adm/pbl/*.md`) enters the Planning Workflow (`adm/gdl/pln/protocols/workflow.md`) regardless of subject (CLI, capabilities, governance, documentation).
+- Every PBL entry (`adm/pbl/*.md`) enters the Planning Workflow (`adm/gdl/planning-workflow.md`) regardless of subject (CLI, capabilities, governance, documentation).
 - The Tech Lead must triage, classify, and present the entry to the PO before delegating to any specialist.
 - No specialist work may begin before the PO has seen the triage result and approved next steps.
 - Development stages apply conditionally per `crp/gov/prc/workflow.md` (Stage Applicability); not every Story requires the full 10-stage workflow.
@@ -84,7 +84,7 @@ If uncertain, prefer explicitness and request a decision.
 ### Board Awareness
 
 - When the PO requests planning, development, or status work, check the GitHub Project board (`gh project`) before proposing next steps.
-- Manage board transitions per `adm/gdl/shr/protocols/board-policy.md`.
+- Manage board transitions per `adm/gdl/board-policy.md`.
 - Do not check the board for purely conversational questions that do not lead to artifact changes.
 
 ## Workflow and Gates (MUST)

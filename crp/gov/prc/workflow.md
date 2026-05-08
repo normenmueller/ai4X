@@ -79,7 +79,7 @@ No hidden defaults in config or CLI resolution.
 ## Expert Team Routing
 
 For non-trivial work, route execution through the expert team below.
-This workflow executes **per Story**. Epic refinement and Story decomposition are defined in `adm/gdl/pln/protocols/workflow.md`.
+This workflow executes **per Story**. Epic refinement and Story decomposition are defined in `adm/gdl/planning-workflow.md`.
 
 1. Triage and Scope (`ai4X`) — mandatory
 - takes Story scope from the parent Epic
@@ -244,7 +244,7 @@ For cross-session traceability, the PR description must reference the parent Sto
 
 ### Planning Flow (Idea → Epic → Stories)
 
-The planning flow diagram is maintained in `adm/gdl/pln/protocols/workflow.md` (Visual Flow section).
+The planning flow diagram is maintained in `adm/gdl/planning-workflow.md` (Visual Flow section).
 
 ### Development Flow (per Story)
 
