@@ -45,7 +45,7 @@ Issue intake defines how an Issue reaches Ready. This differs by type.
 | Transition | Owner | Prerequisites |
 |------------|-------|---------------|
 | → **Backlog** | Tech Lead | Epic Issue created after PO approval of Requirements Pack (Phase 2 exit gate). |
-| **Backlog → Ready** | PO | Acceptance criteria are complete and testable. PO confirms release for development. Planning conformance check passed (see `adm/gdl/pln/protocols/planning-conformance.md`). |
+| **Backlog → Ready** | PO | Acceptance criteria are complete and testable. PO confirms release for development. Planning conformance check passed (see `adm/gdl/planning-conformance.md`). |
 
 ### Epic Delivery
 
@@ -92,8 +92,8 @@ Additional labels (optional but recommended):
 
 ## References
 
-- `adm/gdl/pln/protocols/workflow.md` — Phase definitions and completion checklists.
+- `adm/gdl/planning-workflow.md` — Phase definitions and completion checklists.
 
 > **Note**: Mutual reference — `pln/protocols/workflow.md` references this document for board transitions. Neither is subordinate; they are complementary protocols with distinct scope (planning lifecycle vs. board mechanics).
-- `adm/gdl/pln/protocols/planning-conformance.md` — Planning conformance check.
-- `adm/gdl/dev/protocols/workflow.md` — 10-stage development workflow (Story execution).
+- `adm/gdl/planning-conformance.md` — Planning conformance check.
+- `crp/gov/prc/workflow.md` — 10-stage development workflow (Story execution).

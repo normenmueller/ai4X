@@ -19,8 +19,8 @@ This workflow governs development work for the ai4x CLI in this repository.
 Normative development governance for this repository lives in:
 
 1. .github/agents/ai4x.agent.md
-2. adm/gdl/dev/contracts/*
-3. adm/gdl/dev/protocols/*
+2. crp/gov/qlt/*
+3. crp/gov/prc/*
 
 All artifacts under adm/gdl are normative governance artifacts.
 
@@ -79,7 +79,7 @@ No hidden defaults in config or CLI resolution.
 ## Expert Team Routing
 
 For non-trivial work, route execution through the expert team below.
-This workflow executes **per Story**. Epic refinement and Story decomposition are defined in `adm/gdl/pln/protocols/workflow.md`.
+This workflow executes **per Story**. Epic refinement and Story decomposition are defined in `adm/gdl/planning-workflow.md`.
 
 1. Triage and Scope (`ai4X`) — mandatory
 - takes Story scope from the parent Epic
@@ -144,7 +144,7 @@ The Tech Lead determines in Stage 1 which stages are needed for the current Stor
 2. Architecture stage, if run, must consume the Requirements Pack and produce an Architecture Pack.
 3. Critical Review Pass A, if run, must consume all artifacts produced by preceding stages and produce Review A Findings.
 4. AI Strategy stage, if run, must consume Requirements Pack and Architecture Pack (if produced), and produce an AI Strategy Note.
-5. Capability Governance stage, if run, must consume Requirements Pack, Architecture Pack (if produced), and portfolio state (`dev/cap/**`); it must produce a Capability Assessment Report and, when applicable, new or revised capability artifacts.
+5. Capability Governance stage, if run, must consume Requirements Pack, Architecture Pack (if produced), and portfolio state (`crp/cap/**`); it must produce a Capability Assessment Report and, when applicable, new or revised capability artifacts.
 6. Implementation stage must consume all available upstream artifacts (Requirements Pack, Architecture Pack if produced, Review A Findings if produced, AI Strategy Note if produced, Capability Assessment Report if produced); it must produce an Implementation Pack.
 7. Testing stage must consume Requirements Pack, Architecture Pack (if produced), and Implementation Pack; it must produce a Test Evidence Pack.
 8. Critical Review Pass B must consume Implementation Pack and Test Evidence Pack and produce Review B Findings.
@@ -213,7 +213,7 @@ This glossary defines canonical terms for workflow execution, reviews, and onboa
 
 ## Session Conformance Check
 
-For non-trivial work, the orchestrator must execute the session conformance check defined in `adm/gdl/dev/protocols/development-conformance.md`:
+For non-trivial work, the orchestrator must execute the session conformance check defined in `crp/gov/prc/development-conformance.md`:
 
 1. before implementation starts
 2. before final acceptance/merge
@@ -233,7 +233,7 @@ Artifacts produced during workflow execution persist as follows:
 | Review A/B Findings | Chat session (blocking findings summarized in PR description) |
 | AI Strategy Note | Chat session (referenced in PR description when applicable) |
 | Capability Assessment Report | Chat session (referenced in PR description when applicable) |
-| New/Revised Capability Artifacts | `dev/cap/**` in topic branch |
+| New/Revised Capability Artifacts | `crp/cap/**` in topic branch |
 | Implementation Pack | Code in topic branch + PR description |
 | Test Evidence Pack | Test files in topic branch + CI results |
 | Conformance Record | Chat session (summary in PR description) |
@@ -244,7 +244,7 @@ For cross-session traceability, the PR description must reference the parent Sto
 
 ### Planning Flow (Idea → Epic → Stories)
 
-The planning flow diagram is maintained in `adm/gdl/pln/protocols/workflow.md` (Visual Flow section).
+The planning flow diagram is maintained in `adm/gdl/planning-workflow.md` (Visual Flow section).
 
 ### Development Flow (per Story)
 

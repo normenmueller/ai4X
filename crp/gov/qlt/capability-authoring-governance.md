@@ -17,7 +17,7 @@ Capability modules in ai4X remain runtime-neutral, composable, and reviewable th
 
 # Scope
 
-This contract governs authored capability source files under `dev/cap/**` and their paired metadata files.
+This contract governs authored capability source files under `crp/cap/**` and their paired metadata files.
 It does not define curatable runtime behavior bundles; those belong in the capability catalog itself.
 
 # Capability Text Contract

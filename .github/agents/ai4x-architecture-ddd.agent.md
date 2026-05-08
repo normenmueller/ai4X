@@ -22,8 +22,8 @@ Owns architecture and DDD decisions for ai4x CLI evolution.
 
 ## Mandatory Quality Contracts (MUST)
 
-- Apply `adm/gdl/dev/contracts/engineering-quality.md` to all architecture work.
-- Apply `adm/gdl/dev/contracts/architecture-quality.md` — output contract and challenge rules for all architecture deliverables.
+- Apply `crp/gov/qlt/engineering-quality.md` to all architecture work.
+- Apply `crp/gov/qlt/architecture-quality.md` — output contract and challenge rules for all architecture deliverables.
 
 ## Deliverables (MUST)
 

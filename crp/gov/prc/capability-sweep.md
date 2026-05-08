@@ -11,7 +11,7 @@ Define a protocol for proactive cognitive capability portfolio health assessment
 
 ## Scope
 
-This protocol governs portfolio-wide sweeps initiated by the Tech Lead or PO. It complements the per-Story conditional stage (Stage 6) defined in `adm/gdl/dev/protocols/workflow.md`.
+This protocol governs portfolio-wide sweeps initiated by the Tech Lead or PO. It complements the per-Story conditional stage (Stage 6) defined in `crp/gov/prc/workflow.md`.
 
 ## Trigger
 
@@ -44,7 +44,7 @@ A capability sweep is initiated when:
 ## Governance
 
 - Quality gates (`utl/cap/` checks) must pass after any portfolio change resulting from sweep findings.
-- The sweep is an assessment, not implementation. It produces PBL entries that enter the Planning Workflow (`adm/gdl/pln/protocols/workflow.md`).
+- The sweep is an assessment, not implementation. It produces PBL entries that enter the Planning Workflow (`adm/gdl/planning-workflow.md`).
 - Remediation of sweep findings follows the normal Idea-to-Story path (including Stage 6 when applicable).
 
 ## Distinction from Stage 6

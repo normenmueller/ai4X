@@ -3,132 +3,134 @@
 # Primary consumer: AI agents (task routing)
 # Secondary consumer: CI tooling (validation)
 #
+# Path convention: All paths are relative to the repository root.
+#
 # Invariant: Every library entry must be referenced by at least one task.
 
 tasks:
   feature_implementation:
-    - dev/contracts/engineering-quality.md
-    - dev/contracts/typescript-quality.md
-    - dev/contracts/implementation-quality.md
-    - dev/protocols/development-conformance.md
-    - dev/protocols/workflow.md
+    - crp/gov/qlt/engineering-quality.md
+    - crp/gov/qlt/typescript-quality.md
+    - crp/gov/qlt/implementation-quality.md
+    - crp/gov/prc/development-conformance.md
+    - crp/gov/prc/workflow.md
 
   architecture:
-    - dev/contracts/engineering-quality.md
-    - dev/contracts/architecture-quality.md
-    - dev/protocols/workflow.md
+    - crp/gov/qlt/engineering-quality.md
+    - crp/gov/qlt/architecture-quality.md
+    - crp/gov/prc/workflow.md
 
   testing:
-    - dev/contracts/engineering-quality.md
-    - dev/contracts/typescript-quality.md
-    - dev/contracts/testing-quality.md
-    - dev/protocols/workflow.md
+    - crp/gov/qlt/engineering-quality.md
+    - crp/gov/qlt/typescript-quality.md
+    - crp/gov/qlt/testing-quality.md
+    - crp/gov/prc/workflow.md
 
   review:
-    - dev/contracts/engineering-quality.md
-    - dev/contracts/typescript-quality.md
-    - dev/contracts/review-quality.md
-    - dev/protocols/workflow.md
+    - crp/gov/qlt/engineering-quality.md
+    - crp/gov/qlt/typescript-quality.md
+    - crp/gov/qlt/review-quality.md
+    - crp/gov/prc/workflow.md
 
   requirements:
-    - dev/contracts/engineering-quality.md
-    - dev/contracts/requirements-quality.md
-    - dev/protocols/workflow.md
+    - crp/gov/qlt/engineering-quality.md
+    - crp/gov/qlt/requirements-quality.md
+    - crp/gov/prc/workflow.md
 
   ai_strategy:
-    - dev/contracts/engineering-quality.md
-    - dev/contracts/ai-strategy-quality.md
-    - dev/protocols/workflow.md
+    - crp/gov/qlt/engineering-quality.md
+    - crp/gov/qlt/ai-strategy-quality.md
+    - crp/gov/prc/workflow.md
 
   capability_authoring:
-    - dev/contracts/engineering-quality.md
-    - dev/contracts/capability-authoring-governance.md
-    - dev/protocols/capability-sweep.md
-    - dev/protocols/workflow.md
+    - crp/gov/qlt/engineering-quality.md
+    - crp/gov/qlt/capability-authoring-governance.md
+    - crp/gov/prc/capability-sweep.md
+    - crp/gov/prc/workflow.md
 
   planning:
-    - pln/protocols/workflow.md
-    - pln/protocols/planning-conformance.md
-    - shr/protocols/board-policy.md
-    - glossary.md
+    - adm/gdl/planning-workflow.md
+    - adm/gdl/planning-conformance.md
+    - adm/gdl/board-policy.md
+    - adm/gdl/glossary.md
 
   repo_automation:
     # Project-specific runbook outside governance scope.
     # See: utl/gh/RUNBOOK.md
 
   terminology:
-    - glossary.md
-    - dev/protocols/workflow.md
+    - adm/gdl/glossary.md
+    - crp/gov/prc/workflow.md
 
   conformance:
-    - dev/protocols/development-conformance.md
-    - dev/protocols/development-conformance-template.md
+    - crp/gov/prc/development-conformance.md
+    - crp/gov/prc/development-conformance-template.md
 
 library:
-  - path: dev/contracts/engineering-quality.md
+  - path: crp/gov/qlt/engineering-quality.md
     shape: base-contract
     depends_on: []
 
-  - path: dev/contracts/typescript-quality.md
+  - path: crp/gov/qlt/typescript-quality.md
     shape: base-contract
-    depends_on: [dev/contracts/engineering-quality.md]
+    depends_on: [crp/gov/qlt/engineering-quality.md]
 
-  - path: dev/contracts/architecture-quality.md
+  - path: crp/gov/qlt/architecture-quality.md
     shape: stage-output-contract
-    depends_on: [dev/contracts/engineering-quality.md]
+    depends_on: [crp/gov/qlt/engineering-quality.md]
 
-  - path: dev/contracts/testing-quality.md
+  - path: crp/gov/qlt/testing-quality.md
     shape: stage-output-contract
-    depends_on: [dev/contracts/engineering-quality.md, dev/contracts/typescript-quality.md]
+    depends_on: [crp/gov/qlt/engineering-quality.md, crp/gov/qlt/typescript-quality.md]
 
-  - path: dev/contracts/review-quality.md
+  - path: crp/gov/qlt/review-quality.md
     shape: stage-output-contract
-    depends_on: [dev/contracts/engineering-quality.md, dev/contracts/typescript-quality.md]
+    depends_on: [crp/gov/qlt/engineering-quality.md, crp/gov/qlt/typescript-quality.md]
 
-  - path: dev/contracts/requirements-quality.md
+  - path: crp/gov/qlt/requirements-quality.md
     shape: stage-output-contract
-    depends_on: [dev/contracts/engineering-quality.md]
+    depends_on: [crp/gov/qlt/engineering-quality.md]
 
-  - path: dev/contracts/ai-strategy-quality.md
+  - path: crp/gov/qlt/ai-strategy-quality.md
     shape: stage-output-contract
-    depends_on: [dev/contracts/engineering-quality.md]
+    depends_on: [crp/gov/qlt/engineering-quality.md]
 
-  - path: dev/contracts/implementation-quality.md
+  - path: crp/gov/qlt/implementation-quality.md
     shape: stage-output-contract
-    depends_on: [dev/contracts/engineering-quality.md, dev/contracts/typescript-quality.md]
+    depends_on: [crp/gov/qlt/engineering-quality.md, crp/gov/qlt/typescript-quality.md]
 
-  - path: dev/contracts/capability-authoring-governance.md
+  - path: crp/gov/qlt/capability-authoring-governance.md
     shape: base-contract
-    depends_on: [dev/contracts/engineering-quality.md]
+    depends_on: [crp/gov/qlt/engineering-quality.md]
 
-  - path: dev/protocols/development-conformance.md
+  - path: crp/gov/prc/development-conformance.md
     shape: protocol
-    depends_on: [dev/contracts/engineering-quality.md]
+    depends_on: [crp/gov/qlt/engineering-quality.md]
 
-  - path: dev/protocols/development-conformance-template.md
+  - path: crp/gov/prc/development-conformance-template.md
     shape: protocol
-    depends_on: [dev/protocols/development-conformance.md]
+    depends_on: [crp/gov/prc/development-conformance.md]
 
-  - path: dev/protocols/workflow.md
+  - path: crp/gov/prc/workflow.md
     shape: protocol
-    depends_on: [dev/contracts/engineering-quality.md, dev/protocols/development-conformance.md]
+    depends_on: [crp/gov/qlt/engineering-quality.md, crp/gov/prc/development-conformance.md]
 
-  - path: dev/protocols/capability-sweep.md
+  - path: crp/gov/prc/capability-sweep.md
     shape: protocol
-    depends_on: [dev/contracts/capability-authoring-governance.md, dev/protocols/workflow.md]
+    depends_on: [crp/gov/qlt/capability-authoring-governance.md, crp/gov/prc/workflow.md]
 
-  - path: glossary.md
+  - path: adm/gdl/glossary.md
     shape: base-contract
     depends_on: []
 
-  - path: shr/protocols/board-policy.md
+  - path: adm/gdl/board-policy.md
     shape: protocol
-    depends_on: [pln/protocols/workflow.md]
+    depends_on: [adm/gdl/planning-workflow.md]
 
-  - path: pln/protocols/workflow.md
+  - path: adm/gdl/planning-workflow.md
     shape: protocol
-    depends_on: [dev/protocols/workflow.md]
+    depends_on: [crp/gov/prc/workflow.md]
 
-  - path: pln/protocols/planning-conformance.md
+  - path: adm/gdl/planning-conformance.md
     shape: protocol
-    depends_on: [pln/protocols/workflow.md, shr/protocols/board-policy.md]
+    depends_on: [adm/gdl/planning-workflow.md, adm/gdl/board-policy.md]

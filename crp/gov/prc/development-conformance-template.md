@@ -52,4 +52,4 @@ Use this compact template during active sessions.
 ## Usage Rule
 
 - This template is a convenience format.
-- Normative requirements remain defined in `adm/gdl/dev/protocols/development-conformance.md`.
+- Normative requirements remain defined in `crp/gov/prc/development-conformance.md`.

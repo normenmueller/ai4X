@@ -23,8 +23,8 @@ Owns generative and agentic AI strategy quality for ai4X capabilities.
 
 ## Mandatory Quality Contracts (MUST)
 
-- Apply `adm/gdl/dev/contracts/engineering-quality.md` to all AI strategy work.
-- Apply `adm/gdl/dev/contracts/ai-strategy-quality.md` — output contract and challenge rules for all AI strategy deliverables.
+- Apply `crp/gov/qlt/engineering-quality.md` to all AI strategy work.
+- Apply `crp/gov/qlt/ai-strategy-quality.md` — output contract and challenge rules for all AI strategy deliverables.
 
 ## Deliverables (MUST)
 

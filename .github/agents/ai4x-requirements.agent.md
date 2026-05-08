@@ -32,8 +32,8 @@ Development mode:
 
 ## Mandatory Quality Contracts (MUST)
 
-- Apply `adm/gdl/dev/contracts/engineering-quality.md` to all requirements work.
-- Apply `adm/gdl/dev/contracts/requirements-quality.md` — output contract, EARS format, and challenge rules for all requirements deliverables.
+- Apply `crp/gov/qlt/engineering-quality.md` to all requirements work.
+- Apply `crp/gov/qlt/requirements-quality.md` — output contract, EARS format, and challenge rules for all requirements deliverables.
 
 ## Deliverables (MUST)
 

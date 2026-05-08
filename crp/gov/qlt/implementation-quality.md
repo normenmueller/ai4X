@@ -31,6 +31,6 @@ Every non-trivial implementation deliverable must contain the following sections
 
 - Never implement implicit defaults.
 - Reject requirement ambiguities before coding.
-- Keep module boundaries clear across `dev/cli/src/app` and `dev/cli/src/lib`.
+- Keep module boundaries clear across `cli/src/app` and `cli/src/lib`.
 - Block progression if required upstream artifacts are missing.
 - Document one rejected implementation approach per non-trivial change.

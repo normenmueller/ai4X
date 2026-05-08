@@ -1,4 +1,4 @@
-.ai4x/
+# .ai4x/ana/ is gitignored via .ai4x/.gitignore
 .DS_Store
 .vscode/
 node_modules/

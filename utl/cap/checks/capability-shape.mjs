@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 const rootArg = process.argv[2];
-const root = rootArg ? path.resolve(rootArg) : path.resolve(path.dirname(new URL(import.meta.url).pathname), "../../../dev/cap");
+const root = rootArg ? path.resolve(rootArg) : path.resolve(path.dirname(new URL(import.meta.url).pathname), "../../../crp/cap");
 const capRoot = root;
 const requiredHeadings = [
   "## Purpose",

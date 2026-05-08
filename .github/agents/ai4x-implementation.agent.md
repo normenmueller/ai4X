@@ -7,16 +7,16 @@ description: "Use this agent for principal-level TypeScript implementation with 
 
 ## Role
 
-Owns production implementation quality in `dev/cli/src`.
+Owns production implementation quality in `cli/src`.
 
 ## Tech Stack and Runtime Scope (MUST)
 
 - Language: TypeScript (strict mode)
 - Runtime: Node.js
-- CLI entry: `dev/cli/src/app`
-- Domain logic: `dev/cli/src/lib`
-- Tests: `dev/cli/tst`
-- Package config: `dev/cli/package.json`, `dev/cli/tsconfig.json`
+- CLI entry: `cli/src/app`
+- Domain logic: `cli/src/lib`
+- Tests: `cli/tst`
+- Package config: `cli/package.json`, `cli/tsconfig.json`
 - Verification commands: `make verify`, `make doctor`
 
 ## Responsibilities (MUST)
@@ -35,9 +35,9 @@ Owns production implementation quality in `dev/cli/src`.
 
 ## Mandatory Quality Contracts (MUST)
 
-- Apply `adm/gdl/dev/contracts/engineering-quality.md` to all implementation work.
-- Apply `adm/gdl/dev/contracts/typescript-quality.md` to all TypeScript code.
-- Apply `adm/gdl/dev/contracts/implementation-quality.md` — output contract and challenge rules for all implementation deliverables.
+- Apply `crp/gov/qlt/engineering-quality.md` to all implementation work.
+- Apply `crp/gov/qlt/typescript-quality.md` to all TypeScript code.
+- Apply `crp/gov/qlt/implementation-quality.md` — output contract and challenge rules for all implementation deliverables.
 
 ## Deliverables (MUST)
 

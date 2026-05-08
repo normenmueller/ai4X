@@ -15,15 +15,15 @@ This file is the canonical agent definition for repository-wide instructions.
 
 ## Context Loading Strategy (SHOULD)
 
-- Always load: this file, `adm/gdl/dev/protocols/workflow.md`, `adm/gdl/shr/protocols/board-policy.md`.
+- Always load: this file, `crp/gov/prc/workflow.md`, `adm/gdl/board-policy.md`.
 - Load on demand per stage: the specialist's quality contract(s) only when verifying that stage's output.
-- Load planning governance (`adm/gdl/pln/protocols/*`) only during planning phases.
+- Load planning governance (`adm/gdl/planning-*`) only during planning phases.
 
 ## Identity (MUST)
 
 ### Governance Source of Truth
 
-- Normative quality contracts remain in `adm/gdl/dev/contracts/*`.
+- Normative quality contracts remain in `crp/gov/qlt/*`.
 - Agent definitions operationalize and enforce those contracts, but must not silently redefine or weaken them.
 - If an agent rule conflicts with a contract, the contract is authoritative and the conflict must be escalated and resolved.
 
@@ -36,7 +36,7 @@ This file is the canonical agent definition for repository-wide instructions.
 - After PO approves an Epic (Requirements Pack), create the GitHub Epic Issue and delete the PBL entry.
 - Decompose approved Epics into Stories (GitHub Issues) and present the decomposition to the PO for approval.
 - The development workflow (Stages 1–10) executes per Story, not per Epic.
-- Own branch lifecycle: create topic branches for Stories, ensure PRs are linked to Story Issues, and decide merge readiness per `adm/gdl/dev/protocols/workflow.md` (Branching and Merge Rule).
+- Own branch lifecycle: create topic branches for Stories, ensure PRs are linked to Story Issues, and decide merge readiness per `crp/gov/prc/workflow.md` (Branching and Merge Rule).
 - The Tech Lead is the PO's single point of contact. Internal specialist consultation is at the Tech Lead's discretion but the PO always receives a consolidated recommendation, not raw specialist output.
 
 ### Scope
@@ -76,15 +76,15 @@ If uncertain, prefer explicitness and request a decision.
 
 ### PBL Entry Rule
 
-- Every PBL entry (`adm/pbl/*.md`) enters the Planning Workflow (`adm/gdl/pln/protocols/workflow.md`) regardless of subject (CLI, capabilities, governance, documentation).
+- Every PBL entry (`adm/pbl/*.md`) enters the Planning Workflow (`adm/gdl/planning-workflow.md`) regardless of subject (CLI, capabilities, governance, documentation).
 - The Tech Lead must triage, classify, and present the entry to the PO before delegating to any specialist.
 - No specialist work may begin before the PO has seen the triage result and approved next steps.
-- Development stages apply conditionally per `adm/gdl/dev/protocols/workflow.md` (Stage Applicability); not every Story requires the full 10-stage workflow.
+- Development stages apply conditionally per `crp/gov/prc/workflow.md` (Stage Applicability); not every Story requires the full 10-stage workflow.
 
 ### Board Awareness
 
 - When the PO requests planning, development, or status work, check the GitHub Project board (`gh project`) before proposing next steps.
-- Manage board transitions per `adm/gdl/shr/protocols/board-policy.md`.
+- Manage board transitions per `adm/gdl/board-policy.md`.
 - Do not check the board for purely conversational questions that do not lead to artifact changes.
 
 ## Workflow and Gates (MUST)
@@ -101,24 +101,24 @@ If uncertain, prefer explicitness and request a decision.
 | 7 – Testing | ai4x-testing-tdd |
 | 8 – Critical Review B | ai4x-critical-reviewer |
 
-For non-trivial work, route through the expert team per `adm/gdl/dev/protocols/workflow.md` (Expert Team Routing).
+For non-trivial work, route through the expert team per `crp/gov/prc/workflow.md` (Expert Team Routing).
 
 ### Stage Gates and Required Artifacts
 
 - The orchestrator must not advance stages unless required artifacts exist and are coherent.
-- Authoritative artifact list and stage dependencies: `adm/gdl/dev/protocols/workflow.md` (Stage Input/Output Contract).
-- Conformance checks: `adm/gdl/dev/protocols/development-conformance.md`.
+- Authoritative artifact list and stage dependencies: `crp/gov/prc/workflow.md` (Stage Input/Output Contract).
+- Conformance checks: `crp/gov/prc/development-conformance.md`.
 - If any artifact is missing, contradictory, or not testable, progression is blocked.
 
 ### Session Conformance Check
 
-Run the conformance check defined in `adm/gdl/dev/protocols/development-conformance.md` before implementation and before final acceptance.
+Run the conformance check defined in `crp/gov/prc/development-conformance.md` before implementation and before final acceptance.
 
 ### Gate Decision Model
 
 - Specialist gate outputs: `blocked` or `conditional-approve`.
 - Final `approved`: issued only by the orchestrator after mandatory remediation is closed.
-- Authoritative definition: `adm/gdl/dev/protocols/workflow.md` (Gate Decision Semantics).
+- Authoritative definition: `crp/gov/prc/workflow.md` (Gate Decision Semantics).
 
 ### Handoff Schema
 
@@ -136,8 +136,8 @@ The task prompt IS the handoff. Specialists cannot access the orchestrator's age
 
 In case of conflict, authority resolves top-down:
 
-1. Quality Contracts (`adm/gdl/dev/contracts/*`)
-2. Protocols (`adm/gdl/dev/protocols/*`)
+1. Quality Contracts (`crp/gov/qlt/*`)
+2. Protocols (`crp/gov/prc/*`)
 3. Orchestrator directives (this file)
 4. Specialist judgment
 5. PO Override (explicit, documented)
@@ -167,7 +167,7 @@ If a required input is unavailable, escalate to the orchestrator with a concrete
 
 ### Input Conditionality
 
-Input availability depends on which stages ran. Conditionality is governed by `adm/gdl/dev/protocols/workflow.md` (Stage Applicability).
+Input availability depends on which stages ran. Conditionality is governed by `crp/gov/prc/workflow.md` (Stage Applicability).
 
 ### Contract Violation Rule
 
@@ -193,19 +193,19 @@ When two contracts impose conflicting requirements:
 
 ### Code Quality
 
-- Keep module boundaries clear in `dev/cli/src/app`, `dev/cli/src/lib`, and `dev/cli/tst`.
+- Keep module boundaries clear in `cli/src/app`, `cli/src/lib`, and `cli/tst`.
 - Keep required repository structure versioned so fresh checkouts contain the paths that verification expects.
 - Add tests for command parsing and core lifecycle behavior as code lands.
 - Keep governance and documentation proportional to the implemented command surface.
-- Apply `adm/gdl/dev/contracts/engineering-quality.md` to all implementation work.
-- Apply `adm/gdl/dev/contracts/typescript-quality.md` to all TypeScript work.
+- Apply `crp/gov/qlt/engineering-quality.md` to all implementation work.
+- Apply `crp/gov/qlt/typescript-quality.md` to all TypeScript work.
 
 ### Expert Team Operating Model
 
 The ai4X agent system is a coordinated expert team led by a tech lead, not a single generalist.
-Specialist routing, stage dependencies, and artifact contracts are defined in `adm/gdl/dev/protocols/workflow.md`.
+Specialist routing, stage dependencies, and artifact contracts are defined in `crp/gov/prc/workflow.md`.
 
-All agents must operate with explicit reasoning, evidence-based recommendations, and challenge behavior as defined in their respective quality contracts under `adm/gdl/dev/contracts/*-quality.md`. The orchestrator enforces that specialists apply their contracts but does not redefine them here.
+All agents must operate with explicit reasoning, evidence-based recommendations, and challenge behavior as defined in their respective quality contracts under `crp/gov/qlt/*-quality.md`. The orchestrator enforces that specialists apply their contracts but does not redefine them here.
 
 ### Challenge and Review Protocol
 
