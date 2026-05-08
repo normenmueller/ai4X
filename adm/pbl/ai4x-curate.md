@@ -123,6 +123,7 @@ Wenn Design freigegeben ist, soll die Umsetzung mindestens folgende Outcomes lie
 2. Soll es ein striktes `--no-overwrite` als Standard geben?
 3. Wie wird Template-Versionierung fuer kuenftige Governance-Evolution abgebildet?
 4. Soll `curate` gezielt nur bestimmte Artefaktklassen aktualisieren koennen (z. B. nur Agents, nur Workflow, nur Contracts)?
+5. **Co-Curation von abhaengigen Capabilities**: Wenn `curate` ein Agent-System materialisiert, das sowohl `kpi-system` als auch `okr-discipline` enthaelt, wie wird sichergestellt, dass `kpi-okr-coupling` automatisch co-kuratiert wird? Die Metadata `requires: ["kpi-system","okr-discipline"]` drueckt eine Vorwaertsabhaengigkeit aus, aber kein Mechanismus erzwingt aktuell die Rueckwaertsrichtung ("wenn beide Dependencies vorhanden, muss die Coupling-Capability ebenfalls einbezogen werden"). (Herkunft: PBL `ai4x-cap-kpi-okr-coupling-review.md`)
 
 # Erkenntnisse aus manuellem Setup-Review (verbindlich fuer curate)
 
