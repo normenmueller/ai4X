@@ -14,7 +14,7 @@ install:
 	@command -v node >/dev/null 2>&1 || { echo '[ai4x] ERROR node is required but not found in PATH' >&2; exit 1; }
 	@node -e 'var c = process.versions.node.split(".").map(Number), r = [23, 6, 0]; for (var i = 0; i < 3; i++) { if (c[i] > r[i]) process.exit(0); if (c[i] < r[i]) { console.error("[ai4x] ERROR Node.js >= 23.6.0 required, found " + process.version); process.exit(1); } }'
 	@install -d "$(DESTDIR)$(BINDIR)"
-	@printf '%s\n' '#!/usr/bin/env bash' 'exec node "$(CURDIR)/dev/cli/src/app/ai4x.ts" "$$@"' > "$(DESTDIR)$(BINDIR)/ai4x"
+	@printf '%s\n' '#!/usr/bin/env bash' 'exec node "$(CURDIR)/cli/src/app/ai4x.ts" "$$@"' > "$(DESTDIR)$(BINDIR)/ai4x"
 	@chmod 0755 "$(DESTDIR)$(BINDIR)/ai4x"
 	@install -d "$(DESTDIR)$(BASH_COMPLETION_DIR)"
 	@install -m 0644 utl/cmp/ai4x.bash "$(DESTDIR)$(BASH_COMPLETION_DIR)/ai4x"

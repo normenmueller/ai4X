@@ -101,7 +101,7 @@ Richte dich bei Fach- und Strukturinspiration an den bekannten Referenzen aus de
 Beruecksichtige insbesondere:
 
 1. Spezifikation der ai4X `config.yaml` fuer `curate`.
-2. Spezifikation der Library-Struktur fuer `dev/cli/src/lib`.
+2. Spezifikation der Library-Struktur fuer `cli/src/lib`.
 3. Abgleich mit bestehender Governance unter `adm/gdl/**` und `.github/agents/**`.
 
 # (3) Umsetzungs- und Abnahmefokus (vorab)
@@ -115,7 +115,7 @@ Wenn Design freigegeben ist, soll die Umsetzung mindestens folgende Outcomes lie
 
 # Architektur-Hinweise aus Scaffolding Epic (#2)
 
-1. **`core/types/domain.ts` Extraktion:** Wenn `curate` Domain-Typen einfuehrt, die nicht CLI-spezifisch sind (z.B. Manifest-Strukturen, Agent-Definitionen), sollen diese in `dev/cli/src/lib/core/types/domain.ts` extrahiert werden — analog zum Pattern in `ai4x.bak`. Im Scaffolding (Stories #3–#5) existieren nur CLI-Typen in `core/cli/types.ts`; eine Extraktion war dort premature. Quelle: Story #4 Architecture Pack, Rejected Alternative.
+1. **`core/types/domain.ts` Extraktion:** Wenn `curate` Domain-Typen einfuehrt, die nicht CLI-spezifisch sind (z.B. Manifest-Strukturen, Agent-Definitionen), sollen diese in `cli/src/lib/core/types/domain.ts` extrahiert werden — analog zum Pattern in `ai4x.bak`. Im Scaffolding (Stories #3–#5) existieren nur CLI-Typen in `core/cli/types.ts`; eine Extraktion war dort premature. Quelle: Story #4 Architecture Pack, Rejected Alternative.
 
 # Offene Klaerungsfragen (noch zu entscheiden)
 

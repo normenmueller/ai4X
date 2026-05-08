@@ -193,7 +193,7 @@ When two contracts impose conflicting requirements:
 
 ### Code Quality
 
-- Keep module boundaries clear in `dev/cli/src/app`, `dev/cli/src/lib`, and `dev/cli/tst`.
+- Keep module boundaries clear in `cli/src/app`, `cli/src/lib`, and `cli/tst`.
 - Keep required repository structure versioned so fresh checkouts contain the paths that verification expects.
 - Add tests for command parsing and core lifecycle behavior as code lands.
 - Keep governance and documentation proportional to the implemented command surface.

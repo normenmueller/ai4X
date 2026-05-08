@@ -19,11 +19,11 @@ All commands run from the repository root.
 ```bash
 git clone https://github.com/normenmueller/ai4x.git
 cd ai4x
-npm ci --prefix dev/cli
+npm ci --prefix cli
 make install
 ```
 
-`npm ci --prefix dev/cli` installs project dependencies into `dev/cli/node_modules`.
+`npm ci --prefix cli` installs project dependencies into `cli/node_modules`.
 This step is a prerequisite for `make install` but is not run automatically,
 following standard Unix convention (make install installs, not builds).
 

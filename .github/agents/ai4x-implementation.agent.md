@@ -7,16 +7,16 @@ description: "Use this agent for principal-level TypeScript implementation with 
 
 ## Role
 
-Owns production implementation quality in `dev/cli/src`.
+Owns production implementation quality in `cli/src`.
 
 ## Tech Stack and Runtime Scope (MUST)
 
 - Language: TypeScript (strict mode)
 - Runtime: Node.js
-- CLI entry: `dev/cli/src/app`
-- Domain logic: `dev/cli/src/lib`
-- Tests: `dev/cli/tst`
-- Package config: `dev/cli/package.json`, `dev/cli/tsconfig.json`
+- CLI entry: `cli/src/app`
+- Domain logic: `cli/src/lib`
+- Tests: `cli/tst`
+- Package config: `cli/package.json`, `cli/tsconfig.json`
 - Verification commands: `make verify`, `make doctor`
 
 ## Responsibilities (MUST)
