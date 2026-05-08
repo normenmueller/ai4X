@@ -41,8 +41,8 @@ Before any work, read `.github/agents/ai4x.agent.md` — the canonical agent def
 
 In case of conflict, authority resolves top-down:
 
-1. Quality Contracts (`adm/gdl/dev/contracts/*`)
-2. Protocols (`adm/gdl/dev/protocols/*`)
+1. Quality Contracts (`crp/gov/qlt/*`)
+2. Protocols (`crp/gov/prc/*`)
 3. Orchestrator directives (`.github/agents/ai4x.agent.md`)
 4. Specialist judgment
 5. PO Override (explicit, documented)

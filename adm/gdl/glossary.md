@@ -8,7 +8,7 @@ last_updated: 2026-05-08
 Canonical term definitions for the ai4X governance layer.
 Terms defined here are the single authoritative source. Other documents reference this file rather than restating definitions.
 
-**Scope:** This file contains reference-safe terms only (Planning Terms, Qualifier Terms, Architecture Terms). Dispatch-critical terms (Gate Terms, Artifact Terms, Verdict Terms) remain inline at their point of use in `dev/protocols/workflow.md`. See `doc/arc/09_architecture_decisions.md` § ADR-001 for rationale.
+**Scope:** This file contains reference-safe terms only (Planning Terms, Qualifier Terms, Architecture Terms). Dispatch-critical terms (Gate Terms, Artifact Terms, Verdict Terms) remain inline at their point of use in `crp/gov/prc/workflow.md`. See `doc/arc/09_architecture_decisions.md` § ADR-001 for rationale.
 
 ## Planning Terms
 
@@ -35,7 +35,7 @@ Terms defined here are the single authoritative source. Other documents referenc
    - A runtime environment that hosts and executes AI agents. Examples: VS Code with GitHub Copilot, Codex CLI, Claude Code. ai4X is agent-host-agnostic — it declares agents independently and materializes them for a specific host at activation time.
 
 2. **Cognitive Capability Composition (CCC)** *(Design Target)*
-   - A declarative specification that defines an agent by composing revision-safe references to cognitive capabilities from the ai4X corpus (`dev/cap/`). A CCC declares *what* an agent knows and *how* it reasons — not *where* it runs. CCCs are the input to materialization.
+   - A declarative specification that defines an agent by composing revision-safe references to cognitive capabilities from the ai4X corpus (`crp/cap/`). A CCC declares *what* an agent knows and *how* it reasons — not *where* it runs. CCCs are the input to materialization.
 
 3. **Collaboration Topology** *(Design Target)*
    - A reusable, abstract collaboration pattern that defines roles and coordination structure for a team of agents — independent of which concrete agents fill those roles. Examples: leader–specialists, swarm, pipeline. Topologies are value objects: "leader + n specialists" is the same pattern regardless of the agents involved.

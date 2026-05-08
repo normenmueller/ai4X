@@ -29,7 +29,7 @@ Diese Punkte gelten fuer den spaeteren `curate`-Track als vorgeklaert:
 
 Diese Architekturentscheidung gilt als verbindliche Anforderung fuer `curate`:
 
-1. Engineering- und TypeScript-Qualitaetsregeln bleiben zentral in Governance-Contracts (`adm/gdl/dev/contracts/engineering-quality.md`, `adm/gdl/dev/contracts/typescript-quality.md`).
+1. Engineering- und TypeScript-Qualitaetsregeln bleiben zentral in Governance-Contracts (`crp/gov/qlt/engineering-quality.md`, `crp/gov/qlt/typescript-quality.md`).
 2. Diese Regeln werden nicht in Agent-Dateien verschoben oder dupliziert.
 3. Agents referenzieren Contracts verbindlich und erzwingen deren Anwendung rollenbasiert.
 
@@ -76,7 +76,7 @@ Interview-Fokus:
 5. Welche Idempotenz-Anforderungen gelten (identischer Input => identischer Output)?
 6. Welche Traceability soll `curate` erzeugen (Aenderungsbericht, Decision Log, Mapping Input->Output)?
 
-Antwort (vorab geklaert): `curate` soll eine Traceability erzeugen, welche Capability in welcher Version eingeflossen ist. Da Capabilities aus dem internen Portfolio (`dev/cap`) konsumiert werden und als Snapshots in generierte Artefakte eingebettet werden, muss die Herkunft und der Versionsstand nachvollziehbar sein.
+Antwort (vorab geklaert): `curate` soll eine Traceability erzeugen, welche Capability in welcher Version eingeflossen ist. Da Capabilities aus dem internen Portfolio (`crp/cap`) konsumiert werden und als Snapshots in generierte Artefakte eingebettet werden, muss die Herkunft und der Versionsstand nachvollziehbar sein.
 
 7. Welche Variabilitaet soll unterstuetzt werden (Teamgroesse, Agent-Rollen, Gate-Haerte, Diagrammoptionen)?
 
@@ -173,7 +173,7 @@ Alle Specialist-Agents folgen exakt demselben Schema:
 
 Ausnahme: `ai4x-implementation` hat zusaetzlich "Tech Stack and Runtime Scope" vor Required Reading.
 
-Output Contracts und Quality/Challenge Rules leben ausschliesslich in den referenzierten Contracts unter `adm/gdl/dev/contracts/`.
+Output Contracts und Quality/Challenge Rules leben ausschliesslich in den referenzierten Contracts unter `crp/gov/qlt/`.
 
 Konsequenz fuer `curate`:
 
@@ -225,8 +225,8 @@ Konsequenz fuer `curate`:
 
 `make verify` und `make doctor` pruefen:
 
-- `verify.sh`: `.github/agents/ai4x.agent.md`, `CONTRIBUTING.md`, `README.md`, `dev/src/app`, `dev/src/lib`, `dev/tst`, `.gitkeep` Tracking, repo-metadata local check.
-- `doctor.sh`: `dev/src/app`, `dev/src/lib`, `dev/tst`, `.github/agents/ai4x.agent.md`.
+- `verify.sh`: `.github/agents/ai4x.agent.md`, `CONTRIBUTING.md`, `README.md`, `cli/src/app`, `cli/src/lib`, `cli/tst`, `.gitkeep` Tracking, repo-metadata local check.
+- `doctor.sh`: `cli/src/app`, `cli/src/lib`, `cli/tst`, `.github/agents/ai4x.agent.md`.
 
 Konsequenz fuer `curate`:
 

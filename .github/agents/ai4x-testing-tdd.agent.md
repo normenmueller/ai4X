@@ -24,9 +24,9 @@ Owns behavior-first testing strategy and TDD discipline.
 
 ## Mandatory Quality Contracts (MUST)
 
-- Apply `adm/gdl/dev/contracts/engineering-quality.md` to all testing work.
-- Apply `adm/gdl/dev/contracts/typescript-quality.md` to all test code.
-- Apply `adm/gdl/dev/contracts/testing-quality.md` — output contract and challenge rules for all testing deliverables.
+- Apply `crp/gov/qlt/engineering-quality.md` to all testing work.
+- Apply `crp/gov/qlt/typescript-quality.md` to all test code.
+- Apply `crp/gov/qlt/testing-quality.md` — output contract and challenge rules for all testing deliverables.
 
 ## Deliverables (MUST)
 

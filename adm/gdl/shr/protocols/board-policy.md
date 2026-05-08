@@ -96,4 +96,4 @@ Additional labels (optional but recommended):
 
 > **Note**: Mutual reference — `pln/protocols/workflow.md` references this document for board transitions. Neither is subordinate; they are complementary protocols with distinct scope (planning lifecycle vs. board mechanics).
 - `adm/gdl/pln/protocols/planning-conformance.md` — Planning conformance check.
-- `adm/gdl/dev/protocols/workflow.md` — 10-stage development workflow (Story execution).
+- `crp/gov/prc/workflow.md` — 10-stage development workflow (Story execution).

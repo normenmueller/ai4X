@@ -37,7 +37,7 @@ following standard Unix convention (make install installs, not builds).
 
 ### Repository Must Stay in Place
 
-The launcher contains an absolute path to `dev/src/app/ai4x.ts` in the
+The launcher contains an absolute path to `cli/src/app/ai4x.ts` in the
 cloned repository. Moving or deleting the repository breaks the installed
 command. To relocate, run `make uninstall`, move the repository, then
 `make install` again.
@@ -133,4 +133,4 @@ make clean     # remove local build/runtime artifacts
 make test      # run verify + Node.js test suite
 ```
 
-`make clean && npm ci --prefix dev/cli && make install` is the full reset path.
+`make clean && npm ci --prefix cli && make install` is the full reset path.

@@ -34,7 +34,7 @@ Operational implications:
 - `doc/usr/` is the direct human-facing documentation surface.
 - `doc/agn/` is the agent-facing onboarding and navigation surface.
 - `doc/arc/` is human-readable architecture and system-reference documentation.
-- `adm/gdl/dev/` is agent-facing development governance.
+- `crp/gov/` is agent-facing development governance.
 
 </details>
 

@@ -1,15 +1,18 @@
 # adm/gdl: Governance, Development, Learning
 
-This directory contains normative guidance documents for ai4X development, operations, and planning.
+This directory contains planning governance, glossary, and the governance document index for ai4X.
+
+Development contracts and protocols have moved to `crp/gov/` (quality contracts in `crp/gov/qlt/`, process protocols in `crp/gov/prc/`).
 
 ## Quick Navigation
 
-| Section | Purpose | Key Documents |
-|---------|---------|---|
-| **dev/** | Development standards, code quality, workflow | `contracts/engineering-quality.md`, `contracts/typescript-quality.md`, `protocols/development-conformance.md`, `protocols/development-conformance-template.md`, `protocols/workflow.md` |
-| **pln/** | Planning governance, backlog management, issue promotion | `protocols/workflow.md`, `protocols/planning-conformance.md` |
-| **shr/** | Cross-cutting governance (planning + development) | `protocols/board-policy.md` |
-| **glossary.md** | Canonical term definitions (Planning Terms, Qualifier Terms, Architecture Terms) | `glossary.md` |
+| Document | Purpose |
+|----------|---------|
+| **index.yaml** | Task routing and document dependency graph (AI-optimized, repo-root-relative paths) |
+| **glossary.md** | Canonical term definitions (Planning Terms, Qualifier Terms, Architecture Terms) |
+| **planning-workflow.md** | Planning governance, backlog management, issue promotion |
+| **planning-conformance.md** | Planning conformance checks |
+| **board-policy.md** | Cross-cutting board transition governance |
 
 ## Reading Guide
 

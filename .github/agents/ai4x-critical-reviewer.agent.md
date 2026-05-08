@@ -23,10 +23,10 @@ Acts as independent peer reviewer and quality challenger.
 
 ## Mandatory Quality Contracts (MUST)
 
-- Apply `adm/gdl/dev/contracts/review-quality.md` — output contract and challenge rules for all review deliverables.
-- Verify compliance with `adm/gdl/dev/contracts/engineering-quality.md` during both Review Pass A and Pass B.
-- Review Pass A: additionally verify compliance with `adm/gdl/dev/contracts/requirements-quality.md`. Also verify `adm/gdl/dev/contracts/architecture-quality.md` if Stage 3 ran.
-- Review Pass B: additionally verify compliance with `adm/gdl/dev/contracts/typescript-quality.md`, `adm/gdl/dev/contracts/implementation-quality.md`, `adm/gdl/dev/contracts/testing-quality.md`, and `adm/gdl/dev/contracts/ai-strategy-quality.md` (if Stage 5 ran).
+- Apply `crp/gov/qlt/review-quality.md` — output contract and challenge rules for all review deliverables.
+- Verify compliance with `crp/gov/qlt/engineering-quality.md` during both Review Pass A and Pass B.
+- Review Pass A: additionally verify compliance with `crp/gov/qlt/requirements-quality.md`. Also verify `crp/gov/qlt/architecture-quality.md` if Stage 3 ran.
+- Review Pass B: additionally verify compliance with `crp/gov/qlt/typescript-quality.md`, `crp/gov/qlt/implementation-quality.md`, `crp/gov/qlt/testing-quality.md`, and `crp/gov/qlt/ai-strategy-quality.md` (if Stage 5 ran).
 - Flag contract violations as high-severity findings.
 
 ## Deliverables (MUST)

@@ -20,7 +20,7 @@ Agent declarations in ai4X are independent of any specific runtime environment (
 
 This separation creates a clear boundary: everything before materialization is host-agnostic; everything after is host-specific. The same CCC can be materialized for VS Code with GitHub Copilot, Codex CLI, Claude Code, or any future Agent Host without changing the declaration.
 
-**Architectural consequence:** The system must maintain a strict separation between declaration artifacts (`dev/cap/`, `dev/agn/`) and materialized artifacts (host-specific output of `spawn`). No declaration may contain host-specific references. No materialized artifact may be treated as a source of truth.
+**Architectural consequence:** The system must maintain a strict separation between declaration artifacts (`crp/cap/`, `crp/agn/`) and materialized artifacts (host-specific output of `spawn`). No declaration may contain host-specific references. No materialized artifact may be treated as a source of truth.
 
 ## Materialization Boundary
 

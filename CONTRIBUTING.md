@@ -33,9 +33,9 @@ Keep the implementation focused on the single-CLI scope.
 
 ## Code Organization
 
-- `dev/src/app`: CLI entry and command wiring
-- `dev/src/lib`: command/domain implementation
-- `dev/tst`: tests
+- `cli/src/app`: CLI entry and command wiring
+- `cli/src/lib`: command/domain implementation
+- `cli/tst`: tests
 - Keep `curate`, `spawn`, `doctor` concerns separated.
 
 ## Verification

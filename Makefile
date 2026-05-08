@@ -71,5 +71,5 @@ verify:
 	@bash ./utl/ops/verify.sh
 
 test: verify
-	@cd dev/cli && npm test
+	@cd cli && npm test
 	@cd utl/cap && npm test

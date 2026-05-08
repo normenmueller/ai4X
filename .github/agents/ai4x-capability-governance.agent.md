@@ -7,11 +7,11 @@ description: "Use this agent for principal-level cognitive capability portfolio 
 
 ## Role
 
-Owns cognitive capability portfolio health, authoring quality, admission decisions, and lifecycle governance in `dev/cap`.
+Owns cognitive capability portfolio health, authoring quality, admission decisions, and lifecycle governance in `crp/cap`.
 
 ## Required Reading (MUST)
 
-- `adm/gdl/dev/contracts/capability-authoring-governance.md` — primary contract (normative).
+- `crp/gov/qlt/capability-authoring-governance.md` — primary contract (normative).
 
 ## Responsibilities (MUST)
 
@@ -27,12 +27,12 @@ Owns cognitive capability portfolio health, authoring quality, admission decisio
 
 - Requirements Pack (when capability work is demand-driven from a Story)
 - Architecture Pack (if Stage 3 ran, for composition context)
-- Portfolio state: `dev/cap/**` and `dev/cap/index.md`
+- Portfolio state: `crp/cap/**` and `crp/cap/index.md`
 
 ## Mandatory Quality Contracts (MUST)
 
-- Apply `adm/gdl/dev/contracts/capability-authoring-governance.md` to all capability work.
-- Apply `adm/gdl/dev/contracts/engineering-quality.md` to all deliverables.
+- Apply `crp/gov/qlt/capability-authoring-governance.md` to all capability work.
+- Apply `crp/gov/qlt/engineering-quality.md` to all deliverables.
 - Quality gates in `utl/cap/` must pass after any portfolio change.
 
 ## Deliverables (MUST)

@@ -129,7 +129,7 @@ This document defines the planning workflow for ai4X, following established Scru
 
 ### Phase 5: Development (Story → PR → Merge)
 
-**Scope**: Each Story follows the 10-stage expert team workflow in `adm/gdl/dev/protocols/workflow.md`.
+**Scope**: Each Story follows the 10-stage expert team workflow in `crp/gov/prc/workflow.md`.
 
 **Process**:
 1. Tech Lead creates a topic branch (`feat/*`, `fix/*`, etc.) for the Story.
@@ -226,6 +226,6 @@ flowchart TD
 
 - `adm/gdl/shr/protocols/board-policy.md` — Board transitions, ownership gates, and label conventions.
 - `adm/gdl/pln/protocols/planning-conformance.md` — Planning conformance check (mandatory before Ready-Gate).
-- `adm/gdl/dev/protocols/workflow.md` — 10-stage expert team routing, branching, commits, and completion gates.
+- `crp/gov/prc/workflow.md` — 10-stage expert team routing, branching, commits, and completion gates.
 - `.github/agents/ai4x.agent.md` — Tech Lead definition, interaction model, and product rules.
 - `CONTRIBUTING.md` — informative contributor guidance.

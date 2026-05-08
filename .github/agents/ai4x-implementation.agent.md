@@ -35,9 +35,9 @@ Owns production implementation quality in `cli/src`.
 
 ## Mandatory Quality Contracts (MUST)
 
-- Apply `adm/gdl/dev/contracts/engineering-quality.md` to all implementation work.
-- Apply `adm/gdl/dev/contracts/typescript-quality.md` to all TypeScript code.
-- Apply `adm/gdl/dev/contracts/implementation-quality.md` — output contract and challenge rules for all implementation deliverables.
+- Apply `crp/gov/qlt/engineering-quality.md` to all implementation work.
+- Apply `crp/gov/qlt/typescript-quality.md` to all TypeScript code.
+- Apply `crp/gov/qlt/implementation-quality.md` — output contract and challenge rules for all implementation deliverables.
 
 ## Deliverables (MUST)
 

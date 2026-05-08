@@ -26,11 +26,11 @@ A stage is blocked when required artifacts are missing, contradictory, not testa
 Specialist stages issue `blocked` or `conditional-approve`.
 Final `approved` is issued only by the orchestrator after mandatory remediation is closed.
 
-Gate verdict definitions: see `adm/gdl/dev/protocols/workflow.md` (Governance Glossary, Verdict Terms).
+Gate verdict definitions: see `crp/gov/prc/workflow.md` (Governance Glossary, Verdict Terms).
 
 ## Required Artifacts
 
-Artifact names follow the canonical definitions in `adm/gdl/dev/protocols/workflow.md` (Governance Glossary, Artifact Terms).
+Artifact names follow the canonical definitions in `crp/gov/prc/workflow.md` (Governance Glossary, Artifact Terms).
 
 Mandatory (always required):
 1. Requirements Pack (Epic-level ACs at minimum; Story-level refinement if Stage 2 ran)
@@ -46,7 +46,7 @@ Conditional (required only when the corresponding stage ran):
 
 ## Conformance Template
 
-Use `adm/gdl/dev/protocols/development-conformance-template.md` as the single conformance template for each non-trivial session. Copy and complete it per session.
+Use `crp/gov/prc/development-conformance-template.md` as the single conformance template for each non-trivial session. Copy and complete it per session.
 
 ## Quality Rule (MUST)
 

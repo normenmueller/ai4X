@@ -35,15 +35,15 @@ The collaboration concern has three distinct layers:
 
 | Layer | What | Independence | Artifact Location |
 |-------|------|-------------|-------------------|
-| **Topology** (abstract pattern) | "Leader + n Specialists", "Swarm", "Pipeline" — reusable, agent-independent | Fully independent of concrete agents | `dev/gov/top/*.topology.yaml` |
+| **Topology** (abstract pattern) | "Leader + n Specialists", "Swarm", "Pipeline" — reusable, agent-independent | Fully independent of concrete agents | `crp/gov/top/*.topology.yaml` |
 | **Binding** (role → agent mapping) | Concrete assignment: which agent fills which role in a topology | Coupled to both topology and agent set | Inside Team Declaration (`.ai4x/team.yaml`) |
 | **Team Declaration** (aggregate) | The `curate` output: topology reference + agent set + binding | Composite — binds topology + agents | `curate` output |
 
-Key insight: **Topologies are Value Objects.** They have no identity beyond their structure. "Leader + n Specialists" is the same pattern whether applied to ai4X's team or a 3-person documentation team. They live in `dev/gov/top/` as reusable, abstract collaboration patterns.
+Key insight: **Topologies are Value Objects.** They have no identity beyond their structure. "Leader + n Specialists" is the same pattern whether applied to ai4X's team or a 3-person documentation team. They live in `crp/gov/top/` as reusable, abstract collaboration patterns.
 
 ## What This PBL Requests
 
-### 1. New Capability: `dev/cap/architecture/organization/team-topology-design`
+### 1. New Capability: `crp/cap/architecture/organization/team-topology-design`
 
 A cognitive capability covering:
 - Knowledge of standard collaboration topologies and when each fits
@@ -55,11 +55,11 @@ A cognitive capability covering:
 
 A specialist agent composed of the team-topology-design capability (and potentially others from the organization domain). This agent's role in `curate`'s pipeline:
 - Receives the set of identified capabilities and proposed agents
-- Selects (or proposes) the appropriate collaboration topology from `dev/gov/top/`
+- Selects (or proposes) the appropriate collaboration topology from `crp/gov/top/`
 - Produces the binding (role → agent mapping)
 - Justifies the selection with explicit trade-off reasoning
 
-### 3. Collaboration Topology Catalog: `dev/gov/top/`
+### 3. Collaboration Topology Catalog: `crp/gov/top/`
 
 Initial catalog of abstract topologies:
 
@@ -106,14 +106,14 @@ Schema design is a `curate`-architecture concern but must be informed by organiz
 ## Constraints
 
 1. **No premature agent creation.** Do not create `ai4x-organization-design.agent.md` until the capability portfolio supports it.
-2. **Capability-first.** The capability in `dev/cap/` must exist before the agent. Agent = composition of capabilities.
+2. **Capability-first.** The capability in `crp/cap/` must exist before the agent. Agent = composition of capabilities.
 3. **Catalog-first.** At least 2-3 topologies must be defined before `curate` can select among them.
 4. **Not blocking USP documentation.** This PBL informs `curate` design but does not block the current Epic.
 
 ## Relationship
 
 - **`ai4x-curate.md`**: `curate` step 5 depends on this capability for topology selection
-- **`ai4x-usp-documentation.md`**: The topology catalog (`dev/gov/top/`) is part of ai4X's output model
+- **`ai4x-usp-documentation.md`**: The topology catalog (`crp/gov/top/`) is part of ai4X's output model
 - **`ai4x-team-portability.md`**: Governance separation enables topology parametrization
 - **Capability Governance**: New capability must pass portfolio admission
 

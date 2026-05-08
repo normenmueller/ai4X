@@ -6,7 +6,7 @@ import YAML from "yaml";
 const args = process.argv.slice(2);
 const modeArg = args.find((a) => a === "--check" || a === "--write") ?? "--check";
 const rootArg = args.find((a) => !a.startsWith("--"));
-const root = rootArg ? path.resolve(rootArg) : path.resolve(path.dirname(new URL(import.meta.url).pathname), "../../../dev/cap");
+const root = rootArg ? path.resolve(rootArg) : path.resolve(path.dirname(new URL(import.meta.url).pathname), "../../../crp/cap");
 const capRoot = root;
 const writeMode = modeArg === "--write";
 let fail = 0;

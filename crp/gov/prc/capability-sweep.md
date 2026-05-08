@@ -11,7 +11,7 @@ Define a protocol for proactive cognitive capability portfolio health assessment
 
 ## Scope
 
-This protocol governs portfolio-wide sweeps initiated by the Tech Lead or PO. It complements the per-Story conditional stage (Stage 6) defined in `adm/gdl/dev/protocols/workflow.md`.
+This protocol governs portfolio-wide sweeps initiated by the Tech Lead or PO. It complements the per-Story conditional stage (Stage 6) defined in `crp/gov/prc/workflow.md`.
 
 ## Trigger
 
