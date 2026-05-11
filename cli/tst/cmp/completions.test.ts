@@ -7,11 +7,11 @@ import { resolve, dirname } from "node:path";
 
 // CWD-independent path resolution (same pattern as ai4x.test.ts)
 const testDir = dirname(fileURLToPath(import.meta.url));
-const repoRoot = resolve(testDir, "../../../../..");
+const repoRoot = resolve(testDir, "../../..");
 
-const bashFile = resolve(repoRoot, "utl/cmp/ai4x.bash");
-const zshFile = resolve(repoRoot, "utl/cmp/_ai4x");
-const fishFile = resolve(repoRoot, "utl/cmp/ai4x.fish");
+const bashFile = resolve(repoRoot, "cli/cmp/ai4x.bash");
+const zshFile = resolve(repoRoot, "cli/cmp/_ai4x");
+const fishFile = resolve(repoRoot, "cli/cmp/ai4x.fish");
 
 // Canonical sub-commands and global flags — source of truth: cli/src/lib/core/cli/args.ts
 // (COMMANDS set and flag handling in parseArgs)

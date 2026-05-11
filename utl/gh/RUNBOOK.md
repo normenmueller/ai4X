@@ -6,7 +6,7 @@ Keep the GitHub repository About and Topics reproducible from versioned local me
 
 ## Source of Truth
 
-`acc/repo-metadata.yaml` — all intended repository metadata is declared here.
+`utl/gh/repo-metadata.yaml` — all intended repository metadata is declared here.
 
 ## Commands
 
@@ -23,7 +23,7 @@ bash ./utl/gh/repo-metadata.sh --apply
 
 ## Operational Rules
 
-1. Keep `acc/repo-metadata.yaml` in sync with intended GitHub metadata.
+1. Keep `utl/gh/repo-metadata.yaml` in sync with intended GitHub metadata.
 2. Run `--check-local` before finishing metadata-related changes.
 3. Run `--check` when remote drift must be validated.
 4. Use `--apply` when metadata updates are intentional and the remote repository must be reconciled.

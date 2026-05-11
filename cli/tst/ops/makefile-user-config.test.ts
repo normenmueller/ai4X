@@ -13,7 +13,7 @@ import { fileURLToPath } from "node:url";
 import { resolve, dirname } from "node:path";
 
 const testDir = dirname(fileURLToPath(import.meta.url));
-const repoRoot = resolve(testDir, "../../../../..");
+const repoRoot = resolve(testDir, "../../..");
 const makefileContent = readFileSync(resolve(repoRoot, "Makefile"), "utf-8");
 
 const expectedConfigContent =

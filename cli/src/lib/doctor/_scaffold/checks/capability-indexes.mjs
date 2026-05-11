@@ -6,7 +6,7 @@ import YAML from "yaml";
 const args = process.argv.slice(2);
 const modeArg = args.find((a) => a === "--check" || a === "--write") ?? "--check";
 const rootArg = args.find((a) => !a.startsWith("--"));
-const root = rootArg ? path.resolve(rootArg) : path.resolve(path.dirname(new URL(import.meta.url).pathname), "../../../crp/cap");
+const root = rootArg ? path.resolve(rootArg) : path.resolve(path.dirname(new URL(import.meta.url).pathname), "../../../../../../crp/cap");
 const capRoot = root;
 const writeMode = modeArg === "--write";
 let fail = 0;
@@ -17,7 +17,7 @@ const schemaPath = process.env.AI4X_SCHEMA_PATH
   ? path.resolve(process.env.AI4X_SCHEMA_PATH)
   : path.resolve(
       path.dirname(new URL(import.meta.url).pathname),
-      "../../../adm/gdl/dev/schemas/capability-meta.schema.yaml",
+      "../../../../../../adm/gdl/dev/schemas/capability-meta.schema.yaml",
     );
 
 if (!fs.existsSync(schemaPath)) {
@@ -112,7 +112,7 @@ function relFromCap(absDir) {
   return path.relative(capRoot, absDir).split(path.sep).filter(Boolean);
 }
 
-const SKIP_DIRS = new Set(["node_modules", "utl"]);
+const SKIP_DIRS = new Set(["node_modules", ".lint"]);
 
 function hasCapabilitiesDeep(absDir) {
   const entries = fs.readdirSync(absDir, { withFileTypes: true });

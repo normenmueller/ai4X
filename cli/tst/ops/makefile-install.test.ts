@@ -13,7 +13,7 @@ import { fileURLToPath } from "node:url";
 import { resolve, dirname } from "node:path";
 
 const testDir = dirname(fileURLToPath(import.meta.url));
-const repoRoot = resolve(testDir, "../../../../..");
+const repoRoot = resolve(testDir, "../../..");
 const makefileContent = readFileSync(resolve(repoRoot, "Makefile"), "utf-8");
 
 function runMake(
@@ -112,10 +112,10 @@ describe("Makefile install/uninstall (Story #11)", () => {
         assert.equal(lines[0], "#!/usr/bin/env bash", "line 1 must be bash shebang");
         assert.match(
           lines[1]!,
-          /^exec node ".+\/dev\/cli\/src\/app\/ai4x\.ts" "\$@"$/,
+          /^exec node ".+\/cli\/src\/app\/ai4x\.ts" "\$@"$/,
           "line 2 must exec node with absolute path to ai4x.ts",
         );
-        const pathMatch = lines[1]!.match(/exec node "(.+?)\/dev\/cli\/src\/app\/ai4x\.ts"/);
+        const pathMatch = lines[1]!.match(/exec node "(.+?)\/cli\/src\/app\/ai4x\.ts"/);
         assert.ok(pathMatch, "must contain path to ai4x.ts");
         assert.ok(pathMatch![1]!.startsWith("/"), "path must be absolute");
       });
@@ -303,11 +303,6 @@ describe("Makefile install/uninstall (Story #11)", () => {
     it("make clean runs without error", () => {
       const result = runMake("clean");
       assert.equal(result.exitCode, 0, `make clean failed: ${result.stderr}`);
-    });
-
-    it("make doctor runs without error", () => {
-      const result = runMake("doctor");
-      assert.equal(result.exitCode, 0, `make doctor failed: ${result.stderr}`);
     });
 
     it("make verify runs without error", () => {

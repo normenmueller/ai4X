@@ -6,7 +6,7 @@
 # this completion file.
 #
 # Install: place this file in a directory listed in $fpath before compinit.
-#   cp utl/cmp/_ai4x ~/.zsh/completions/_ai4x
+#   cp cli/cmp/_ai4x ~/.zsh/completions/_ai4x
 
 _ai4x() {
     local -a commands=(

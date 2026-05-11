@@ -33,7 +33,7 @@ Owns cognitive capability portfolio health, authoring quality, admission decisio
 
 - Apply `crp/gov/qlt/capability-authoring-governance.md` to all capability work.
 - Apply `crp/gov/qlt/engineering-quality.md` to all deliverables.
-- Quality gates in `utl/cap/` must pass after any portfolio change.
+- Quality gates in `cli/src/lib/doctor/_scaffold/` must pass after any portfolio change.
 
 ## Deliverables (MUST)
 

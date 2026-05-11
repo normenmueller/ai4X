@@ -4,9 +4,9 @@
 # this completion file.
 #
 # Install: source this file or copy to the bash-completion directory.
-#   source utl/cmp/ai4x.bash
+#   source cli/cmp/ai4x.bash
 #   # or
-#   cp utl/cmp/ai4x.bash /etc/bash_completion.d/ai4x
+#   cp cli/cmp/ai4x.bash /etc/bash_completion.d/ai4x
 
 _ai4x() {
     local cur="${COMP_WORDS[COMP_CWORD]}"
