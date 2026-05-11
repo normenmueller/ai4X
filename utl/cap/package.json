@@ -11,7 +11,7 @@
     "check:agent-neutral": "bash checks/agent-neutral.sh",
     "check:layout-neutral": "bash checks/layout-neutral.sh",
     "check": "npm run check:meta && npm run check:shape && npm run check:indexes && npm run check:agent-neutral && npm run check:layout-neutral",
-    "test": "bash checks/tst/capability-meta.sh && bash checks/tst/capability-shape.sh && bash checks/tst/agent-neutral.sh"
+    "test": "bash checks/tst/capability-meta.sh && bash checks/tst/capability-shape.sh && bash checks/tst/agent-neutral.sh && node --test checks/tst/capability-meta-schema.test.mjs"
   },
   "dependencies": {
     "yaml": "^2.8.3"

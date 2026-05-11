@@ -1,5 +1,7 @@
 # Context-Budget-Modell fuer Capability-Komposition
 
+> **Status:** Partially absorbed into Epic #37 (Story #72: `token_estimate` field). Budget ceiling and tiered truncation strategy remain parked — depend on `curate` pipeline being conceptually defined.
+
 ## Motivation
 
 Wenn `curate` Capabilities aus dem Corpus (`crp/cap/`) zu einem CCC komponiert, kann das resultierende Instruktionsset das Context-Fenster des Ziel-Agent-Hosts sprengen. Aktuell gibt es kein Modell, das dieses Risiko adressiert:

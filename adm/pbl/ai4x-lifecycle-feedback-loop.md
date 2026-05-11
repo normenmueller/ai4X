@@ -1,5 +1,7 @@
 # Lifecycle Feedback Loop: evolve / assess
 
+> **Status:** Parked — depends on `curate` being conceptually defined. Revisit when `curate` design work begins.
+
 ## Motivation
 
 Das ai4X Operating Model ist aktuell ein Open-Loop-System: `curate` produziert ein Team, `spawn` materialisiert es, danach endet der Lifecycle. Es gibt keinen designten Mechanismus, um:
