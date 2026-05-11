@@ -1,15 +1,16 @@
 id: enterprise-architecture-integration
 version: 0.1.0
-status: active
-approved_by: ["nemron"]
-approved_at: 2026-03-24T00:00:00+01:00
-scope: cognitive
 owner: nemron
-review_due: 2026-12-31
 requires: ["togaf-adm-discipline","capability-map-governance"]
 conflicts: []
 do_not_use_when: ["when scope is only one segment or one concrete solution","when the main need is executive sponsorship and practice mandate rather than enterprise integration"]
-distinguish_from: ["architecture-practice-leadership","segment-architecture-stewardship","transition-architecture-planning"]
+distinguish_from:
+  - id: architecture-practice-leadership
+    boundary: "TBD"
+  - id: segment-architecture-stewardship
+    boundary: "TBD"
+  - id: transition-architecture-planning
+    boundary: "TBD"
 sources:
   - title: "Architecture Roles and Skills - Enterprise Architect"
     organization: "The Open Group"

@@ -1,11 +1,6 @@
 id: okr-discipline
 version: 0.3.0
-status: active
-approved_by: ["nemron"]
-approved_at: 2026-05-04T00:00:00+02:00
-scope: cognitive
 owner: nemron
-review_due: 2026-12-31
 requires: ["goal-quality-discipline","goal-cascade-and-alignment","cadence-and-review-discipline","critical-peer-discipline"]
 conflicts: []
 do_not_use_when:
