@@ -26,7 +26,7 @@ Term definitions are split into two categories based on their operational critic
 |----------|-----------|-----------|
 | **Gate Terms** (Stage Gate, Progression, Remediation) | Inline in `crp/gov/prc/workflow.md` | Dispatch-critical. Misinterpretation breaks the stage pipeline. |
 | **Artifact Terms** (Requirements Pack, Architecture Pack, etc.) | Inline in `crp/gov/prc/workflow.md` | Agents verify artifact presence at gate decisions. Must be in-context. |
-| **Verdict Terms** (blocked, conditional-approve, approved) | Inline in `crp/gov/prc/workflow.md` | These are the gate output values. Must be unambiguous at point of use. |
+| **Verdict Terms** (blocked, pass, approved) | Inline in `crp/gov/prc/workflow.md` | These are the gate output values. Must be unambiguous at point of use. |
 | **Planning Terms** (Idea, Epic, Story, Task) | Reference-only in `adm/gdl/glossary.md` | Consumed primarily by the orchestrator agent, which always loads `workflow.md` and can follow the reference. Not dispatch-critical for specialists. |
 | **Qualifier Terms** (Non-trivial) | Reference-only in `adm/gdl/glossary.md` | Supplementary context. Agents use the term but do not dispatch on its exact definition. |
 

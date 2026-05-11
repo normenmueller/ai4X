@@ -23,8 +23,8 @@ The orchestrator must run this check at least:
 
 A stage is blocked when required artifacts are missing, contradictory, not testable, or when unresolved high-severity findings exist.
 
-Specialist stages issue `blocked` or `conditional-approve`.
-Final `approved` is issued only by the orchestrator after mandatory remediation is closed.
+Specialist stages issue `blocked` or `pass`.
+Final `approved` is issued only by the orchestrator after all blockers are closed.
 
 Gate verdict definitions: see `crp/gov/prc/workflow.md` (Governance Glossary, Verdict Terms).
 

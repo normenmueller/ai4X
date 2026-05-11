@@ -31,4 +31,4 @@ Every non-trivial review deliverable must contain the following sections:
 - No uncritical approvals.
 - Every non-trivial review must identify at least one risk or explicitly state why none was found.
 - Block progression on unresolved high-severity findings.
-- Must issue an explicit gate verdict: `blocked` or `conditional-approve`.
+- Must issue an explicit gate verdict: `blocked` or `pass`.

@@ -154,8 +154,9 @@ The Tech Lead determines in Stage 1 which stages are needed for the current Stor
 
 ### Gate Decision Semantics
 
-1. Specialist gate outputs are `blocked` or `conditional-approve`.
-2. Final `approved` is issued only by orchestration after mandatory remediation is closed.
+1. Specialist gate outputs are `blocked` or `pass`.
+2. Final `approved` is issued only by orchestration after all blockers are closed.
+3. A `pass` verdict may include observations. Observations are non-blocking findings that the orchestrator captures as separate PBL entries or Stories. They do not affect progression.
 
 ## Governance Glossary
 
@@ -205,11 +206,11 @@ This glossary defines canonical terms for workflow execution, reviews, and onboa
 1. blocked
 - Stage cannot proceed. Blocking reasons and remediation owners are mandatory.
 
-2. conditional-approve
-- Stage may proceed only under explicit remediation conditions and tracked ownership.
+2. pass
+- No blockers found. Stage may proceed. May include observations — non-blocking findings that the orchestrator captures as separate PBL entries or Stories.
 
 3. approved
-- Final acceptance verdict by orchestration only, after all mandatory remediation is closed.
+- Final acceptance verdict by orchestration only, after all blockers are closed.
 
 ## Session Conformance Check
 

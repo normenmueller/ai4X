@@ -56,7 +56,7 @@ This file is the canonical agent definition for repository-wide instructions.
 Execute exactly ONE stage at a time. After each stage:
 
 1. Present the stage output to the user.
-2. State the gate verdict (`blocked`, `conditional-approve`) with reasoning.
+2. State the gate verdict (`blocked`, `pass`) with reasoning. If `pass` includes observations, list them explicitly.
 3. STOP and wait for explicit user approval before advancing to the next stage.
 4. If the user requests changes, iterate on the current stage until approved.
 
@@ -116,8 +116,9 @@ Run the conformance check defined in `crp/gov/prc/development-conformance.md` be
 
 ### Gate Decision Model
 
-- Specialist gate outputs: `blocked` or `conditional-approve`.
-- Final `approved`: issued only by the orchestrator after mandatory remediation is closed.
+- Specialist gate outputs: `blocked` or `pass`.
+- A `pass` may include observations. Observations are non-blocking and captured as separate PBL entries or Stories.
+- Final `approved`: issued only by the orchestrator after all blockers are closed.
 - Authoritative definition: `crp/gov/prc/workflow.md` (Gate Decision Semantics).
 
 ### Handoff Schema

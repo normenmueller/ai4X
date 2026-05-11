@@ -71,7 +71,7 @@ Interview-Fokus:
 
 1. Welche Input-Spezifikation soll `curate` akzeptieren (Dateiformat, Pflichtfelder, Versionierung)?
 2. Welche Zielartefakte sind pro Run Pflicht vs. optional?
-3. Wann ist ein Run blocked, wann conditional-approve, wann approved?
+3. Wann ist ein Run blocked, wann pass, wann approved?
 4. Wie strikt soll `curate` auf bestehende Dateien reagieren (fail, merge, overwrite nur explizit)?
 5. Welche Idempotenz-Anforderungen gelten (identischer Input => identischer Output)?
 6. Welche Traceability soll `curate` erzeugen (Aenderungsbericht, Decision Log, Mapping Input->Output)?

@@ -39,7 +39,7 @@ Use this compact template during active sessions.
 - Residual risk:
 
 ## Gate Decision
-- Status: blocked | conditional-approve | approved
+- Status: blocked | pass | approved
 - Blockers:
 - Required remediation:
 - Owner per remediation:
