@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, "..", "..");
-const METADATA_FILE = path.join(REPO_ROOT, "acc", "repo-metadata.yaml");
+const METADATA_FILE = path.join(__dirname, "repo-metadata.yaml");
 const REPO_METADATA_VERSION = "0.1.0";
 
 const mode = process.argv[2] ?? "--check";

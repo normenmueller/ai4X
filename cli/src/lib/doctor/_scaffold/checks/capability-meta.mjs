@@ -4,7 +4,7 @@ import path from "node:path";
 import YAML from "yaml";
 
 const rootArg = process.argv[2];
-const root = rootArg ? path.resolve(rootArg) : path.resolve(path.dirname(new URL(import.meta.url).pathname), "../../../crp/cap");
+const root = rootArg ? path.resolve(rootArg) : path.resolve(path.dirname(new URL(import.meta.url).pathname), "../../../../../../crp/cap");
 const capRoot = root;
 
 // --- Schema loading (AC-11, AC-13, AC-14) ---
@@ -13,7 +13,7 @@ const schemaPath = process.env.AI4X_SCHEMA_PATH
   ? path.resolve(process.env.AI4X_SCHEMA_PATH)
   : path.resolve(
       path.dirname(new URL(import.meta.url).pathname),
-      "../../../adm/gdl/dev/schemas/capability-meta.schema.yaml",
+      "../../../../../../adm/gdl/dev/schemas/capability-meta.schema.yaml",
     );
 
 if (!fs.existsSync(schemaPath)) {
@@ -101,7 +101,7 @@ function collectCapabilityFiles() {
     for (const entry of entries) {
       const fullPath = path.join(abs, entry.name);
       if (entry.isDirectory()) {
-        if (entry.name === "node_modules" || entry.name === "utl") {
+        if (entry.name === "node_modules" || entry.name === ".lint") {
           continue;
         }
         stack.push(fullPath);

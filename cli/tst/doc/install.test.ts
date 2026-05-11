@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import { resolve, dirname } from "node:path";
 
 const testDir = dirname(fileURLToPath(import.meta.url));
-const repoRoot = resolve(testDir, "../../../..");
+const repoRoot = resolve(testDir, "../../..");
 const install = readFileSync(resolve(repoRoot, "INSTALL"), "utf-8");
 
 // ── AC-22a: System Prerequisites ───────────────────────────────────

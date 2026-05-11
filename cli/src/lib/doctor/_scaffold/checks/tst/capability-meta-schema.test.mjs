@@ -23,7 +23,7 @@ import YAML from 'yaml';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SCHEMA_PATH = path.resolve(
   __dirname,
-  '../../../../adm/gdl/dev/schemas/capability-meta.schema.yaml',
+  '../../../../../../../adm/gdl/dev/schemas/capability-meta.schema.yaml',
 );
 
 function loadSchema() {

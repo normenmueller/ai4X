@@ -4,7 +4,7 @@
 # this completion file.
 #
 # Install: copy to the fish completions directory.
-#   cp utl/cmp/ai4x.fish ~/.config/fish/completions/ai4x.fish
+#   cp cli/cmp/ai4x.fish ~/.config/fish/completions/ai4x.fish
 
 # Disable file completions — ai4x takes commands and flags only.
 complete -c ai4x -f

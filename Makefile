@@ -8,7 +8,7 @@ FISH_COMPLETION_DIR ?= $(PREFIX)/share/fish/vendor_completions.d
 
 CONFIG_MODE ?= keep
 
-.PHONY: install install-user-config uninstall clean doctor verify test
+.PHONY: install install-user-config uninstall clean verify test
 
 install:
 	@command -v node >/dev/null 2>&1 || { echo '[ai4x] ERROR node is required but not found in PATH' >&2; exit 1; }
@@ -17,11 +17,11 @@ install:
 	@printf '%s\n' '#!/usr/bin/env bash' 'exec node "$(CURDIR)/cli/src/app/ai4x.ts" "$$@"' > "$(DESTDIR)$(BINDIR)/ai4x"
 	@chmod 0755 "$(DESTDIR)$(BINDIR)/ai4x"
 	@install -d "$(DESTDIR)$(BASH_COMPLETION_DIR)"
-	@install -m 0644 utl/cmp/ai4x.bash "$(DESTDIR)$(BASH_COMPLETION_DIR)/ai4x"
+	@install -m 0644 cli/cmp/ai4x.bash "$(DESTDIR)$(BASH_COMPLETION_DIR)/ai4x"
 	@install -d "$(DESTDIR)$(ZSH_COMPLETION_DIR)"
-	@install -m 0644 utl/cmp/_ai4x "$(DESTDIR)$(ZSH_COMPLETION_DIR)/_ai4x"
+	@install -m 0644 cli/cmp/_ai4x "$(DESTDIR)$(ZSH_COMPLETION_DIR)/_ai4x"
 	@install -d "$(DESTDIR)$(FISH_COMPLETION_DIR)"
-	@install -m 0644 utl/cmp/ai4x.fish "$(DESTDIR)$(FISH_COMPLETION_DIR)/ai4x.fish"
+	@install -m 0644 cli/cmp/ai4x.fish "$(DESTDIR)$(FISH_COMPLETION_DIR)/ai4x.fish"
 	@$(MAKE) --no-print-directory install-user-config
 	@echo '[ai4x] installed'
 
@@ -62,14 +62,24 @@ uninstall:
 	@echo '[ai4x] uninstalled (user config preserved)'
 
 clean:
-	@bash ./utl/ops/clean.sh
-
-doctor:
-	@PREFIX="$(PREFIX)" DESTDIR="$(DESTDIR)" bash ./utl/ops/doctor.sh
+	@echo '[ai4x] clean: removing local build artifacts'
+	@rm -rf node_modules dist .ai4x
+	@echo '[ai4x] clean: done'
 
 verify:
-	@bash ./utl/ops/verify.sh
+	@echo '[ai4x] verify: checking repository baseline'
+	@test -f .github/agents/ai4x.agent.md || { echo '[ai4x] ERROR missing: .github/agents/ai4x.agent.md' >&2; exit 2; }
+	@test -f CONTRIBUTING.md || { echo '[ai4x] ERROR missing: CONTRIBUTING.md' >&2; exit 2; }
+	@test -f README.md || { echo '[ai4x] ERROR missing: README.md' >&2; exit 2; }
+	@test -d cli/src/app || { echo '[ai4x] ERROR missing: cli/src/app' >&2; exit 2; }
+	@test -d cli/src/lib || { echo '[ai4x] ERROR missing: cli/src/lib' >&2; exit 2; }
+	@test -d cli/tst || { echo '[ai4x] ERROR missing: cli/tst' >&2; exit 2; }
+	@git ls-files --error-unmatch cli/src/app/.gitkeep >/dev/null 2>&1 || { echo '[ai4x] ERROR not tracked: cli/src/app/.gitkeep' >&2; exit 2; }
+	@git ls-files --error-unmatch cli/src/lib/.gitkeep >/dev/null 2>&1 || { echo '[ai4x] ERROR not tracked: cli/src/lib/.gitkeep' >&2; exit 2; }
+	@git ls-files --error-unmatch cli/tst/.gitkeep >/dev/null 2>&1 || { echo '[ai4x] ERROR not tracked: cli/tst/.gitkeep' >&2; exit 2; }
+	@bash utl/gh/repo-metadata.sh --check-local
+	@echo '[ai4x] verify: baseline checks passed'
 
 test: verify
 	@cd cli && npm test
-	@cd utl/cap && npm test
+	@cd cli/src/lib/doctor/_scaffold && npm test
