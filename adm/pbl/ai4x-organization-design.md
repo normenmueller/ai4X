@@ -1,5 +1,7 @@
 # Organization Design: Collaboration Topology Selection Capability
 
+> **Status:** Parked — depends on `curate` pipeline being conceptually defined. Revisit when `curate` design work begins.
+
 ## Motivation
 
 `curate` must perform a critical step that no current team member can execute:
