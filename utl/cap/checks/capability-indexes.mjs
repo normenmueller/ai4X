@@ -11,6 +11,46 @@ const capRoot = root;
 const writeMode = modeArg === "--write";
 let fail = 0;
 
+// --- Schema loading (AC-15) ---
+
+const schemaPath = process.env.AI4X_SCHEMA_PATH
+  ? path.resolve(process.env.AI4X_SCHEMA_PATH)
+  : path.resolve(
+      path.dirname(new URL(import.meta.url).pathname),
+      "../../../adm/gdl/dev/schemas/capability-meta.schema.yaml",
+    );
+
+if (!fs.existsSync(schemaPath)) {
+  process.stderr.write(`[ccp|ERROR]: central schema file not found: ${schemaPath}\n`);
+  process.exit(1);
+}
+
+let schemaRaw;
+try {
+  schemaRaw = YAML.parse(fs.readFileSync(schemaPath, "utf8"));
+} catch (err) {
+  process.stderr.write(`[ccp|ERROR]: central schema file is unparseable: ${schemaPath}: ${err instanceof Error ? err.message : String(err)}\n`);
+  process.exit(1);
+}
+
+if (schemaRaw == null || typeof schemaRaw !== "object" || schemaRaw.fields == null) {
+  process.stderr.write(`[ccp|ERROR]: central schema file is malformed (missing 'fields' block): ${schemaPath}\n`);
+  process.exit(1);
+}
+
+const schemaFields = schemaRaw.fields;
+// Determine which metadata fields to render in index tables from schema.
+// Include array fields with simple items (strings or objects with ≤ 2 properties).
+// Complex object arrays (e.g., sources with 5 properties) are excluded.
+const indexRenderableFields = Object.entries(schemaFields)
+  .filter(([, def]) => {
+    if (def.type !== "array") return false;
+    const props = def.items?.properties;
+    if (props && Object.keys(props).length > 2) return false;
+    return true;
+  })
+  .map(([name]) => name);
+
 function error(message) {
   fail += 1;
   process.stderr.write(`[ccp|ERROR]: ${message}\n`);
@@ -100,16 +140,21 @@ function getDirectCapabilities(absDir) {
       const metaPath = mdPath.replace(/\.md$/, ".meta.yaml");
       const markdown = fs.readFileSync(mdPath, "utf8");
       const meta = fs.existsSync(metaPath) ? readMeta(metaPath) : {};
-      return {
+      const cap = {
         id: path.basename(entry.name, ".md"),
         file: path.relative(absDir, mdPath).split(path.sep).join("/"),
         purpose: extractSection(markdown, "Purpose"),
         useWhen: extractSection(markdown, "Trigger"),
-        doNotUseWhen: asStringArray(meta.do_not_use_when),
-        requires: asStringArray(meta.requires),
-        conflicts: asStringArray(meta.conflicts),
-        distinguishFrom: asDistinguishFromArray(meta.distinguish_from),
       };
+      // Schema-driven: extract renderable array fields from metadata
+      for (const field of indexRenderableFields) {
+        if (field === "distinguish_from") {
+          cap[field] = asDistinguishFromArray(meta[field]);
+        } else {
+          cap[field] = asStringArray(meta[field]);
+        }
+      }
+      return cap;
     })
     .sort((a, b) => a.id.localeCompare(b.id));
 }
@@ -122,15 +167,35 @@ function formatTextArray(values) {
   return values.length === 0 ? "`[]`" : values.join("<br>");
 }
 
+function fieldToColumnHeader(field) {
+  return field.split("_").map((w) => w[0].toUpperCase() + w.slice(1)).join(" ");
+}
+
+function formatFieldValue(field, entry) {
+  const value = entry[field];
+  if (!Array.isArray(value) || value.length === 0) return "`[]`";
+  // ID-reference fields use code formatting
+  if (field === "requires" || field === "conflicts") return formatIdArray(value);
+  return formatTextArray(value);
+}
+
 function renderTable(entries) {
+  const fixedHeaders = ["ID", "File", "Purpose", "Use When"];
+  const metaHeaders = indexRenderableFields.map(fieldToColumnHeader);
+  const allHeaders = [...fixedHeaders, ...metaHeaders];
   const lines = [
-    "| ID | File | Purpose | Use When | Do Not Use When | Requires | Conflicts | Distinguish From |",
-    "| --- | --- | --- | --- | --- | --- | --- | --- |",
+    `| ${allHeaders.join(" | ")} |`,
+    `| ${allHeaders.map(() => "---").join(" | ")} |`,
   ];
   for (const entry of entries) {
-    lines.push(
-      `| \`${entry.id}\` | \`${entry.file}\` | ${entry.purpose} | ${entry.useWhen} | ${formatTextArray(entry.doNotUseWhen)} | ${formatIdArray(entry.requires)} | ${formatIdArray(entry.conflicts)} | ${formatTextArray(entry.distinguishFrom)} |`,
-    );
+    const fixedCells = [
+      `\`${entry.id}\``,
+      `\`${entry.file}\``,
+      entry.purpose,
+      entry.useWhen,
+    ];
+    const metaCells = indexRenderableFields.map((field) => formatFieldValue(field, entry));
+    lines.push(`| ${[...fixedCells, ...metaCells].join(" | ")} |`);
   }
   return lines.join("\n");
 }

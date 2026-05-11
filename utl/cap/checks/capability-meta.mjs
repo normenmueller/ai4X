@@ -5,40 +5,47 @@ import YAML from "yaml";
 
 const rootArg = process.argv[2];
 const root = rootArg ? path.resolve(rootArg) : path.resolve(path.dirname(new URL(import.meta.url).pathname), "../../../crp/cap");
-const expectedScope = "cognitive";
 const capRoot = root;
 
-const allowedKeys = new Set([
-  "id",
-  "version",
-  "status",
-  "approved_by",
-  "approved_at",
-  "scope",
-  "review_due",
-  "owner",
-  "requires",
-  "conflicts",
-  "do_not_use_when",
-  "distinguish_from",
-  "sources",
-  "migration_note",
-]);
+// --- Schema loading (AC-11, AC-13, AC-14) ---
 
-const requiredKeys = [
-  "id",
-  "version",
-  "status",
-  "approved_by",
-  "approved_at",
-  "scope",
-  "do_not_use_when",
-  "distinguish_from",
-  "sources",
-];
-const allowedStatus = new Set(["draft", "active", "deprecated", "retired"]);
-const allowedSourceKeys = new Set(["title", "organization", "url", "kind", "accessed_at"]);
-const allowedSourceKinds = new Set(["standard", "architecture-guidance", "security-guidance", "adoption-guidance", "domain-reference"]);
+const schemaPath = process.env.AI4X_SCHEMA_PATH
+  ? path.resolve(process.env.AI4X_SCHEMA_PATH)
+  : path.resolve(
+      path.dirname(new URL(import.meta.url).pathname),
+      "../../../adm/gdl/dev/schemas/capability-meta.schema.yaml",
+    );
+
+if (!fs.existsSync(schemaPath)) {
+  process.stderr.write(`[ccp|ERROR]: central schema file not found: ${schemaPath}\n`);
+  process.exit(1);
+}
+
+let schemaRaw;
+try {
+  schemaRaw = YAML.parse(fs.readFileSync(schemaPath, "utf8"));
+} catch (err) {
+  process.stderr.write(`[ccp|ERROR]: central schema file is unparseable: ${schemaPath}: ${err instanceof Error ? err.message : String(err)}\n`);
+  process.exit(1);
+}
+
+if (schemaRaw == null || typeof schemaRaw !== "object" || schemaRaw.fields == null) {
+  process.stderr.write(`[ccp|ERROR]: central schema file is malformed (missing 'fields' block): ${schemaPath}\n`);
+  process.exit(1);
+}
+
+const schemaFields = schemaRaw.fields;
+const allowedKeys = new Set(Object.keys(schemaFields));
+const requiredKeys = Object.entries(schemaFields)
+  .filter(([, def]) => def.required === true)
+  .map(([name]) => name);
+
+// Derive source entry constraints from schema
+const sourcesSchema = schemaFields.sources?.items?.properties ?? {};
+const allowedSourceKeys = new Set(Object.keys(sourcesSchema));
+const allowedSourceKinds = sourcesSchema.kind?.enum
+  ? new Set(sourcesSchema.kind.enum)
+  : new Set();
 
 let requiredFail = 0;
 let advisoryFail = 0;
@@ -65,13 +72,6 @@ function parseMeta(metaPath) {
     }
   }
   return out;
-}
-
-function validateIsoDateTime(value) {
-  if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?(Z|[+-]\d{2}:\d{2})$/.test(value)) {
-    return false;
-  }
-  return !Number.isNaN(Date.parse(value));
 }
 
 function validateIsoDate(value) {
@@ -152,29 +152,14 @@ for (const capabilityFile of capabilityFiles) {
 
   const id = String(parsed.id ?? "");
   const version = String(parsed.version ?? "");
-  const status = String(parsed.status ?? "");
-  const rawApprovedAt = parsed.approved_at;
-  const approvedAt = rawApprovedAt instanceof Date ? rawApprovedAt.toISOString() : String(rawApprovedAt ?? "");
-  const scope = String(parsed.scope ?? "");
   const owner = Object.prototype.hasOwnProperty.call(parsed, "owner") ? String(parsed.owner) : "";
-  const rawReviewDue = parsed.review_due;
-  const reviewDue = rawReviewDue instanceof Date
-    ? rawReviewDue.toISOString().slice(0, 10)
-    : Object.prototype.hasOwnProperty.call(parsed, "review_due") ? String(rawReviewDue) : "";
-  const migrationNote = Object.prototype.hasOwnProperty.call(parsed, "migration_note")
-    ? String(parsed.migration_note)
-    : "";
   const sources = Array.isArray(parsed.sources) ? parsed.sources : [];
 
-  const approvedBy = Array.isArray(parsed.approved_by) ? parsed.approved_by.map(String) : [];
   const requires = Array.isArray(parsed.requires) ? parsed.requires.map(String) : [];
   const conflicts = Array.isArray(parsed.conflicts) ? parsed.conflicts.map(String) : [];
   const doNotUseWhen = Array.isArray(parsed.do_not_use_when) ? parsed.do_not_use_when.map(String) : [];
-  const distinguishFrom = Array.isArray(parsed.distinguish_from) ? parsed.distinguish_from.map(String) : [];
+  const distinguishFrom = Array.isArray(parsed.distinguish_from) ? parsed.distinguish_from : [];
 
-  if (!Array.isArray(parsed.approved_by)) {
-    failRequired(`${path.relative(root, metaPath)}: approved_by must be an array`);
-  }
   if (Object.prototype.hasOwnProperty.call(parsed, "requires") && !Array.isArray(parsed.requires)) {
     failRequired(`${path.relative(root, metaPath)}: requires must be an array`);
   }
@@ -197,43 +182,30 @@ for (const capabilityFile of capabilityFiles) {
   if (!validateSemver(version)) {
     failRequired(`${path.relative(root, metaPath)}: version '${version}' must be semver`);
   }
-  if (!allowedStatus.has(status)) {
-    failRequired(`${path.relative(root, metaPath)}: invalid status '${status}'`);
-  }
-  if (!validateIsoDateTime(approvedAt)) {
-    failRequired(`${path.relative(root, metaPath)}: approved_at '${approvedAt}' must be ISO-8601 datetime`);
-  }
-  if (scope !== expectedScope) {
-    failRequired(`${path.relative(root, metaPath)}: scope '${scope}' must be '${expectedScope}'`);
-  }
-  if (status === "active" && approvedBy.length === 0) {
-    failRequired(`${path.relative(root, metaPath)}: status 'active' requires non-empty approved_by`);
-  }
   if (owner.length === 0) {
-    failAdvisory(`${path.relative(root, metaPath)}: owner should be set`);
+    failRequired(`${path.relative(root, metaPath)}: owner must be non-empty`);
   }
-  if (reviewDue.length > 0) {
-    if (!validateIsoDate(reviewDue)) {
-      failRequired(`${path.relative(root, metaPath)}: review_due '${reviewDue}' must be ISO date (YYYY-MM-DD)`);
-    } else {
-      const dueTs = Date.parse(`${reviewDue}T00:00:00Z`);
-      const nowTs = Date.now();
-      if (dueTs < nowTs) {
-        failAdvisory(`${path.relative(root, metaPath)}: review_due '${reviewDue}' is in the past`);
-      }
+  for (const entry of doNotUseWhen) {
+    if (String(entry).trim().length === 0) {
+      failRequired(`${path.relative(root, metaPath)}: do_not_use_when entries must be non-empty strings`);
     }
   }
-  if (status === "deprecated" && migrationNote.length === 0) {
-    failAdvisory(`${path.relative(root, metaPath)}: deprecated capability should include migration_note`);
-  }
-  for (const entry of [...doNotUseWhen, ...distinguishFrom]) {
-    if (entry.trim().length === 0) {
-      failRequired(`${path.relative(root, metaPath)}: do_not_use_when/distinguish_from entries must be non-empty strings`);
+  for (const entry of distinguishFrom) {
+    if (entry == null || typeof entry !== "object" || !entry.id || !entry.boundary) {
+      failRequired(`${path.relative(root, metaPath)}: distinguish_from entries must be objects with 'id' and 'boundary' properties`);
     }
   }
   for (let idx = 0; idx < sources.length; idx += 1) {
     const source = sources[idx] ?? {};
     const label = `${path.relative(root, metaPath)}: sources[${idx}]`;
+    // Reject unknown source properties (schema-derived)
+    if (allowedSourceKeys.size > 0) {
+      for (const key of Object.keys(source)) {
+        if (!allowedSourceKeys.has(key)) {
+          failRequired(`${label} unsupported key '${key}'`);
+        }
+      }
+    }
     const title = String(source.title ?? "");
     const organization = String(source.organization ?? "");
     const url = String(source.url ?? "");
