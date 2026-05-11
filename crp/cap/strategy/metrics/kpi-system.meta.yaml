@@ -1,11 +1,6 @@
 id: kpi-system
 version: 0.2.0
-status: active
-approved_by: ["nemron"]
-approved_at: 2026-05-04T00:00:00+02:00
-scope: cognitive
 owner: nemron
-review_due: 2026-12-31
 requires: ["deterministic-reasoning"]
 conflicts: []
 do_not_use_when:

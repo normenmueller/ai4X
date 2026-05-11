@@ -102,7 +102,7 @@ This workflow executes **per Story**. Epic refinement and Story decomposition ar
 
 5. AI Strategy (`ai4x-ai-strategy`) — conditional
 - validates model/tool constraints, fallback behavior, and uncertainty policy
-- only when the Story involves AI/LLM behavior
+- only when the Story involves AI/LLM behavior or shapes agent capability consumption patterns
 
 6. Capability Governance (`ai4x-capability-governance`) — conditional
 - validates portfolio coverage, authors or revises capabilities, performs semantic fitness checks
@@ -131,7 +131,7 @@ The Tech Lead determines in Stage 1 which stages are needed for the current Stor
 | 2. Requirements Refinement | Conditional | Epic ACs are already sufficient for the Story scope |
 | 3. Architecture | Conditional | No module boundary or domain invariant changes |
 | 4. Critical Review A | Conditional | Stages 2 and 3 were both skipped |
-| 5. AI Strategy | Conditional | Story does not involve AI/LLM behavior |
+| 5. AI Strategy | Conditional | Story does not involve AI/LLM behavior and does not shape agent capability consumption patterns |
 | 6. Capability Governance | Conditional | Story does not involve cognitive capability authoring, evaluation, or portfolio change |
 | 7. Implementation | Always | — |
 | 8. Testing | Always | — |

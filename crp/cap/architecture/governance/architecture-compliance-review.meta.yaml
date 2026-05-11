@@ -1,15 +1,16 @@
 id: architecture-compliance-review
 version: 0.1.0
-status: active
-approved_by: ["nemron"]
-approved_at: 2026-03-19T00:00:00+01:00
-scope: cognitive
 owner: nemron
-review_due: 2026-12-31
 requires: ["togaf-adm-discipline","archimate-cross-layer-consistency"]
 conflicts: []
 do_not_use_when: ["when the task is to create architecture direction rather than evaluate conformance against approved principles, standards, or decisions","when no architecture baseline exists to review against"]
-distinguish_from: ["architecture-practice-leadership","enterprise-architecture-integration","solution-realization-architecture"]
+distinguish_from:
+  - id: architecture-practice-leadership
+    boundary: "TBD"
+  - id: enterprise-architecture-integration
+    boundary: "TBD"
+  - id: solution-realization-architecture
+    boundary: "TBD"
 sources:
   - title: "The TOGAF Standard, 10th Edition"
     organization: "The Open Group"

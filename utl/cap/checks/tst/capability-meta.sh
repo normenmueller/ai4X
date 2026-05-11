@@ -19,12 +19,7 @@ MD
   cat >"${fixture}/cap/foundation/deterministic-reasoning.meta.yaml" <<'YAML'
 id: deterministic-reasoning
 version: 0.1.0
-status: active
-approved_by: ["qa"]
-approved_at: 2026-03-08T00:00:00+01:00
-scope: cognitive
 owner: qa
-review_due: 2026-12-31
 requires: []
 conflicts: []
 do_not_use_when: []
@@ -37,12 +32,7 @@ MD
   cat >"${fixture}/cap/foundation/clarification-before-guessing.meta.yaml" <<'YAML'
 id: clarification-before-guessing
 version: 0.1.0
-status: active
-approved_by: ["qa"]
-approved_at: 2026-03-08T00:00:00+01:00
-scope: cognitive
 owner: qa
-review_due: 2026-12-31
 requires: ["deterministic-reasoning"]
 conflicts: []
 do_not_use_when: []
@@ -55,12 +45,7 @@ MD
   cat >"${fixture}/cap/strategy/workflow/interaction-contract.meta.yaml" <<'YAML'
 id: interaction-contract
 version: 0.1.0
-status: active
-approved_by: ["qa"]
-approved_at: 2026-03-08T00:00:00+01:00
-scope: cognitive
 owner: qa
-review_due: 2026-12-31
 requires: ["clarification-before-guessing"]
 conflicts: []
 do_not_use_when: []
@@ -85,12 +70,7 @@ MD
   cat >"${fixture}/cap/ai/engineering/context-engineering-discipline.meta.yaml" <<'YAML'
 id: context-engineering-discipline
 version: 0.1.0
-status: active
-approved_by: ["qa"]
-approved_at: 2026-03-08T00:00:00+01:00
-scope: cognitive
 owner: qa
-review_due: 2026-12-31
 requires: ["clarification-before-guessing"]
 conflicts: []
 do_not_use_when: []
@@ -116,12 +96,7 @@ run_fail_unknown_requires() {
   cat >"${fixture}/cap/strategy/workflow/interaction-contract.meta.yaml" <<'YAML'
 id: interaction-contract
 version: 0.1.0
-status: active
-approved_by: ["qa"]
-approved_at: 2026-03-08T00:00:00+01:00
-scope: cognitive
 owner: qa
-review_due: 2026-12-31
 requires: ["missing"]
 conflicts: []
 do_not_use_when: []
@@ -140,12 +115,7 @@ run_fail_requires_conflicts_overlap() {
   cat >"${fixture}/cap/strategy/workflow/interaction-contract.meta.yaml" <<'YAML'
 id: interaction-contract
 version: 0.1.0
-status: active
-approved_by: ["qa"]
-approved_at: 2026-03-08T00:00:00+01:00
-scope: cognitive
 owner: qa
-review_due: 2026-12-31
 requires: ["clarification-before-guessing"]
 conflicts: ["clarification-before-guessing"]
 do_not_use_when: []
@@ -167,12 +137,7 @@ MD
   cat >"${fixture}/cap/foundation/critical-peer-discipline.meta.yaml" <<'YAML'
 id: critical-peer-discipline
 version: 0.1.0
-status: active
-approved_by: ["qa"]
-approved_at: 2026-03-08T00:00:00+01:00
-scope: cognitive
 owner: qa
-review_due: 2026-12-31
 requires: ["deterministic-reasoning"]
 conflicts: ["interaction-contract"]
 do_not_use_when: []
@@ -185,48 +150,40 @@ YAML
   fi
 }
 
-run_fail_missing_sources() {
-  local fixture="${TMP_DIR}/missing-sources"
+run_fail_missing_owner() {
+  local fixture="${TMP_DIR}/missing-owner"
   make_ok_fixture "${fixture}"
   cat >"${fixture}/cap/strategy/workflow/interaction-contract.meta.yaml" <<'YAML'
 id: interaction-contract
 version: 0.1.0
-status: active
-approved_by: ["qa"]
-approved_at: 2026-03-08T00:00:00+01:00
-scope: cognitive
-owner: qa
-review_due: 2026-12-31
 requires: ["clarification-before-guessing"]
 conflicts: []
 do_not_use_when: []
 distinguish_from: []
+sources: []
 YAML
   if "${CHECKER}" "${fixture}/cap" >/dev/null 2>&1; then
-    echo "expected failure for missing required sources field" >&2
+    echo "expected failure for missing required owner field" >&2
     return 1
   fi
 }
 
-run_fail_missing_do_not_use_when() {
-  local fixture="${TMP_DIR}/missing-do-not-use-when"
+run_fail_unknown_key() {
+  local fixture="${TMP_DIR}/unknown-key"
   make_ok_fixture "${fixture}"
   cat >"${fixture}/cap/strategy/workflow/interaction-contract.meta.yaml" <<'YAML'
 id: interaction-contract
 version: 0.1.0
-status: active
-approved_by: ["qa"]
-approved_at: 2026-03-08T00:00:00+01:00
-scope: cognitive
 owner: qa
-review_due: 2026-12-31
+status: active
 requires: ["clarification-before-guessing"]
 conflicts: []
+do_not_use_when: []
 distinguish_from: []
 sources: []
 YAML
   if "${CHECKER}" "${fixture}/cap" >/dev/null 2>&1; then
-    echo "expected failure for missing do_not_use_when field" >&2
+    echo "expected failure for unknown key 'status'" >&2
     return 1
   fi
 }
@@ -241,12 +198,7 @@ MD
   cat >"${fixture}/cap/ai/architecture/solution/agentic-solution-architecture.meta.yaml" <<'YAML'
 id: agentic-solution-architecture
 version: 0.1.0
-status: active
-approved_by: ["qa"]
-approved_at: 2026-03-08T00:00:00+01:00
-scope: cognitive
 owner: qa
-review_due: 2026-12-31
 requires: ["deterministic-reasoning"]
 conflicts: []
 do_not_use_when: []
@@ -264,14 +216,63 @@ YAML
   fi
 }
 
+run_fail_invalid_distinguish_from() {
+  local fixture="${TMP_DIR}/invalid-df"
+  make_ok_fixture "${fixture}"
+  cat >"${fixture}/cap/strategy/workflow/interaction-contract.meta.yaml" <<'YAML'
+id: interaction-contract
+version: 0.1.0
+owner: qa
+requires: ["clarification-before-guessing"]
+conflicts: []
+do_not_use_when: []
+distinguish_from: ["some-plain-string"]
+sources: []
+YAML
+  if "${CHECKER}" "${fixture}/cap" >/dev/null 2>&1; then
+    echo "expected failure for string-format distinguish_from entry" >&2
+    return 1
+  fi
+}
+
+run_fail_schema_missing() {
+  local fixture="${TMP_DIR}/schema-missing"
+  make_ok_fixture "${fixture}"
+  if AI4X_SCHEMA_PATH="/nonexistent/schema.yaml" "${CHECKER}" "${fixture}/cap" >/dev/null 2>&1; then
+    echo "expected failure for missing schema file" >&2
+    return 1
+  fi
+  # Verify error message names the file
+  local stderr_output
+  stderr_output="$(AI4X_SCHEMA_PATH="/nonexistent/schema.yaml" "${CHECKER}" "${fixture}/cap" 2>&1 || true)"
+  if ! echo "${stderr_output}" | grep -q "schema file not found"; then
+    echo "expected error message to mention 'schema file not found'" >&2
+    return 1
+  fi
+}
+
+run_fail_schema_unparseable() {
+  local fixture="${TMP_DIR}/schema-unparseable"
+  make_ok_fixture "${fixture}"
+  local bad_schema="${TMP_DIR}/bad-schema.yaml"
+  echo "{{invalid yaml" >"${bad_schema}"
+  if AI4X_SCHEMA_PATH="${bad_schema}" "${CHECKER}" "${fixture}/cap" >/dev/null 2>&1; then
+    echo "expected failure for unparseable schema file" >&2
+    return 1
+  fi
+}
+
 run_ok
 run_ok_explicit_empty_sources
 run_fail_missing_meta
 run_fail_unknown_requires
 run_fail_requires_conflicts_overlap
 run_fail_asymmetric_conflict
-run_fail_missing_sources
-run_fail_missing_do_not_use_when
+run_fail_missing_owner
+run_fail_unknown_key
 run_fail_invalid_source_kind
+run_fail_invalid_distinguish_from
+run_fail_schema_missing
+run_fail_schema_unparseable
 
 echo "capability-meta.sh: OK"
