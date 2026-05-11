@@ -1,15 +1,14 @@
 id: capability-map-governance
 version: 0.1.0
-status: active
-approved_by: ["nemron"]
-approved_at: 2026-03-19T00:00:00+01:00
-scope: cognitive
 owner: nemron
-review_due: 2026-12-31
 requires: ["togaf-adm-discipline"]
 conflicts: []
 do_not_use_when: ["when the task is detailed process, org-chart, or application mapping rather than stable capability architecture","when segment or solution realization questions dominate over capability-map control logic"]
-distinguish_from: ["business-service-architecture","enterprise-architecture-integration"]
+distinguish_from:
+  - id: business-service-architecture
+    boundary: "TBD"
+  - id: enterprise-architecture-integration
+    boundary: "TBD"
 sources:
   - title: "The TOGAF Standard, 10th Edition"
     organization: "The Open Group"

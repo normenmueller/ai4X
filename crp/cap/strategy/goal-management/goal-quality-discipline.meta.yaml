@@ -1,11 +1,6 @@
 id: goal-quality-discipline
 version: 0.1.0
-status: active
-approved_by: ["nemron"]
-approved_at: 2026-04-30T00:00:00+02:00
-scope: cognitive
 owner: nemron
-review_due: 2026-12-31
 requires: ["critical-peer-discipline"]
 conflicts: []
 do_not_use_when: []

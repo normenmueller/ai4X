@@ -1,15 +1,16 @@
 id: architecture-practice-leadership
 version: 0.1.0
-status: active
-approved_by: ["nemron"]
-approved_at: 2026-03-24T00:00:00+01:00
-scope: cognitive
 owner: nemron
-review_due: 2026-12-31
 requires: ["togaf-adm-discipline","strategic-fit"]
 conflicts: []
 do_not_use_when: ["when the task is detailed segment or solution design rather than architecture-practice leadership","when a conformance verdict is needed rather than leadership, sponsorship, or mandate creation"]
-distinguish_from: ["enterprise-architecture-integration","architecture-compliance-review","strategic-fit"]
+distinguish_from:
+  - id: enterprise-architecture-integration
+    boundary: "TBD"
+  - id: architecture-compliance-review
+    boundary: "TBD"
+  - id: strategic-fit
+    boundary: "TBD"
 sources:
   - title: "Architecture Roles and Skills - Chief Architect"
     organization: "The Open Group"

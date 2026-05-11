@@ -1,15 +1,14 @@
 id: baseline-target-gap-analysis
 version: 0.1.0
-status: active
-approved_by: ["nemron"]
-approved_at: 2026-03-19T00:00:00+01:00
-scope: cognitive
 owner: nemron
-review_due: 2026-12-31
 requires: ["togaf-adm-discipline"]
 conflicts: []
 do_not_use_when: ["when no baseline or target state can be stated yet","when the main task is sequencing transition states rather than comparing states"]
-distinguish_from: ["transition-architecture-planning","solution-realization-architecture"]
+distinguish_from:
+  - id: transition-architecture-planning
+    boundary: "TBD"
+  - id: solution-realization-architecture
+    boundary: "TBD"
 sources:
   - title: "The TOGAF Standard, 10th Edition"
     organization: "The Open Group"

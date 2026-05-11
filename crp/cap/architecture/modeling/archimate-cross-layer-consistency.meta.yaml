@@ -1,15 +1,12 @@
 id: archimate-cross-layer-consistency
 version: 0.1.0
-status: active
-approved_by: ["nemron"]
-approved_at: 2026-03-19T00:00:00+01:00
-scope: cognitive
 owner: nemron
-review_due: 2026-12-31
 requires: ["archimate-viewpoint-selection"]
 conflicts: []
 do_not_use_when: ["when the main task is choosing viewpoints rather than validating cross-layer model consistency"]
-distinguish_from: ["archimate-viewpoint-selection"]
+distinguish_from:
+  - id: archimate-viewpoint-selection
+    boundary: "TBD"
 sources:
   - title: "The TOGAF Standard, 10th Edition"
     organization: "The Open Group"
