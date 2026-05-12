@@ -1,9 +1,10 @@
+# ~/.config/ai4x/config.yaml
+# Installed by `make install`. Defines system-wide hosts and runtimes.
+# Merge rule: project keys win. A project runtime/host REPLACES the global one (no deep-merge).
+
 version: 0.1.0
 
-defaults:
-  runtime: altman
-
-clients:
+hosts:
   codex:
     adapter: codex/cli
     run:
@@ -28,15 +29,15 @@ clients:
 
 runtimes:
   altman:
-    client: codex
+    host: codex
     params:
       model: "gpt-5.4"
       approval: "on-request"
 
   nadella:
-    client: copilot
+    host: copilot
     params:
       model: "claude-opus-4.6"
 
   satya:
-    client: vscode+copilot
+    host: vscode+copilot
