@@ -15,11 +15,13 @@ ai4x curate → .ai4x/agn/                   Who, with which capabilities, works
 ai4x spawn  → .github/ | AGENTS.md | ...   Host-specific agent artifacts
 ```
 
-Each step consumes the output of the previous. Each step is idempotent.
-
-XXX Ob `scout` idempotent ... da bin ich mir nicht sicher. Wollen wir in scout nicht das LLM zur Hifle nehmen? Soll nicht das LLM das Interview führen und eigentliche Bedarfe identifizieren? scout = LLM-Interview, curate = LLM-Matching und spawn = mechanisch.
+Each step consumes the output of the previous.
 
 **Decision:** `scout` is a new CLI command (not yet in contract — requires PBL entry).
+
+**Decision:** `scout` is NOT idempotent — it's an LLM-driven interview. But its *output* (`Needs.hs`) is a stable, validatable artifact. `curate` is LLM-assisted (matching). `spawn` is purely mechanical.
+
+**Decision:** `scout` (and `curate`) internally use `spawn` as a primitive — they temporarily materialize ai4X-owned agents from `crp/agn/` for the chosen host, run them, then tear down the links. This can be a single agent or a team of agents.
 
 ## 2. Directory Structure
 
@@ -31,9 +33,9 @@ XXX Ob `scout` idempotent ... da bin ich mir nicht sicher. Wollen wir in scout n
 └── ctx/            ← project context (spawn weaves into agents)
 ```
 
-**Decision:** Three subdirectories mapping 1:1 to pipeline stages. `ctx/` is spawn-input — project-specific facts woven into agent artifacts.
+**Decision:** Three subdirectories mapping 1:1 to pipeline stages.
 
-XXX Ich denke `ctx/` ist nicht der einzige spawn-input! `agn/` auch.
+**Decision:** `spawn` input is both `agn/` (team definitions) AND `ctx/` (project context). `agn/` defines the agents; `ctx/` provides project-specific facts that spawn weaves into the materialized artifacts.
 
 ## 3. Configuration Model
 ### Project Config (`.ai4x/config.yaml`)
@@ -47,7 +49,7 @@ defaults:
   runtime: satya
 ```
 
-XXX In der global config existiert kein `defaults`, oder?
+**Decision:** `defaults` exists only in project config, not in global config. The global config defines what is *available* (hosts, runtimes); the project config declares what is *preferred* here.
 
 **Decision:** Projects may define their own hosts and runtimes (e.g., a project
 needs `model: gpt-4.1` instead of `gpt-5.4`).
@@ -110,7 +112,7 @@ Needs.hs (curate) → LLM reads directly → matches against corpus
 
 ai4x ships a prelude module `AI4X.Spc` with base types (`Job`, `Priority`, `Constraint`, `Need`). Projects import it and define domain types + needs.
 
-XXX Das Projekt heißt "ai4X"; der ai4X CLI Client heißt `ai4x`. Sollten wir unsere Module etc. in Haskell eher "AI4X" nennen?
+**Decision:** Haskell module prefix is `AI4X` (matches project name "ai4X" in uppercase Haskell convention).
 
 ### Auto-Generating Missing Capabilities
 
@@ -121,6 +123,16 @@ When `curate` finds no matching capability in the corpus for a need:
 ## 5. Curate Output (`agn/`)
 
 *Design pending.*
+
+---
+
+## 5b. ai4X-Owned Agents (`crp/agn/`)
+
+`crp/agn/` houses agents that ai4X itself uses — interview agents (scout), curators (curate), and any other "tool agents" that the CLI commands need.
+
+These are NOT treated differently from user-facing agents. They live in the corpus, can be invoked directly (`ai4x ask Mechthild`), and are spawned temporarily when `scout` or `curate` runs.
+
+**Decision:** `crp/agn/` is an open registry — not limited to "tool agents." Any pre-built expert agent lives there.
 
 ---
 
@@ -142,17 +154,17 @@ When `curate` finds no matching capability in the corpus for a need:
 
 Should we rewrite the entire CLI in Haskell?
 
-**Decision:** No. Polyglot architecture.
+**Decision:** OPEN — requires further discussion.
 
-| Component | Language | Rationale |
-|-----------|----------|-----------|
-| CLI (`curate`, `spawn`, `doctor`, `scout`) | TypeScript | Orchestration + file I/O |
-| Spec validation | GHC (subprocess) | Type-checking `Needs.hs` |
-| LLM interaction | LLM reads `.hs` directly | No extraction step |
+Current state: Polyglot architecture (TypeScript CLI + GHC as subprocess).
 
-Existing TypeScript code, tests, CI pipeline, and team expertise remain. Haskell is used only where it provides unique value: the spec type system.
+Arguments to re-evaluate:
+- Existing TypeScript code is minimal (~35 files, mostly empty scaffolds)
+- Team expertise must be extended to Haskell anyway (spec format)
+- A pure Haskell implementation could leverage the type system end-to-end
+- `scout`/`curate`/`spawn` are transformation pipelines — Haskell's strength
 
-XXX Diesen Punkt würde ich gerne noch mal aufmachen wollen... Der aktuelle TypeScript Code ist überschaubar; Die Team Expertise muss ohnehin um "Haskell" erweitert werden. Ich sehe in einer puren Haskell Implementation eigentlich nur Vorteile. Können wir das gemeinsam, neutral und objektiv mit Deinem Architekten und AI Strategen diskutieren? Auch von Deinem TypeScript Entwickler hätte ich gerne eine Einschätzung - ehrlich, neutral und objektiv!
+**Action:** Discuss with Architect, AI Strategist, and Implementation Specialist — neutral, objective assessment needed.
 
 ## Participants
 
