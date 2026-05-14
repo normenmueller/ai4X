@@ -122,7 +122,50 @@ When `curate` finds no matching capability in the corpus for a need:
 
 ## 5. Curate Output (`agn/`)
 
-*Design pending.*
+`curate` bestimmt *wie* das Team zusammenarbeitet — basierend auf den Needs. Ein Assessment-lastiges Projekt braucht ein anderes Kollaborationsmodell als ein generativer Workflow. Das ist curate-Output → `agn/`.
+
+**Kurzform:** `agn/team.yaml` = *wie* das Team arbeitet.
+
+### Structure
+
+```
+.ai4x/agn/
+├── mapping.yaml              ← Need→Cap→Agent Protokoll (reviewbar)
+├── collabm.yaml              ← Team-Topologie + Zusammenarbeitsmodell
+├── orchestrator.yaml         ← Agent-Definition (Cognitive Capability Composition)
+├── architect.yaml
+├── implementer.yaml
+└── ...
+```
+
+### `collabm.yaml`
+
+```yaml
+version: "1.0"
+topology: leader-specialists
+collaboration:
+  delegation: orchestrator-routes-to-specialist
+  handoff: explicit-pack-exchange
+  escalation: specialist-to-orchestrator
+  review: independent-peer
+agents:
+  - name: orchestrator
+    role: orchestrator
+  - name: architect
+    role: specialist
+    stages: [architecture, review]
+  - name: implementer
+    role: specialist
+    stages: [implementation]
+```
+
+### `mapping.yaml`
+
+Transparent protocol so the PO can audit which need mapped to which capabilities and which agent.
+
+### `<agent-name>.yaml`
+
+Per-agent cognitive capability composition — which capabilities from `crp/cap/` this agent carries.
 
 ---
 
@@ -138,7 +181,32 @@ These are NOT treated differently from user-facing agents. They live in the corp
 
 ## 6. Project Context (`ctx/`)
 
-*Design pending.*
+Projekt-Kontext (z.B. "wir nutzen Conventional Commits", "unser Board hat diese Spalten") ist **unabhängig** vom Team-Design — das sind Fakten über das Projekt die `spawn` in die Agenten einwebt → `ctx/`.
+
+**Kurzform:** `ctx/` = *unter welchen Projektregeln* das Team arbeitet.
+
+### Structure
+
+```
+.ai4x/ctx/
+├── index.yaml                ← Context manifest: was existiert, wer bekommt was
+├── governance.md             ← Task→Contract routing
+├── glossary.md               ← Projekt-Terminologie
+├── workflow.yaml             ← Commit conventions, branch strategy, review gates
+└── ...                       ← weitere projekt-spezifische Fakten
+```
+
+### Example `workflow.yaml`
+
+```yaml
+commit_convention: conventional-commits
+branch_strategy: short-lived-topic-branches
+review_gate: po-approval-required
+```
+
+### Injection
+
+`spawn` liest `ctx/index.yaml` um zu bestimmen welche Context-Dateien in welche Agenten eingewoben werden. Nicht jeder Agent braucht jeden Kontext.
 
 ---
 

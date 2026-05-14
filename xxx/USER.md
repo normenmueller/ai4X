@@ -107,10 +107,14 @@ Auch `curate` nutzt `spawn` als Primitiv — ein Kurator-Agent aus `crp/agn/` wi
 > tree -a .ai4x/agn/
 .ai4x/agn/
 ├── mapping.yaml              ← Need→Cap→Agent Protokoll (reviewbar)
-├── team.yaml                 ← Team-Topologie + Rollen
-└── <agent-name>/
-    └── ccc.yaml              ← Cognitive Capability Composition
+├── collabm.yaml              ← Team-Topologie + Zusammenarbeitsmodell
+├── orchestrator.yaml         ← Agent-Definition
+├── architect.yaml
+├── implementer.yaml
+└── ...
 ```
+
+`collabm.yaml` definiert *wie* das Team zusammenarbeitet: Topologie, Delegationsmodell, Handoff-Protokoll, Eskalationsregeln. `curate` bestimmt das basierend auf den Needs — ein Assessment-lastiges Projekt braucht ein anderes Kollaborationsmodell als ein generativer Workflow.
 
 ---
 
@@ -121,8 +125,11 @@ Jetzt wird das Team für den konkreten Agent Host materialisiert. `spawn` ist re
 ### Was passiert intern?
 
 1. **Lesen:** `spawn` liest `.ai4x/agn/` (Team) + `.ai4x/ctx/` (Projektkontext) + `config.yaml` (Host/Runtime).
-2. **Materialisieren:** Host-spezifische Artefakte werden geschrieben.
-3. **Fertig:** Das Team ist aktiv.
+2. **Zusammenführen:** Team-Topologie (`agn/team.yaml`) + Projekt-Kontext (`ctx/`) werden in die Agent-Artefakte eingewoben.
+3. **Materialisieren:** Host-spezifische Artefakte werden geschrieben.
+4. **Fertig:** Das Team ist aktiv.
+
+Projekt-Kontext (`ctx/`) sind Fakten über das Projekt — z.B. Commit-Konventionen, Board-Policy, Terminologie — die `spawn` in die Agenten einwebt. Das ist unabhängig vom Team-Design (das kommt aus `agn/`).
 
 ### Nutzersicht
 
