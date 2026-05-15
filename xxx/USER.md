@@ -13,7 +13,7 @@ Die ai4X User Journey startet in einem lokalen Verzeichnis - z.B.:
 >
 ```
 
-Dort möchte man ein neues Vorhaben starten. Dafür benötigt man ein Team. Ein Team aus Exerperten deren kognitive Fähigkeiten und Zusammenarbeitsmodell optimal auf das Vorhaben bzw. die darin herrschenden Bedarfe abgestimmt und ausgerichtet sind.
+Dort möchte man ein neues Vorhaben starten. Dafür benötigt man ein Team. Ein Team aus Experten deren kognitive Fähigkeiten und Zusammenarbeitsmodell optimal auf das Vorhaben bzw. die darin herrschenden Bedarfe abgestimmt und für agentic AI optimiert sind.
 
 ## Bedarfsidentifikation (`scout`)
 
@@ -114,7 +114,7 @@ Auch `curate` nutzt `spawn` als Primitiv — ein Kurator-Agent aus `crp/agn/` wi
 └── ...
 ```
 
-`collabm.yaml` definiert *wie* das Team zusammenarbeitet: Topologie, Delegationsmodell, Handoff-Protokoll, Eskalationsregeln. `curate` bestimmt das basierend auf den Needs — ein Assessment-lastiges Projekt braucht ein anderes Kollaborationsmodell als ein generativer Workflow.
+`collabm.yaml` definiert *wie* das Team zusammenarbeitet: Topologie, Delegationsmodell, Handoff-Protokoll, Eskalationsregeln. Beide Dimensionen — Fähigkeiten und Zusammenarbeit — sind explizit für agentic AI entworfen: maschinenlesbare Handoff-Protokolle, deterministische Delegationsregeln, explizite Eskalationspfade. `curate` bestimmt das basierend auf den Needs — ein Assessment-lastiges Projekt braucht ein anderes Kollaborationsmodell als ein generativer Workflow.
 
 ---
 
