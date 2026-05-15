@@ -15,11 +15,13 @@ Die ai4X User Journey startet in einem lokalen Verzeichnis - z.B.:
 
 Dort möchte man ein neues Vorhaben starten. Dafür benötigt man ein Team. Ein Team aus Experten deren kognitive Fähigkeiten und Zusammenarbeitsmodell optimal auf das Vorhaben bzw. die darin herrschenden Bedarfe abgestimmt und für agentic AI optimiert sind.
 
-## Bedarfsidentifikation (`scout`)
+## Team aufstellen (`scout` → `curate` → `spawn`)
+
+### Bedarfsidentifikation (`scout`)
 
 Zuerst müssen aber die eigentlichen Bedarfe identifiziert werden — wir gehen davon aus, dass der Nutzer meist mit dem "WIE" ins Rennen geht, statt mit dem "WAS". Also führen wir ein geregeltes, methodisches Interview durch.
 
-### Was passiert intern?
+#### Was passiert intern?
 
 `scout` nutzt `spawn` als internes Primitiv:
 
@@ -29,7 +31,7 @@ Zuerst müssen aber die eigentlichen Bedarfe identifiziert werden — wir gehen 
 4. **Output:** Der Agent schreibt `.ai4x/spc/Needs.hs`.
 5. **Teardown:** Temporäre Links werden entfernt.
 
-### Nutzersicht
+#### Nutzersicht
 
 ```
 ~/Sandbox/ai4x-tst/proja
@@ -49,7 +51,7 @@ Zuerst müssen aber die eigentlichen Bedarfe identifiziert werden — wir gehen 
 
 Der Agent führt das Interview methodisch — extrahiert Bedarfe aus dem was der Nutzer beschreibt, hinterfragt das "WIE" und destilliert das "WAS".
 
-### Ergebnis
+#### Ergebnis
 
 ```
 ~/Sandbox/ai4x-tst/proja
@@ -69,11 +71,11 @@ Der Agent führt das Interview methodisch — extrahiert Bedarfe aus dem was der
 
 ---
 
-## Teamkuration (`curate`)
+### Teamkuration (`curate`)
 
 Nun wird aus den Bedarfen ein Team zusammengestellt. `curate` liest `Needs.hs`, matcht Bedarfe gegen das kognitive Capability-Corpus (`crp/cap/`) und stellt das optimale Team zusammen.
 
-### Was passiert intern?
+#### Was passiert intern?
 
 Auch `curate` nutzt `spawn` als Primitiv — ein Kurator-Agent aus `crp/agn/` wird temporär aktiviert:
 
@@ -83,7 +85,7 @@ Auch `curate` nutzt `spawn` als Primitiv — ein Kurator-Agent aus `crp/agn/` wi
 4. **Output:** `.ai4x/agn/` wird geschrieben.
 5. **Teardown:** Temporäre Links werden entfernt.
 
-### Nutzersicht
+#### Nutzersicht
 
 ```
 ~/Sandbox/ai4x-tst/proja
@@ -96,11 +98,11 @@ Auch `curate` nutzt `spawn` als Primitiv — ein Kurator-Agent aus `crp/agn/` wi
   ✓ mapping protocol written to .ai4x/agn/mapping.yaml
 ```
 
-### Transparenz
+#### Transparenz
 
 `curate` protokolliert das Mapping (welcher Bedarf → welche Capabilities → welcher Agent) in einer reviewbaren Datei, damit der PO das Ergebnis auditieren kann.
 
-### Ergebnis
+#### Ergebnis
 
 ```
 ~/Sandbox/ai4x-tst/proja
@@ -118,20 +120,20 @@ Auch `curate` nutzt `spawn` als Primitiv — ein Kurator-Agent aus `crp/agn/` wi
 
 ---
 
-## Host-spezifische Aktivierung (`spawn`)
+### Host-spezifische Aktivierung (`spawn`)
 
 Jetzt wird das Team für den konkreten Agent Host materialisiert. `spawn` ist rein mechanisch — kein LLM nötig.
 
-### Was passiert intern?
+#### Was passiert intern?
 
 1. **Lesen:** `spawn` liest `.ai4x/agn/` (Team) + `.ai4x/ctx/` (Projektkontext) + `config.yaml` (Host/Runtime).
-2. **Zusammenführen:** Team-Topologie (`agn/team.yaml`) + Projekt-Kontext (`ctx/`) werden in die Agent-Artefakte eingewoben.
+2. **Zusammenführen:** Team-Topologie (`agn/collabm.yaml`) + Projekt-Kontext (`ctx/`) werden in die Agent-Artefakte eingewoben.
 3. **Materialisieren:** Host-spezifische Artefakte werden geschrieben.
 4. **Fertig:** Das Team ist aktiv.
 
 Projekt-Kontext (`ctx/`) sind Fakten über das Projekt — z.B. Commit-Konventionen, Board-Policy, Terminologie — die `spawn` in die Agenten einwebt. Das ist unabhängig vom Team-Design (das kommt aus `agn/`).
 
-### Nutzersicht
+#### Nutzersicht
 
 ```
 ~/Sandbox/ai4x-tst/proja
@@ -142,7 +144,7 @@ Projekt-Kontext (`ctx/`) sind Fakten über das Projekt — z.B. Commit-Konventio
   ✓ copilot-instructions.md written
 ```
 
-### Ergebnis je nach Host
+#### Ergebnis je nach Host
 
 | Host | Output |
 |------|--------|
@@ -163,3 +165,43 @@ Projekt-Kontext (`ctx/`) sind Fakten über das Projekt — z.B. Commit-Konventio
 ```
 
 Das Team ist einsatzbereit.
+
+---
+
+## Experten direkt nutzen (`ask`)
+
+Nicht jedes Anliegen braucht ein ganzes Team. Manchmal will man einfach einen konkreten Experten aus dem ai4X-Corpus ansprechen — z.B. Gertrud für Organisation-Design oder Sigrid für Anforderungsanalyse.
+
+`ask` überspringt die Pipeline komplett. Kein Interview, keine Bedarfsanalyse, kein Team.
+
+### Was passiert intern?
+
+`ask` nutzt `spawn` als Primitiv — genau wie `scout` und `curate`:
+
+1. **Temporärer spawn:** Der gewählte Agent aus `crp/agn/` wird für den Host materialisiert.
+2. **Host starten:** Der Agent Host läuft mit dem Experten aktiv.
+3. **Interaktion:** Der Nutzer arbeitet direkt mit dem Experten.
+4. **Teardown:** Temporäre Links werden entfernt.
+
+### Nutzersicht
+
+```
+~/Sandbox/ai4x-tst/proja
+> ai4x ask Gertrud --runtime altman
+
+  ✓ agent: Gertrud (organization-design)
+  ✓ runtime: altman (codex)
+
+╭──────────────────────────────────────────────╮
+│ >_ OpenAI Codex (v0.130.0)                   │
+│                                              │
+│ model:     gpt-5.5 medium   /model to change │
+│ directory: ~/Sandbox/ai4x-tst/proja          │
+╰──────────────────────────────────────────────╯
+
+  [...direkte Interaktion mit Gertrud...]
+```
+
+### Kein persistenter Output
+
+`ask` hinterlässt keine Artefakte im Projekt. Die temporären Host-Links werden nach der Session entfernt. Das Projekt bleibt unverändert — anders als bei `scout` (erzeugt `spc/`) oder `curate` (erzeugt `agn/`).
