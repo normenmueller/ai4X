@@ -13,7 +13,7 @@ Die ai4X User Journey startet in einem lokalen Verzeichnis - z.B.:
 >
 ```
 
-Dort möchte man ein neues Vorhaben starten. Dafür benötigt man ein Team. Ein Team aus Experten deren kognitive Fähigkeiten und Zusammenarbeitsmodell optimal auf das Vorhaben bzw. die darin herrschenden Bedarfe abgestimmt und für agentic AI optimiert sind.
+ai4X bietet zwei Wege: Ein **komplettes Expertenteam aufstellen** — bedarfsgerecht kuratiert, für agentic AI optimiert — oder **einen einzelnen Experten direkt ansprechen**.
 
 ## Team aufstellen (`scout` → `curate` → `spawn`)
 
