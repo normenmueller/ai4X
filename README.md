@@ -4,7 +4,7 @@
 
 [![verify](https://github.com/normenmueller/ai4x/actions/workflows/verify.yml/badge.svg)](https://github.com/normenmueller/ai4x/actions/workflows/verify.yml)
 
-ai4X is an operating model for agentic AI work. It exists to make agent work explicit, reviewable, and reusable — across any "bring your own agent" platform (`#byoa`).
+ai4X is an operating model for agentic AI work — what we call agentic cognition engineering (ACE). It exists to make agent work explicit, reviewable, and reusable — across any "bring your own agent" platform (`#byoa`).
 
 > [!IMPORTANT]
 > **What sets ai4X apart** is a single operating model with three differentiating properties:
