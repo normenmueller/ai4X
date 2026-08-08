@@ -1,0 +1,60 @@
+{
+  "artifactStatus": "exact-bounded-sketch-not-generated",
+  "formatVersion": "1.0.0",
+  "projectEntry": "urn:ai4x:project:comparison",
+  "projectBundle": "urn:ai4x:bundle:comparison",
+  "authoritativeSource": "project.dhall",
+  "normalizedDhallSemanticHash": "sha256:335c2187d3c172deb74f7987cfcabd526c1a4c1340bd73cb3af1b2a7d536fc81",
+  "provenanceDigest": "sha256:fixture-positive-v1",
+  "contexts": [
+    {
+      "context": "collaboration",
+      "model": "urn:ai4x:collaboration:review-team",
+      "version": "1.0.0",
+      "fixtureDigest": "sha256:fixture-positive-v1",
+      "sourceDigestToken": "sha256:source-fixture-v1",
+      "source": "project.dhall#collaboration",
+      "document": "contexts/collaboration.json"
+    },
+    {
+      "context": "work-management",
+      "model": "urn:ai4x:work-profile:epic-story",
+      "version": "1.0.0",
+      "fixtureDigest": "sha256:fixture-positive-v1",
+      "sourceDigestToken": "sha256:source-fixture-v1",
+      "source": "project.dhall#workManagement",
+      "document": "contexts/work-management.json"
+    },
+    {
+      "context": "governance-assurance",
+      "model": "urn:ai4x:governance:two-gate",
+      "version": "1.0.0",
+      "fixtureDigest": "sha256:fixture-positive-v1",
+      "sourceDigestToken": "sha256:source-fixture-v1",
+      "source": "project.dhall#governanceAssurance",
+      "document": "contexts/governance-assurance.json"
+    },
+    {
+      "context": "project-intent",
+      "model": "urn:ai4x:intent:r15",
+      "version": "1.0.0",
+      "fixtureDigest": "sha256:fixture-positive-v1",
+      "sourceDigestToken": "sha256:source-fixture-v1",
+      "source": "project.dhall#projectIntent",
+      "document": "contexts/project-intent.json"
+    },
+    {
+      "context": "curation-capabilities",
+      "model": "urn:ai4x:capabilities:r15",
+      "version": "1.0.0",
+      "fixtureDigest": "sha256:fixture-positive-v1",
+      "sourceDigestToken": "sha256:source-fixture-v1",
+      "source": "project.dhall#curationCapabilities",
+      "document": "contexts/curation-capabilities.json"
+    }
+  ],
+  "externalPointersOnly": [
+    "urn:github:project:3"
+  ],
+  "authoritative": false
+}

@@ -1,0 +1,12 @@
+format=ai4x-hybrid-source-set-v1
+protocol-version=1.0.0
+reference-version=1.0.0
+offline=true
+dhall-import-policy=none
+ghc-version=9.6.7
+dhall-version=1.42.3
+haskell-api=hybrid/ClosedApi.hs sha256:198db205c1aa537c27aa6fda756f3ff9b53a274283ebb75cd75b82096538f960
+haskell-source=hybrid/HybridPolicy.hs sha256:8c48977e9eb9d360d88ed0acb46c2f81800d85b8e404f68eab7111af03c8241a
+dhall-source=hybrid/project.dhall sha256:5cde53e398f4d1cf259333106f04b1dce32cf3c5d1d3c4264e105fbe11e6689c
+dhall-semantic-hash=sha256:79bc8712f8dbbf7b17fd358376c261f793a90178e57467aeefea1ce7c90fab27
+fixture-source-digest-token=sha256:source-fixture-v1
