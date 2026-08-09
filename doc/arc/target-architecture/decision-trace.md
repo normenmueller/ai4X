@@ -15,9 +15,7 @@ Disposition values are:
 
 - `resolved`: represented by a target feature, invariant, boundary, or rationale;
 - `deferred`: intentionally outside the target's initial implementation while the
-  extension boundary is preserved;
-- `evidence-pending`: the target contract exists but required acceptance evidence has
-  not yet been supplied.
+  extension boundary is preserved.
 
 ## R-1 through R-10 trace
 
@@ -256,11 +254,11 @@ Sources: #89 comments `5223031280` through `5225922087`.
 | S83-04 | Haskell values never pass directly to an LLM or Agent Host | [Haskell semantics](README.md#haskell-semantics-and-transport) | resolved |
 | S83-05 | Host-driven activation is explicit; proactive dispatch requires separately accepted product authority | [Host-driven Assignments](README.md#host-driven-assignments) | resolved; dispatcher excluded from v1 |
 | S83-06 | Every accepted small-step distinction has a stable fine-grained trace | this document | resolved subject to final independent review |
-| S83-07 | Haskell design uses bounded expert co-authoring and independent multi-perspective review | [Haskell method evidence](#haskell-design-method-evidence) | evidence-pending |
-| S83-08 | Receipt semantics stay owner-local: core owns typed references/header only; Assurance, domain validation, Project Entry, declaration publication, Governance, Work, and Collaboration retain distinct contracts | [Validation receipts](README.md#validation-and-assurance-receipts), [Haskell package design](README.md#haskell-package-and-api-design) | resolved; independent re-review pending |
-| S83-09 | Assignment projection is a closed, authorized, bounded, deterministic DTO over the reachable slice; adapters receive encoded transport only | [Haskell semantics](README.md#haskell-semantics-and-transport), [Host-driven Assignments](README.md#host-driven-assignments) | resolved; independent re-review pending |
-| S83-10 | Declaration flow separates restricted IO loading, pure owner validation/composition and planning, and effectful all-or-prior-generation apply | [Project declarations](README.md#project-declarations) | resolved; independent re-review pending |
-| S83-11 | Graph and projection algorithms have proportional complexity and explicit resource budgets | [Haskell package design](README.md#haskell-package-and-api-design), [verification obligations](README.md#architecture-verification-obligations) | resolved; independent re-review pending |
+| S83-07 | Haskell design uses bounded expert co-authoring and independent multi-perspective review | [Current Haskell evidence](#current-haskell-design-and-review-evidence) | resolved; durable register E83 |
+| S83-08 | Receipt semantics stay owner-local: core owns typed references/header only; Assurance, domain validation, Project Entry, declaration publication, Governance, Work, and Collaboration retain distinct contracts | [Validation receipts](README.md#validation-and-assurance-receipts), [Current Haskell evidence](#current-haskell-design-and-review-evidence) | resolved; HS-F03/F14 independently closed |
+| S83-09 | Assignment projection is a closed, authorized, bounded, deterministic DTO over the reachable slice; adapters receive encoded transport only | [Haskell semantics](README.md#haskell-semantics-and-transport), [Current Haskell evidence](#current-haskell-design-and-review-evidence) | resolved; HS-F04/F09/F13 independently closed |
+| S83-10 | Declaration flow separates restricted capture, bounded decode, pure owner validation/composition/planning, and effectful apply | [Project declarations](README.md#project-declarations), [Current Haskell evidence](#current-haskell-design-and-review-evidence) | resolved; HS-F05/F17 independently closed |
+| S83-11 | Graph and projection algorithms have proportional complexity and a versioned numeric policy release gate | [Haskell package design](README.md#haskell-package-and-api-design), [resource policy](README.md#versioned-resource-envelope-policy) | resolved architecturally; numeric feasibility is release-gated |
 
 Sources: #83 comments `5222138211`, `5223142342`, `5225682825`, `5225758213`,
 and `5225942383`.
@@ -276,11 +274,18 @@ and `5225942383`.
 
 ## Haskell design method evidence
 
+### Superseded in-progress register (2026-08-09)
+
+The following co-author, review, and finding tables preserve the in-session sequence at
+the time findings were opened and remediated. Every `pending` value in those tables is a
+historical state superseded by the current immutable evidence register below; none is a
+current gate field.
+
 ### Co-author assignments
 
-This table is the required evidence register, not a claim that pending work occurred.
+This is the superseded in-session planning register, retained only to show sequence.
 
-| Evidence ID | Co-author | Bounded semantic scope | Write authority and owned paths | Target contract | Required checks | Independently verifiable result | Status |
+| Evidence ID | Co-author | Bounded semantic scope | Write authority and owned paths | Target contract | Required checks | Result at that time | Superseded status (2026-08-09) |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | CA-ARCH-01 | `architecture_83` architecture lead | Cross-context synthesis, authority boundaries, commands, target tree, trace | `doc/arc/target-architecture/README.md`, `decision-trace.md` | #83 AC-02 through AC-43, AC-49 through AC-56 | anchors, tree classes, links, text policy, `git diff --check` | exact diff and checks | complete; not independent reviewer |
 | CA-CAP-01 | `capability_matrix_83` independent co-author | Corpus Capability inventory, stable target mapping, dispositions | `doc/arc/target-architecture/capability-coverage.md` only | AC-44 and AC-45 | inventory/path/disposition cardinality | 70 unique rows: 55 adopt, 15 revise; matrix checks pass | complete, cross-artifact review pending |
@@ -299,7 +304,7 @@ itself satisfy AC-51 for this package.
 Reviewers must not review their own authored scope. Every finding needs severity,
 affected contract, one clean target-state remediation, and re-review result.
 
-| Review ID | Required perspective | Assigned reviewer | Scope | Result | Status |
+| Review ID | Required perspective | Assigned reviewer | Scope | Result at that time | Superseded status (2026-08-09) |
 | --- | --- | --- | --- | --- | --- |
 | HR-01 | Domain fidelity | `haskell_review_a`; remediation re-review `haskell_rereview_c` | Intent, Curation, Collaboration, Work Management, Governance/Assurance semantics | HS-F12/F13 verified-remediated | pass |
 | HR-02 | Type-theoretic and formal strength | `haskell_review_a`; remediation re-review `haskell_rereview_c` | IDs, versions, typed ports, formal matching/composition witnesses, invalid-state prevention | HS-F13/F14/F15 verified-remediated | pass |
@@ -313,7 +318,7 @@ affected contract, one clean target-state remediation, and re-review result.
 
 ### Finding and remediation log
 
-| Finding ID | Review | Severity | Affected contract | Clean target-state remediation | Independent re-review | Status |
+| Finding ID | Review | Severity | Affected contract | Clean target-state remediation | Re-review state at that time | Superseded status (2026-08-09) |
 | --- | --- | --- | --- | --- | --- | --- |
 | HS-F01 | CA-HS-01 | high | Public ports and context ownership | Define typed `Ref`/`Published`/`CrossRef`/summary/validated/diagnostic ports; Composition sees summaries and cross-references only; reject a mega-AST/global validator | HR-A/B: still open through HS-F13 | remediated again; reviewer C pending |
 | HS-F02 | CA-HS-01 | high | Formal composition claim | Bound v1 to runtime signatures and witnesses proving declared compatibility/closure/conflicts/coverage only; explicitly exclude semantic fitness, execution, and `Need a` inhabitation | HR-A: still open through HS-F15; HR-B accepted proof limit | remediated again; reviewer C pending |
@@ -344,6 +349,90 @@ remediated; reviewer A's subsequent narrow independent re-review verified HS-F05
 HS-F17 after restricted `DecodeEffects` was added. Thus HS-F01 through HS-F18 are
 closed. Reviewer A noted only the non-blocking wording compression that `restricted
 loader` informally covers the separately specified capture and decode phases.
+
+## Current Haskell design and review evidence
+
+This is the sole current evidence register. `B83` is the reviewed subject commit
+`8a5065c375cc077a77629255aeb1721fc5ae04e3`: README
+`486907298aefb5edd431f4019df8e79fae347e0500f3fd8d5449c8c53d27ba7f`, Capability
+Matrix `fcc333f390863cc0d38279ec31778570b8d596a1b9fbb5daded993d4c34004b1`,
+Information Matrix `a142a6da19c16fb87b6879c10d25b844639d19d1893a4a945eaea571b5e68c55`, and
+Decision Trace `3eabf7a48212eda03c9d3fced66a1289a289f7a4de73dccae04471b6c436dd4a`.
+`E83` is the durable [#83 Haskell evidence register](https://github.com/normenmueller/ai4X/issues/83#issuecomment-5230559400).
+It records reviewer independence, exact scopes, write authority, the predecessor and
+remediation sequence, and final results. Review A is durably recorded at
+[#84 comment 5230555377](https://github.com/normenmueller/ai4X/issues/84#issuecomment-5230555377).
+
+| Finding | Final status | Independent reviewer | Subject | Exact remediation verified | Locator |
+| --- | --- | --- | --- | --- | --- |
+| HS-F01 | closed | reviewer C | B83 | typed owner ports; no mega-AST | E83 |
+| HS-F02 | closed | reviewer C | B83 | bounded runtime formal claim | E83 |
+| HS-F03 | closed | reviewer C | B83 | non-overlapping Receipt ownership | E83 |
+| HS-F04 | closed | reviewer C | B83 | bounded authorized host projection | E83 |
+| HS-F05 | closed | reviewer A final narrow re-review | B83 | restricted capture/decode and pure-plan/effectful-apply split | E83 |
+| HS-F06 | closed | reviewer C | B83 | diagnostic ownership and cardinality | E83 |
+| HS-F07 | closed | reviewer C | B83 | semantic identity/provenance/metadata separation | E83 |
+| HS-F08 | closed | reviewer C | B83 | Dhall-free inert protocol ownership | E83 |
+| HS-F09 | closed | reviewer C | B83 | projection disclosure and authorization | E83 |
+| HS-F10 | closed | reviewer C | B83 | proportional algorithms and policy-bound limits | E83 |
+| HS-F11 | closed | reviewer C | B83 | immutable publication and stale-generation semantics | E83 |
+| HS-F12 | closed | reviewer C | B83 | Project Intent sole Cognitive Job ownership | E83 |
+| HS-F13 | closed | reviewer C | B83 | acyclic typed ports, protocol inhabitability, Work/Record ports, Assignment assembly | E83 |
+| HS-F14 | closed | reviewer C | B83 | owner-produced Receipt satisfaction summary | E83 |
+| HS-F15 | closed | reviewer C | B83 | private opaque formal witness construction | E83 |
+| HS-F16 | closed | reviewer C | B83 | canonical timestamp-free GenerationId | E83 |
+| HS-F17 | closed | reviewer A final narrow re-review | B83 | restricted DecodeEffects and typed DecodeFailure | E83 |
+| HS-F18 | closed | reviewer C | B83 | #83 runtime-algebra ownership and bounded #96 follow-up | E83 |
+
+| Perspective | Final status | Independent reviewer | Subject | Exact scope verified | Locator |
+| --- | --- | --- | --- | --- | --- |
+| HR-01 | pass | reviewers A and C | B83 | domain fidelity | E83 |
+| HR-02 | pass | reviewers A and C | B83 | type-theoretic/formal strength | E83 |
+| HR-03 | pass | reviewers A and C | B83 | idiomatic Haskell/public API | E83 |
+| HR-04 | pass | reviewers A and C | B83 | package modularity | E83 |
+| HR-05 | pass | reviewers B, C, and final A | B83 | diagnostics/provenance and final decode seam | E83 |
+| HR-06 | pass | reviewers B and C | B83 | determinism | E83 |
+| HR-07 | pass | reviewers B and C | B83 | architecture proportionality; numeric envelope release-gated | E83 |
+| HR-08 | pass | reviewers A and C | B83 | extensibility | E83 |
+| HR-09 | pass | reviewers B and C | B83 | agent-facing applicability | E83 |
+
+## Review A remediation trace
+
+| Finding | Disposition | Target evidence | Re-review state |
+| --- | --- | --- | --- |
+| RA-F01 | remediated | this sole current evidence register, B83 digests, E83 durable locator; historical tables explicitly superseded | requires original Review A reviewer re-review |
+| RA-F02 | remediated | [`#eyodf` self-application contract](README.md#eyodf-self-application-contract), verification obligation and trace below | requires original Review A reviewer re-review |
+| RA-F03 | remediated architecturally | [versioned resource envelope](README.md#versioned-resource-envelope-policy); numeric instantiation is an implementation-release gate | requires original Review A reviewer re-review |
+| RA-F04 | remediated by Information Disposition owner | [revision-pinned pre-#83 baseline](information-disposition.md#pre-83-tracked-source-baseline): source revision `74bc0dfd9cf51f1f2263a4a3fa2bc62833f65d8d`, unchanged at reviewed B83, 190 files, aggregate Git-tree digest `dc0adaaa42affecaf965b3c640884570904a17753e72335bf0cd11bbc25f86c5` | requires original Review A reviewer re-review |
+
+`#eyodf` traces the ai4X repository as an ordinary project through public Project Entry,
+declaration, Intent/Curation, Work/Collaboration, validation/Assurance, activation,
+Handoff, and governance surfaces. It forbids semantic bootstrap privileges; only the
+initial executable and immutable product assets may bootstrap mechanics. The fresh-
+checkout verification in README is the exact acceptance check.
+
+Resource-envelope ownership is ai4X Release Governance at
+`mod/policy/resource-envelope/<policy-version>/policy.yaml`. Architecture claims only
+typed limit enforcement and asymptotic proportionality until supported-platform,
+reference-environment benchmark/adversarial evidence instantiates that policy. Release
+is blocked without it.
+
+Issue-ready follow-up recommendation:
+
+- **Title:** Instantiate and verify the v1 resource-envelope policy
+- **Body:** Define numeric limits in
+  `mod/policy/resource-envelope/<policy-version>/policy.yaml` for named supported
+  platforms, project classes, and reference environments. Add pinned benchmark and
+  adversarial fixtures for cold/warm latency, peak memory, cancellation, graph and
+  projection sizes, and every boundary/over-limit case. Demonstrate typed failure with
+  no partial publication. Block implementation release until Release Governance accepts
+  the evidence for every supported-platform class. This follow-up instantiates values;
+  it must not weaken the Architecture Pack's dimensions or failure semantics.
+
+Specialist remediation gate: `pass`. RA-F01 through RA-F04 have explicit clean target
+dispositions and reproducible evidence. This is readiness for the original independent
+Review A reviewer to re-review; it is not a #84 verdict, permission for #85, or final PO
+acceptance.
 
 ## Acceptance coverage summary
 

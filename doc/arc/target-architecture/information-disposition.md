@@ -103,18 +103,31 @@ used here:
 | `xxx/README.md` | 666 | 17 | `6f88340351b3c5057987a1e5657f483aa865fa9c1022ccb658441ff95cf588ef` |
 | `README.md` | 3,293 | 66 | `1b3a426cf44f5437c52ba70fd76e7b00a4d2fe533c0cfc1496eb52edb7e7188d` |
 
-### Current tracked source baseline
+### Pre-#83 tracked source baseline
 
-| Scope | Tracked files | Git-index manifest SHA-256 |
+The current-source inventory used for the #83 synthesis is bound to exact Git
+revision `74bc0dfd9cf51f1f2263a4a3fa2bc62833f65d8d`. This is the last source
+revision before the target-architecture synthesis. A revision-to-revision diff
+confirms that every scoped source entry is unchanged at the reviewed #83
+baseline `8a5065c375cc077a77629255aeb1721fc5ae04e3`:
+
+```sh
+git diff --quiet \
+  74bc0dfd9cf51f1f2263a4a3fa2bc62833f65d8d \
+  8a5065c375cc077a77629255aeb1721fc5ae04e3 -- \
+  adm crp .github .codex AGENTS.md
+```
+
+| Scope | Tracked files | Revision-bound Git-tree manifest SHA-256 |
 | --- | ---: | --- |
-| `adm/**` | 13 | `5e8408b43990efc6532ecc6e53052c38c16d54d2a21e1bb55f43be61fc91f088` |
-| `crp/agn/**` | 1 | `075c686e7e8ec8fe4cb3ab08d493d939fa057d33ebaa2fc90eaf776bf88b3b5f` |
-| `crp/cap/**` | 151 | `f6293cfc186f7655190599dc202690848910c5f5516a81f50358acd2f15c0fe4` |
-| `crp/gov/**` | 14 | `6f947aed424684e1ecd64b4e2155e237cff782468f3546cf4299257c1c41bcbb` |
-| `.github/**` | 10 | `d9d4211474610d6bb7da4f96d3c98058e80063f75b2f7a2030767a00bf4eca7b` |
+| `adm/**` | 13 | `d236effb7e8da0728b9e2190b35ccccc3b9a036bc9c3d8a19509348bc259d9eb` |
+| `crp/agn/**` | 1 | `41897be80b5ea2b61b5a7f26ea86e6f5df819c6f66f8620777c1cfec78b24ca9` |
+| `crp/cap/**` | 151 | `c9a4e434699eec0bd31b076df1e3c292868bb16626da5dc2feb3c7453cec5f33` |
+| `crp/gov/**` | 14 | `45b0799ef40458bb8b5e8ff1f39d4762c2ec47df4e5e81c9229c54f094240bf9` |
+| `.github/**` | 10 | `e540268c5f560fc5f64001b6024bcdee5f4524406204d913c63e3c286edcd47e` |
 | `.codex/**` | 0 | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
-| root `AGENTS.md` | 1 | `fa913f9d8e5513332c7fae01bff30e7e2dcb01ce9abee8262ad0a7c25c3c659e` |
-| All current scopes above | 190 | `903986ba132fef8f4b5356cf59ee9b34b18b65e175b3efe09bc6e75edf62cc5e` |
+| root `AGENTS.md` | 1 | `e002e28041d0e8b551f8d5c442f69afc0064340927485b1469959a7f75bb88c8` |
+| All pre-#83 scopes above | 190 | `dc0adaaa42affecaf965b3c640884570904a17753e72335bf0cd11bbc25f86c5` |
 
 The `crp/cap/**` count consists of 70 Capability pairs, 10 index files, and one
 tracked placeholder. Ignored `.DS_Store` files are environmental metadata, not
@@ -125,14 +138,19 @@ Reproduce the manifests without checking out the old branch:
 
 ```sh
 git ls-tree -r e75c2fbbac5b12c7c7c44359366d8ae4de568e0e -- xxx README.md | shasum -a 256
-git ls-files -s adm | sort | shasum -a 256
-git ls-files -s crp/agn | sort | shasum -a 256
-git ls-files -s crp/cap | sort | shasum -a 256
-git ls-files -s crp/gov | sort | shasum -a 256
-git ls-files -s .github | sort | shasum -a 256
-git ls-files -s .codex | sort | shasum -a 256
-git ls-files -s AGENTS.md | sort | shasum -a 256
-git ls-files -s adm crp .github .codex AGENTS.md | sort | shasum -a 256
+
+baseline_revision=74bc0dfd9cf51f1f2263a4a3fa2bc62833f65d8d
+for source_scope in adm crp/agn crp/cap crp/gov .github .codex AGENTS.md
+do
+  source_count=$(git ls-tree -r --name-only "$baseline_revision" -- "$source_scope" | wc -l | tr -d ' ')
+  source_digest=$(git ls-tree -r "$baseline_revision" -- "$source_scope" | shasum -a 256 | awk '{print $1}')
+  printf '%s count=%s sha256=%s\n' "$source_scope" "$source_count" "$source_digest"
+done
+
+git ls-tree -r --name-only "$baseline_revision" -- \
+  adm crp .github .codex AGENTS.md | wc -l
+git ls-tree -r "$baseline_revision" -- \
+  adm crp .github .codex AGENTS.md | shasum -a 256
 ```
 
 ### Already preserved and external evidence
@@ -412,7 +430,7 @@ host adapters, and external consumers. This matrix does not sequence or
 authorize that work. A later cut must be atomic at each owned aggregate,
 preserve recoverability, and prove target completeness before source removal.
 
-## Verification contract and current result
+## Verification contract and recorded result
 
 The following checks are required for this artifact:
 
@@ -421,39 +439,48 @@ The following checks are required for this artifact:
 git ls-tree -r --name-only e75c2fbbac5b12c7c7c44359366d8ae4de568e0e -- xxx README.md | wc -l
 git ls-tree -r e75c2fbbac5b12c7c7c44359366d8ae4de568e0e -- xxx README.md | shasum -a 256
 
-# Current tracked counts
-git ls-files adm | wc -l
-git ls-files crp/agn | wc -l
-git ls-files crp/cap | wc -l
-git ls-files crp/gov | wc -l
-git ls-files .github | wc -l
-git ls-files .codex | wc -l
-git ls-files AGENTS.md | wc -l
+# Revision-bound pre-#83 source counts and aggregate manifest
+baseline_revision=74bc0dfd9cf51f1f2263a4a3fa2bc62833f65d8d
+git ls-tree -r --name-only "$baseline_revision" -- adm | wc -l
+git ls-tree -r --name-only "$baseline_revision" -- crp/agn | wc -l
+git ls-tree -r --name-only "$baseline_revision" -- crp/cap | wc -l
+git ls-tree -r --name-only "$baseline_revision" -- crp/gov | wc -l
+git ls-tree -r --name-only "$baseline_revision" -- .github | wc -l
+git ls-tree -r --name-only "$baseline_revision" -- .codex | wc -l
+git ls-tree -r --name-only "$baseline_revision" -- AGENTS.md | wc -l
+git ls-tree -r "$baseline_revision" -- \
+  adm crp .github .codex AGENTS.md | shasum -a 256
 
 # Capability pair completeness
-find crp/cap -type f -name '*.meta.yaml' | wc -l
+git ls-tree -r --name-only "$baseline_revision" -- crp/cap | \
+  grep -E '\.meta\.yaml$' | wc -l
 
-# Root facade mode and current target
-git ls-files -s AGENTS.md
-readlink AGENTS.md
+# Baseline root facade mode and target
+git ls-tree "$baseline_revision" -- AGENTS.md
+git show "$baseline_revision":AGENTS.md
 
-# Documentation integrity
+# Contemporaneous worktree integrity only; not baseline evidence
 git diff --check
 ```
 
-Current result at authoring time:
+Revision-bound baseline result and contemporaneous authoring check:
 
 - preserved snapshot: `9` files; tree-manifest digest
   `dee29942a41a8909fbbdb22593a778b725c5b974e10fe82ad9bf71289b49b5c9`;
-- current tracked scopes: `13 + 1 + 151 + 14 + 10 + 0 + 1 = 190` files;
+- pre-#83 tracked scopes at
+  `74bc0dfd9cf51f1f2263a4a3fa2bc62833f65d8d`:
+  `13 + 1 + 151 + 14 + 10 + 0 + 1 = 190` files; aggregate Git-tree
+  manifest digest
+  `dc0adaaa42affecaf965b3c640884570904a17753e72335bf0cd11bbc25f86c5`;
 - Capability metadata files: `70`, each paired with a Markdown source in the
   inventory above;
-- current root facade is a tracked symbolic link, temporarily targeting
+- the baseline root facade is a tracked symbolic link, temporarily targeting
   `.github/agents/ai4x.agent.md`; its accepted target disposition is explicitly
   `.ai4x/BEHAVIOR.md`;
-- no `.codex/**` source currently exists; all required Codex surfaces are
+- no `.codex/**` source exists in the baseline; all required Codex surfaces are
   explicitly dispositioned above;
-- `git diff --check`: pass after authoring.
+- contemporaneous `git diff --check`: pass after authoring; it is worktree
+  hygiene only and is not used to establish the revision-bound inventory.
 
 ## Co-author evidence and verdict
 

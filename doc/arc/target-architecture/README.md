@@ -284,6 +284,33 @@ uses those same interfaces. Project declarations contain neither external-reposi
 links nor mutable remote references. Credentials, tokens, Keychain items, user-specific
 absolute paths, and live remote state are never declarative project state.
 
+## `#eyodf` self-application contract
+
+`#eyodf` means bounded full public-contract self-application, not merely repository
+checks or informal dogfooding. Its subject is the ai4X product repository represented as
+an ordinary ai4X project instance. That instance must use the same public Project Entry,
+declaration update, `scout`, `curate`, `spawn`, Work, Collaboration, validation,
+Assurance, activation, host-port, Receipt, Handoff, and governance contracts available
+to an adopted project.
+
+No product-internal module call, repository-only declaration evaluator, privileged
+semantic write, implicit actor, self-issued Receipt, gate shortcut, direct aggregate
+access, or host-specific identity fallback may replace those interfaces. Authoritative
+evidence is the subject-bound accepted declaration generation, Intent and curation
+trace, composition and team identities, Work/Collaboration records, typed validation and
+Assurance Receipts, activation projection manifest, Handoffs, and Gate Decisions.
+Deterministic checks establish identity, version/digest closure, byte-stable projection,
+Receipt validity, and gate satisfaction; semantic review and named governance acceptance
+remain explicit and cannot be inferred from deterministic success.
+
+The only bootstrap exception is building or obtaining the initial trusted ai4X
+executable and immutable versioned product assets before ai4X can invoke itself. That
+bootstrap may provide mechanics but cannot author project semantics, waive validation,
+issue evidence, or accept a gate. From a fresh checkout, one end-to-end verification
+must adopt the ai4X repository, update declarations, derive/accept curation, validate and
+assure the subject, assemble one authorized activation projection, complete the required
+Handoff/gate path, and reproduce the declared evidence without a privileged bypass.
+
 ## Project Intent and Curation
 
 ### Project Intent aggregate
@@ -824,6 +851,8 @@ source-information disposition is enumerated by the Information Disposition Matr
 |-- [T] Makefile
 |-- [D] mod/
 |   |-- [T] cabal.project
+|   |-- [D] policy/resource-envelope/<policy-version>/
+|   |   `-- [T] policy.yaml
 |   |-- [D] cli/
 |   |   |-- [T] ai4x-cli.cabal
 |   |   |-- [D] app/
@@ -1268,6 +1297,25 @@ normalization wall time and memory, graph nodes/edges, diagnostic count, project
 records/bytes/tokens, and small-project cold/warm budgets. Exceeding a bound is a typed
 failure, never partial output.
 
+### Versioned resource envelope policy
+
+The authoritative numeric envelope is the product-owned tracked policy at
+`mod/policy/resource-envelope/<policy-version>/policy.yaml`, owned by ai4X Release
+Governance and consumed as inert input by declaration, curation, activation, Assurance,
+and their adapters. Architecture fixes the dimensions and typed failure semantics but
+does not invent unmeasured values. Each policy version must name supported operating
+systems/filesystems, CPU architecture, runtime/compiler versions, and a reproducible
+reference environment; supported project classes; source count/bytes/depth;
+normalization latency and peak memory; graph nodes/edges and diagnostic limits;
+projection records/bytes/tokens; cancellation deadlines; and cold/warm budgets.
+
+Publication of an implementation release is blocked until its selected policy version
+has benchmark and adversarial evidence from every supported-platform class, including
+boundary and over-limit fixtures, cancellation, small-project cold/warm runs, peak
+memory, and proof that limit failure is typed and produces no partial publication. Until
+that evidence exists, this Architecture Pack claims deterministic enforcement and
+asymptotic proportionality only, not production feasibility or numeric performance.
+
 ## Key invariants
 
 1. Every authoritative fact has one writable owner; generated data is never semantic
@@ -1305,6 +1353,10 @@ failure, never partial output.
 19. Ordinary-consumer dependency closure excludes Dhall loading and evaluation.
 20. Agent projections disclose only an authorized Assignment-reachable allow-list under
     explicit record, byte, token, provenance, and freshness bounds.
+21. A `#eyodf` claim requires end-to-end self-application through public contracts; the
+    mechanical bootstrap grants no semantic, evidence, or governance privilege.
+22. Numeric feasibility is claimed only for a versioned resource-envelope policy with
+    accepted supported-platform benchmark and adversarial evidence.
 
 ## Options and trade-offs
 
@@ -1442,7 +1494,11 @@ The architecture gate requires independently inspectable target checks for:
    provenance, and byte-stability tests; and
 10. adversarial loader tests for remote/environment/absolute/unfrozen/symlink/escape,
     swap-during-read, resource, timeout, memory, and cancellation behavior over captured
-    bytes.
+    bytes; and
+11. a fresh-checkout `#eyodf` journey proving the ai4X repository uses every required
+    public self-application surface, produces subject-bound declaration, curation,
+    validation, Assurance, activation, Handoff, and gate evidence, and uses no privileged
+    semantic bypass beyond the documented mechanical bootstrap.
 
 ## Architecture gate condition
 
