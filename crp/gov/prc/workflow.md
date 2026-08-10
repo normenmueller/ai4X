@@ -67,7 +67,7 @@ No hidden defaults in config or CLI resolution.
 - ensure links target project-local generated artifacts only
 
 4. Verification changes
-- keep make verify and make doctor green
+- keep `make verify` green and apply the Completion Gate's Doctor and Capability evidence rules
 - keep required repository structure versioned so fresh checkouts satisfy verification
 
 5. GitHub automation changes
@@ -275,7 +275,7 @@ flowchart TD
 	T --> CR2[ai4x-critical-reviewer<br/>Stage 9: Review Pass B]
 	CR2 -->|Blocked| I
 	CR2 -->|Conditional approve| O2[ai4X Tech Lead<br/>Stage 10: Final Acceptance]
-	O2 --> DONE[Done: verify doctor docs]
+	O2 --> DONE[Done: Completion Gate satisfied]
 ```
 
 ## Completion Gate
@@ -283,8 +283,11 @@ flowchart TD
 A change is complete only if:
 
 1. make verify passes
-2. make doctor passes
-3. docs affected by behavior changes are updated
-4. GitHub workflow changes remain consistent with the current repository structure
-5. repository metadata changes are reconciled through the metadata runbook when applicable
-6. required repository structure is versioned so fresh checkouts contain the paths that verification expects
+2. Doctor evidence is `n/a` until a deliberately implemented and tested `make doctor` target exists
+3. reintroducing a Doctor gate requires an executable command contract and associated tests; a no-op target does not satisfy this gate
+4. Capability evidence is `n/a` until a deliberately implemented and tested entrypoint exists; once applicable, it must pass
+5. reintroducing Capability quality gates or tests requires an implemented entrypoint and associated tests; a no-op target or placeholder directory does not satisfy this gate
+6. docs affected by behavior changes are updated
+7. GitHub workflow changes remain consistent with the current repository structure
+8. repository metadata changes are reconciled through the metadata runbook when applicable
+9. required repository structure is versioned so fresh checkouts contain the paths that verification expects
