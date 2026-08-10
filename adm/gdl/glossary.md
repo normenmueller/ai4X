@@ -1,28 +1,40 @@
 ---
-version: 1.1.0
-last_updated: 2026-05-08
+version: 1.2.0
+last_updated: 2026-08-10
 ---
 
 # Governance Glossary
 
 Canonical term definitions for the ai4X governance layer.
-Terms defined here are the single authoritative source. Other documents reference this file rather than restating definitions.
+Terms defined here are the single authoritative source. Operational documents may project responsibilities, artifacts, and transitions for these terms, but must reference this glossary rather than redefine them.
 
 **Scope:** This file contains reference-safe terms only (Planning Terms, Qualifier Terms, Architecture Terms). Dispatch-critical terms (Gate Terms, Artifact Terms, Verdict Terms) remain inline at their point of use in `crp/gov/prc/workflow.md`. See `doc/arc/09_architecture_decisions.md` § ADR-001 for rationale.
 
 ## Planning Terms
 
-1. **Idea**
+1. **Work Item**
+   - A GitHub Issue or native GitHub Sub-Issue used as the planning primitive after promotion. Labels and relationships give a Work Item its semantic role; creation alone grants no implementation authority.
+
+2. **Idea**
    - A vague intent or exploration drafted by the PO in `adm/pbl/`. Temporary.
 
-2. **Epic**
-   - A refined requirement scope with acceptance criteria. Promoted to a GitHub Issue with label `epic`.
+3. **Roadmap**
+   - A dependency-ordered planning index represented by a GitHub Issue with label `roadmap`. It may identify coherent planned Epics but grants no implementation authority.
 
-3. **Story**
-   - An implementable unit of work within an Epic. GitHub Issue with label `story`, linked to parent Epic.
+4. **Epic**
+   - A coherent planned outcome represented by a GitHub Issue with label `epic`. It may exist as an early container before its Requirements Pack is complete, but it is not implementation-ready until the strict Ready gate passes.
 
-4. **Task**
-   - An implementation step within a Story. Represented as a checklist within the Story Issue.
+5. **Story**
+   - A PO-approved, PR-sized implementation unit represented by a native GitHub Sub-Issue of its Epic with label `story`.
+
+6. **Standalone Issue**
+   - A Work Item that does not require an Epic/Story hierarchy. A semantic label such as `enhancement`, `chore`, `documentation`, or `research` describes its role.
+
+7. **Task**
+   - An implementation step within a Story or standalone Issue. Represented as a checklist within that Issue.
+
+8. **Ready Authority**
+   - The PO's explicit release of a Work Item for implementation after its applicable prerequisites pass. Issue creation, labels, relationships, and planning activity do not imply Ready Authority.
 
 ## Qualifier Terms
 

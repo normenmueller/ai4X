@@ -1,18 +1,18 @@
 ---
-version: 1.0.0
-last_updated: 2026-05-06
+version: 1.1.0
+last_updated: 2026-08-10
 ---
 
 # Planning Conformance Contract
 
 ## Purpose
 
-Define a mandatory conformance check for the planning lifecycle (Idea → Epic → Story).
+Define a mandatory conformance check for the planning lifecycle (Idea -> Epic -> Story).
 This check ensures all planning deliverables are present and complete before the Tech Lead requests the PO's Ready decision.
 
 ## Scope
 
-Applies to all Epics promoted through the planning workflow defined in `adm/gdl/planning-workflow.md`.
+Applies to all Epics in the planning workflow defined in `adm/gdl/planning-workflow.md`, including early Epic containers created before Requirements approval.
 This contract is the planning counterpart to the development session conformance check in `crp/gov/prc/development-conformance.md`.
 
 ## Planning Conformance Rule (MUST)
@@ -25,10 +25,13 @@ If any deliverable is missing, the Tech Lead must resolve it before issuing the 
 
 | Deliverable | Phase | Presence |
 |-------------|-------|----------|
-| Requirements Pack in Epic Issue body | Phase 2 | present / missing |
-| PBL entry deleted | Phase 3 | yes / no |
-| Epic on project board (Backlog) | Phase 3 | yes / no |
-| Story Issues created with label `story` | Phase 4 | yes / no |
+| Exactly one Epic Issue with label `epic` | Phase 2 or 3 | yes / no |
+| Current gate facts disclosed in Epic body using the canonical template in `adm/gdl/planning-workflow.md` | Phase 2 onward | yes / no |
+| Requirements Pack in Epic Issue body and PO-approved | Phase 2/3 | present / missing |
+| PBL entry deleted after approved Requirements became authoritative | Phase 3 | yes / no / n/a |
+| Epic on project board (`Backlog` or planning `In progress`) | Phase 2/3 | yes / no |
+| Story decomposition PO-approved | Phase 4 | yes / no |
+| PR-sized Story Issues created with label `story` | Phase 4 | yes / no |
 | All Stories linked as Sub-Issues to parent Epic | Phase 4 | yes / no |
 | All Stories on project board | Phase 4 | yes / no |
 | AC Coverage Matrix in Epic Issue body | Phase 4 | yes / no |
@@ -38,12 +41,15 @@ If any deliverable is missing, the Tech Lead must resolve it before issuing the 
 
 - The conformance check result is confirmed inline in the Ready-Gate prompt to the PO.
 - Missing deliverables block the Ready-Gate prompt.
-- The Tech Lead's prompt must offer support, not just request a binary decision. Example: *"Stories are created. The Epic is in Backlog. Your decision: set the Epic to Ready, or is there anything else I can help you with first?"*
+- The Epic must not enter `Ready` unless the Requirements Pack and Story decomposition are PO-approved, every Epic AC is covered, and this check passes.
+- The Epic's existence, label, parent relationship, or planning `In progress` state is not implementation authority.
+- The Tech Lead's prompt must offer support, not just request a binary decision. Example: *"Stories are created and Planning Conformance passed. The Epic is not yet Ready. Would you like to grant Ready authority, or is there anything else I can help you with first?"*
 
 ## Quality Rule (MUST)
 
 - A skipped conformance check is a governance violation.
 - The Tech Lead may not auto-advance to development without the PO's explicit Ready decision.
+- The PO retains ownership of Ready, priority, and final acceptance.
 
 ## References
 
