@@ -43,7 +43,7 @@ A capability sweep is initiated when:
 
 ## Governance
 
-- Quality gates (`utl/cap/` checks) must pass after any portfolio change resulting from sweep findings.
+- Applicable Capability evidence under `crp/gov/prc/workflow.md` (Completion Gate) must pass after any portfolio change resulting from sweep findings.
 - The sweep is an assessment, not implementation. It produces PBL entries that enter the Planning Workflow (`adm/gdl/planning-workflow.md`).
 - Remediation of sweep findings follows the normal Idea-to-Story path (including Stage 6 when applicable).
 

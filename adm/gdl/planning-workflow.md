@@ -137,7 +137,7 @@ This document defines the planning workflow for ai4X, following established Scru
 3. PR is linked to the Story Issue (via `closes #N`).
 4. PR description references the parent Epic and summarizes key artifacts for traceability.
 
-**Checks**: `make verify`, `make doctor`, GitHub Actions workflow.
+**Checks**: `make verify`, applicable Doctor evidence under `crp/gov/prc/workflow.md` (Completion Gate), and GitHub Actions.
 
 ### Phase 6: Closure
 
@@ -219,7 +219,7 @@ flowchart TD
 2. Confirm PBL entry is deleted after Epic promotion.
 3. Confirm Story Issues link to parent Epic Issue.
 4. Confirm traceability chain: Epic Issue → Story Issue → PR → merged commit.
-5. Confirm `make verify`, `make doctor`, and GitHub Actions remain green.
+5. Confirm `make verify`, applicable Doctor evidence under `crp/gov/prc/workflow.md` (Completion Gate), and GitHub Actions remain green.
 6. Confirm non-Feature/Fix changes (Docs, Chore, Refactor) can proceed without mandatory Epic/Story linkage.
 
 ## References

@@ -17,7 +17,7 @@ Owns production implementation quality in `cli/src`.
 - Domain logic: `cli/src/lib`
 - Tests: `cli/tst`
 - Package config: `cli/package.json`, `cli/tsconfig.json`
-- Verification commands: `make verify`, `make doctor`
+- Verification: `make verify` plus applicable Doctor evidence under `crp/gov/prc/workflow.md` (Completion Gate)
 
 ## Responsibilities (MUST)
 
