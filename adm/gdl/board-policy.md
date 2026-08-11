@@ -1,6 +1,6 @@
 ---
-version: 1.1.0
-last_updated: 2026-08-10
+version: 1.2.0
+last_updated: 2026-08-11
 ---
 
 # Board Policy
@@ -43,6 +43,24 @@ flowchart LR
     IP -->|Tech Lead: PR created, checks green| IR[In review]
     IR -->|PO: PR approved + merged| D[Done]
 ```
+
+The topic branch must originate from the exact Base Authorization OID before
+delivery starts. Before an Issue enters `In review`, its current pull request
+must have a passing reconciliation for the current Publication Intent Revision.
+PR creation, any base/head change, `Ready for review`, Issue `In review`, and
+final conformance each require their own fresh reconciliation; an unchanged
+prior proof is consumed, while changed facts require renewed local proof. No
+proof can be reused as an evergreen verdict. A clean status,
+`git show HEAD`, last-commit inspection, commit count alone, or local-only proof
+is insufficient. If the base moved, the original branch and PR remain
+preserved while renewed authority governs any replacement; force-push,
+deletion, or destructive rewrite requires explicit PO approval.
+Every replacement authority must retain a contiguous, digest-bound link to its
+exact predecessor; changing the authorized revision or base OID without that
+lineage is invalid.
+The normative lifecycle and commands are defined in `utl/gh/RUNBOOK.md` under
+**Branch and Pull-Request Scope** and in the Branching and Merge Rule of
+`crp/gov/prc/workflow.md`.
 
 ## Issue Intake
 
@@ -113,3 +131,4 @@ Additional labels (optional but recommended):
 > **Note**: Mutual reference - `adm/gdl/planning-workflow.md` references this document for board transitions. Neither is subordinate; they are complementary protocols with distinct scope (planning lifecycle vs. board mechanics).
 - `adm/gdl/planning-conformance.md` — Planning conformance check.
 - `crp/gov/prc/workflow.md` — 10-stage development workflow (Story execution).
+- `utl/gh/RUNBOOK.md` — deterministic branch and pull-request scope evidence.
