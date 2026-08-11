@@ -1,6 +1,6 @@
 ---
-version: 1.0.0
-last_updated: 2026-05-06
+version: 1.1.0
+last_updated: 2026-08-11
 ---
 
 # Development Workflow
@@ -45,6 +45,17 @@ No hidden defaults in config or CLI resolution.
 4. Every topic branch is merged to `trunk` through a pull request linked to the Issue (`closes #N`).
 5. No direct commits to `trunk`.
 6. Merging uses squash as standard.
+7. Before branch creation, the Tech Lead records a Base Authorization and creates the branch from its exact target OID.
+8. After the intended commits exist and before verification or push, the Tech Lead records a Publication Intent Revision containing the complete commit set and provider-neutral file delta.
+9. The deterministic preflight in `utl/gh/branch-scope.sh` must pass locally, immediately before every push, and against the pull request at the lifecycle boundaries defined in its runbook.
+10. A moved target, changed HEAD, dirty index/worktree, stale approval, incomplete provider evidence, or local/GitHub disagreement blocks publication until authority and evidence are refreshed.
+11. Clean status, `git show HEAD`, the last commit, commit count alone, and local-only proof never substitute for complete scope reconciliation.
+12. Target movement preserves the original branch and pull request. Any replacement uses a newly approved base, an exact digest-bound predecessor lineage, and renewed Publication Intent; force-push, branch/PR deletion, or destructive history rewrite requires explicit PO approval and is never performed by the preflight.
+
+The authority model, intent shape, lifecycle boundaries, and commands are
+defined in `utl/gh/RUNBOOK.md` under **Branch and Pull-Request Scope**. The
+machine-readable intent and emitted proofs are evidence projections; the Issue
+remains the approval authority.
 
 ## Commit Message Rule
 
@@ -75,6 +86,9 @@ No hidden defaults in config or CLI resolution.
 
 6. Repository metadata changes
 - follow the runbook in `utl/gh/RUNBOOK.md`
+
+7. Branch or pull-request publication
+- follow the Branch and Pull-Request Scope contract in `utl/gh/RUNBOOK.md`
 
 ## Expert Team Routing
 

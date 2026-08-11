@@ -1,6 +1,6 @@
 ---
-version: 1.1.0
-last_updated: 2026-08-10
+version: 1.2.0
+last_updated: 2026-08-11
 ---
 
 # Planning Workflow: Idea -> Work Item -> Ready -> Done
@@ -313,11 +313,13 @@ flowchart TD
 9. Confirm an originating standalone PBL entry survives Issue creation and is deleted only after explicit PO content approval and authoritative consolidation.
 10. Confirm standalone changes can proceed without mandatory Epic/Story linkage only after their own explicit Ready decision.
 11. Confirm Epic closure requires recorded PO final acceptance and PO transition to `Done`; Tech Lead verification alone is insufficient.
+12. Confirm each delivery branch starts at its exact Base Authorization OID and the current pull request has a fresh Branch and Pull-Request Scope reconciliation after creation or base/head change, before `Ready for review`, before `In review`, and at final conformance. Prior proofs are consumed, not treated as evergreen; moved-base recovery preserves the original branch and PR and retains an exact digest-bound predecessor lineage unless the PO explicitly authorizes destructive action.
 
 ## References
 
 - `adm/gdl/board-policy.md` — Board transitions, ownership gates, and label conventions.
 - `adm/gdl/planning-conformance.md` — Planning conformance check (mandatory before Ready-Gate).
 - `crp/gov/prc/workflow.md` — 10-stage expert team routing, branching, commits, and completion gates.
+- `utl/gh/RUNBOOK.md` — deterministic Branch and Pull-Request Scope preflight and evidence lifecycle.
 - `.github/agents/ai4x.agent.md` — Tech Lead definition, interaction model, and product rules.
 - `CONTRIBUTING.md` — informative contributor guidance.

@@ -8,7 +8,12 @@ import {
   rmSync,
   accessSync,
   constants,
+  copyFileSync,
+  mkdirSync,
+  mkdtempSync,
+  writeFileSync,
 } from "node:fs";
+import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 import { resolve, dirname } from "node:path";
 
@@ -308,6 +313,31 @@ describe("Makefile install/uninstall (Story #11)", () => {
     it("make verify runs without error", () => {
       const result = runMake("verify");
       assert.equal(result.exitCode, 0, `make verify failed: ${result.stderr}`);
+    });
+
+    it("AC-26: make clean preserves versioned .ai4x bootstrap files", () => {
+      const sandbox = mkdtempSync(resolve(tmpdir(), "ai4x-clean-contract-"));
+      try {
+        copyFileSync(resolve(repoRoot, "Makefile"), resolve(sandbox, "Makefile"));
+        mkdirSync(resolve(sandbox, ".ai4x/ana"), { recursive: true });
+        mkdirSync(resolve(sandbox, ".ai4x/team"), { recursive: true });
+        writeFileSync(resolve(sandbox, ".ai4x/config.yaml"), "project: preserved\n");
+        writeFileSync(resolve(sandbox, ".ai4x/team/.gitkeep"), "");
+        writeFileSync(resolve(sandbox, ".ai4x/ana/generated"), "discard\n");
+
+        const result = spawnSync("make", ["clean"], {
+          cwd: sandbox,
+          encoding: "utf-8",
+          timeout: 60_000,
+        });
+
+        assert.equal(result.status, 0, `make clean failed: ${result.stderr}`);
+        assert.equal(existsSync(resolve(sandbox, ".ai4x/config.yaml")), true);
+        assert.equal(existsSync(resolve(sandbox, ".ai4x/team/.gitkeep")), true);
+        assert.equal(existsSync(resolve(sandbox, ".ai4x/ana")), false);
+      } finally {
+        cleanup(sandbox);
+      }
     });
   });
 
