@@ -1037,9 +1037,9 @@ test("T-14/T-15 failures are non-mutating and deterministic", () => {
   );
 });
 
-test("T-16/T-17 mutation suite enforces #120 authority and non-destructive recovery", () => {
-  const baseOid = "1".repeat(40);
-  const headOid = "2".repeat(40);
+test("T-16/T-17 accepts initial #120 authority and enforces non-destructive recovery", () => {
+  const baseOid = "b2c6ca96930def7477f91f648b8f85e6f24275b8";
+  const headOid = "d51644be2c5370433bdc723af4263e977f68302a";
   const replacementBaseOid = "4".repeat(40);
   const initial = intentFor({ baseOid }, headOid, [
     { operation: "add", path: "evidence.txt" },
@@ -1047,8 +1047,47 @@ test("T-16/T-17 mutation suite enforces #120 authority and non-destructive recov
   initial.baseAuthorization.workItem = "#120";
   initial.readyAuthority.workItem = "#120";
   initial.publicationIntent.workItem = "#120";
+  initial.readyAuthority.revision = "5258296515";
+  initial.baseAuthorization.revision = "BA-120-01";
+  initial.baseAuthorization.targetRepository = "normenmueller/ai4X";
+  initial.baseAuthorization.lineage[0].revision = "BA-120-01";
   initial.baseAuthorization.poReservedConstraints = [...PO_RESERVED_CONSTRAINTS];
-  expectFailure(() => validateIntent(initial), "approval_missing_or_stale");
+  initial.publicationIntent.revision = "PI-120-01";
+  initial.publicationIntent.baseAuthorizationRevision = "BA-120-01";
+  const checkedInitial = validateIntent(structuredClone(initial));
+  assert.equal(checkedInitial.baseAuthorization.lineage.length, 1);
+  assert.equal(checkedInitial.baseAuthorization.lineage[0].replacementApproval, null);
+  assert.deepEqual(
+    checkedInitial.baseAuthorization.poReservedConstraints,
+    [...PO_RESERVED_CONSTRAINTS].sort((left, right) =>
+      Buffer.compare(Buffer.from(left), Buffer.from(right)),
+    ),
+  );
+  const incompleteInitial = structuredClone(initial);
+  incompleteInitial.baseAuthorization.poReservedConstraints = ["base-replacement"];
+  expectFailure(() => validateIntent(incompleteInitial), "approval_missing_or_stale");
+  const falseInitialReplacement = structuredClone(initial);
+  falseInitialReplacement.baseAuthorization.lineage[0].replacementApproval = {};
+  expectFailure(() => validateIntent(falseInitialReplacement), "approval_missing_or_stale");
+
+  const localFixture = createFixture();
+  const localHeadOid = commitFile(localFixture);
+  const localInitial = intentFor(localFixture, localHeadOid, [
+    { operation: "add", path: "feature.txt" },
+  ]);
+  localInitial.baseAuthorization.workItem = "#120";
+  localInitial.readyAuthority.workItem = "#120";
+  localInitial.publicationIntent.workItem = "#120";
+  localInitial.baseAuthorization.poReservedConstraints = [...PO_RESERVED_CONSTRAINTS];
+  const localProof = verifyLocal(localFixture.repo, localInitial);
+  assert.equal(localProof.approvedBaseOid, localFixture.baseOid);
+  assert.equal(localProof.verifiedHeadOid, localHeadOid);
+  assert.deepEqual(localProof.actual.commits, [localHeadOid]);
+  assert.deepEqual(localProof.actual.primitiveRecords, [
+    { operation: "add", path: "feature.txt" },
+  ]);
+  assert.deepEqual(localProof.cleanliness, { index: true, worktree: true });
+  assert.equal(localProof.remoteBinding.repository, FIXTURE_REPOSITORY);
 
   const intent = structuredClone(initial);
   const priorAuthority = intent.baseAuthorization.lineage[0];
@@ -1137,17 +1176,12 @@ test("T-16/T-17 mutation suite enforces #120 authority and non-destructive recov
   const replacement = structuredClone(intent);
   validateIntent(replacement);
 
-  const omittedLineage = structuredClone(replacement);
-  omittedLineage.baseAuthorization.lineage = [
-    {
-      sequence: 1,
-      revision: "base-2",
-      approver: "gertrud-ai4x",
-      baseOid: replacementBaseOid,
-      replacementApproval: null,
-    },
-  ];
-  expectFailure(() => validateIntent(omittedLineage), "approval_missing_or_stale");
+  const omittedPredecessor = structuredClone(replacement);
+  omittedPredecessor.baseAuthorization.lineage.shift();
+  expectFailure(() => validateIntent(omittedPredecessor), "approval_missing_or_stale");
+  const reorderedLineage = structuredClone(replacement);
+  reorderedLineage.baseAuthorization.lineage.reverse();
+  expectFailure(() => validateIntent(reorderedLineage), "approval_missing_or_stale");
 
   for (const field of ["preserveOriginalBranch", "preserveOriginalPullRequest"]) {
     const mutant = structuredClone(replacement);
@@ -1162,6 +1196,19 @@ test("T-16/T-17 mutation suite enforces #120 authority and non-destructive recov
   authorityMutant.baseAuthorization.lineage[1].replacementApproval.previousApprover =
     "someone-else";
   expectFailure(() => validateIntent(authorityMutant), "approval_missing_or_stale");
+  const successorApproverMutant = structuredClone(replacement);
+  successorApproverMutant.baseAuthorization.lineage[1].approver = "someone-else";
+  successorApproverMutant.baseAuthorization.approver = "someone-else";
+  expectFailure(() => validateIntent(successorApproverMutant), "approval_missing_or_stale");
+  const repeatedBaseMutant = structuredClone(replacement);
+  repeatedBaseMutant.baseAuthorization.lineage[1].baseOid = baseOid;
+  repeatedBaseMutant.baseAuthorization.baseOid = baseOid;
+  expectFailure(() => validateIntent(repeatedBaseMutant), "approval_missing_or_stale");
+  const repeatedRevisionMutant = structuredClone(replacement);
+  repeatedRevisionMutant.baseAuthorization.lineage[1].revision = "BA-120-01";
+  repeatedRevisionMutant.baseAuthorization.revision = "BA-120-01";
+  repeatedRevisionMutant.publicationIntent.baseAuthorizationRevision = "BA-120-01";
+  expectFailure(() => validateIntent(repeatedRevisionMutant), "approval_missing_or_stale");
   const poMutant = structuredClone(replacement);
   poMutant.baseAuthorization.lineage[1].replacementApproval.poAuthority = "tech-lead";
   expectFailure(() => validateIntent(poMutant), "approval_missing_or_stale");
@@ -1172,6 +1219,9 @@ test("T-16/T-17 mutation suite enforces #120 authority and non-destructive recov
     (value) =>
       (value.baseAuthorization.lineage[1].replacementApproval.previousAuthorityDigest =
         "6".repeat(64)),
+    (value) =>
+      (value.baseAuthorization.lineage[1].replacementApproval.previousRevision = "base-0"),
+    (value) => (value.baseAuthorization.lineage[1].replacementApproval.poApprover = ""),
     (value) => delete value.baseAuthorization.lineage[1].replacementApproval.poApprovalRevision,
     (value) => (value.baseAuthorization.lineage[1].sequence = 3),
   ]) {
