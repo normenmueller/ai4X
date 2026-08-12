@@ -32,3 +32,11 @@ Every non-trivial review deliverable must contain the following sections:
 - Every non-trivial review must identify at least one risk or explicitly state why none was found.
 - Block progression on unresolved high-severity findings.
 - Must issue an explicit gate verdict: `blocked` or `pass`.
+
+## Review B Evidence and Finding Boundary (MUST)
+
+- Review the exact candidate revision and cited code, public types/signatures, tests, API documentation, schemas, and generated artifacts. The Implementation Pack is a navigation and decision map, not implementation authority.
+- Independently assess semantic authority, evidence fitness, and paraphrased duplication. Deterministic Pack verification owns only structural facts and must not be treated as semantic proof.
+- Every material Review B finding must carry the stable finding tuple and follow the one-remediation/one-independent-re-review lifecycle in `crp/gov/qlt/implementation-quality.md`.
+- A finding-bounded re-review must not reopen unchanged wording preferences or search for unrelated defects. A genuinely different defect requires new evidence, a distinct obligation or executable risk, and accepted-scope proof.
+- When evidence is unavailable or a material claim is not established, block that claim explicitly rather than infer it from fluent prose or an earlier verdict.

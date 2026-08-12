@@ -1,6 +1,6 @@
 ---
-version: 1.1.0
-last_updated: 2026-08-11
+version: 1.2.0
+last_updated: 2026-08-12
 ---
 
 # Development Workflow
@@ -115,8 +115,8 @@ This workflow executes **per Story**. Epic refinement and Story decomposition ar
 - mandatory when Stage 2 or Stage 3 produced new artifacts; skipped when both were skipped
 
 5. AI Strategy (`ai4x-ai-strategy`) — conditional
-- validates model/tool constraints, fallback behavior, and uncertainty policy
-- only when the Story involves AI/LLM behavior or shapes agent capability consumption patterns
+- validates model/tool constraints, fallback behavior, uncertainty policy, and prompt/context discipline
+- required when the Story involves AI/LLM behavior or shapes agent planning, context, capability consumption, or review behavior
 
 6. Capability Governance (`ai4x-capability-governance`) — conditional
 - validates portfolio coverage, authors or revises capabilities, performs semantic fitness checks
@@ -145,7 +145,7 @@ The Tech Lead determines in Stage 1 which stages are needed for the current Stor
 | 2. Requirements Refinement | Conditional | Epic ACs are already sufficient for the Story scope |
 | 3. Architecture | Conditional | No module boundary or domain invariant changes |
 | 4. Critical Review A | Conditional | Stages 2 and 3 were both skipped |
-| 5. AI Strategy | Conditional | Story does not involve AI/LLM behavior and does not shape agent capability consumption patterns |
+| 5. AI Strategy | Conditional | Story does not involve AI/LLM behavior and does not shape agent planning, context, capability consumption, or review behavior |
 | 6. Capability Governance | Conditional | Story does not involve cognitive capability authoring, evaluation, or portfolio change |
 | 7. Implementation | Always | — |
 | 8. Testing | Always | — |
@@ -159,12 +159,22 @@ The Tech Lead determines in Stage 1 which stages are needed for the current Stor
 3. Critical Review Pass A, if run, must consume all artifacts produced by preceding stages and produce Review A Findings.
 4. AI Strategy stage, if run, must consume Requirements Pack and Architecture Pack (if produced), and produce an AI Strategy Note.
 5. Capability Governance stage, if run, must consume Requirements Pack, Architecture Pack (if produced), and portfolio state (`crp/cap/**`); it must produce a Capability Assessment Report and, when applicable, new or revised capability artifacts.
-6. Implementation stage must consume all available upstream artifacts (Requirements Pack, Architecture Pack if produced, Review A Findings if produced, AI Strategy Note if produced, Capability Assessment Report if produced); it must produce an Implementation Pack.
-7. Testing stage must consume Requirements Pack, Architecture Pack (if produced), and Implementation Pack; it must produce a Test Evidence Pack.
-8. Critical Review Pass B must consume Implementation Pack and Test Evidence Pack and produce Review B Findings.
+6. Implementation stage must consume all available upstream artifacts (Requirements Pack, Architecture Pack if produced, Review A Findings if produced, AI Strategy Note if produced, Capability Assessment Report if produced); it must produce the exact candidate plus a transient concise Implementation Pack map conforming to `crp/gov/qlt/implementation-quality.md`.
+7. Testing stage must consume Requirements Pack, Architecture Pack (if produced), the exact candidate, and the transient Implementation Pack map; it must derive behavior from Requirements/candidate rather than Pack prose and produce a Test Evidence Pack.
+8. Critical Review Pass B must consume the exact candidate, Implementation Pack, and Test Evidence Pack and produce Review B Findings. It must inspect cited executable evidence and independently review semantic authority/duplication.
 9. Missing mandatory artifacts, unresolved contradictions, or unresolved high-severity findings block progression.
 10. When a conditional stage is skipped, its output artifact is marked `n/a` in the conformance record.
 11. When Review B blocks and returns to Implementation, Stages 7–8 re-execute before resubmitting to Review B.
+
+### Implementation Pack Publication and Review Loop
+
+1. `crp/gov/qlt/implementation-quality.md` is the sole current definition of the canonical six-class Implementation Pack and its deterministic limits.
+2. Before PR creation, the map is a transient active-session projection for Stage 8/9. It is not a repository artifact or approval authority.
+3. PR publication creates exactly one canonical `## Implementation Pack` section. Its canonical authority bindings, decisions, acceptance evidence, candidate identity, and residual risks must match the transient map. Missing, invalid, oversized, contradictory, or changed facts block publication.
+4. The validator may establish structural facts only. Review B must inspect the exact revision-bound candidate/evidence and owns semantic authority, evidence-fitness, and duplication judgment.
+5. Every material Review B finding receives one stable identity, one minimal remediation, and at most one independent finding-bounded re-review. If the same obligation remains unsatisfied, stop and escalate one PO decision with both evidence-backed positions and one concrete Tech Lead recommendation.
+6. A genuinely different material defect requires new evidence, a distinct violated obligation or executable risk, and accepted-scope proof. Wording/style observations without such evidence do not block and cannot require Pack expansion.
+7. If accepted upstream authority intentionally leaves an exact boundary open and dependent work cannot proceed, Stage 7 may produce one executable foundation closure under `crp/gov/qlt/implementation-quality.md`. It must be independently reviewed before dependent implementation and cannot be replaced by speculative prose.
 
 ### Gate Decision Semantics
 
@@ -207,7 +217,7 @@ This glossary defines canonical terms for workflow execution, reviews, and onboa
 - Portfolio health verdict, gap analysis, overlap findings, and recommended portfolio actions.
 
 6. Implementation Pack
-- Behavior mapping to code, failure modes, and trade-offs.
+- Concise six-class decision-and-evidence map into immutable upstream authorities and the exact candidate. It contains authority bindings, changed boundaries, implementation decisions/failure behavior not owned elsewhere, AC evidence, exact verification/candidate identity, and residual risks/follow-ups. It is not a second specification.
 
 7. Test Evidence Pack
 - Behavior matrix, test strategy evidence, and regression safeguards.
@@ -249,11 +259,11 @@ Artifacts produced during workflow execution persist as follows:
 | AI Strategy Note | Chat session (referenced in PR description when applicable) |
 | Capability Assessment Report | Chat session (referenced in PR description when applicable) |
 | New/Revised Capability Artifacts | `crp/cap/**` in topic branch |
-| Implementation Pack | Code in topic branch + PR description |
+| Implementation Pack | Exact candidate in topic branch + one canonical PR-description section; transient active-session map before PR creation only |
 | Test Evidence Pack | Test files in topic branch + CI results |
 | Conformance Record | Chat session (summary in PR description) |
 
-For cross-session traceability, the PR description must reference the parent Story Issue and summarize key artifacts.
+For cross-session traceability, the PR description must reference the parent Story Issue and bind key artifacts. The canonical Implementation Pack section is limited to 100 non-empty lines and 12,000 raw UTF-8 bytes and is validated by `utl/gh/implementation-pack.mjs`; it references rather than restates upstream or executable authority. No repository Pack, attachment, or chained companion comment is permitted.
 
 ## Visual Flow
 

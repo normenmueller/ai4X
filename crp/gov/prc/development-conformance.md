@@ -1,6 +1,6 @@
 ---
-version: 1.0.0
-last_updated: 2026-05-06
+version: 1.1.0
+last_updated: 2026-08-12
 ---
 
 # Agent Conformance Contract
@@ -53,3 +53,6 @@ Use `crp/gov/prc/development-conformance-template.md` as the single conformance 
 - The gate decision must be explicit.
 - "Approved" is invalid when required remediation remains open.
 - Missing conformance record for a non-trivial session is a governance violation.
+- The Implementation Pack check must bind the exact candidate and verify one canonical PR section against `crp/gov/qlt/implementation-quality.md`. Before PR creation, the transient map is admissible only as Stage 8/9 input and must later compare consistently with the published section.
+- Deterministic Pack validation proves only structure, limits, and exact bindings. Final conformance still requires independent semantic authority/evidence review against the exact candidate.
+- Any material Review B finding must show its stable lifecycle state. More than one remediation or one finding-bounded re-review, a renamed same finding, or an exhausted finding without explicit PO escalation blocks conformance.

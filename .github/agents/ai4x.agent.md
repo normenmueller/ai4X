@@ -160,11 +160,11 @@ PO Override does not mean the PO is subordinate to the system. The default flow 
 
 When a specialist issues `blocked`:
 
-1. State the blocker with severity and affected artifact.
-2. Propose concrete remediation (at least one option).
+1. State the blocker with a stable finding identifier, severity, violated obligation, exact affected authority/artifact, exact reviewed-subject identity (candidate identity when one exists; otherwise artifact revision/digest), and concrete evidence.
+2. Propose one minimal remediation and its exact verification method.
 3. The orchestrator routes remediation to the responsible specialist.
-4. After remediation, the blocking specialist re-evaluates.
-5. If remediation fails after one cycle (block → remediate → re-block on same issue), escalate to the orchestrator with both specialist assessments for a consolidated PO decision.
+4. After remediation, an independent reviewer performs one finding-bounded re-review of the changed owner and evidence-backed regression surface.
+5. If the same obligation remains unsatisfied after that one cycle, stop the loop and escalate with both evidence-backed positions and one concrete Tech Lead recommendation for a consolidated PO decision. Never rename the same finding or request another prose rewrite.
 6. PO Override: the PO may explicitly accept a risk and override a block with documented rationale.
 
 ## Shared Agent Preamble (MUST)

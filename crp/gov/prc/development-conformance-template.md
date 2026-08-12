@@ -1,6 +1,6 @@
 ---
-version: 1.0.0
-last_updated: 2026-05-06
+version: 1.1.0
+last_updated: 2026-08-12
 ---
 
 # Agent Conformance One-Page Template
@@ -23,7 +23,10 @@ Use this compact template during active sessions.
 - Review A Findings: present | n/a | missing
 - AI Strategy Note: present | n/a | missing
 - Capability Assessment Report: present | n/a | missing
-- Implementation Pack: present | missing
+- Implementation Pack: transient map present | canonical PR section present | missing
+- Implementation Pack validation: pass | blocked ->
+- Candidate revision bound: yes | no
+- Transient/published fact comparison: pass | n/a before PR | blocked ->
 - Test Evidence Pack: present | missing
 - Review B Findings: present | missing
 
@@ -31,6 +34,8 @@ Use this compact template during active sessions.
 - Contradictions: none | yes ->
 - Unverifiable assumptions: none | yes ->
 - Acceptance criteria -> tests traceable: yes | no
+- Semantic authority/evidence review against exact candidate: pass | pending | blocked ->
+- Material finding lifecycle: n/a | within bound | escalation required | invalid ->
 
 ## Reviewer Snapshot
 - High:
