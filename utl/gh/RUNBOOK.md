@@ -122,7 +122,9 @@ The closed PO-reserved constraint vocabulary is `base-replacement`,
 `no-branch-deletion`, and `no-destructive-rewrite`. Issue #120 must carry the
 complete set. `baseAuthorization.lineage` is the sole authority history: its
 first entry is the exact initial revision, approver, and base OID with a null
-replacement approval. Every successor is contiguous and anchors the exact
+replacement approval. This one-entry initial lineage is valid for every work
+item, including #120; #120 still requires the complete reservation set above.
+Every successor is contiguous and anchors the exact
 predecessor revision, approver, OID, and canonical authority digest. It also
 records `poApprover`, `poAuthority` as `product-owner`, a renewed PO approval
 revision, both preservation flags as `true`, and

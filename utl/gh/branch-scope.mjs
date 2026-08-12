@@ -624,12 +624,6 @@ function validateBaseLineage(base, constraints) {
       "replacement PO-reserved constraints",
     );
   }
-  if (base.workItem === "#120" && normalized.length < 2) {
-    fail(
-      "approval_missing_or_stale",
-      "#120 is a replacement recovery and must retain its preceding Base Authorization anchor",
-    );
-  }
   if (Object.hasOwn(base, "replacement")) {
     fail("invalid_input", "baseAuthorization.replacement is obsolete; use the sole lineage authority");
   }
