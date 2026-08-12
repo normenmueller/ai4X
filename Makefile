@@ -8,7 +8,7 @@ FISH_COMPLETION_DIR ?= $(PREFIX)/share/fish/vendor_completions.d
 
 CONFIG_MODE ?= keep
 
-.PHONY: install install-user-config uninstall clean verify branch-scope-test test
+.PHONY: install install-user-config uninstall clean verify branch-scope-test implementation-pack-test test
 
 install:
 	@command -v node >/dev/null 2>&1 || { echo '[ai4x] ERROR node is required but not found in PATH' >&2; exit 1; }
@@ -79,11 +79,16 @@ verify:
 	@git ls-files --error-unmatch cli/tst/.gitkeep >/dev/null 2>&1 || { echo '[ai4x] ERROR not tracked: cli/tst/.gitkeep' >&2; exit 2; }
 	@bash utl/gh/repo-metadata.sh --check-local
 	@$(MAKE) --no-print-directory branch-scope-test
+	@$(MAKE) --no-print-directory implementation-pack-test
 	@echo '[ai4x] verify: baseline checks passed'
 
 branch-scope-test:
 	@echo '[ai4x] verify: checking branch and pull-request scope contract'
 	@node --test utl/gh/branch-scope.test.mjs
+
+implementation-pack-test:
+	@echo '[ai4x] verify: checking concise Implementation Pack contract'
+	@node --test utl/gh/implementation-pack.test.mjs
 
 test: verify
 	@cd cli && npm test

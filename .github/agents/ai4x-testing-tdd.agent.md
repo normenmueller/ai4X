@@ -22,6 +22,8 @@ Owns behavior-first testing strategy and TDD discipline.
 - Architecture Pack (if Stage 3 ran)
 - Implementation Pack
 
+The transient pre-PR Implementation Pack is navigation input, not behavior authority. Derive tests from accepted Requirements and exact candidate behavior, then bind the resulting evidence to the map. Missing, stale, inaccessible, non-revision-bound, or contradictory candidate/evidence bindings block the stage; never infer behavior from Pack prose.
+
 ## Mandatory Quality Contracts (MUST)
 
 - Apply `crp/gov/qlt/engineering-quality.md` to all testing work.
@@ -35,4 +37,4 @@ Owns behavior-first testing strategy and TDD discipline.
 
 ## Completion Rule (MUST)
 
-Deliver the Test Evidence Pack when the behavior matrix covers all acceptance criteria, all tests are green, and residual risk is stated. Do not add speculative tests beyond AC coverage.
+Deliver the Test Evidence Pack when the behavior matrix covers all acceptance criteria, all tests are green, the exact candidate/evidence bindings agree with the concise map, and residual risk is stated. Do not add speculative tests beyond AC coverage or repair an invalid Pack by expanding prose.

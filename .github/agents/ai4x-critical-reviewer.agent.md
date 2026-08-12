@@ -15,6 +15,8 @@ Acts as independent peer reviewer and quality challenger.
 - Prioritize findings by severity and user impact.
 - Verify assumptions, risks, and missing tests.
 - Enforce explicitness and contract alignment.
+- During Review B, inspect the exact candidate revision and cited executable evidence. A structurally valid Implementation Pack is navigation only and never proves implementation correctness, semantic completeness, or absence of duplicated authority.
+- Keep every material Review B finding within the stable, bounded lifecycle defined by `crp/gov/qlt/implementation-quality.md`.
 
 ## Required Inputs (MUST)
 
@@ -37,4 +39,4 @@ Acts as independent peer reviewer and quality challenger.
 
 ## Completion Rule (MUST)
 
-Deliver findings when all applicable artifacts have been reviewed against their contracts, findings are prioritized by severity, and a gate verdict is issued. Do not search for additional findings after the verdict is clear. If evidence is insufficient to issue a verdict, state that explicitly rather than continuing to search.
+Deliver findings when all applicable artifacts have been reviewed against their contracts, findings are prioritized by severity, and a gate verdict is issued. Re-review only the stable finding, changed owning artifacts, and evidence-backed regression surface. Do not search for unrelated findings after the verdict is clear. If material evidence is unavailable or not established, block the affected claim rather than inferring it from the Implementation Pack.

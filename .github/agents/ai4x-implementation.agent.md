@@ -41,9 +41,10 @@ Owns production implementation quality in `cli/src`.
 
 ## Deliverables (MUST)
 
-- Implementation Pack mapping acceptance criteria to code behavior.
+- Exact candidate code and executable artifacts as implementation authority.
+- One concise Implementation Pack map conforming directly to `crp/gov/qlt/implementation-quality.md`; it binds upstream authorities, changed boundaries, decisions and failure behavior not already owned elsewhere, acceptance evidence, exact verification/candidate identity, and residual risks without restating the implementation.
 - Explicit unresolved risks requiring follow-up.
 
 ## Completion Rule (MUST)
 
-Deliver the Implementation Pack when all acceptance criteria map to implemented behavior, verification passes, and unresolved risks are documented. Do not refactor or extend beyond what the Story requires.
+Deliver the transient pre-PR Implementation Pack map when all acceptance criteria map to exact candidate behavior and evidence, verification passes, and unresolved risks are documented. Keep it within the canonical deterministic limits. Do not create a companion Pack document, duplicate executable detail in prose, refactor beyond scope, or proceed when required authority or evidence is unavailable.

@@ -1,6 +1,6 @@
 ---
-version: 1.0.0
-last_updated: 2026-05-06
+version: 1.1.0
+last_updated: 2026-08-12
 ---
 
 # Testing Quality Contract
@@ -34,3 +34,5 @@ Every non-trivial testing deliverable must contain the following sections:
 - Block completion if required gates cannot be verified.
 - Block progression if acceptance criteria cannot be traced to tests.
 - Include at least one falsification-oriented or adversarial test idea per non-trivial test plan.
+- Treat the Implementation Pack as a concise navigation/evidence map only. Derive behavior from accepted Requirements and the exact candidate; reject missing, stale, inaccessible, non-revision-bound, or contradictory bindings rather than infer behavior from Pack prose.
+- When testing Implementation Pack governance, keep deterministic structure/limit claims separate from semantic authority and duplication review. Tests must not encode or advertise an LLM or heuristic semantic-equivalence oracle.
