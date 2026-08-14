@@ -1,6 +1,6 @@
 ---
-version: 1.2.0
-last_updated: 2026-08-11
+version: 1.3.0
+last_updated: 2026-08-12
 ---
 
 # Planning Workflow: Idea -> Work Item -> Ready -> Done
@@ -39,6 +39,46 @@ This document defines the planning workflow for ai4X, following established Scru
 5. The Tech Lead proposes the Story decomposition. The PO approves it.
 6. The PO owns Ready decisions and final acceptance. Issue creation never substitutes for either decision.
 7. Tasks are internal to the dev team and do not require PO approval.
+
+### High-Blast-Radius Apply Gate
+
+`Ready` authorizes the approved scope and work start. `In progress` permits
+active analysis and production of a concrete plan; it does not by itself
+authorize high-blast-radius mutation.
+
+External, bulk, or otherwise hard-to-reverse mutations require the additional
+sequence `Plan -> explicit PO approval -> Apply -> Receipt`. The Plan must bind
+the exact target identities, preimages, intended postimages, action order, and
+recovery boundary. Apply must stop when those facts drift or cannot be observed
+completely. Normal waiting for the Plan's PO approval is not `Paused`; `Paused`
+is reserved for genuine suspension of the work.
+
+This section is the sole current complete authority for that additional gate.
+Point-of-use documents may reference it but must not restate or weaken it.
+Issue #107 owns its one future transfer to the sole target authority at
+`.ai4x/operations/planning-workflow.md` and removal of this transitional owner.
+
+### Backlog Curation Principle
+
+A clean Backlog is truthful, ordered, and free of false authority; it is not
+defined by the smallest possible number of Issues. `retain` means only that
+domain value remains recognizable, no named approved successor owns the
+complete remaining outcome, and the Issue stays in Backlog. It grants no
+priority, Ready decision, or implementation commitment.
+
+Close or absorb an Issue only after proving that a named existing successor
+owns every valuable remaining outcome and preserves source traceability, or
+after recording an explicit evidence-bound closure rationale. Before every
+later Ready decision, challenge retained work again for current value,
+relevance, overlap, and effort; then retain, revise, absorb, defer, or close it
+without preserving work by inertia or discarding knowledge without an owner.
+
+Use each GitHub planning mechanism for exactly one meaning. Native Sub-Issues
+express hierarchy and ownership beneath an Epic. Native blocked-by/blocking
+relations express only genuine execution dependencies. Manual position in the
+Status-grouped Board expresses the recommended working order. Do not duplicate
+mere ordering as a dependency graph, and do not infer authority from any of
+these three projections.
 
 ## Phases
 
@@ -226,7 +266,7 @@ Copy this section into the Epic Issue body. Replace each bracketed choice with e
 | **Backlog priority** | Only the PO sets and changes priority. |
 | **Issue labels** | Apply the semantic roles defined in `adm/gdl/glossary.md` using the label conventions in `adm/gdl/board-policy.md`. |
 | **Issue linkage** | Every Story is a native Sub-Issue of its Epic. Standalone Issues have no required Epic parent. |
-| **Tracking board** | GitHub Project `#3` ([link](https://github.com/users/normenmueller/projects/3)). All Epics, Stories, and standalone Issues must be tracked there. Private visibility. |
+| **Tracking board** | GitHub Project `#3` ([link](https://github.com/users/normenmueller/projects/3)). All Epics, Stories, and standalone Issues must be tracked there. Public visibility. |
 
 Board transitions, ownership gates, and label definitions: see `adm/gdl/board-policy.md`.
 
