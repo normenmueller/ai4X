@@ -1,6 +1,6 @@
 ---
-version: 1.2.0
-last_updated: 2026-08-11
+version: 1.3.0
+last_updated: 2026-08-12
 ---
 
 # Board Policy
@@ -11,7 +11,7 @@ Define status transitions, ownership gates, and label conventions for the ai4X t
 
 ## Scope
 
-Applies to all Epics, Stories, and standalone Issues tracked on GitHub Project `#3` ([link](https://github.com/users/normenmueller/projects/3)). Private visibility.
+Applies to all Epics, Stories, and standalone Issues tracked on GitHub Project `#3` ([link](https://github.com/users/normenmueller/projects/3)). Public visibility.
 
 ## Ownership Principle (MUST)
 
@@ -24,6 +24,10 @@ PO controls intake gates (Ready for Epics and standalone Issues), priority, and 
 - `Ready` means the PO has granted implementation authority after the applicable intake prerequisites passed.
 - An Epic's disclosed gate facts, using the canonical template in `adm/gdl/planning-workflow.md`, must distinguish planning `In progress` from delivery `In progress`.
 - Issue creation, a semantic label, a native parent relationship, and planning `In progress` never grant implementation authority.
+- Board status never substitutes for the additional high-blast-radius
+  `Plan -> explicit PO approval -> Apply -> Receipt` gate owned by
+  `adm/gdl/planning-workflow.md`. Ordinary waiting for that approval is not
+  `Paused`; `Paused` means genuine suspension.
 
 ## Issue Delivery (MUST)
 
