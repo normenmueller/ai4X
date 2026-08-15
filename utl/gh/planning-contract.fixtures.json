@@ -1,0 +1,88 @@
+{
+  "baseEpic": {
+    "runtime": { "kind": "epic" },
+    "expected": {
+      "kind": "epic",
+      "repositoryId": "R_repo",
+      "projectId": "P_project",
+      "issueId": "I_issue",
+      "itemId": "PVTI_item",
+      "statusFieldId": "PVTF_status",
+      "status": "Backlog",
+      "relationIds": [],
+      "planDigest": "sha256:50e817de3af15d9f0c1086b41d0d42f778a8261d0c32ff24eb42f9e3e1b5549a",
+      "approvalEvidenceRef": "po-approval:109"
+    },
+    "issue": {
+      "id": "I_issue",
+      "number": 102,
+      "state": "OPEN",
+      "updatedAt": "2026-08-14T00:00:00Z",
+      "body": "## Epic gate facts\n\n- Requirements refinement: not started\n- Story decomposition: not started\n- Planning Conformance: not run\n- Ready decision: not granted\n- Implementation authority: no\n"
+    },
+    "project": {
+      "repositoryId": "R_repo",
+      "id": "P_project",
+      "itemId": "PVTI_item",
+      "statusFieldId": "PVTF_status",
+      "status": {
+        "name": "Backlog",
+        "color": "GRAY",
+        "description": "Captured for consideration; material preparation has not started."
+      }
+    },
+    "window": {
+      "paginationComplete": true,
+      "startFingerprint": "stable",
+      "endFingerprint": "stable",
+      "provider": { "identityCandidates": 1, "projectItemCount": 1 }
+    }
+  },
+  "baseStandalone": {
+    "runtime": { "kind": "standalone", "requestedClaim": "plan-status-only", "authorityEffect": "none" },
+    "expected": {
+      "kind": "standalone",
+      "repositoryId": "R_repo",
+      "projectId": "P_project",
+      "issueId": "I_issue",
+      "itemId": "PVTI_item",
+      "statusFieldId": "PVTF_status",
+      "status": "Backlog",
+      "relationIds": [],
+      "planDigest": "sha256:283237ecd0ab5cb734ae6cb1b4a48e841bf49cffd53bafee064cc3638ddff1a0",
+      "approvalEvidenceRef": "po-approval:109"
+    },
+    "issue": {
+      "id": "I_issue",
+      "number": 109,
+      "state": "OPEN",
+      "updatedAt": "2026-08-14T00:00:00Z",
+      "body": "Standalone work item."
+    },
+    "project": {
+      "repositoryId": "R_repo",
+      "id": "P_project",
+      "itemId": "PVTI_item",
+      "statusFieldId": "PVTF_status",
+      "status": {
+        "name": "Backlog",
+        "color": "GRAY",
+        "description": "Captured for consideration; material preparation has not started."
+      }
+    },
+    "window": {
+      "paginationComplete": true,
+      "startFingerprint": "stable",
+      "endFingerprint": "stable",
+      "provider": { "identityCandidates": 1, "projectItemCount": 1 }
+    }
+  },
+  "gateBodies": {
+    "Backlog": "## Epic gate facts\n\n- Requirements refinement: not started\n- Story decomposition: not started\n- Planning Conformance: not run\n- Ready decision: not granted\n- Implementation authority: no\n",
+    "Refinement": "## Epic gate facts\n\n- Requirements refinement: approved\n- Story decomposition: approved\n- Planning Conformance: not run\n- Ready decision: not granted\n- Implementation authority: no\n",
+    "Ready": "## Epic gate facts\n\n- Requirements refinement: approved\n- Story decomposition: approved\n- Planning Conformance: passed\n- Ready decision: granted\n- Implementation authority: yes\n",
+    "In progress": "## Epic gate facts\n\n- Requirements refinement: approved\n- Story decomposition: approved\n- Planning Conformance: passed\n- Ready decision: granted\n- Implementation authority: yes\n",
+    "In review": "## Epic gate facts\n\n- Requirements refinement: approved\n- Story decomposition: approved\n- Planning Conformance: passed\n- Ready decision: granted\n- Implementation authority: yes\n",
+    "Done": "## Epic gate facts\n\n- Requirements refinement: approved\n- Story decomposition: approved\n- Planning Conformance: passed\n- Ready decision: granted\n- Implementation authority: yes\n"
+  }
+}

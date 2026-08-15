@@ -1,6 +1,6 @@
 ---
-version: 1.3.0
-last_updated: 2026-08-12
+version: 1.4.0
+last_updated: 2026-08-14
 ---
 
 # Planning Workflow: Idea -> Work Item -> Ready -> Done
@@ -16,6 +16,42 @@ This document defines the planning workflow for ai4X, following established Scru
 - Development executes per Story through the 10-stage expert team workflow.
 - GitHub Issues are the single source of truth once approved planning content is consolidated there. A PBL entry is deleted only after its approved content is authoritative in the Issue.
 - No Issue or container authorizes implementation until its applicable Ready gate has passed.
+
+## Canonical Project Lifecycle
+
+This document is the sole current authority for planning lifecycle status,
+gate facts, transitions, and the high-blast-radius Apply gate. The Project
+Status field has exactly these options, in this display order:
+
+| Status | GitHub color | Description |
+|---|---|---|
+| `Backlog` | `GRAY` | Captured for consideration; material preparation has not started. |
+| `Refinement` | `BLUE` | Active contract preparation; neither implementation nor authorization. |
+| `Ready` | `PURPLE` | Explicitly authorized by the Product Owner and queued for execution. |
+| `In progress` | `YELLOW` | Activated from Ready and actively implemented. |
+| `Paused` | `ORANGE` | Intentionally suspended with a recorded return condition. |
+| `In review` | `PINK` | Implementation complete and awaiting the required gate. |
+| `Done` | `GREEN` | Accepted, remotely available when required, and closed. |
+
+`Paused` is an optional side state, not a mandatory phase. An admitted inactive
+item that is not Ready is `Backlog`. Active Requirements refinement, Story
+decomposition, or Planning Conformance uses `Refinement` with implementation
+authority `no`. For an executable item, `In progress` is reserved for
+PO-authorized delivery after `Ready`; for a Roadmap it means active
+non-executable coordination and never implementation authority.
+
+The closed kind applicability and evidence contract is:
+
+| Kind | Applicable lifecycle | Evidence claim |
+|---|---|---|
+| Roadmap | `Backlog -> In progress -> In review -> Done`; optional `Paused` from `In progress` or `In review` | Exact PO-approved Plan-bound expected status, Issue state, native child set, and Project identity; `plan-status-only` |
+| Epic | `Backlog <-> Refinement -> Ready -> In progress -> In review -> Done`; optional `Paused` from `Refinement`, `Ready`, `In progress`, or `In review` | Canonical five Epic gate facts plus conditional pause facts; `epic-contract-consistency` |
+| Story | Executable path as Epic; optional `Paused` from `Refinement`, `Ready`, `In progress`, or `In review` | Exact PO-approved Plan-bound expected status and parent/dependency identities; `plan-status-only` |
+| Standalone | Executable path as Epic; optional `Paused` from `Refinement`, `Ready`, `In progress`, or `In review` | Exact PO-approved Plan-bound expected status; `plan-status-only` |
+
+Native Sub-Issues remain hierarchy authority, native blocked-by/blocking
+relations remain execution-dependency authority, and manual Board position is
+recommended order only. None creates planning or delivery authority.
 
 ## Operational Role Projection
 
@@ -42,9 +78,10 @@ This document defines the planning workflow for ai4X, following established Scru
 
 ### High-Blast-Radius Apply Gate
 
-`Ready` authorizes the approved scope and work start. `In progress` permits
-active analysis and production of a concrete plan; it does not by itself
-authorize high-blast-radius mutation.
+`Ready` records the PO's authorization of the approved scope. Executable work
+enters `In progress` only when authorized delivery begins, without changing
+the PO-owned gate facts. `In progress` does not by itself authorize
+high-blast-radius mutation.
 
 External, bulk, or otherwise hard-to-reverse mutations require the additional
 sequence `Plan -> explicit PO approval -> Apply -> Receipt`. The Plan must bind
@@ -125,7 +162,48 @@ Copy this section into the Epic Issue body. Replace each bracketed choice with e
 - Implementation authority: [no | yes]
 ```
 
-**Board status**: `Backlog` while waiting, or `In progress` while Requirements refinement is active. Neither status grants implementation authority.
+These five fields are the sole authority for Requirements, decomposition,
+Planning-Conformance, Ready, and implementation facts. Each field and the
+section occur exactly once. Requirements and Story decomposition use
+`not started | in progress | approved`; Planning Conformance uses
+`not run | failed | passed`; Ready uses `not granted | granted`; and
+Implementation uses `no | yes`.
+
+Let `P` mean Requirements and Story decomposition are `approved` and Planning
+Conformance is `passed`; let `A` mean Ready is `granted` and Implementation is
+`yes`. Story decomposition `in progress|approved` requires Requirements
+`approved`; Planning Conformance `failed|passed` requires both prior approvals;
+Ready is granted exactly when Implementation is yes; either requires `P`.
+
+| Epic Project status | Required gate-fact consistency |
+|---|---|
+| `Backlog` | not `A`; neither Requirements nor Story decomposition is `in progress` |
+| `Refinement` | not `A`; a planning field is `in progress`, or both are approved with Conformance `not run|failed` |
+| `Ready`, `In progress`, `In review` | `P` and `A`; Issue open |
+| `Paused` | complete Pause facts; underlying facts satisfy `Paused from`; Issue open |
+| `Done` | `P` and `A`; no Pause facts; Issue closed |
+
+All non-Done Epics are open. A validator failure reports inconsistency only; it
+never selects a replacement state or infers authority.
+
+#### Conditional Pause Facts
+
+While and only while status is `Paused`, the Issue contains exactly one:
+
+```markdown
+## Pause facts
+
+- Paused from: [Refinement | Ready | In progress | In review]
+- Pause reason: [non-empty concise reason]
+- Resume condition: [non-empty observable condition]
+```
+
+Pause is only for genuine suspension, never ordinary waiting for PO approval.
+On resumption, the item first returns to its recorded `Paused from` state and
+the block is removed in the same governed operation. Missing, empty,
+duplicated, unsupported, or stale pause facts are invalid.
+
+**Board status**: `Backlog` while inactive, or `Refinement` while Requirements refinement is active. Neither status grants implementation authority.
 
 **Exit**: PO approval of the Requirements Pack. This is the Requirements approval gate.
 
@@ -156,7 +234,7 @@ Copy this section into the Epic Issue body. Replace each bracketed choice with e
 - [ ] Gate facts are current and implementation authority remains `no`
 - [ ] Issue references its PBL origin path for traceability, if one exists
 - [ ] Originating PBL entry deleted from `adm/pbl/`, or marked not applicable
-- [ ] Epic added to project board (`Backlog`, or `In progress` only while planning work is active)
+- [ ] Epic added to project board (`Backlog`, or `Refinement` only while planning work is active)
 
 ### Phase 4: Story Decomposition (Tech Lead → PO Approval)
 
@@ -180,7 +258,7 @@ Copy this section into the Epic Issue body. Replace each bracketed choice with e
 4. Tech Lead adds an **AC Coverage Matrix** to the Epic Issue body showing which Story covers which acceptance criterion. This matrix is the authoritative traceability artifact for the Epic.
 5. After the PO grants Ready, the Tech Lead updates the disclosed gate facts to `Ready decision: granted` and `Implementation authority: yes`.
 
-**Board status**: `Backlog` while waiting, or `In progress` while Story decomposition is active. The disclosed gate facts distinguish planning activity from approved delivery.
+**Board status**: `Backlog` while inactive, or `Refinement` while Story decomposition or Planning Conformance is active. Implementation authority remains `no`.
 
 **Exit Gate**: After the Requirements Pack and Story decomposition are PO-approved, Story Issues are created and linked, and every Epic acceptance criterion is covered, the Tech Lead must run the Planning Conformance Check (see `adm/gdl/planning-conformance.md`). Only after it passes may the Tech Lead explicitly request the PO's Ready decision for the Epic. No development work may begin until the PO transitions the Epic to Ready. The Tech Lead's prompt must offer support, not just request a binary decision. Example: *"Stories are created and Planning Conformance passed. The Epic is not yet Ready. Would you like to grant Ready authority, or is there anything else I can help you with first?"*
 
@@ -270,7 +348,20 @@ Copy this section into the Epic Issue body. Replace each bracketed choice with e
 
 Board transitions, ownership gates, and label definitions: see `adm/gdl/board-policy.md`.
 
-> **Note**: Mutual reference — `board-policy.md` references this document for phase definitions. Neither is subordinate; they are complementary protocols with distinct scope (planning lifecycle vs. board mechanics).
+> **Projection note**: `board-policy.md` references this sole lifecycle authority and projects its board mechanics without redefining it.
+
+### Read-only lifecycle verification
+
+`utl/gh/planning-verify.mjs` enforces this authority without becoming another
+authority. Its exact digest-bound expected Plan entry includes `kind` as one of
+`roadmap|epic|story|standalone`, repository, Project, Issue, Project item,
+Status-field IDs, and expected status. Runtime kind must equal expected kind
+before kind-specific validation. Epic success claims only
+`epic-contract-consistency`; all other success claims only `plan-status-only`.
+Every success has `authorityEffect: "none"` and proves no Ready,
+implementation, acceptance, Done, priority, transition, publication, or
+mutation authority. The validator is deterministic, read-only, and never
+offers an apply or transition operation.
 
 ## Visual Flow
 
@@ -346,7 +437,7 @@ flowchart TD
 2. Confirm an early Epic container can exist before Requirements approval and discloses all five gate facts.
 3. Confirm the PBL entry is deleted only after the approved Requirements Pack becomes authoritative in the Epic Issue.
 4. Confirm Story Issues are native Sub-Issues of the parent Epic.
-5. Confirm neither container creation nor planning `In progress` authorizes implementation.
+5. Confirm planning uses `Refinement`, container creation creates no authority, and executable `In progress` is authorized delivery only.
 6. Confirm Ready is unavailable until Requirements approval, Story approval, complete AC coverage, and passed Planning Conformance.
 7. Confirm traceability chain: Epic Issue -> Story Issue -> PR -> merged commit.
 8. Confirm `make verify`, all applicable Doctor and Capability evidence under `crp/gov/prc/workflow.md` (Completion Gate), and GitHub Actions remain green.
@@ -354,6 +445,49 @@ flowchart TD
 10. Confirm standalone changes can proceed without mandatory Epic/Story linkage only after their own explicit Ready decision.
 11. Confirm Epic closure requires recorded PO final acceptance and PO transition to `Done`; Tech Lead verification alone is insufficient.
 12. Confirm each delivery branch starts at its exact Base Authorization OID and the current pull request has a fresh Branch and Pull-Request Scope reconciliation after creation or base/head change, before `Ready for review`, before `In review`, and at final conformance. Prior proofs are consumed, not treated as evergreen; moved-base recovery preserves the original branch and PR and retains an exact digest-bound predecessor lineage unless the PO explicitly authorizes destructive action.
+13. Confirm governed planning transitions run explicit live read-only verification and preserve its result as transition evidence.
+
+## Lifecycle Activation and Recovery
+
+Changing the Project Status schema or initial items uses one exact,
+digest-bound, explicitly PO-approved Plan. Apply re-observes each preimage,
+performs the smallest ordered mutation set, verifies each postimage, stops at
+the first failure, and publishes a complete Receipt.
+
+Activation order is `A0` complete read-only preflight; `A1` install the exact
+seven-option schema; `A2` retain #101 as Roadmap `In progress`; `A3` retain
+#135-#139 individually as Story `Backlog`; `A4` retain #109 as standalone
+`In progress` only after separate Ready and implementation grants; `A5`
+normalize #102 to exactly one Epic gate section containing Requirements
+`approved`, Story decomposition `approved`, Planning Conformance `not run`,
+Ready `not granted`, and Implementation `no`, plus exactly one Pause block
+whose origin is `Refinement`, reason is `Lifecycle/governance sequencing
+suspends #102.`, and condition is `Issues #109, #128, #121, #131, and #122 are
+all Done.`; `A6` move #102 to `Paused` only after re-observing that exact A5
+postimage; and `A7` re-observe the complete postimage.
+
+On failure, later actions remain pending. Reverse only an exact still-observed
+mutation, in reverse dependency order, when no later completed action depends
+on it. Otherwise preserve observed state and require a separately PO-approved,
+digest-bound forward-Recovery Plan. Every Apply, rollback, or recovery Receipt
+binds Plan/approval digests, actor/time, IDs, before/after fingerprints and
+postchecks, predecessor/recovery references, and exactly one classification
+per action: `completed|rolled back|preserved|failed|pending`.
+
+| Failure point | Immediate disposition | Authorized recovery |
+|---|---|---|
+| A0 or any preimage check | Failed action; every later action pending; no write | Correct facts and obtain a new or reaffirmed Plan digest. |
+| A1 schema mutation or postcheck | Stop and classify observed A1 | Roll back only if the exact old schema is fully observed and restorable and no later action completed; otherwise preserve and use forward Recovery. |
+| A2-A4 retained-state check | Stop; prior writes remain candidates for reverse recovery | Reverse completed writes in dependency order only while each exact preimage is observed; otherwise preserve and use forward Recovery. |
+| A5 body mutation or postcheck | Stop before A6 | Restore the exact body preimage only when A5's current postimage is exact and no later action depends on it; then consider A1 reversal; otherwise preserve and use forward Recovery. |
+| A6 status mutation or postcheck | Stop before A7 | Reverse A6, then A5, then A1 only while each current postimage is exact and every later dependency has reversed; otherwise preserve and use forward Recovery. |
+| A7 aggregate check or observation drift | Stop; make no mutation from an uncertain snapshot | Preserve observed state and require explicit PO approval of a new digest-bound forward-Recovery Plan. |
+
+Issue #107 transfers this contract exactly once to
+`.ai4x/operations/planning-workflow.md`, redirects projections, removes this
+transitional owner, and retires or moves obsolete enforcement only after its
+replacement passes the same fixtures. The migration Receipt must prove that
+no interval or final state has two lifecycle authorities.
 
 ## References
 
