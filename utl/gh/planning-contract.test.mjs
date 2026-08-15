@@ -391,6 +391,35 @@ test("all non-Epic kinds accept only their applicable exact Plan-bound states", 
   diagnosticOf(unknownOrigin, "PAUSE_VALUE_UNSUPPORTED");
 });
 
+test("headings and fact-shaped prose inside fenced examples are not authoritative sections", () => {
+  const documentedStandalone = standalone();
+  documentedStandalone.issue.body = [
+    "A Requirements Pack may document the conditional form:",
+    "",
+    "```markdown",
+    "## Pause facts",
+    "",
+    "- Paused from: In progress",
+    "- Pause reason: example only",
+    "- Resume condition: example only",
+    "```",
+  ].join("\n");
+  setStatus(documentedStandalone, "In progress");
+  assertPass(documentedStandalone, "plan-status-only");
+
+  const documentedEpic = epicAt("Refinement");
+  documentedEpic.issue.body = [
+    "~~~markdown",
+    "## Epic gate facts",
+    "",
+    "- Requirements refinement: not started",
+    "~~~",
+    "",
+    documentedEpic.issue.body,
+  ].join("\n");
+  assertPass(documentedEpic, "epic-contract-consistency");
+});
+
 test("all 12 unequal runtime/expected kind substitutions fail before dispatch", () => {
   for (const expectedKind of KINDS) {
     for (const runtimeKind of KINDS) {
