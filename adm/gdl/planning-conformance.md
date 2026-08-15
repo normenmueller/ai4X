@@ -1,6 +1,6 @@
 ---
-version: 1.1.0
-last_updated: 2026-08-10
+version: 1.2.0
+last_updated: 2026-08-14
 ---
 
 # Planning Conformance Contract
@@ -29,7 +29,7 @@ If any deliverable is missing, the Tech Lead must resolve it before issuing the 
 | Current gate facts disclosed in Epic body using the canonical template in `adm/gdl/planning-workflow.md` | Phase 2 onward | yes / no |
 | Requirements Pack in Epic Issue body and PO-approved | Phase 2/3 | present / missing |
 | PBL entry deleted after approved Requirements became authoritative | Phase 3 | yes / no / n/a |
-| Epic on project board (`Backlog` or planning `In progress`) | Phase 2/3 | yes / no |
+| Epic on project board (`Backlog` while inactive or `Refinement` while planning is active) | Phase 2/3 | yes / no |
 | Story decomposition PO-approved | Phase 4 | yes / no |
 | PR-sized Story Issues created with label `story` | Phase 4 | yes / no |
 | All Stories linked as Sub-Issues to parent Epic | Phase 4 | yes / no |
@@ -42,7 +42,9 @@ If any deliverable is missing, the Tech Lead must resolve it before issuing the 
 - The conformance check result is confirmed inline in the Ready-Gate prompt to the PO.
 - Missing deliverables block the Ready-Gate prompt.
 - The Epic must not enter `Ready` unless the Requirements Pack and Story decomposition are PO-approved, every Epic AC is covered, and this check passes.
-- The Epic's existence, label, parent relationship, or planning `In progress` state is not implementation authority.
+- Planning Conformance runs while the Epic is `Refinement`, with implementation authority `no`.
+- The Epic's existence, label, parent relationship, `Refinement` state, or validator result is not implementation authority.
+- Before a governed transition, run the explicit live read-only lifecycle verification in `utl/gh/RUNBOOK.md` and preserve its result as transition evidence.
 - The Tech Lead's prompt must offer support, not just request a binary decision. Example: *"Stories are created and Planning Conformance passed. The Epic is not yet Ready. Would you like to grant Ready authority, or is there anything else I can help you with first?"*
 
 ## Quality Rule (MUST)

@@ -1,6 +1,6 @@
 ---
-version: 1.3.0
-last_updated: 2026-08-12
+version: 1.4.0
+last_updated: 2026-08-14
 ---
 
 # Board Policy
@@ -11,19 +11,19 @@ Define status transitions, ownership gates, and label conventions for the ai4X t
 
 ## Scope
 
-Applies to all Epics, Stories, and standalone Issues tracked on GitHub Project `#3` ([link](https://github.com/users/normenmueller/projects/3)). Public visibility.
+Applies to all Roadmaps, Epics, Stories, and standalone Issues tracked on GitHub Project `#3` ([link](https://github.com/users/normenmueller/projects/3)). Public visibility.
 
 ## Ownership Principle (MUST)
 
-PO controls intake gates (Ready for Epics and standalone Issues), priority, and final acceptance (Done). Tech Lead controls activity transitions (`In progress`, `In review`) without gaining authority to bypass Ready.
+PO controls intake gates (Ready for Epics and standalone Issues), priority, and final acceptance (Done). Tech Lead controls truthful activity transitions without gaining authority to bypass Ready. The canonical lifecycle and kind applicability are owned only by `adm/gdl/planning-workflow.md`.
 
 ## Status Semantics (MUST)
 
-- `Backlog` means the Issue is retained but no work is currently active.
-- `In progress` means work is active. For an Epic, it may mean Requirements refinement, Story decomposition, or approved delivery.
-- `Ready` means the PO has granted implementation authority after the applicable intake prerequisites passed.
-- An Epic's disclosed gate facts, using the canonical template in `adm/gdl/planning-workflow.md`, must distinguish planning `In progress` from delivery `In progress`.
-- Issue creation, a semantic label, a native parent relationship, and planning `In progress` never grant implementation authority.
+- Project Status uses exactly `Backlog`, `Refinement`, `Ready`, `In progress`, `Paused`, `In review`, and `Done` in the order, colors, and meanings defined by `adm/gdl/planning-workflow.md`.
+- `Backlog` is admitted inactive work; `Refinement` is active Requirements, decomposition, or Planning-Conformance work with implementation authority `no`.
+- Executable `In progress` is reserved for PO-authorized delivery after `Ready`. Roadmap `In progress` is active non-executable coordination and grants no implementation authority.
+- `Paused` is an optional genuine-suspension side state requiring the canonical conditional block. Ordinary approval waiting is not Paused.
+- Issue creation, a semantic label, a native parent relationship, Board order, dependency relation, status, or validator result never grants implementation authority.
 - Board status never substitutes for the additional high-blast-radius
   `Plan -> explicit PO approval -> Apply -> Receipt` gate owned by
   `adm/gdl/planning-workflow.md`. Ordinary waiting for that approval is not
@@ -38,6 +38,8 @@ All Issues — Stories, Epics' sub-issues, and standalone Issues alike — follo
 | **Ready → In progress** | Tech Lead | Topic branch created (`feat/*`, `fix/*`, `docs/*`, `chore/*`, or `refactor/*`). |
 | **In progress → In review** | Tech Lead | PR created and linked to Issue (`closes #N`). Applicable checks green. |
 | **In review → Done** | PO | PO reviews and approves the PR. Merge closes the Issue. |
+| **Refinement / Ready / In progress / In review → Paused** | Tech Lead | Origin is applicable to the work-item kind per the canonical workflow; genuine suspension; exactly one complete canonical Pause facts block. |
+| **Paused → Paused from** | Tech Lead | Observable resume condition holds; return first to the recorded state and remove the Pause facts block. |
 
 ### Issue Delivery Lifecycle
 
@@ -75,9 +77,9 @@ Issue intake defines how an Issue reaches Ready. This differs by type.
 | Transition | Owner | Prerequisites |
 |------------|-------|---------------|
 | -> **Backlog** | Tech Lead | A PO-approved roadmap identifies a coherent planned Epic, or the Requirements Pack is approved. The Issue has label `epic` and discloses all gate facts. |
-| **Backlog -> In progress** | Tech Lead | Requirements refinement or Story decomposition is actively being performed. Implementation authority remains `no`. |
-| **In progress -> Backlog** | Tech Lead | Planning activity pauses before Ready. |
-| **Backlog / In progress -> Ready** | PO | Requirements Pack and Story decomposition are PO-approved, every Epic AC is covered, and Planning Conformance passed. |
+| **Backlog -> Refinement** | Tech Lead | Requirements refinement, Story decomposition, or Planning Conformance is actively being performed. Implementation authority remains `no`. |
+| **Refinement -> Backlog** | Tech Lead | Planning becomes inactive before Ready; this is not a genuine suspension requiring Paused. |
+| **Backlog / Refinement -> Ready** | PO | Requirements Pack and Story decomposition are PO-approved, every Epic AC is covered, and Planning Conformance passed. |
 
 ### Epic Delivery
 
@@ -92,15 +94,27 @@ Issue intake defines how an Issue reaches Ready. This differs by type.
 | Transition | Owner | Prerequisites |
 |------------|-------|---------------|
 | -> **Backlog** | Tech Lead | PO-approved PR-sized Story is created with label `story` as a native Sub-Issue of its Epic. |
-| **Backlog -> Ready** | Tech Lead | Parent Epic has explicit PO Ready authority and the Story belongs to the approved decomposition. |
+| **Backlog -> Refinement** | Tech Lead | Story-level Requirements or Planning Conformance work is active; implementation authority remains `no`. |
+| **Refinement -> Backlog** | Tech Lead | Planning becomes inactive before Ready. |
+| **Backlog / Refinement -> Ready** | Tech Lead | Parent Epic has explicit PO Ready authority and the Story belongs to the approved decomposition. |
 
 ### Standalone Issue Intake
 
 | Transition | Owner | Prerequisites |
 |------------|-------|---------------|
 | -> **Backlog** | Tech Lead | Issue created with a semantic label such as `enhancement`, `chore`, `documentation`, or `research`; any originating PBL entry is retained. |
+| **Backlog -> Refinement** | Tech Lead | Standalone content or applicable Planning Conformance work is active; implementation authority remains `no`. |
+| **Refinement -> Backlog** | Tech Lead | Planning becomes inactive before Ready. |
 | **Content promotion** (status unchanged) | PO approves; Tech Lead consolidates | PO explicitly approves scope and content. The Tech Lead makes that content authoritative in the Issue and only then deletes any originating PBL entry. |
-| **Backlog -> Ready** | PO | Approved content is authoritative and any originating PBL entry is deleted. PO explicitly releases the standalone Issue for development. Content approval and Ready may be one PO decision, but promotion completes before Ready is recorded. |
+| **Backlog / Refinement -> Ready** | PO | Approved content is authoritative and any originating PBL entry is deleted. PO explicitly releases the standalone Issue for development. Content approval and Ready may be one PO decision, but promotion completes before Ready is recorded. |
+
+### Roadmap Coordination
+
+Roadmaps use only the kind-specific states defined by the canonical workflow.
+`Backlog -> In progress` starts active non-executable coordination;
+`In progress -> In review` presents coordination evidence; and `Done` requires
+the applicable PO acceptance and Issue closure. A Roadmap may pause only from
+`In progress` or `In review`, and its status never grants implementation authority.
 
 ## GitHub Labels
 
@@ -132,7 +146,7 @@ Additional labels (optional but recommended):
 
 - `adm/gdl/planning-workflow.md` — Phase definitions and completion checklists.
 
-> **Note**: Mutual reference - `adm/gdl/planning-workflow.md` references this document for board transitions. Neither is subordinate; they are complementary protocols with distinct scope (planning lifecycle vs. board mechanics).
+> **Authority note**: `adm/gdl/planning-workflow.md` is the sole lifecycle and gate-fact authority. This document is its board-mechanics projection and must not redefine it.
 - `adm/gdl/planning-conformance.md` — Planning conformance check.
 - `crp/gov/prc/workflow.md` — 10-stage development workflow (Story execution).
 - `utl/gh/RUNBOOK.md` — deterministic branch and pull-request scope evidence.

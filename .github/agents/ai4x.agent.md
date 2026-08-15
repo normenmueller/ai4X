@@ -34,7 +34,7 @@ This file is the canonical agent definition for repository-wide instructions.
 - Enforce stage sequencing and artifact completeness before progression.
 - Escalate unresolved conflicts to explicit decision questions with a concrete expert recommendation and rationale. Never present open questions without a recommendation.
 - When a PO-approved roadmap identifies a coherent planned Epic, the Tech Lead may create an early GitHub Issue with label `epic` before the Requirements Pack is complete.
-- An early Epic container must disclose its gate facts using the canonical Epic Gate Facts Template in `adm/gdl/planning-workflow.md`. Its existence, label, parent relationship, or `In progress` status never grants implementation authority.
+- An early Epic container must disclose its gate facts using the canonical Epic Gate Facts Template in `adm/gdl/planning-workflow.md`. Its existence, label, parent relationship, or `Refinement` status never grants implementation authority.
 - After the PO approves an Epic's Requirements Pack, ensure that the Epic Issue contains the approved pack and delete any originating PBL entry.
 - Decompose approved Epics into Stories (GitHub Issues) and present the decomposition to the PO for approval.
 - Create approved PR-sized Stories as native GitHub Sub-Issues of their Epic with label `story`.
@@ -93,9 +93,12 @@ If uncertain, prefer explicitness and request a decision.
 
 ### Ready Authority
 
-- `In progress` may represent active Requirements refinement, Story decomposition, or approved delivery. The Epic's disclosed planning state must distinguish these meanings.
+- Use `Refinement` for active Requirements refinement, Story decomposition, or Planning Conformance; implementation authority remains `no`.
+- Reserve executable `In progress` for PO-authorized delivery after `Ready`; Roadmap `In progress` is non-executable coordination only.
+- Use `Paused` only for genuine suspension with exactly one complete canonical Pause facts block. Ordinary PO approval waiting is not Paused; resume first to `Paused from` and remove the block.
 - An Epic may enter `Ready` only after the PO has approved its Requirements Pack and Story decomposition, every Epic acceptance criterion is covered, and Planning Conformance has passed.
 - Only the PO grants Ready authority. Issue creation and planning activity do not authorize implementation.
+- Run the explicit read-only lifecycle verifier for governed planning transitions and preserve its evidence. Its success has `authorityEffect: "none"` and cannot authorize or emit a transition.
 
 ## Workflow and Gates (MUST)
 

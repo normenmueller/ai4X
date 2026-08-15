@@ -232,3 +232,47 @@ targets, exact fetch/push GitHub identity, multi-page pagination/cap failures,
 separate base and merge-base facts, all lifecycle triggers, anchored
 non-destructive recovery lineage, #120 reservations, unstable local/GitHub
 snapshots, and local/remote scope disagreement.
+
+# Planning Lifecycle Verification
+
+## Purpose and authority boundary
+
+`planning-verify.mjs` observes and validates the planning lifecycle owned only
+by `adm/gdl/planning-workflow.md`. It is deterministic and read-only. Success
+is evidence only and always contains `authorityEffect: "none"`; it grants or
+proves no Ready, implementation, acceptance, Done, priority, transition,
+publication, or mutation authority.
+
+## Commands
+
+```bash
+# Hermetic validation of a normalized observation snapshot
+node utl/gh/planning-verify.mjs snapshot --input /tmp/planning-observation.json
+
+# Explicit live read-only observation using a digest-bound expected Plan entry
+GH_TOKEN=... node utl/gh/planning-verify.mjs live --expected /tmp/planning-expected.json
+
+# Deterministic tests; no token or Project access required
+make planning-contract-test
+```
+
+The expected file must bind stable repository, Project, Issue, Project-item,
+Status-field identities, exact expected status, `expected.kind`, Plan digest,
+and approval-evidence reference. The token is read from `GH_TOKEN` only and is
+never accepted on argv, read from a file, or emitted.
+
+## Operational rules
+
+1. Run live verification before and after every governed planning transition
+   and preserve the canonical JSON result digest/result as transition evidence.
+2. Exhaust every observed Project item, field, and option page. Identity,
+   accessibility, uniqueness, closure limits, and start/end stability fail
+   closed with distinct diagnostics.
+3. Never treat a Plan digest or approval-reference string as proof of PO
+   approval. The operator independently verifies the exact approval evidence.
+4. Never convert validator success into a command or authority decision. The
+   CLI has only `snapshot` and `live`; the observer exports queries and reads,
+   never a mutation or apply function.
+5. Schema or item activation remains the separate exact
+   `Plan -> explicit PO approval -> Apply -> Receipt` operation in the
+   canonical planning workflow. This verifier does not perform it.

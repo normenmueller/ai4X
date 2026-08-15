@@ -8,7 +8,7 @@ FISH_COMPLETION_DIR ?= $(PREFIX)/share/fish/vendor_completions.d
 
 CONFIG_MODE ?= keep
 
-.PHONY: install install-user-config uninstall clean verify branch-scope-test implementation-pack-test test
+.PHONY: install install-user-config uninstall clean verify branch-scope-test implementation-pack-test planning-contract-test test
 
 install:
 	@command -v node >/dev/null 2>&1 || { echo '[ai4x] ERROR node is required but not found in PATH' >&2; exit 1; }
@@ -80,6 +80,7 @@ verify:
 	@bash utl/gh/repo-metadata.sh --check-local
 	@$(MAKE) --no-print-directory branch-scope-test
 	@$(MAKE) --no-print-directory implementation-pack-test
+	@$(MAKE) --no-print-directory planning-contract-test
 	@echo '[ai4x] verify: baseline checks passed'
 
 branch-scope-test:
@@ -89,6 +90,10 @@ branch-scope-test:
 implementation-pack-test:
 	@echo '[ai4x] verify: checking concise Implementation Pack contract'
 	@node --test utl/gh/implementation-pack.test.mjs
+
+planning-contract-test:
+	@echo '[ai4x] verify: checking planning lifecycle contract'
+	@node --test utl/gh/planning-contract.test.mjs utl/gh/planning-github-observer.test.mjs
 
 test: verify
 	@cd cli && npm test
