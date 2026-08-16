@@ -391,6 +391,77 @@ test("all non-Epic kinds accept only their applicable exact Plan-bound states", 
   diagnosticOf(unknownOrigin, "PAUSE_VALUE_UNSUPPORTED");
 });
 
+test("headings and fact-shaped prose inside fenced examples are not authoritative sections", () => {
+  const documentedStandalone = standalone();
+  documentedStandalone.issue.body = [
+    "A Requirements Pack may document the conditional form:",
+    "",
+    "```markdown",
+    "## Pause facts",
+    "",
+    "- Paused from: In progress",
+    "- Pause reason: example only",
+    "- Resume condition: example only",
+    "```",
+  ].join("\n");
+  setStatus(documentedStandalone, "In progress");
+  assertPass(documentedStandalone, "plan-status-only");
+
+  const documentedEpic = epicAt("Refinement");
+  documentedEpic.issue.body = [
+    "~~~markdown",
+    "## Epic gate facts",
+    "",
+    "- Requirements refinement: not started",
+    "~~~",
+    "",
+    documentedEpic.issue.body,
+  ].join("\n");
+  assertPass(documentedEpic, "epic-contract-consistency");
+
+  const invalidBacktickInfo = epicAt("Refinement");
+  invalidBacktickInfo.issue.body += [
+    "",
+    "```markdown`invalid",
+    "ordinary prose because the backtick info string is invalid",
+    "",
+    "## Pause facts",
+    "",
+    "- Paused from: Refinement",
+    "- Pause reason: stale authoritative facts",
+    "- Resume condition: stale authoritative facts",
+    "```",
+  ].join("\n");
+  diagnosticOf(invalidBacktickInfo, "PAUSE_STALE");
+
+  for (const body of [
+    ["````markdown", "```", "## Pause facts", "```", "````"],
+    ["~~~markdown`allowed", "## Pause facts", "~~~"],
+    ["```markdown", "~~~", "## Pause facts"],
+    ["````markdown", "```", "## Pause facts"],
+  ]) {
+    const fencedNearMiss = standalone();
+    fencedNearMiss.issue.body = body.join("\n");
+    setStatus(fencedNearMiss, "In progress");
+    assertPass(fencedNearMiss, "plan-status-only");
+  }
+
+  const crOnlyStalePause = epicAt("Refinement");
+  crOnlyStalePause.issue.body += "\r## Pause facts\r\r- Paused from: Refinement\r- Pause reason: stale authoritative facts\r- Resume condition: stale authoritative facts\r";
+  diagnosticOf(crOnlyStalePause, "PAUSE_STALE");
+
+  for (const separator of ["\u2028", "\u2029"]) {
+    const unicodeInfo = standalone();
+    unicodeInfo.issue.body = [
+      `\`\`\`markdown${separator}metadata`,
+      "## Pause facts",
+      "```",
+    ].join("\n");
+    setStatus(unicodeInfo, "In progress");
+    assertPass(unicodeInfo, "plan-status-only");
+  }
+});
+
 test("all 12 unequal runtime/expected kind substitutions fail before dispatch", () => {
   for (const expectedKind of KINDS) {
     for (const runtimeKind of KINDS) {
