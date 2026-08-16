@@ -218,13 +218,15 @@ function stageTwo(input) {
 }
 
 function sectionBodies(body, heading) {
-  const sourceLines = body.replaceAll("\r\n", "\n").split("\n");
+  const sourceLines = body.split(/\r\n?|\n/u);
   const lines = [];
   let fence = null;
   for (const line of sourceLines) {
-    const marker = line.match(/^ {0,3}(`{3,}|~{3,})/u)?.[1];
+    const opening = line.match(/^ {0,3}(`{3,}|~{3,})/u);
+    const marker = opening?.[1];
+    const info = opening === null ? undefined : line.slice(opening[0].length);
     if (fence === null) {
-      if (marker !== undefined) fence = { character: marker[0], length: marker.length };
+      if (marker !== undefined && (marker[0] !== "`" || !info.includes("`"))) fence = { character: marker[0], length: marker.length };
       else lines.push(line);
       continue;
     }
