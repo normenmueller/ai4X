@@ -265,9 +265,10 @@ never accepted on argv, read from a file, or emitted.
 
 1. Run live verification before and after every governed planning transition
    and preserve the canonical JSON result digest/result as transition evidence.
-2. Exhaust every observed Project item, field, and option page. Identity,
-   accessibility, uniqueness, closure limits, and start/end stability fail
-   closed with distinct diagnostics.
+2. Exhaust every observed Project-item, Project-field, item-field-value,
+   User-member, and Label-member connection at both observation endpoints.
+   Identity, accessibility, supported value variants, uniqueness, closure
+   limits, and start/end stability fail closed with redacted diagnostics.
 3. Never treat a Plan digest or approval-reference string as proof of PO
    approval. The operator independently verifies the exact approval evidence.
 4. Never convert validator success into a command or authority decision. The
