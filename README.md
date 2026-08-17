@@ -63,4 +63,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-See [LICENSE](LICENSE). © 2026 [nemron](https://github.com/normenmueller) ([#hgtt](doc/hgtt.md))
+ai4X uses path-based Apache 2.0 and CC BY 4.0 licensing. See [LICENSING.md](LICENSING.md) for the authoritative boundaries, canonical texts, and attribution rules.
+
+© 2026 [nemron](https://github.com/normenmueller)

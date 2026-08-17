@@ -42,12 +42,21 @@ Keep the implementation focused on the single-CLI scope.
 
 Before opening a pull request:
 
-1. Run typecheck and tests for affected code.
-2. Ensure changed behavior is covered by tests, especially for:
+1. Install the pinned licensing verifier with `pipx install "reuse[charset-normalizer]==6.2.0"`.
+2. Run `make verify`, then typecheck and tests for affected code.
+3. Ensure changed behavior is covered by tests, especially for:
    - argument parsing
    - config validation
    - core command lifecycle
-3. Ensure docs are updated if command contracts changed.
+4. Ensure docs are updated if command contracts changed.
+
+## Licensing contributions
+
+- Submit only material you are authorized to license.
+- Unless an accepted written exception states otherwise, a contribution is offered under the effective license assigned to its target path in [REUSE.toml](REUSE.toml).
+- Preserve existing contributor and third-party notices, and identify imported or adapted material with its original license and attribution.
+- Do not add a third first-party license, incompatible excerpt, or material with unknown rights without an explicit Product Owner decision.
+- See [LICENSING.md](LICENSING.md) for the complete path boundaries and packaging rules.
 
 ## Contribution Flow
 

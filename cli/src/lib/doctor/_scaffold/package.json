@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "description": "Cognitive capability portfolio and quality gates",
+  "license": "Apache-2.0",
   "scripts": {
     "check:meta": "node checks/capability-meta.mjs",
     "check:shape": "node checks/capability-shape.mjs",

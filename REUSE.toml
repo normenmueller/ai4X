@@ -1,0 +1,83 @@
+version = 1
+
+[[annotations]]
+path = [
+  ".ai4x/*.dhall",
+  ".ai4x/*.md",
+  ".ai4x/*.yaml",
+  ".ai4x/agents/**",
+  ".ai4x/assurance/**",
+  ".ai4x/bindings/**",
+  ".ai4x/context/**",
+  ".ai4x/coordination/**",
+  ".ai4x/generated/agent-context/capabilities/**",
+  ".ai4x/generated/agent-context/participants/*/context.md",
+  ".ai4x/governance/**",
+  ".ai4x/intent/**",
+  ".ai4x/operations/**",
+  ".ai4x/planning/**",
+  ".ai4x/records/**",
+  ".ai4x/team/**",
+  ".github/ISSUE_TEMPLATE/**",
+  ".github/agents/**",
+  ".github/copilot-instructions.md",
+  "AGENTS.md",
+  "CHANGELOG",
+  "CODE_OF_CONDUCT.md",
+  "CONTRIBUTING.md",
+  "INSTALL",
+  "LICENSING.md",
+  "README.md",
+  "SECURITY.md",
+  "acc/img/ai4X Logo.jpg",
+  "adm/gdl/*.md",
+  "adm/gdl/index.yaml",
+  "adm/pbl/**",
+  "crp/**",
+  "doc/**",
+  "src/bundles/**",
+  "src/corpus/README.md",
+  "src/corpus/catalog.yaml",
+  "src/corpus/capabilities/**",
+  "src/corpus/governance/**",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 nemron <https://github.com/normenmueller>"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = [
+  ".ai4x/.gitignore",
+  ".ai4x/generated/agent-context/assignments/**",
+  ".ai4x/generated/agent-context/assurance/**",
+  ".ai4x/generated/agent-context/capability-lock.json",
+  ".ai4x/generated/agent-context/declarations/**",
+  ".ai4x/generated/agent-context/hosts/**",
+  ".ai4x/generated/agent-context/participants/*/manifest.json",
+  ".codex/**",
+  ".gitattributes",
+  ".github/workflows/**",
+  ".gitignore",
+  "Makefile",
+  "REUSE.toml",
+  "adm/gdl/dev/schemas/**",
+  "cli/**",
+  "src/.gitkeep",
+  "src/assurance/**",
+  "src/cabal.project",
+  "src/cli/**",
+  "src/corpus/*.cabal",
+  "src/corpus/releases/**",
+  "src/corpus/schema/**",
+  "src/corpus/src/**",
+  "src/corpus/test/**",
+  "src/light/**",
+  "src/packages/**",
+  "src/policy/**",
+  "src/skeletons/**",
+  "util/**",
+  "utl/**",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 nemron <https://github.com/normenmueller>"
+SPDX-License-Identifier = "Apache-2.0"
