@@ -1,4 +1,8 @@
+import { loadPolicyProjection, validatePolicyProjection } from "./projection.mjs";
+
 const EVALUATION_SCHEMA = "ai4x.session-hygiene-evaluation/v1";
+const OBSERVATION_SCHEMA = "ai4x.codex-session-observation/v1";
+const RESTART_SCHEMA = "ai4x.session-hygiene-restart-evaluation/v1";
 const WRITE_EFFECT = "modify-repository";
 const READ_EFFECTS = new Set(["read-repository", "review", "advise"]);
 const LIFECYCLES = new Set([
@@ -7,6 +11,29 @@ const LIFECYCLES = new Set([
   "subagent-stop",
   "after-issue-completion",
   "handoff-boundary",
+]);
+const EFFECTIVE_CHANGE_CLASSES = new Set([
+  "constitution-safety",
+  "agents-roles",
+  "delegation-collaboration",
+  "governance-lifecycle-authority-routing-work-management",
+  "host-bootstrap-configuration",
+  "tracked-ai-host-facade",
+  "capability-context-selection",
+]);
+const INERT_CHANGE_CLASSES = new Set([
+  "inert-documentation",
+  "test-evidence-output",
+  "generated-projection",
+  "local-scratch",
+]);
+const RESTART_INPUT_KEYS = new Set([
+  "schemaVersion",
+  "merged",
+  "safeBoundary",
+  "compactDurableHandoffVerified",
+  "startMode",
+  "changeClasses",
 ]);
 
 function isRecord(value) {
@@ -57,38 +84,22 @@ function classifyAssignment(assignment) {
 }
 
 function validatePolicy(policy, add) {
-  if (!isRecord(policy)
-    || policy.schemaVersion !== "ai4x.session-hygiene-projection/v1"
-    || policy.authorityStatus !== "mechanically-derived-inert-projection"
-    || !isRecord(policy.collaboration)
-    || !isRecord(policy.resources)) {
-    add("SH-POLICY-INVALID", "policy");
-    return false;
-  }
-  const collaboration = policy.collaboration;
-  const limit = collaboration.writeCapableAssignmentLimit;
-  const resources = policy.resources;
-  if (collaboration.assignmentClassification !== "assignment-effects-and-granted-authority"
-    || collaboration.zeroLimitBehavior !== "block-delegated-write-capable-spawn-only"
-    || collaboration.observeAllDelegatedAgents !== true
-    || collaboration.collaborationTopologyCapped !== false
-    || !isRecord(limit)
-    || !natural(limit.maximum)
-    || !isRecord(collaboration.contextInheritance)
-    || collaboration.contextInheritance.defaultMode !== "none"
-    || collaboration.contextInheritance.boundedPositiveRequiresRationale !== true
-    || collaboration.contextInheritance.fullHistoryRequiresExactPoDecision !== true
-    || ![resources.minimumFreeBytes, resources.unexplainedFreeSpaceDecreaseBytes, resources.maximumObservationAgeSeconds, resources.abnormalSingleRolloutGrowthBytes].every((value) => natural(value) && value > 0)) {
-    add("SH-POLICY-INVALID", "policy");
-    return false;
-  }
-  if (limit.maximum > 1
-    && (!isRecord(limit.aboveOneApproval)
-      || !nonEmpty(limit.aboveOneApproval.decisionReference)
-      || limit.aboveOneApproval.approvedMaximum !== limit.maximum)) {
+  const limit = policy?.collaboration?.writeCapableAssignmentLimit;
+  if (isRecord(limit)
+    && ((natural(limit.maximum)
+        && limit.maximum > 1
+        && (!isRecord(limit.aboveOneApproval)
+          || !nonEmpty(limit.aboveOneApproval.decisionReference)
+          || limit.aboveOneApproval.approvedMaximum !== limit.maximum))
+      || (natural(limit.maximum) && limit.maximum <= 1 && limit.aboveOneApproval !== null))) {
     add("SH-DELEGATION-LIMIT-APPROVAL", "delegation-limit");
   }
-  if (limit.maximum <= 1 && limit.aboveOneApproval !== null) add("SH-DELEGATION-LIMIT-APPROVAL", "delegation-limit");
+  try {
+    validatePolicyProjection(policy);
+  } catch {
+    add("SH-POLICY-INVALID", "policy");
+    return false;
+  }
   return true;
 }
 
@@ -151,8 +162,13 @@ function validateAssignmentAndContext(policy, input, add) {
       return;
     }
     if (inheritance.mode === "all") {
-      if (!/^[A-Za-z0-9][A-Za-z0-9._:#/-]*$/.test(inheritance.poDecisionReference ?? "")
-        || inheritance.approvedIssue !== input.issue) {
+      const approval = policy.collaboration.contextInheritance.fullHistoryApproval;
+      if (!isRecord(approval)
+        || inheritance.poDecisionReference !== approval.decisionReference
+        || inheritance.approvedIssue !== approval.issue
+        || inheritance.task !== approval.task
+        || inheritance.rationale !== approval.rationale
+        || input.issue !== approval.issue) {
         add("SH-CONTEXT-FULL-HISTORY", "context-inheritance");
       }
       return;
@@ -175,6 +191,15 @@ function validateObservation(policy, input, add) {
     || !isRecord(observation.childRollout)) {
     add("SH-OBSERVATION-MALFORMED", "observation");
     return;
+  }
+  if (observation.schemaVersion !== OBSERVATION_SCHEMA) {
+    add("SH-OBSERVATION-SCHEMA-INVALID", "observation-schema");
+  }
+  if (observation.issue !== input.issue) {
+    add("SH-OBSERVATION-ISSUE-MISMATCH", "observation-issue");
+  }
+  if (observation.lifecycle !== input.lifecycle) {
+    add("SH-OBSERVATION-LIFECYCLE-MISMATCH", "observation-lifecycle");
   }
   if (observation.repositoryRoot !== input.repositoryRoot) add("SH-OBSERVATION-FOREIGN-REPOSITORY", "repository-binding");
   if (input.nowEpochSeconds - observation.observedAtEpochSeconds > policy.resources.maximumObservationAgeSeconds) {
@@ -225,7 +250,7 @@ function validateObservation(policy, input, add) {
   }
 }
 
-export function evaluateSessionHygiene(policy, input) {
+function evaluateValidatedSessionHygiene(policy, input) {
   const diagnostics = [];
   const seen = new Set();
   const add = (code, subject) => {
@@ -261,4 +286,53 @@ export function evaluateSessionHygiene(policy, input) {
   });
 }
 
+export function evaluateSessionHygiene({ repositoryRoot, projectionPath, input } = {}) {
+  let policy;
+  try {
+    policy = loadPolicyProjection({ repositoryRoot, projectionPath });
+  } catch (error) {
+    const code = ["SH-PROJECTION-STALE", "SH-DELEGATION-LIMIT-APPROVAL"].includes(error?.code)
+      ? error.code
+      : "SH-PROJECTION-INVALID";
+    return Object.freeze({
+      decision: "block",
+      diagnostics: Object.freeze([Object.freeze({ code, subject: "policy" })]),
+    });
+  }
+  return evaluateValidatedSessionHygiene(policy, input);
+}
+
+export function evaluateRestartBoundary(input) {
+  const diagnostics = [];
+  const add = (code, subject) => diagnostics.push(Object.freeze({ code, subject }));
+  if (!isRecord(input)
+    || Object.keys(input).length !== RESTART_INPUT_KEYS.size
+    || Object.keys(input).some((key) => !RESTART_INPUT_KEYS.has(key))
+    || input.schemaVersion !== RESTART_SCHEMA
+    || typeof input.merged !== "boolean"
+    || typeof input.safeBoundary !== "boolean"
+    || typeof input.compactDurableHandoffVerified !== "boolean"
+    || !["fresh-without-resume", "resume", "not-started"].includes(input.startMode)
+    || !Array.isArray(input.changeClasses)
+    || input.changeClasses.length === 0
+    || new Set(input.changeClasses).size !== input.changeClasses.length
+    || input.changeClasses.some((kind) => !EFFECTIVE_CHANGE_CLASSES.has(kind) && !INERT_CHANGE_CLASSES.has(kind))) {
+    add("SH-RESTART-INPUT-INVALID", "restart-boundary");
+    return Object.freeze({ restartRequired: false, decision: "block", diagnostics: Object.freeze(diagnostics) });
+  }
+
+  const restartRequired = input.merged && input.changeClasses.some((kind) => EFFECTIVE_CHANGE_CLASSES.has(kind));
+  if (restartRequired) {
+    if (!input.safeBoundary) add("SH-RESTART-SAFE-BOUNDARY", "restart-boundary");
+    if (!input.compactDurableHandoffVerified) add("SH-RESTART-HANDOFF", "durable-handoff");
+    if (input.startMode !== "fresh-without-resume") add("SH-RESTART-WITHOUT-RESUME", "session-start");
+  }
+  return Object.freeze({
+    restartRequired,
+    decision: diagnostics.length === 0 ? "allow" : "block",
+    diagnostics: Object.freeze(diagnostics),
+  });
+}
+
 export const SESSION_HYGIENE_EVALUATION_SCHEMA = EVALUATION_SCHEMA;
+export const SESSION_HYGIENE_RESTART_SCHEMA = RESTART_SCHEMA;

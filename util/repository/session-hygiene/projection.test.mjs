@@ -60,6 +60,19 @@ test("projection schema rejects an unmatched above-one approval", () => {
   };
   assert.throws(
     () => validatePolicyProjection(projection),
+    (error) => error instanceof ProjectionFailure && error.code === "SH-DELEGATION-LIMIT-APPROVAL",
+  );
+});
+
+test("projection schema closes the full-history approval authority tuple", () => {
+  const projection = JSON.parse(readFileSync(GENERATED, "utf8"));
+  projection.collaboration.contextInheritance.fullHistoryApproval = {
+    decisionReference: "M121-FULL-01",
+    issue: "#121",
+    task: "bounded-review-reproduction",
+  };
+  assert.throws(
+    () => validatePolicyProjection(projection),
     (error) => error instanceof ProjectionFailure && error.code === "SH-PROJECTION-INVALID",
   );
 });

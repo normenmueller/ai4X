@@ -16,6 +16,25 @@ let approval =
 
 let bool = \(value : Bool) -> if value then "true" else "false"
 
+let fullHistoryApproval =
+      merge
+        { Some =
+            \ ( value
+              : { decisionReference : Text
+                , issue : Text
+                , task : Text
+                , rationale : Text
+                }
+              ) ->
+              "{ \"decisionReference\": ${Text/show
+                                            value.decisionReference}, \"issue\": ${Text/show
+                                                                                     value.issue}, \"task\": ${Text/show
+                                                                                                                 value.task}, \"rationale\": ${Text/show
+                                                                                                                                                 value.rationale} }"
+        , None = "null"
+        }
+        collaboration.contextInheritance.fullHistoryApproval
+
 in  ''
     {
       "schemaVersion": "ai4x.session-hygiene-projection/v1",
@@ -37,7 +56,8 @@ in  ''
           "boundedPositiveRequiresRationale": ${bool
                                                   collaboration.contextInheritance.boundedPositiveRequiresRationale},
           "fullHistoryRequiresExactPoDecision": ${bool
-                                                    collaboration.contextInheritance.fullHistoryRequiresExactPoDecision}
+                                                    collaboration.contextInheritance.fullHistoryRequiresExactPoDecision},
+          "fullHistoryApproval": ${fullHistoryApproval}
         }
       },
       "resources": {

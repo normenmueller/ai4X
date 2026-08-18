@@ -23,6 +23,14 @@ test("normative workflow declares required contract sections and stable rule ide
   for (const id of ["SH-W01", "SH-W02", "SH-W03", "SH-W04", "SH-W05", "SH-W06", "SH-W07", "SH-W08"]) {
     assert.match(policy, new RegExp(`\\b${id}\\b`));
   }
+  for (const classification of [
+    "constitution-safety", "agents-roles", "delegation-collaboration",
+    "governance-lifecycle-authority-routing-work-management", "host-bootstrap-configuration",
+    "tracked-ai-host-facade", "capability-context-selection", "inert-documentation",
+    "test-evidence-output", "generated-projection", "local-scratch",
+  ]) assert.match(policy, new RegExp(`\\b${classification}\\b`));
+  assert.match(policy, /fresh-without-resume/);
+  assert.match(policy, /fullHistoryApproval = null/);
   assert.doesNotMatch(policy, /30 GiB|1 GiB|300 seconds|256 MiB|32,212,254,720|1,073,741,824|268,435,456/);
   assert.match(policy, /\.\/session-hygiene\.dhall/);
   assert.match(policy, /\.\.\/coordination\/collaboration\.dhall/);

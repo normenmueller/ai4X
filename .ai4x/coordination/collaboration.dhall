@@ -1,5 +1,8 @@
 let AboveOneApproval = { decisionReference : Text, approvedMaximum : Natural }
 
+let FullHistoryApproval =
+      { decisionReference : Text, issue : Text, task : Text, rationale : Text }
+
 in  { schemaVersion = "ai4x.collaboration/v1"
     , assignmentClassification = "assignment-effects-and-granted-authority"
     , writeCapableAssignmentLimit =
@@ -11,5 +14,6 @@ in  { schemaVersion = "ai4x.collaboration/v1"
       { defaultMode = "none"
       , boundedPositiveRequiresRationale = True
       , fullHistoryRequiresExactPoDecision = True
+      , fullHistoryApproval = None FullHistoryApproval
       }
     }

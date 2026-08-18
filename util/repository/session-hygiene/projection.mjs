@@ -99,20 +99,33 @@ export function validatePolicyProjection(value) {
   if (limit.aboveOneApproval !== null) {
     const approval = requireClosedRecord(limit.aboveOneApproval, ["decisionReference", "approvedMaximum"], "aboveOneApproval");
     if (!/^[A-Za-z0-9][A-Za-z0-9._:#/-]*$/.test(requireString(approval.decisionReference, "aboveOneApproval.decisionReference"))) {
-      fail("SH-PROJECTION-INVALID", "above-one decision reference is not an exact safe identifier");
+      fail("SH-DELEGATION-LIMIT-APPROVAL", "above-one decision reference is not an exact safe identifier");
     }
     requireNatural(approval.approvedMaximum, "aboveOneApproval.approvedMaximum", { positive: true });
   }
   if (limit.maximum > 1 && (limit.aboveOneApproval === null || limit.aboveOneApproval.approvedMaximum !== limit.maximum)) {
-    fail("SH-PROJECTION-INVALID", "above-one maximum lacks an exact matching PO decision");
+    fail("SH-DELEGATION-LIMIT-APPROVAL", "above-one maximum lacks an exact matching PO decision");
   }
-  if (limit.maximum <= 1 && limit.aboveOneApproval !== null) fail("SH-PROJECTION-INVALID", "above-one approval is invalid for a default maximum");
+  if (limit.maximum <= 1 && limit.aboveOneApproval !== null) fail("SH-DELEGATION-LIMIT-APPROVAL", "above-one approval is invalid for a default maximum");
 
   const inheritance = requireClosedRecord(collaboration.contextInheritance, [
-    "defaultMode", "boundedPositiveRequiresRationale", "fullHistoryRequiresExactPoDecision",
+    "defaultMode", "boundedPositiveRequiresRationale", "fullHistoryRequiresExactPoDecision", "fullHistoryApproval",
   ], "contextInheritance");
   if (inheritance.defaultMode !== "none" || !requireBoolean(inheritance.boundedPositiveRequiresRationale, "boundedPositiveRequiresRationale") || !requireBoolean(inheritance.fullHistoryRequiresExactPoDecision, "fullHistoryRequiresExactPoDecision")) {
     fail("SH-PROJECTION-INVALID", "context inheritance weakens the accepted contract");
+  }
+  if (inheritance.fullHistoryApproval !== null) {
+    const approval = requireClosedRecord(inheritance.fullHistoryApproval, [
+      "decisionReference", "issue", "task", "rationale",
+    ], "fullHistoryApproval");
+    if (!/^[A-Za-z0-9][A-Za-z0-9._:#/-]*$/.test(requireString(approval.decisionReference, "fullHistoryApproval.decisionReference"))) {
+      fail("SH-PROJECTION-INVALID", "full-history decision reference is not an exact safe identifier");
+    }
+    if (!/^#[1-9][0-9]*$/.test(requireString(approval.issue, "fullHistoryApproval.issue"))) {
+      fail("SH-PROJECTION-INVALID", "full-history Issue identity is invalid");
+    }
+    requireString(approval.task, "fullHistoryApproval.task");
+    requireString(approval.rationale, "fullHistoryApproval.rationale");
   }
 
   const resources = requireClosedRecord(root.resources, [
