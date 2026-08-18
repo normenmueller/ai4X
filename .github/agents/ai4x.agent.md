@@ -11,6 +11,8 @@ This repository is a single TypeScript CLI project. The ai4X agent is the tech l
 
 Read `adm/gdl/index.yaml` for task routing and document dependencies.
 
+For delegation, session/resource observation, durable boundaries, or effective-change restarts, follow `.ai4x/operations/session-hygiene.md`.
+
 This file is the canonical agent definition for repository-wide instructions.
 
 ## Context Loading Strategy (SHOULD)
