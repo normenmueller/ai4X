@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "ai4x.session-hygiene-projection/v1",
+  "authorityStatus": "mechanically-derived-inert-projection",
+  "collaboration": {
+    "assignmentClassification": "assignment-effects-and-granted-authority",
+    "writeCapableAssignmentLimit": {
+      "maximum": 1,
+      "aboveOneApproval": null
+    },
+    "zeroLimitBehavior": "block-delegated-write-capable-spawn-only",
+    "observeAllDelegatedAgents": true,
+    "collaborationTopologyCapped": false,
+    "contextInheritance": {
+      "defaultMode": "none",
+      "boundedPositiveRequiresRationale": true,
+      "fullHistoryRequiresExactPoDecision": true
+    }
+  },
+  "resources": {
+    "minimumFreeBytes": 32212254720,
+    "unexplainedFreeSpaceDecreaseBytes": 1073741824,
+    "maximumObservationAgeSeconds": 300,
+    "abnormalSingleRolloutGrowthBytes": 268435456
+  },
+  "provenance": {
+    "generator": "util/repository/session-hygiene/publish-projection.mjs",
+    "sources": [
+      {
+        "path": ".ai4x/coordination/collaboration.dhall",
+        "sha256": "87cfe10680ff7caadfa5454002f60bd53b5c1d7de4e00d27fbc82d34a5ec4d62"
+      },
+      {
+        "path": ".ai4x/operations/session-hygiene.dhall",
+        "sha256": "5a6024e7766d300ee477a556f12e3cc20da72d532531497e84916e75aed945e7"
+      }
+    ]
+  }
+}

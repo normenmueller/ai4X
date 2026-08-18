@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Install verification tools
         run: |
-          sudo apt-get install --yes --no-install-recommends pipx ripgrep
+          sudo apt-get install --yes --no-install-recommends dhall pipx ripgrep
           pipx install "reuse[charset-normalizer]==6.2.0"
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
       - name: Setup Node.js

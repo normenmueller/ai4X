@@ -54,6 +54,7 @@ path = [
   ".ai4x/generated/agent-context/declarations/**",
   ".ai4x/generated/agent-context/hosts/**",
   ".ai4x/generated/agent-context/participants/*/manifest.json",
+  ".ai4x/generated/assurance/**",
   ".codex/**",
   ".gitattributes",
   ".github/workflows/**",
