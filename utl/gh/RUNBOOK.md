@@ -2,11 +2,11 @@
 
 ## Purpose
 
-Keep the GitHub repository About and Topics reproducible from versioned local metadata.
+Keep the GitHub repository About, Topics, and complete label taxonomy reproducible from versioned local metadata.
 
 ## Source of Truth
 
-`utl/gh/repo-metadata.yaml` — all intended repository metadata is declared here.
+`utl/gh/repo-metadata.yaml` — all intended repository metadata is declared here. Label colors are declared once per taxonomy axis so every label in that axis remains visually consistent; an approved visual exception must be an explicit per-label override.
 
 ## Commands
 
@@ -25,14 +25,17 @@ bash ./utl/gh/repo-metadata.sh --apply
 
 1. Keep `utl/gh/repo-metadata.yaml` in sync with intended GitHub metadata.
 2. Run `--check-local` before finishing metadata-related changes.
-3. Run `--check` when remote drift must be validated.
+3. Run `--check` when remote drift must be validated. It fails when GitHub authentication is unavailable; it never degrades to a local-only success.
 4. Use `--apply` when metadata updates are intentional and the remote repository must be reconciled.
 5. Do not finish metadata changes while intended local metadata and remote GitHub metadata still differ.
+6. Label apply may create declared labels and update their metadata. It fails closed when GitHub contains an undeclared label and never deletes labels; deletion requires a separate exact PO-approved action.
+7. Remote check and apply resolve their sole `owner/repository` target from this checkout's `origin`; caller working directory and `GH_REPO` cannot redirect it.
+8. Apply skips metadata that already matches. If a provider write fails after earlier writes, the diagnostic lists completed operations and requires a fresh `--check` before recovery.
 
 ## When to Use
 
 The Tech Lead triggers metadata operations when:
-- Repository About or Topics need to change
+- Repository About, Topics, or labels need to change
 - `make verify` reports a metadata drift
 - A Story or chore explicitly requires metadata reconciliation
 

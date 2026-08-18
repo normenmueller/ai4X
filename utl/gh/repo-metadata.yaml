@@ -1,4 +1,4 @@
-version: 0.1.0
+version: 0.2.0
 repo: ai4X
 about: "Operating model for fit-for-purpose, consistent agent curation and explicit runtime activation"
 topics:
@@ -10,3 +10,40 @@ topics:
   - cognitive-capabilities
   - requirements-engineering
   - byoa
+labels:
+  level:
+    color: D8C7F0
+    values:
+      roadmap: "Structural projection: roadmap; native relations remain authoritative"
+      epic: "Structural projection: Epic; native Parent/Sub-Issue relations remain authoritative"
+      story: "Structural projection: Story; native Parent/Sub-Issue relations remain authoritative"
+  kind:
+    color: B9DCF2
+    overrides:
+      bug: E85D68
+    values:
+      feature: "Work kind: product, platform, or governance feature"
+      bug: "Work kind: correction of defective behavior"
+      chore: "Work kind: maintenance, housekeeping, or bounded governance work"
+      research: "Work kind: exploratory work without implementation authority"
+      planning: "Work kind: roadmap, backlog, or coordination planning"
+  topic:
+    color: BFE3D0
+    values:
+      intent-curation: "Topic: Project Intent, Needs, corpus curation, and traceability"
+      cognitive-capabilities: "Topic: cognitive Capabilities and their contracts"
+      collaboration-work: "Topic: collaboration models, roles, delegation, and work interaction"
+      governance-controls: "Topic: governance, authority, policy, and deterministic controls"
+      operations-assurance: "Topic: operational tooling, verification, evidence, and Assurance"
+      core-platform: "Topic: core product architecture, runtime, CLI, and foundational platform"
+      integrations-adapters: "Topic: host, provider, protocol, and third-party integrations or adapters"
+  aspect:
+    color: F4D0AE
+    values:
+      documentation: "Work aspect: human- or agent-facing documentation is materially affected"
+      automation: "Work aspect: repository, provider, or workflow automation is materially affected"
+  signal:
+    color: EDB8C4
+    values:
+      eyodf: "Signal: ai4X is self-applied and tested on the ai4X repository"
+      generalization: "Signal: project evidence may become reusable ai4X portfolio behavior"
