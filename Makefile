@@ -8,7 +8,7 @@ FISH_COMPLETION_DIR ?= $(PREFIX)/share/fish/vendor_completions.d
 
 CONFIG_MODE ?= keep
 
-.PHONY: install install-user-config uninstall clean verify licensing-check branch-scope-test implementation-pack-test planning-contract-test test
+.PHONY: install install-user-config uninstall clean verify licensing-check repo-metadata-test branch-scope-test implementation-pack-test planning-contract-test test
 
 install:
 	@command -v node >/dev/null 2>&1 || { echo '[ai4x] ERROR node is required but not found in PATH' >&2; exit 1; }
@@ -78,6 +78,7 @@ verify:
 	@git ls-files --error-unmatch cli/src/lib/.gitkeep >/dev/null 2>&1 || { echo '[ai4x] ERROR not tracked: cli/src/lib/.gitkeep' >&2; exit 2; }
 	@git ls-files --error-unmatch cli/tst/.gitkeep >/dev/null 2>&1 || { echo '[ai4x] ERROR not tracked: cli/tst/.gitkeep' >&2; exit 2; }
 	@$(MAKE) --no-print-directory licensing-check
+	@$(MAKE) --no-print-directory repo-metadata-test
 	@bash utl/gh/repo-metadata.sh --check-local
 	@$(MAKE) --no-print-directory branch-scope-test
 	@$(MAKE) --no-print-directory implementation-pack-test
@@ -87,6 +88,10 @@ verify:
 licensing-check:
 	@echo '[ai4x] verify: checking path-based licensing and attribution'
 	@bash utl/licensing/verify.sh
+
+repo-metadata-test:
+	@echo '[ai4x] verify: checking repository metadata contract'
+	@node --test utl/gh/repo-labels.test.mjs
 
 branch-scope-test:
 	@echo '[ai4x] verify: checking branch and pull-request scope contract'

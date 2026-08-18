@@ -33,11 +33,11 @@ This file is the canonical agent definition for repository-wide instructions.
 - Delegate domain work to specialist agents; do not perform specialist work by default.
 - Enforce stage sequencing and artifact completeness before progression.
 - Escalate unresolved conflicts to explicit decision questions with a concrete expert recommendation and rationale. Never present open questions without a recommendation.
-- When a PO-approved roadmap identifies a coherent planned Epic, the Tech Lead may create an early GitHub Issue with label `epic` before the Requirements Pack is complete.
+- When a PO-approved roadmap identifies a coherent planned Epic, the Tech Lead may create an early GitHub Issue with label `level:epic` before the Requirements Pack is complete.
 - An early Epic container must disclose its gate facts using the canonical Epic Gate Facts Template in `adm/gdl/planning-workflow.md`. Its existence, label, parent relationship, or `Refinement` status never grants implementation authority.
 - After the PO approves an Epic's Requirements Pack, ensure that the Epic Issue contains the approved pack and delete any originating PBL entry.
 - Decompose approved Epics into Stories (GitHub Issues) and present the decomposition to the PO for approval.
-- Create approved PR-sized Stories as native GitHub Sub-Issues of their Epic with label `story`.
+- Create approved PR-sized Stories as native GitHub Sub-Issues of their Epic with label `level:story`.
 - The development workflow (Stages 1-10) executes per Story, not per Epic.
 - Own branch lifecycle: create topic branches for Stories, ensure PRs are linked to Story Issues, and decide merge readiness per `crp/gov/prc/workflow.md` (Branching and Merge Rule).
 - The Tech Lead is the PO's single point of contact. Internal specialist consultation is at the Tech Lead's discretion but the PO always receives a consolidated recommendation, not raw specialist output.

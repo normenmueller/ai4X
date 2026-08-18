@@ -3,21 +3,16 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { diffLabelRecords, labelRecordsFromConfig, planLabelReconciliation } from "./repo-labels.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, "..", "..");
 const METADATA_FILE = path.join(__dirname, "repo-metadata.yaml");
-const REPO_METADATA_VERSION = "0.1.0";
-
-const mode = process.argv[2] ?? "--check";
-if (!["--check", "--check-local", "--apply"].includes(mode)) {
-  process.stderr.write("[gh|error]: usage: --check | --check-local | --apply\n");
-  process.exit(2);
-}
+const REPO_METADATA_VERSION = "0.2.0";
 
 function runGh(args) {
-  return spawnSync("gh", args, { encoding: "utf8" });
+  return spawnSync("gh", args, { encoding: "utf8", cwd: REPO_ROOT });
 }
 
 function runGit(args) {
@@ -152,7 +147,7 @@ function validateRepoEntry(id, entry) {
   return true;
 }
 
-function loadMetadata() {
+export function loadMetadata() {
   if (!fs.existsSync(METADATA_FILE)) {
     throw new Error(`missing metadata file: ${METADATA_FILE}`);
   }
@@ -169,7 +164,7 @@ function loadMetadata() {
   if (!validateRepoEntry(cfg.repo, cfg)) {
     throw new Error("metadata validation failed");
   }
-  return cfg;
+  return { ...cfg, labels: labelRecordsFromConfig(cfg.labels) };
 }
 
 function normalizeTopics(topics) {
@@ -183,6 +178,57 @@ function topicsEqual(a, b) {
   const right = normalizeTopics(b);
   if (left.length !== right.length) return false;
   return left.every((topic, idx) => topic === right[idx]);
+}
+
+function readRemoteLabels(target) {
+  const output = runGh(["api", "--paginate", "--slurp", `repos/${target}/labels?per_page=100`]);
+  if (output.status !== 0) {
+    throw new Error(`failed to read labels for ${target}: ${output.stderr.trim()}`);
+  }
+  let pages;
+  try {
+    pages = JSON.parse(output.stdout);
+  } catch {
+    throw new Error(`failed to parse labels for ${target}`);
+  }
+  if (!Array.isArray(pages) || !pages.every(Array.isArray)) {
+    throw new Error(`labels for ${target} are not a paginated array`);
+  }
+  return pages.flat();
+}
+
+function readRemoteState(target) {
+  const aboutOut = runGh(["api", `repos/${target}`, "--jq", ".description // \"\""]);
+  if (aboutOut.status !== 0) {
+    throw new Error(`failed to read description for ${target}: ${aboutOut.stderr.trim()}`);
+  }
+  const topicsOut = runGh(["api", `repos/${target}/topics`, "--jq", ".names[]"]);
+  if (topicsOut.status !== 0) {
+    throw new Error(`failed to read topics for ${target}: ${topicsOut.stderr.trim()}`);
+  }
+  const topics = topicsOut.stdout
+    .split("\n")
+    .map((topic) => topic.trim())
+    .filter((topic) => topic.length > 0);
+  return { about: aboutOut.stdout.trim(), topics, labels: readRemoteLabels(target) };
+}
+
+function reportLabelDiff(diff, target) {
+  let ok = true;
+  if (diff.missing.length > 0) {
+    fail(`remote labels missing for ${target}: ${diff.missing.join(", ")}`);
+    ok = false;
+  }
+  if (diff.extra.length > 0) {
+    fail(`undeclared remote labels for ${target}: ${diff.extra.join(", ")}`);
+    ok = false;
+  }
+  if (diff.mismatched.length > 0) {
+    const details = diff.mismatched.map(({ name, fields }) => `${name}(${fields.join("+")})`);
+    fail(`remote label metadata mismatch for ${target}: ${details.join(", ")}`);
+    ok = false;
+  }
+  return ok;
 }
 
 function resolveRepoRefFromGit() {
@@ -207,8 +253,7 @@ function ghAvailable() {
   return probe.status === 0;
 }
 
-function checkLocalMetadata(metadata) {
-  const repoRef = resolveRepoRefFromGit();
+function checkLocalMetadata(metadata, repoRef) {
   if (!repoRef) {
     process.stdout.write("[gh|warn]: cannot derive owner/repo from git remote; local-only checks applied\n");
     return true;
@@ -220,98 +265,109 @@ function checkLocalMetadata(metadata) {
   return true;
 }
 
-function checkRemote(metadata) {
+function checkRemote(metadata, target) {
   if (!ghAvailable()) {
-    process.stdout.write("[gh|warn]: gh auth is unavailable; remote drift check skipped\n");
-    return true;
+    return fail("gh auth is required for remote drift check; use --check-local for offline validation");
   }
-  const repoRef = runGh(["repo", "view", "--json", "nameWithOwner", "--jq", ".nameWithOwner"]);
-  if (repoRef.status !== 0) {
-    return fail(`failed to determine active repo with gh: ${repoRef.stderr.trim()}`);
+  let remote;
+  try {
+    remote = readRemoteState(target);
+  } catch (error) {
+    return fail(error instanceof Error ? error.message : String(error));
   }
-  const target = repoRef.stdout.trim();
-
-  const descOut = runGh(["api", `repos/${target}`, "--jq", ".description // \"\""]);
-  if (descOut.status !== 0) {
-    return fail(`failed to read description for ${target}: ${descOut.stderr.trim()}`);
-  }
-  const remoteAbout = descOut.stdout.trim();
   let ok = true;
-  if (remoteAbout !== metadata.about) {
+  if (remote.about !== metadata.about) {
     ok = fail(`remote about mismatch for ${target}`) && ok;
   }
-
-  const topicsOut = runGh(["api", `repos/${target}/topics`, "--jq", ".names[]"]);
-  if (topicsOut.status !== 0) {
-    return fail(`failed to read topics for ${target}: ${topicsOut.stderr.trim()}`) && ok;
-  }
-  const remoteTopics = topicsOut.stdout
-    .split("\n")
-    .map((topic) => topic.trim())
-    .filter((topic) => topic.length > 0);
-
-  if (!topicsEqual(remoteTopics, metadata.topics)) {
+  if (!topicsEqual(remote.topics, metadata.topics)) {
     ok = fail(`remote topics mismatch for ${target}`) && ok;
+  }
+  if (!reportLabelDiff(diffLabelRecords(metadata.labels, remote.labels), target)) {
+    ok = false;
   }
   return ok;
 }
 
-function applyRemote(metadata) {
+function applyRemote(metadata, target) {
   if (!ghAvailable()) {
     process.stderr.write("[gh|error]: gh auth is required for --apply\n");
     return false;
   }
-  const repoRef = runGh(["repo", "view", "--json", "nameWithOwner", "--jq", ".nameWithOwner"]);
-  if (repoRef.status !== 0) {
-    return fail(`failed to determine active repo with gh: ${repoRef.stderr.trim()}`);
+  let remote;
+  try {
+    remote = readRemoteState(target);
+  } catch (error) {
+    return fail(error instanceof Error ? error.message : String(error));
   }
-  const target = repoRef.stdout.trim();
-
-  const descOut = runGh(["api", "-X", "PATCH", `repos/${target}`, "-f", `description=${metadata.about}`]);
-  if (descOut.status !== 0) {
-    return fail(`failed to apply description for ${target}: ${descOut.stderr.trim()}`);
-  }
-
-  const topicArgs = ["api", "-X", "PUT", `repos/${target}/topics`];
-  for (const topic of metadata.topics) {
-    topicArgs.push("-f", `names[]=${topic}`);
-  }
-  const topicsOut = runGh(topicArgs);
-  if (topicsOut.status !== 0) {
-    return fail(`failed to apply topics for ${target}: ${topicsOut.stderr.trim()}`);
+  const labelPlan = planLabelReconciliation(metadata.labels, remote.labels);
+  if (!labelPlan.ok) {
+    return fail(`refusing to delete undeclared remote labels for ${target}: ${labelPlan.diff.extra.join(", ")}`);
   }
 
-  process.stdout.write(`[gh|info]: applied ${target}\n`);
+  const operations = [];
+  if (remote.about !== metadata.about) {
+    operations.push({ name: "about:update", args: ["api", "-X", "PATCH", `repos/${target}`, "-f", `description=${metadata.about}`] });
+  }
+  if (!topicsEqual(remote.topics, metadata.topics)) {
+    const args = ["api", "-X", "PUT", `repos/${target}/topics`];
+    for (const topic of metadata.topics) args.push("-f", `names[]=${topic}`);
+    operations.push({ name: "topics:update", args });
+  }
+  for (const operation of labelPlan.operations) {
+    const { name, color, description } = operation.label;
+    const args = operation.action === "create"
+      ? ["api", "-X", "POST", `repos/${target}/labels`, "-f", `name=${name}`, "-f", `color=${color}`, "-f", `description=${description}`]
+      : ["api", "-X", "PATCH", `repos/${target}/labels/${encodeURIComponent(name)}`, "-f", `new_name=${name}`, "-f", `color=${color}`, "-f", `description=${description}`];
+    operations.push({ name: `label:${operation.action}:${name}`, args });
+  }
+
+  const completed = [];
+  for (const operation of operations) {
+    const output = runGh(operation.args);
+    if (output.status !== 0) {
+      const receipt = completed.length > 0 ? completed.join(", ") : "none";
+      return fail(`operation '${operation.name}' failed for ${target}: ${output.stderr.trim()}; completed: ${receipt}; rerun --check before recovery`);
+    }
+    completed.push(operation.name);
+  }
+
+  process.stdout.write(`[gh|info]: applied ${target} (${operations.length} metadata changes)\n`);
   return true;
 }
 
-let metadata;
-try {
-  metadata = loadMetadata();
-} catch (error) {
-  process.stderr.write(`[gh|error]: ${error instanceof Error ? error.message : String(error)}\n`);
-  process.exit(1);
-}
+function main() {
+  const mode = process.argv[2] ?? "--check";
+  if (!["--check", "--check-local", "--apply"].includes(mode)) {
+    process.stderr.write("[gh|error]: usage: --check | --check-local | --apply\n");
+    process.exit(2);
+  }
 
-const localOk = checkLocalMetadata(metadata);
-if (!localOk) {
-  process.exit(1);
-}
-process.stdout.write("[gh|info]: local metadata contract: ok\n");
-
-if (mode === "--check-local") {
-  process.exit(0);
-}
-
-if (mode === "--check") {
-  if (!checkRemote(metadata)) {
+  let metadata;
+  try {
+    metadata = loadMetadata();
+  } catch (error) {
+    process.stderr.write(`[gh|error]: ${error instanceof Error ? error.message : String(error)}\n`);
     process.exit(1);
   }
-  process.stdout.write("[gh|info]: remote metadata check: ok\n");
-  process.exit(0);
+  const target = resolveRepoRefFromGit();
+  if (!checkLocalMetadata(metadata, target)) process.exit(1);
+  process.stdout.write("[gh|info]: local metadata contract: ok\n");
+
+  if (mode === "--check-local") process.exit(0);
+  if (!target) {
+    process.stderr.write("[gh|error]: exact owner/repository cannot be derived from origin\n");
+    process.exit(1);
+  }
+  if (mode === "--check") {
+    if (!checkRemote(metadata, target)) process.exit(1);
+    process.stdout.write("[gh|info]: remote metadata check: ok\n");
+    process.exit(0);
+  }
+
+  if (!applyRemote(metadata, target)) process.exit(1);
+  process.stdout.write("[gh|info]: apply completed\n");
 }
 
-if (!applyRemote(metadata)) {
-  process.exit(1);
+if (process.argv[1] && path.resolve(process.argv[1]) === __filename) {
+  main();
 }
-process.stdout.write("[gh|info]: apply completed\n");
