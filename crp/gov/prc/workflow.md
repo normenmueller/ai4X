@@ -1,6 +1,6 @@
 ---
-version: 1.2.0
-last_updated: 2026-08-12
+version: 1.3.0
+last_updated: 2026-08-19
 ---
 
 # Development Workflow
@@ -99,6 +99,7 @@ This workflow executes **per Story**. Epic refinement and Story decomposition ar
 - takes Story scope from the parent Epic
 - confirms constraints and required artifacts
 - determines which stages are needed for this Story (see Stage Applicability below)
+- records the Tech Lead-owned AI-impact classification required by `crp/gov/qlt/ai-strategy-quality.md`; changed scope invalidates it
 
 2. Requirements Refinement (`ai4x-requirements`) — conditional
 - refines Story-level acceptance criteria only when the Epic ACs are too coarse for the Story scope
@@ -115,8 +116,8 @@ This workflow executes **per Story**. Epic refinement and Story decomposition ar
 - mandatory when Stage 2 or Stage 3 produced new artifacts; skipped when both were skipped
 
 5. AI Strategy (`ai4x-ai-strategy`) — conditional
-- validates model/tool constraints, fallback behavior, uncertainty policy, and prompt/context discipline
-- required when the Story involves AI/LLM behavior or shapes agent planning, context, capability consumption, or review behavior
+- performs the named qualified AI-suitability specialist assessment defined by `crp/gov/qlt/ai-strategy-quality.md`
+- required exactly when the Stage-1 classification is `ai-impacting`; missing, stale, ambiguous, or blocked evidence stops progression
 
 6. Capability Governance (`ai4x-capability-governance`) — conditional
 - validates portfolio coverage, authors or revises capabilities, performs semantic fitness checks
@@ -145,7 +146,7 @@ The Tech Lead determines in Stage 1 which stages are needed for the current Stor
 | 2. Requirements Refinement | Conditional | Epic ACs are already sufficient for the Story scope |
 | 3. Architecture | Conditional | No module boundary or domain invariant changes |
 | 4. Critical Review A | Conditional | Stages 2 and 3 were both skipped |
-| 5. AI Strategy | Conditional | Story does not involve AI/LLM behavior and does not shape agent planning, context, capability consumption, or review behavior |
+| 5. AI Strategy | Conditional | The valid Stage-1 classification is `not-ai-impacting`; classification and evidence semantics are owned by `crp/gov/qlt/ai-strategy-quality.md` |
 | 6. Capability Governance | Conditional | Story does not involve cognitive capability authoring, evaluation, or portfolio change |
 | 7. Implementation | Always | — |
 | 8. Testing | Always | — |
@@ -154,17 +155,18 @@ The Tech Lead determines in Stage 1 which stages are needed for the current Stor
 
 ### Stage Input/Output Contract
 
-1. Requirements Refinement stage, if run, must produce an updated Requirements Pack (or confirm the Epic-level ACs are sufficient).
-2. Architecture stage, if run, must consume the Requirements Pack and produce an Architecture Pack.
-3. Critical Review Pass A, if run, must consume all artifacts produced by preceding stages and produce Review A Findings.
-4. AI Strategy stage, if run, must consume Requirements Pack and Architecture Pack (if produced), and produce an AI Strategy Note.
-5. Capability Governance stage, if run, must consume Requirements Pack, Architecture Pack (if produced), and portfolio state (`crp/cap/**`); it must produce a Capability Assessment Report and, when applicable, new or revised capability artifacts.
-6. Implementation stage must consume all available upstream artifacts (Requirements Pack, Architecture Pack if produced, Review A Findings if produced, AI Strategy Note if produced, Capability Assessment Report if produced); it must produce the exact candidate plus a transient concise Implementation Pack map conforming to `crp/gov/qlt/implementation-quality.md`.
-7. Testing stage must consume Requirements Pack, Architecture Pack (if produced), the exact candidate, and the transient Implementation Pack map; it must derive behavior from Requirements/candidate rather than Pack prose and produce a Test Evidence Pack.
-8. Critical Review Pass B must consume the exact candidate, Implementation Pack, and Test Evidence Pack and produce Review B Findings. It must inspect cited executable evidence and independently review semantic authority/duplication.
-9. Missing mandatory artifacts, unresolved contradictions, or unresolved high-severity findings block progression.
-10. When a conditional stage is skipped, its output artifact is marked `n/a` in the conformance record.
-11. When Review B blocks and returns to Implementation, Stages 7–8 re-execute before resubmitting to Review B.
+1. Triage and Scope must produce the scope-bound AI-impact classification record defined by `crp/gov/qlt/ai-strategy-quality.md`.
+2. Requirements Refinement stage, if run, must produce an updated Requirements Pack (or confirm the Epic-level ACs are sufficient).
+3. Architecture stage, if run, must consume the Requirements Pack and produce an Architecture Pack.
+4. Critical Review Pass A, if run, must consume all artifacts produced by preceding stages and produce Review A Findings.
+5. AI Strategy stage, if run, must consume the classification, Requirements Pack, and Architecture Pack (if produced), and produce the named specialist evidence and AI Strategy Note required by `crp/gov/qlt/ai-strategy-quality.md`.
+6. Capability Governance stage, if run, must consume Requirements Pack, Architecture Pack (if produced), and portfolio state (`crp/cap/**`); it must produce a Capability Assessment Report and, when applicable, new or revised capability artifacts.
+7. Implementation stage must consume all available upstream artifacts (Requirements Pack, Architecture Pack if produced, Review A Findings if produced, AI Strategy Note if produced, Capability Assessment Report if produced); it must produce the exact candidate plus a transient concise Implementation Pack map conforming to `crp/gov/qlt/implementation-quality.md`.
+8. Testing stage must consume Requirements Pack, Architecture Pack (if produced), the exact candidate, and the transient Implementation Pack map; it must derive behavior from Requirements/candidate rather than Pack prose and produce a Test Evidence Pack.
+9. Critical Review Pass B must consume the exact candidate, Implementation Pack, Test Evidence Pack, classification, and required specialist evidence and produce Review B Findings. It must inspect cited executable evidence and independently review semantic authority/duplication.
+10. Missing mandatory artifacts, unresolved contradictions, or unresolved high-severity findings block progression.
+11. When a conditional stage is skipped, its output artifact is marked `n/a` in the conformance record.
+12. When Review B blocks and returns to Implementation, Stages 7–8 re-execute before resubmitting to Review B.
 
 ### Implementation Pack Publication and Review Loop
 
@@ -257,6 +259,7 @@ Artifacts produced during workflow execution persist as follows:
 | Architecture Pack | Chat session (referenced in PR description for traceability) |
 | Review A/B Findings | Chat session (blocking findings summarized in PR description) |
 | AI Strategy Note | Chat session (referenced in PR description when applicable) |
+| AI-impact classification and specialist evidence | Chat session (classification and, when required, the named review evidence are referenced in the PR description) |
 | Capability Assessment Report | Chat session (referenced in PR description when applicable) |
 | New/Revised Capability Artifacts | `crp/cap/**` in topic branch |
 | Implementation Pack | Exact candidate in topic branch + one canonical PR-description section; transient active-session map before PR creation only |
@@ -284,7 +287,7 @@ flowchart TD
 	NEED_ARCH -->|No| NEED_CRA{Stage 2 or 3<br/>ran?}
 	A --> CR1[ai4x-critical-reviewer<br/>Stage 4: Review Pass A]
 	NEED_CRA -->|Yes| CR1
-	NEED_CRA -->|No| NEED_AI{AI-heavy?}
+	NEED_CRA -->|No| NEED_AI{AI-impact classification?}
 	CR1 -->|Blocked| DQ[Decision Question to PO]
 	DQ --> CR1_FIX[Remediate blocked stage]
 	CR1_FIX --> CR1

@@ -8,7 +8,7 @@ FISH_COMPLETION_DIR ?= $(PREFIX)/share/fish/vendor_completions.d
 
 CONFIG_MODE ?= keep
 
-.PHONY: install install-user-config uninstall clean verify licensing-check repo-metadata-test branch-scope-test implementation-pack-test planning-contract-test session-hygiene-publish session-hygiene-check session-hygiene-test test
+.PHONY: install install-user-config uninstall clean verify licensing-check repo-metadata-test branch-scope-test implementation-pack-test planning-contract-test ai-suitability-policy-test session-hygiene-publish session-hygiene-check session-hygiene-test test
 
 install:
 	@command -v node >/dev/null 2>&1 || { echo '[ai4x] ERROR node is required but not found in PATH' >&2; exit 1; }
@@ -66,7 +66,7 @@ clean:
 	@rm -rf node_modules dist .ai4x/ana
 	@echo '[ai4x] clean: done'
 
-verify: session-hygiene-check session-hygiene-test
+verify: session-hygiene-check session-hygiene-test ai-suitability-policy-test
 	@echo '[ai4x] verify: checking repository baseline'
 	@test -f .github/agents/ai4x.agent.md || { echo '[ai4x] ERROR missing: .github/agents/ai4x.agent.md' >&2; exit 2; }
 	@test -f CONTRIBUTING.md || { echo '[ai4x] ERROR missing: CONTRIBUTING.md' >&2; exit 2; }
@@ -104,6 +104,10 @@ implementation-pack-test:
 planning-contract-test:
 	@echo '[ai4x] verify: checking planning lifecycle contract'
 	@node --test utl/gh/planning-contract.test.mjs utl/gh/planning-github-observer.test.mjs
+
+ai-suitability-policy-test:
+	@echo '[ai4x] verify: checking AI-suitability routing contract'
+	@node --test util/repository/ai-suitability/policy.test.mjs
 
 session-hygiene-publish:
 	@node util/repository/session-hygiene/publish-projection.mjs --publish
