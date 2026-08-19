@@ -1,6 +1,6 @@
 ---
-version: 1.4.0
-last_updated: 2026-08-14
+version: 1.5.0
+last_updated: 2026-08-19
 ---
 
 # Planning Workflow: Idea -> Work Item -> Ready -> Done
@@ -137,16 +137,17 @@ these three projections.
 
 **Process**:
 1. Tech Lead triages scope and delegates to Requirements Engineer.
-2. The Tech Lead may create an early Epic Issue with label `epic`. Creation is optional until the Requirements Pack is approved.
-3. An early Epic container includes and keeps current the canonical Epic Gate Facts Template below.
-4. RE works with PO to produce a **Requirements Pack** (= Epic definition):
+2. The Tech Lead records the scope-bound AI-impact classification governed solely by `crp/gov/qlt/ai-strategy-quality.md` and routes the named specialist assessment when that contract requires it.
+3. The Tech Lead may create an early Epic Issue with label `epic`. Creation is optional until the Requirements Pack is approved.
+4. An early Epic container includes and keeps current the canonical Epic Gate Facts Template below.
+5. RE works with PO to produce a **Requirements Pack** (= Epic definition):
    - Problem statement
    - In-scope and out-of-scope
    - Constraints and assumptions
    - Acceptance criteria (EARS format)
    - Non-goals
    - Risks and open decisions
-5. PO reviews and approves the Requirements Pack.
+6. PO reviews and approves the Requirements Pack.
 
 #### Epic Gate Facts Template
 
@@ -213,6 +214,7 @@ duplicated, unsupported, or stale pause facts are invalid.
 - [ ] All ACs testable
 - [ ] At least one rejected alternative per major design decision
 - [ ] PO reviewed and approved Requirements Pack
+- [ ] AI-impact classification is current and any mandatory specialist evidence has `pass`
 
 ### Phase 3: Epic Authority Consolidation (Tech Lead)
 
@@ -279,16 +281,18 @@ duplicated, unsupported, or stale pause facts are invalid.
 
 **Process**:
 1. The Tech Lead creates a standalone Issue in `Backlog` with an appropriate semantic label and copies or references the draft content.
-2. If the Issue originated from `adm/pbl/`, the PBL entry remains in place while the standalone content is unapproved.
-3. The PO reviews and explicitly approves the standalone scope and content, or requests iteration.
-4. After content approval, the Tech Lead makes the approved content authoritative in the Issue and only then deletes the originating PBL entry.
-5. The PO may grant Ready in the same decision as content approval or later. If both decisions are combined, the Tech Lead completes content consolidation and PBL deletion before recording the Issue as `Ready`.
-6. No standalone implementation begins before the explicit Ready decision.
+2. The Tech Lead records the scope-bound AI-impact classification governed solely by `crp/gov/qlt/ai-strategy-quality.md` and obtains required specialist evidence before Ready.
+3. If the Issue originated from `adm/pbl/`, the PBL entry remains in place while the standalone content is unapproved.
+4. The PO reviews and explicitly approves the standalone scope and content, or requests iteration.
+5. After content approval, the Tech Lead makes the approved content authoritative in the Issue and only then deletes the originating PBL entry.
+6. The PO may grant Ready in the same decision as content approval or later. If both decisions are combined, the Tech Lead completes content consolidation and PBL deletion before recording the Issue as `Ready`.
+7. No standalone implementation begins before the explicit Ready decision.
 
 **Completion Checklist** (Tech Lead must verify before recording Ready):
 
 - [ ] Standalone Issue has an appropriate semantic label and is on the project board
 - [ ] PO explicitly approved the standalone scope and content
+- [ ] AI-impact classification is current and any mandatory specialist evidence has `pass`
 - [ ] Approved content is authoritative in the standalone Issue
 - [ ] Originating PBL entry was retained until content approval, then deleted; or no PBL origin exists
 - [ ] PO explicitly granted Ready authority

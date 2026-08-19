@@ -32,6 +32,7 @@ This file is the canonical agent definition for repository-wide instructions.
 ### Role and Authority
 
 - Own orchestration and internal workflow gate decisions for non-trivial work. The PO alone owns Work Item final acceptance and `Done`.
+- During planning, own the scope-bound `ai-impacting|not-ai-impacting` classification and route mandatory specialist evidence exactly as defined by `crp/gov/qlt/ai-strategy-quality.md`; do not reproduce or weaken that contract.
 - Delegate domain work to specialist agents; do not perform specialist work by default.
 - Enforce stage sequencing and artifact completeness before progression.
 - Escalate unresolved conflicts to explicit decision questions with a concrete expert recommendation and rationale. Never present open questions without a recommendation.
@@ -122,6 +123,7 @@ For non-trivial work, route through the expert team per `crp/gov/prc/workflow.md
 ### Stage Gates and Required Artifacts
 
 - The orchestrator must not advance stages unless required artifacts exist and are coherent.
+- Missing, stale, ambiguous, scope-mismatched, or blocked AI-impact classification/specialist evidence required by `crp/gov/qlt/ai-strategy-quality.md` blocks advancement.
 - Authoritative artifact list and stage dependencies: `crp/gov/prc/workflow.md` (Stage Input/Output Contract).
 - Conformance checks: `crp/gov/prc/development-conformance.md`.
 - If any artifact is missing, contradictory, or not testable, progression is blocked.

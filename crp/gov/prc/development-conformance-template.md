@@ -1,6 +1,6 @@
 ---
-version: 1.1.0
-last_updated: 2026-08-12
+version: 1.2.0
+last_updated: 2026-08-19
 ---
 
 # Agent Conformance One-Page Template
@@ -19,6 +19,10 @@ Use this compact template during active sessions.
 
 ## Artifact Check
 - Requirements Pack: present (Epic-level) | present (Story-refined) | missing
+- AI-impact classification: ai-impacting | not-ai-impacting | missing ->
+- Classification owner/rationale/scope/trigger IDs: present | stale | missing ->
+- AI-suitability specialist evidence: pass | blocked | n/a for not-ai-impacting | missing ->
+- Specialist identity/qualification/reviewed scope: present | stale | missing ->
 - Architecture Pack: present | n/a | missing
 - Review A Findings: present | n/a | missing
 - AI Strategy Note: present | n/a | missing
