@@ -14,6 +14,10 @@ const FIELD_VALUE_SELECTION = `
     field { ... on ProjectV2FieldCommon { id } }
     labels(first: $pageSize) { nodes { id } pageInfo { hasNextPage endCursor } }
   }
+  ... on ProjectV2ItemFieldPullRequestValue {
+    field { ... on ProjectV2FieldCommon { id } }
+    pullRequests(first: $pageSize) { nodes { id } pageInfo { hasNextPage endCursor } }
+  }
   ... on ProjectV2ItemFieldTextValue {
     id
     field { ... on ProjectV2FieldCommon { id } }
@@ -52,6 +56,9 @@ export const QUERY_DOCUMENTS = Object.freeze({
   labelMembers: `query PlanningObservationLabelMembers($itemId: ID!, $valueAfter: String, $memberCursor: String!, $pageSize: Int!) {
     item: node(id: $itemId) { ... on ProjectV2Item { fieldValues(first: 1, after: $valueAfter) { edges { cursor node { __typename ... on ProjectV2ItemFieldLabelValue { field { ... on ProjectV2FieldCommon { id } } labels(first: $pageSize, after: $memberCursor) { nodes { id } pageInfo { hasNextPage endCursor } } } } } } } }
   }`,
+  pullRequestMembers: `query PlanningObservationPullRequestMembers($itemId: ID!, $valueAfter: String, $memberCursor: String!, $pageSize: Int!) {
+    item: node(id: $itemId) { ... on ProjectV2Item { fieldValues(first: 1, after: $valueAfter) { edges { cursor node { __typename ... on ProjectV2ItemFieldPullRequestValue { field { ... on ProjectV2FieldCommon { id } } pullRequests(first: $pageSize, after: $memberCursor) { nodes { id } pageInfo { hasNextPage endCursor } } } } } } } }
+  }`,
   end: `query PlanningObservationEnd($repositoryId: ID!, $issueId: ID!, $projectId: ID!, $itemId: ID!, $statusFieldId: ID!, $pageSize: Int!) {
     repository: node(id: $repositoryId) { __typename id }
     issue: node(id: $issueId) { id ... on Issue { number state body updatedAt } }
@@ -64,7 +71,7 @@ export const QUERY_DOCUMENTS = Object.freeze({
   }`,
 });
 
-const DEFAULT_LIMITS = Object.freeze({ pageSize: 100, pages: 100, items: 10_000, fields: 1_000, values: 1_000, users: 1_000, labels: 1_000, bodyBytes: 1_000_000 });
+const DEFAULT_LIMITS = Object.freeze({ pageSize: 100, pages: 100, items: 10_000, fields: 1_000, values: 1_000, users: 1_000, labels: 1_000, pullRequests: 1_000, bodyBytes: 1_000_000 });
 
 function isRecord(value) {
   return value !== null && typeof value === "object" && !Array.isArray(value);
@@ -195,6 +202,10 @@ async function normalizeFieldValues(transport, entries, itemId, limits, prefix) 
       const labels = await exhaustNestedMembers({ transport, entry, limits, prefix, typename: value.__typename, connectionName: "labels", query: QUERY_DOCUMENTS.labelMembers, limitName: "labels" });
       if (!labels.ok) return labels;
       values.push({ valueType: value.__typename, fieldId, labelIds: labels.value });
+    } else if (value.__typename === "ProjectV2ItemFieldPullRequestValue") {
+      const pullRequests = await exhaustNestedMembers({ transport, entry, limits, prefix, typename: value.__typename, connectionName: "pullRequests", query: QUERY_DOCUMENTS.pullRequestMembers, limitName: "pullRequests" });
+      if (!pullRequests.ok) return pullRequests;
+      values.push({ valueType: value.__typename, fieldId, pullRequestIds: pullRequests.value });
     } else if (value.__typename === "ProjectV2ItemFieldTextValue") {
       if (typeof value.id !== "string" || value.id.length === 0 || !Object.hasOwn(value, "text") || (value.text !== null && typeof value.text !== "string")) return inaccessible();
       values.push({ valueType: value.__typename, fieldId, valueIdentity: value.id, text: value.text });
