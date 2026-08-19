@@ -1,6 +1,6 @@
 ---
-version: 1.2.0
-last_updated: 2026-08-14
+version: 1.3.0
+last_updated: 2026-08-19
 ---
 
 # Planning Conformance Contract
@@ -36,11 +36,14 @@ If any deliverable is missing, the Tech Lead must resolve it before issuing the 
 | All Stories on project board | Phase 4 | yes / no |
 | AC Coverage Matrix in Epic Issue body | Phase 4 | yes / no |
 | All Epic ACs covered (no gaps, no orphans) | Phase 4 | yes / no |
+| Scope-bound AI-impact classification per `crp/gov/qlt/ai-strategy-quality.md` | Phase 2 onward | present / stale / missing |
+| Named qualified specialist evidence when classification is `ai-impacting` | Phase 2 onward | pass / blocked / n/a / missing |
 
 ## Gate Rule (MUST)
 
 - The conformance check result is confirmed inline in the Ready-Gate prompt to the PO.
 - Missing deliverables block the Ready-Gate prompt.
+- Missing, stale, ambiguous, scope-mismatched, or blocked AI-suitability evidence required by `crp/gov/qlt/ai-strategy-quality.md` blocks the Ready-Gate prompt.
 - The Epic must not enter `Ready` unless the Requirements Pack and Story decomposition are PO-approved, every Epic AC is covered, and this check passes.
 - Planning Conformance runs while the Epic is `Refinement`, with implementation authority `no`.
 - The Epic's existence, label, parent relationship, `Refinement` state, or validator result is not implementation authority.
