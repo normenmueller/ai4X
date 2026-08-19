@@ -99,7 +99,7 @@ This workflow executes **per Story**. Epic refinement and Story decomposition ar
 - takes Story scope from the parent Epic
 - confirms constraints and required artifacts
 - determines which stages are needed for this Story (see Stage Applicability below)
-- records the Tech Lead-owned AI-impact classification required by `crp/gov/qlt/ai-strategy-quality.md`; changed scope invalidates it
+- completes the Tech Lead-owned planning classification action defined solely by `crp/gov/qlt/ai-strategy-quality.md`
 
 2. Requirements Refinement (`ai4x-requirements`) — conditional
 - refines Story-level acceptance criteria only when the Epic ACs are too coarse for the Story scope
@@ -116,8 +116,7 @@ This workflow executes **per Story**. Epic refinement and Story decomposition ar
 - mandatory when Stage 2 or Stage 3 produced new artifacts; skipped when both were skipped
 
 5. AI Strategy (`ai4x-ai-strategy`) — conditional
-- performs the named qualified AI-suitability specialist assessment defined by `crp/gov/qlt/ai-strategy-quality.md`
-- required exactly when the Stage-1 classification is `ai-impacting`; missing, stale, ambiguous, or blocked evidence stops progression
+- performs the AI-suitability specialist stage only when routed by `crp/gov/qlt/ai-strategy-quality.md`
 
 6. Capability Governance (`ai4x-capability-governance`) — conditional
 - validates portfolio coverage, authors or revises capabilities, performs semantic fitness checks
@@ -155,11 +154,11 @@ The Tech Lead determines in Stage 1 which stages are needed for the current Stor
 
 ### Stage Input/Output Contract
 
-1. Triage and Scope must produce the scope-bound AI-impact classification record defined by `crp/gov/qlt/ai-strategy-quality.md`.
+1. Triage and Scope must produce the planning classification artifact defined solely by `crp/gov/qlt/ai-strategy-quality.md`.
 2. Requirements Refinement stage, if run, must produce an updated Requirements Pack (or confirm the Epic-level ACs are sufficient).
 3. Architecture stage, if run, must consume the Requirements Pack and produce an Architecture Pack.
 4. Critical Review Pass A, if run, must consume all artifacts produced by preceding stages and produce Review A Findings.
-5. AI Strategy stage, if run, must consume the classification, Requirements Pack, and Architecture Pack (if produced), and produce the named specialist evidence and AI Strategy Note required by `crp/gov/qlt/ai-strategy-quality.md`.
+5. AI Strategy stage, if run, must consume the classification, Requirements Pack, and Architecture Pack (if produced), and produce the AI Strategy Note plus the output required solely by `crp/gov/qlt/ai-strategy-quality.md`.
 6. Capability Governance stage, if run, must consume Requirements Pack, Architecture Pack (if produced), and portfolio state (`crp/cap/**`); it must produce a Capability Assessment Report and, when applicable, new or revised capability artifacts.
 7. Implementation stage must consume all available upstream artifacts (Requirements Pack, Architecture Pack if produced, Review A Findings if produced, AI Strategy Note if produced, Capability Assessment Report if produced); it must produce the exact candidate plus a transient concise Implementation Pack map conforming to `crp/gov/qlt/implementation-quality.md`.
 8. Testing stage must consume Requirements Pack, Architecture Pack (if produced), the exact candidate, and the transient Implementation Pack map; it must derive behavior from Requirements/candidate rather than Pack prose and produce a Test Evidence Pack.

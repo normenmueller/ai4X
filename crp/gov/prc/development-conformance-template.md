@@ -19,10 +19,8 @@ Use this compact template during active sessions.
 
 ## Artifact Check
 - Requirements Pack: present (Epic-level) | present (Story-refined) | missing
-- AI-impact classification: ai-impacting | not-ai-impacting | missing ->
-- Classification owner/rationale/scope/trigger IDs: present | stale | missing ->
-- AI-suitability specialist evidence: pass | blocked | n/a for not-ai-impacting | missing ->
-- Specialist identity/qualification/reviewed scope: present | stale | missing ->
+- AI-suitability classification gate per `crp/gov/qlt/ai-strategy-quality.md`: conforming | nonconforming ->
+- AI-suitability specialist gate per `crp/gov/qlt/ai-strategy-quality.md`: conforming | n/a | nonconforming ->
 - Architecture Pack: present | n/a | missing
 - Review A Findings: present | n/a | missing
 - AI Strategy Note: present | n/a | missing

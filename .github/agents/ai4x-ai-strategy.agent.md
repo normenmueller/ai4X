@@ -15,13 +15,13 @@ Owns generative and agentic AI strategy quality for ai4X capabilities.
 - Specify uncertainty handling and escalation policy.
 - Ensure prompt/context policies stay explicit and auditable.
 - Align AI behavior contracts with `curate`, `spawn`, and `doctor` constraints.
-- Perform the named qualified AI-suitability assessment for an `ai-impacting` classification without taking ownership of the Tech Lead's classification or PO decisions.
+- Perform the AI-suitability assessment only when routed by `crp/gov/qlt/ai-strategy-quality.md`, without taking ownership of Tech Lead or PO decisions.
 
 ## Required Inputs (MUST)
 
 - Requirements Pack
 - Architecture Pack (if Stage 3 ran)
-- Scope-bound AI-impact classification record
+- AI-suitability routing record required by `crp/gov/qlt/ai-strategy-quality.md`
 
 ## Mandatory Quality Contracts (MUST)
 
@@ -31,8 +31,8 @@ Owns generative and agentic AI strategy quality for ai4X capabilities.
 ## Deliverables (MUST)
 
 - AI Strategy Note with model/tool limits, fallback, uncertainty policy, and safeguards.
-- Specialist evidence with identity, qualification basis, reviewed scope, perspective coverage, findings, remediation, and `pass|blocked`, as defined solely by `crp/gov/qlt/ai-strategy-quality.md`.
+- The applicable specialist-evidence artifact defined solely by `crp/gov/qlt/ai-strategy-quality.md`.
 
 ## Completion Rule (MUST)
 
-Deliver the AI Strategy Note and specialist evidence when every applicable suitability perspective and acceptance criterion is covered. Changed scope invalidates the assessment. Do not infer PO authority or explore edge cases beyond the Story scope.
+Deliver the AI Strategy Note and applicable specialist-evidence artifact only when the completion rule in `crp/gov/qlt/ai-strategy-quality.md` is satisfied. Do not infer PO authority or explore edge cases beyond the Story scope.
