@@ -63,22 +63,25 @@ test("keeps every planning, workflow, conformance, and agent consumer on the sol
     const content = read(path);
     assert.match(content, /crp\/gov\/qlt\/ai-strategy-quality\.md/u, `${path} lacks the canonical reference`);
     assert.doesNotMatch(content, /\bAI-T0[1-6]\b/u, `${path} copies canonical trigger identifiers`);
+    assert.doesNotMatch(content, /Missing, (?:ambiguous, )?stale, (?:ambiguous, )?scope-mismatched/u, `${path} copies evidence failure semantics`);
+    assert.doesNotMatch(content, /identity, qualification basis, reviewed scope/u, `${path} copies the evidence tuple`);
   }
 
   const workflow = read("crp/gov/prc/workflow.md");
   assert.doesNotMatch(workflow, /Story does not involve AI\/LLM behavior/u);
-  assert.match(workflow, /required exactly when the Stage-1 classification is `ai-impacting`/u);
+  assert.match(workflow, /performs the AI-suitability specialist stage only when routed by `crp\/gov\/qlt\/ai-strategy-quality\.md`/u);
 });
 
-test("makes missing or stale evidence visible in both conformance surfaces", () => {
+test("keeps conformance surfaces reference-only and fail-closed", () => {
   const contract = read("crp/gov/prc/development-conformance.md");
   const template = read("crp/gov/prc/development-conformance-template.md");
   const planning = read("adm/gdl/planning-conformance.md");
 
-  assert.match(contract, /Missing, ambiguous, stale, scope-mismatched, or blocked mandatory evidence blocks conformance/u);
-  assert.match(template, /AI-impact classification: ai-impacting \| not-ai-impacting \| missing/u);
-  assert.match(template, /AI-suitability specialist evidence: pass \| blocked \| n\/a for not-ai-impacting \| missing/u);
-  assert.match(planning, /Missing, stale, ambiguous, scope-mismatched, or blocked AI-suitability evidence/u);
+  assert.match(contract, /Evaluate classification and specialist-evidence conformance exclusively against/u);
+  assert.match(contract, /any nonconformance blocks this gate/u);
+  assert.match(template, /AI-suitability classification gate per `crp\/gov\/qlt\/ai-strategy-quality\.md`: conforming \| nonconforming/u);
+  assert.match(template, /AI-suitability specialist gate per `crp\/gov\/qlt\/ai-strategy-quality\.md`: conforming \| n\/a \| nonconforming/u);
+  assert.match(planning, /Nonconformance with `crp\/gov\/qlt\/ai-strategy-quality\.md` blocks the Ready-Gate prompt/u);
 });
 
 test("runs the focused policy suite from the repository verification boundary", () => {

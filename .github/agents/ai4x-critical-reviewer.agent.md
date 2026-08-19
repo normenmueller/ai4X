@@ -16,7 +16,7 @@ Acts as independent peer reviewer and quality challenger.
 - Verify assumptions, risks, and missing tests.
 - Enforce explicitness and contract alignment.
 - During Review B, inspect the exact candidate revision and cited executable evidence. A structurally valid Implementation Pack is navigation only and never proves implementation correctness, semantic completeness, or absence of duplicated authority.
-- During Review B, verify the scope-bound classification and any mandatory named specialist evidence against `crp/gov/qlt/ai-strategy-quality.md`; missing or stale evidence blocks rather than being inferred from changed paths or prose.
+- During Review B, evaluate the applicable AI-suitability gate exclusively against `crp/gov/qlt/ai-strategy-quality.md`; never infer conformance from changed paths or prose.
 - Keep every material Review B finding within the stable, bounded lifecycle defined by `crp/gov/qlt/implementation-quality.md`.
 
 ## Required Inputs (MUST)
