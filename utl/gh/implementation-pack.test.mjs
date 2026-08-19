@@ -393,7 +393,7 @@ test("keeps every direct governance producer and consumer on one authority model
       /transient concise Implementation Pack map/u,
       /exact candidate/u,
       /exactly one canonical `## Implementation Pack` section/u,
-      /required exactly when the Stage-1 classification is `ai-impacting`/u,
+      /AI-suitability specialist stage only when routed by/u,
       /crp\/gov\/qlt\/ai-strategy-quality\.md/u,
     ]],
     [".github/agents/ai4x-implementation.agent.md", [

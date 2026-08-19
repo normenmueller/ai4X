@@ -34,7 +34,7 @@ Artifact names follow the canonical definitions in `crp/gov/prc/workflow.md` (Go
 
 Mandatory (always required):
 1. Requirements Pack (Epic-level ACs at minimum; Story-level refinement if Stage 2 ran)
-2. Scope-bound AI-impact classification record owned by the Tech Lead
+2. AI-suitability classification artifact required by `crp/gov/qlt/ai-strategy-quality.md`
 3. Implementation Pack
 4. Test Evidence Pack
 5. Review B Findings
@@ -42,7 +42,7 @@ Mandatory (always required):
 Conditional (required only when the corresponding stage ran):
 6. Architecture Pack (Stage 3)
 7. Review A Findings (Stage 4)
-8. AI Strategy Note and named specialist evidence (required for `ai-impacting`)
+8. AI Strategy Note and any specialist-evidence artifact applicable under `crp/gov/qlt/ai-strategy-quality.md`
 9. Capability Assessment Report (Stage 6)
 
 ## Conformance Template
@@ -52,8 +52,7 @@ Use `crp/gov/prc/development-conformance-template.md` as the single conformance 
 ## Quality Rule (MUST)
 
 - The gate decision must be explicit.
-- Classification and specialist evidence are governed solely by `crp/gov/qlt/ai-strategy-quality.md`. Missing, ambiguous, stale, scope-mismatched, or blocked mandatory evidence blocks conformance.
-- A `not-ai-impacting` classification requires its recorded rationale; validator or reviewer convenience cannot infer it from paths, labels, or tool use.
+- Evaluate classification and specialist-evidence conformance exclusively against `crp/gov/qlt/ai-strategy-quality.md`; any nonconformance blocks this gate.
 - "Approved" is invalid when required remediation remains open.
 - Missing conformance record for a non-trivial session is a governance violation.
 - The Implementation Pack check must bind the exact candidate and verify one canonical PR section against `crp/gov/qlt/implementation-quality.md`. Before PR creation, the transient map is admissible only as Stage 8/9 input and must later compare consistently with the published section.
