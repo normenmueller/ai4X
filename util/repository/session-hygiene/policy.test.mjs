@@ -33,7 +33,11 @@ test("normative workflow declares required contract sections and stable rule ide
   assert.match(policy, /fullHistoryApproval = null/);
   assert.match(policy, /codex-managed-delegation\/v1/);
   assert.match(policy, /normal provider-managed delegation/);
-  assert.match(policy, /direct result supplies child\/task identity/);
+  assert.match(policy, /Only the direct host-boundary result supplies child\/task identity/);
+  assert.match(policy, /repository preflight does not call or authenticate the provider/);
+  assert.match(policy, /no provider identity, and no verdict/);
+  assert.match(policy, /all delegated writers among themselves/);
+  assert.match(policy, /durably recording nonce consumption/);
   assert.match(policy, /detachedAuthority = none/);
   assert.match(policy, /Host release is telemetry, never an admission allowlist/);
   assert.match(policy, /Path absence is truthful `unavailable`/);

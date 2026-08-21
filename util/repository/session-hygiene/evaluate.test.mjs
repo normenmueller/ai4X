@@ -226,6 +226,41 @@ test("blocks ownership overlap between the active agent and a delegated writer",
   assert.ok(codes(result).includes("SH-PRIMARY-OWNERSHIP-OVERLAP"));
 });
 
+test("blocks unsafe ownership paths and overlap between delegated writers", () => {
+  const escaping = evaluate(policy(), input({
+    delegation: {
+      requestedAssignment: {
+        ...input().delegation.requestedAssignment,
+        ownedPaths: ["../../outside-authority"],
+      },
+    },
+  }));
+  assert.ok(codes(escaping).includes("SH-ASSIGNMENT-EFFECTS-AMBIGUOUS"));
+
+  const activeWriter = {
+    ...input().delegation.requestedAssignment,
+    id: "writer-active",
+    ownedPaths: ["util/repository"],
+  };
+  const overlap = evaluate(policy({ collaboration: {
+    writeCapableAssignmentLimit: {
+      maximum: 2,
+      aboveOneApproval: { decisionReference: "M121-EXACT", approvedMaximum: 2 },
+    },
+  } }), input({
+    delegation: {
+      active: true,
+      activeAssignments: [activeWriter],
+      requestedAssignment: {
+        ...input().delegation.requestedAssignment,
+        id: "writer-requested",
+        ownedPaths: ["util/repository/session-hygiene"],
+      },
+    },
+  }));
+  assert.ok(codes(overlap).includes("SH-WRITER-OWNERSHIP-OVERLAP"));
+});
+
 test("requires rationale for bounded inheritance and exact PO authority for full history", () => {
   const bounded = evaluate(policy(), input({
     delegation: { contextInheritance: { mode: "bounded", turnCount: 3, rationale: "" } },

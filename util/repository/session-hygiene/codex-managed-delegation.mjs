@@ -1,4 +1,7 @@
 import { createHash } from "node:crypto";
+import { lstatSync, realpathSync, statfsSync } from "node:fs";
+import path from "node:path";
+import { loadPolicyProjection } from "./projection.mjs";
 
 const PROFILE = deepFreeze({
   schemaVersion: "ai4x.delegation-profile/v1",
@@ -21,28 +24,41 @@ const PROFILE = deepFreeze({
     "child-rollout-path-at-stop/v1",
     "exact-rollout-measurement/v1",
   ],
-  providerIdentityIngress: "direct-native-result-only",
+  providerIdentityIngress: "host-native-boundary-only",
+  repositoryAssuranceAuthority: "none",
   detachedProjectionAuthority: "none",
 });
 
-const INTENT_SCHEMA = "ai4x.codex-managed-delegation-intent/v1";
+const INTENT_SCHEMA = "ai4x.codex-managed-delegation-intent/v2";
+const REPLAY_SCHEMA = "ai4x.delegation-replay-evidence/v1";
+const PREFLIGHT_KEYS = new Set([
+  "intent", "task", "handoff", "candidateDigestAfterHandoff", "activeAssignments",
+  "activeAgentOwnedPaths", "replayEvidence",
+]);
 const INTENT_KEYS = new Set([
   "schemaVersion", "profileId", "profileDigest", "issue", "repositoryRoot", "cwd",
   "lifecycle", "timestampEpochSeconds", "nonce", "handoffDigest", "assignment",
   "resource", "review", "transition",
 ]);
 const ASSIGNMENT_KEYS = new Set(["id", "digest", "grantedAuthority", "allowedEffects", "ownedPaths", "context"]);
+const ACTIVE_ASSIGNMENT_KEYS = new Set(["id", "grantedAuthority", "allowedEffects", "ownedPaths"]);
 const CONTEXT_KEYS = new Set(["mode", "turnCount", "rationale"]);
 const FULL_CONTEXT_KEYS = new Set(["mode", "turnCount", "rationale", "poDecisionReference", "approvedIssue", "task"]);
-const RESOURCE_KEYS = new Set(["observedAtEpochSeconds", "freeBytes", "minimumFreeBytes"]);
+const RESOURCE_KEYS = new Set(["minimumFreeBytes"]);
 const REVIEW_KEYS = new Set(["independent", "candidateDigest", "excludedAuthorIdentities", "maximumVerdicts"]);
 const TRANSITION_KEYS = new Set(["predecessorProfileDigest", "successorProfileDigest"]);
-const NATIVE_KEYS = new Set(["start", "stop", "verdicts", "permissions"]);
-const NATIVE_STATE_KEYS = new Set(["taskIdentity", "state"]);
-const PERMISSION_KEYS = new Set(["repositoryWrite"]);
+const REPLAY_KEYS = new Set(["schemaVersion", "consumedNonceDigests", "priorReviewerIdentities", "durableEvidence"]);
+const DURABLE_KEYS = new Set(["kind", "locator"]);
 const READ_EFFECTS = new Set(["read-repository", "review", "advise"]);
 const WRITE_EFFECT = "modify-repository";
-const MAXIMUM_INTENT_AGE_SECONDS = 300;
+const REQUIRED_HOST_CHECKS = Object.freeze([
+  "direct-provider-task-identity",
+  "same-identity-at-stop",
+  "author-and-prior-reviewer-exclusion",
+  "candidate-and-nonmutation-recheck",
+  "exactly-one-verdict",
+  "durable-nonce-consumption",
+]);
 
 export class DelegationFailure extends Error {
   constructor(code, message) {
@@ -98,44 +114,120 @@ function exactKeys(value, allowed) {
     && Object.keys(value).every((key) => allowed.has(key));
 }
 
-function requiredClosedKeys(value, allowed, required) {
-  return isRecord(value)
-    && Object.keys(value).every((key) => allowed.has(key))
-    && required.every((key) => Object.hasOwn(value, key));
+function validateContext(context, issue) {
+  if ((context?.mode === "none"
+      && (!exactKeys(context, CONTEXT_KEYS) || context.turnCount !== 0 || context.rationale !== ""))
+    || (context?.mode === "bounded"
+      && (!exactKeys(context, CONTEXT_KEYS) || !Number.isSafeInteger(context.turnCount)
+        || context.turnCount <= 0 || !nonEmpty(context.rationale)))
+    || (context?.mode === "all"
+      && (!exactKeys(context, FULL_CONTEXT_KEYS) || context.turnCount !== 0
+        || !nonEmpty(context.rationale) || !nonEmpty(context.poDecisionReference)
+        || context.approvedIssue !== issue || !nonEmpty(context.task)))
+    || !["none", "bounded", "all"].includes(context?.mode)) {
+    fail("SH-DELEGATION-CONTEXT-INVALID", "Assignment context is invalid");
+  }
 }
 
-function validateAssignment(subject, issue) {
-  if (!exactKeys(subject, ASSIGNMENT_KEYS)
+function canonicalOwnedPath(value) {
+  if (!nonEmpty(value)
+    || value.includes("\\")
+    || value.includes("//")
+    || path.posix.isAbsolute(value)) {
+    fail("SH-DELEGATION-OWNERSHIP-INVALID", "owned path is not a canonical repository-relative path");
+  }
+  const normalized = path.posix.normalize(value);
+  if (normalized === "."
+    || normalized === ".."
+    || normalized.startsWith("../")
+    || normalized !== value) {
+    fail("SH-DELEGATION-OWNERSHIP-INVALID", "owned path escapes or is noncanonical");
+  }
+  return normalized;
+}
+
+function assignmentClass(subject, issue, { active = false } = {}) {
+  const keys = active ? ACTIVE_ASSIGNMENT_KEYS : ASSIGNMENT_KEYS;
+  if (!exactKeys(subject, keys)
     || !nonEmpty(subject.id)
-    || !digest(subject.digest)
+    || (!active && !digest(subject.digest))
     || !["read-only", "write"].includes(subject.grantedAuthority)
     || !Array.isArray(subject.allowedEffects)
     || subject.allowedEffects.length === 0
     || new Set(subject.allowedEffects).size !== subject.allowedEffects.length
-    || !Array.isArray(subject.ownedPaths)
-    || !isRecord(subject.context)) {
+    || !Array.isArray(subject.ownedPaths)) {
     fail("SH-DELEGATION-ASSIGNMENT-INVALID", "Assignment contract is invalid");
   }
   const writing = subject.grantedAuthority === "write";
   if (writing !== subject.allowedEffects.includes(WRITE_EFFECT)
     || subject.allowedEffects.some((effect) => effect !== WRITE_EFFECT && !READ_EFFECTS.has(effect))
-    || (writing && (subject.allowedEffects.length !== 1
-      || subject.ownedPaths.length === 0
-      || subject.ownedPaths.some((ownedPath) => !nonEmpty(ownedPath))))
-    || (!writing && subject.ownedPaths.length !== 0)) {
+    || (writing && subject.allowedEffects.length !== 1)
+    || (!writing && subject.ownedPaths.length !== 0)
+    || (writing && subject.ownedPaths.length === 0)) {
     fail("SH-DELEGATION-ASSIGNMENT-INVALID", "Assignment effects or ownership are invalid");
   }
-  const context = subject.context;
-  if ((context.mode === "none" && (!exactKeys(context, CONTEXT_KEYS) || context.turnCount !== 0 || context.rationale !== ""))
-    || (context.mode === "bounded" && (!exactKeys(context, CONTEXT_KEYS) || !Number.isSafeInteger(context.turnCount) || context.turnCount <= 0 || !nonEmpty(context.rationale)))
-    || (context.mode === "all" && (!exactKeys(context, FULL_CONTEXT_KEYS)
-      || context.turnCount !== 0
-      || !nonEmpty(context.rationale)
-      || !nonEmpty(context.poDecisionReference)
-      || context.approvedIssue !== issue
-      || !nonEmpty(context.task)))
-    || !["none", "bounded", "all"].includes(context.mode)) {
-    fail("SH-DELEGATION-CONTEXT-INVALID", "Assignment context is invalid");
+  const ownedPaths = subject.ownedPaths.map(canonicalOwnedPath);
+  if (new Set(ownedPaths).size !== ownedPaths.length) {
+    fail("SH-DELEGATION-OWNERSHIP-INVALID", "owned paths are duplicated");
+  }
+  if (!active) validateContext(subject.context, issue);
+  return { writing, ownedPaths };
+}
+
+function pathsOverlap(left, right) {
+  return left === right || left.startsWith(`${right}/`) || right.startsWith(`${left}/`);
+}
+
+function validateRepository(intent) {
+  let root;
+  let cwd;
+  try {
+    root = realpathSync(intent.repositoryRoot);
+    cwd = realpathSync(intent.cwd);
+    const marker = lstatSync(path.join(root, ".git"));
+    if (!marker.isDirectory() && !marker.isFile()) throw new Error("unsupported .git marker");
+  } catch {
+    fail("SH-DELEGATION-PROJECT-BINDING", "repository or working directory is not canonical");
+  }
+  if (root !== cwd || root !== intent.repositoryRoot || cwd !== intent.cwd) {
+    fail("SH-DELEGATION-PROJECT-BINDING", "repository and working directory bindings differ");
+  }
+  return root;
+}
+
+function observeFreeBytes(repositoryRoot) {
+  try {
+    const observation = statfsSync(repositoryRoot);
+    const freeBytes = Number(observation.bavail) * Number(observation.bsize);
+    if (!natural(freeBytes)) throw new Error("unsafe free-space value");
+    return freeBytes;
+  } catch {
+    fail("SH-DELEGATION-RESOURCE-UNAVAILABLE", "repository free space is unavailable");
+  }
+}
+
+function durableEvidence(value) {
+  return exactKeys(value, DURABLE_KEYS)
+    && ["git", "github", "governed-evidence"].includes(value.kind)
+    && nonEmpty(value.locator)
+    && !value.locator.startsWith("/tmp/")
+    && !value.locator.startsWith(".ai4x/local/");
+}
+
+function validateReplayEvidence(subject, nonceDigest) {
+  if (!exactKeys(subject, REPLAY_KEYS)
+    || subject.schemaVersion !== REPLAY_SCHEMA
+    || !Array.isArray(subject.consumedNonceDigests)
+    || subject.consumedNonceDigests.some((value) => !digest(value))
+    || new Set(subject.consumedNonceDigests).size !== subject.consumedNonceDigests.length
+    || !Array.isArray(subject.priorReviewerIdentities)
+    || subject.priorReviewerIdentities.some((value) => !nonEmpty(value))
+    || new Set(subject.priorReviewerIdentities).size !== subject.priorReviewerIdentities.length
+    || !durableEvidence(subject.durableEvidence)) {
+    fail("SH-DELEGATION-REPLAY-EVIDENCE", "durable replay or reviewer evidence is invalid");
+  }
+  if (subject.consumedNonceDigests.includes(nonceDigest)) {
+    fail("SH-DELEGATION-NONCE-REPLAY", "delegation nonce was already durably consumed");
   }
 }
 
@@ -145,25 +237,16 @@ function validateIntent(subject, nowEpochSeconds) {
     || subject.profileId !== PROFILE.id
     || subject.profileDigest !== CODEX_MANAGED_DELEGATION_PROFILE_DIGEST
     || !/^#[1-9][0-9]*$/u.test(subject.issue ?? "")
-    || !nonEmpty(subject.repositoryRoot)
-    || subject.cwd !== subject.repositoryRoot
     || !PROFILE.lifecycle.includes(subject.lifecycle)
     || !natural(subject.timestampEpochSeconds)
     || subject.timestampEpochSeconds > nowEpochSeconds
-    || nowEpochSeconds - subject.timestampEpochSeconds > MAXIMUM_INTENT_AGE_SECONDS
     || !nonEmpty(subject.nonce)
     || !digest(subject.handoffDigest)
     || !exactKeys(subject.resource, RESOURCE_KEYS)
-    || !natural(subject.resource.observedAtEpochSeconds)
-    || subject.resource.observedAtEpochSeconds > nowEpochSeconds
-    || nowEpochSeconds - subject.resource.observedAtEpochSeconds > MAXIMUM_INTENT_AGE_SECONDS
-    || !natural(subject.resource.freeBytes)
-    || !natural(subject.resource.minimumFreeBytes)
-    || subject.resource.freeBytes < subject.resource.minimumFreeBytes) {
+    || !natural(subject.resource.minimumFreeBytes)) {
     fail("SH-DELEGATION-INTENT-INVALID", "delegation intent is invalid or stale");
   }
-  validateAssignment(subject.assignment, subject.issue);
-
+  const assignment = assignmentClass(subject.assignment, subject.issue);
   if (subject.review !== null) {
     if (!exactKeys(subject.review, REVIEW_KEYS)
       || subject.review.independent !== true
@@ -171,12 +254,12 @@ function validateIntent(subject, nowEpochSeconds) {
       || !Array.isArray(subject.review.excludedAuthorIdentities)
       || subject.review.excludedAuthorIdentities.length === 0
       || subject.review.excludedAuthorIdentities.some((identity) => !nonEmpty(identity))
+      || new Set(subject.review.excludedAuthorIdentities).size !== subject.review.excludedAuthorIdentities.length
       || subject.review.maximumVerdicts !== 1
-      || subject.assignment.grantedAuthority !== "read-only") {
+      || assignment.writing) {
       fail("SH-DELEGATION-INDEPENDENCE", "independent review binding is invalid");
     }
   }
-
   if (subject.transition !== null) {
     if (!exactKeys(subject.transition, TRANSITION_KEYS)
       || !digest(subject.transition.predecessorProfileDigest)
@@ -186,41 +269,48 @@ function validateIntent(subject, nowEpochSeconds) {
       fail("SH-DELEGATION-TRANSITION-INVALID", "profile transition lineage is invalid");
     }
   }
+  return assignment;
 }
 
-function validateNativeResult(subject, intent) {
-  if (!requiredClosedKeys(subject, NATIVE_KEYS, ["start", "stop", "verdicts"])
-    || !requiredClosedKeys(subject.start, NATIVE_STATE_KEYS, ["state"])
-    || !requiredClosedKeys(subject.stop, NATIVE_STATE_KEYS, ["state"])
-    || !Array.isArray(subject.verdicts)) {
-    fail("SH-DELEGATION-NATIVE-RESULT-INVALID", "native provider result is invalid");
+function validateWriterTopology(intent, requested, activeAssignments, activeAgentOwnedPaths, limit) {
+  if (!Array.isArray(activeAssignments) || !Array.isArray(activeAgentOwnedPaths) || !natural(limit)) {
+    fail("SH-DELEGATION-EVIDENCE-INVALID", "writer topology evidence is invalid");
   }
-  if (!nonEmpty(subject.start.taskIdentity) || !nonEmpty(subject.stop.taskIdentity)) {
-    fail("SH-DELEGATION-IDENTITY-MISSING", "provider task identity is absent");
+  const primaryPaths = activeAgentOwnedPaths.map(canonicalOwnedPath);
+  const writers = [];
+  const ids = new Set([intent.assignment.id]);
+  for (const active of activeAssignments) {
+    if (ids.has(active?.id)) fail("SH-DELEGATION-ASSIGNMENT-INVALID", "Assignment identity is duplicated");
+    ids.add(active?.id);
+    const classified = assignmentClass(active, intent.issue, { active: true });
+    if (classified.writing) writers.push({ id: active.id, ownedPaths: classified.ownedPaths });
   }
-  if (subject.start.state !== "started"
-    || subject.stop.state !== "completed"
-    || subject.start.taskIdentity !== subject.stop.taskIdentity) {
-    fail("SH-DELEGATION-LIFECYCLE-MISMATCH", "native lifecycle identity is inconsistent");
-  }
-  if (subject.permissions !== undefined
-    && (!exactKeys(subject.permissions, PERMISSION_KEYS) || typeof subject.permissions.repositoryWrite !== "boolean")) {
-    fail("SH-DELEGATION-NATIVE-RESULT-INVALID", "provider permission result is invalid");
-  }
-  const writing = intent.assignment.grantedAuthority === "write";
-  if (subject.permissions !== undefined && subject.permissions.repositoryWrite !== writing) {
-    fail("SH-DELEGATION-PERMISSION-CONTRADICTION", "provider permissions contradict Assignment authority");
-  }
-  if (intent.review !== null) {
-    if (intent.review.excludedAuthorIdentities.includes(subject.start.taskIdentity)) {
-      fail("SH-DELEGATION-INDEPENDENCE", "provider identity participated in authoring");
+  if (requested.writing) writers.push({ id: intent.assignment.id, ownedPaths: requested.ownedPaths });
+  for (const writer of writers) {
+    if (writer.ownedPaths.some((owned) => primaryPaths.some((primary) => pathsOverlap(owned, primary)))) {
+      fail("SH-DELEGATION-OWNERSHIP-OVERLAP", "writer ownership overlaps the active parent");
     }
-    if (subject.verdicts.length !== 1 || !nonEmpty(subject.verdicts[0])) {
-      fail("SH-DELEGATION-VERDICT-COUNT", "independent review must emit exactly one verdict");
-    }
-  } else if (subject.verdicts.length !== 0) {
-    fail("SH-DELEGATION-VERDICT-COUNT", "non-review Assignment cannot emit a review verdict");
   }
+  for (let left = 0; left < writers.length; left += 1) {
+    for (let right = left + 1; right < writers.length; right += 1) {
+      if (writers[left].ownedPaths.some((owned) => writers[right].ownedPaths.some((other) => pathsOverlap(owned, other)))) {
+        fail("SH-DELEGATION-OWNERSHIP-OVERLAP", "delegated writer ownership overlaps");
+      }
+    }
+  }
+  if (writers.length > limit) fail("SH-DELEGATION-WRITER-LIMIT", "write-capable Assignment limit is exceeded");
+}
+
+export function delegationEvidenceDigest(value) {
+  return sha256(value);
+}
+
+export function delegationAssignmentDigest({ assignment, task } = {}) {
+  if (!isRecord(assignment) || typeof task !== "string") {
+    fail("SH-DELEGATION-ASSIGNMENT-DIGEST", "Assignment digest input is invalid");
+  }
+  const { digest: ignored, ...contract } = assignment;
+  return sha256({ assignment: contract, taskDigest: sha256(task) });
 }
 
 export function requiredCapabilities({ authority, independentReview, bootstrap }) {
@@ -236,57 +326,105 @@ export function requiredCapabilities({ authority, independentReview, bootstrap }
   return Object.freeze(result);
 }
 
-export function createCodexManagedDelegationRuntime({ invokeNative, observeReadOnlyState, nowEpochSeconds } = {}) {
-  if (typeof invokeNative !== "function" || typeof observeReadOnlyState !== "function" || typeof nowEpochSeconds !== "function") {
-    fail("SH-DELEGATION-RUNTIME-INVALID", "native delegation runtime is incomplete");
+export function assessCodexManagedDelegationPreflight(subject) {
+  if (!exactKeys(subject, PREFLIGHT_KEYS)) {
+    fail("SH-DELEGATION-EVIDENCE-INVALID", "preflight evidence schema is invalid");
   }
-  const consumedNonces = new Set();
-  return Object.freeze({
-    async run({ intent, task } = {}) {
-      const now = nowEpochSeconds();
-      validateIntent(intent, now);
-      if (!nonEmpty(task)) fail("SH-DELEGATION-INTENT-INVALID", "bounded task is absent");
-      if (consumedNonces.has(intent.nonce)) fail("SH-DELEGATION-NONCE-REPLAY", "delegation nonce was already consumed");
-      consumedNonces.add(intent.nonce);
+  const nowEpochSeconds = Math.floor(Date.now() / 1_000);
+  const requested = validateIntent(subject.intent, nowEpochSeconds);
+  const repositoryRoot = validateRepository(subject.intent);
+  let policy;
+  try {
+    policy = loadPolicyProjection({
+      repositoryRoot,
+      projectionPath: path.join(repositoryRoot, ".ai4x/generated/assurance/session-hygiene-policy.json"),
+    });
+  } catch {
+    fail("SH-DELEGATION-POLICY-INVALID", "accepted policy projection is absent, stale, or invalid");
+  }
+  if (subject.intent.resource.minimumFreeBytes !== policy.resources.minimumFreeBytes) {
+    fail("SH-DELEGATION-RESOURCE-BINDING", "resource threshold differs from the accepted projection");
+  }
+  if (nowEpochSeconds - subject.intent.timestampEpochSeconds
+    > policy.resources.maximumObservationAgeSeconds) {
+    fail("SH-DELEGATION-INTENT-INVALID", "delegation intent is stale under the accepted projection");
+  }
+  if (subject.intent.assignment.context.mode === "all") {
+    const approval = policy.collaboration.contextInheritance.fullHistoryApproval;
+    const context = subject.intent.assignment.context;
+    if (!isRecord(approval)
+      || context.poDecisionReference !== approval.decisionReference
+      || context.approvedIssue !== approval.issue
+      || context.task !== approval.task
+      || context.rationale !== approval.rationale
+      || subject.intent.issue !== approval.issue) {
+      fail("SH-DELEGATION-CONTEXT-INVALID", "full-history context lacks exact accepted authority");
+    }
+  }
+  if (!nonEmpty(subject.task) || !nonEmpty(subject.handoff)) {
+    fail("SH-DELEGATION-EVIDENCE-INVALID", "task or bounded handoff is absent");
+  }
+  if (delegationAssignmentDigest({ assignment: subject.intent.assignment, task: subject.task })
+    !== subject.intent.assignment.digest) {
+    fail("SH-DELEGATION-ASSIGNMENT-DIGEST", "task is not bound to the Assignment digest");
+  }
+  if (sha256(subject.handoff) !== subject.intent.handoffDigest) {
+    fail("SH-DELEGATION-HANDOFF-DIGEST", "bounded handoff content does not match its digest");
+  }
+  if (subject.intent.review !== null
+    && (subject.candidateDigestAfterHandoff !== subject.intent.review.candidateDigest
+      || !digest(subject.candidateDigestAfterHandoff))) {
+    fail("SH-DELEGATION-CANDIDATE-DRIFT", "candidate changed after the bounded handoff");
+  }
+  if (subject.intent.review === null && subject.candidateDigestAfterHandoff !== null) {
+    fail("SH-DELEGATION-EVIDENCE-INVALID", "non-review Assignment supplied a candidate binding");
+  }
 
-      const readOnly = intent.assignment.grantedAuthority === "read-only";
-      const before = readOnly ? await observeReadOnlyState("before") : null;
-      if (readOnly && !nonEmpty(before)) fail("SH-DELEGATION-NONMUTATION-EVIDENCE", "read-only baseline is unavailable");
+  const freeBytes = observeFreeBytes(repositoryRoot);
+  if (freeBytes < subject.intent.resource.minimumFreeBytes) {
+    fail("SH-DELEGATION-RESOURCE-LOW", "repository free space is below the exact threshold");
+  }
+  const nonceDigest = sha256(subject.intent.nonce);
+  validateReplayEvidence(subject.replayEvidence, nonceDigest);
+  validateWriterTopology(
+    subject.intent,
+    requested,
+    subject.activeAssignments,
+    subject.activeAgentOwnedPaths,
+    policy.collaboration.writeCapableAssignmentLimit.maximum,
+  );
 
-      let nativeResult;
-      try {
-        nativeResult = await invokeNative(Object.freeze({ task, profileId: PROFILE.id }));
-      } catch {
-        fail("SH-DELEGATION-NATIVE-RESULT-INVALID", "native provider invocation failed");
-      }
-      validateNativeResult(nativeResult, intent);
+  const excludedReviewerIdentities = subject.intent.review === null
+    ? []
+    : [...new Set([
+        ...subject.intent.review.excludedAuthorIdentities,
+        ...subject.replayEvidence.priorReviewerIdentities,
+      ])];
 
-      const after = readOnly ? await observeReadOnlyState("after") : null;
-      if (readOnly && !nonEmpty(after)) fail("SH-DELEGATION-NONMUTATION-EVIDENCE", "read-only post-state is unavailable");
-      if (readOnly && before !== after) fail("SH-DELEGATION-READONLY-MUTATION", "read-only Assignment changed repository or remote state");
-
-      return deepFreeze({
-        schemaVersion: "ai4x.codex-managed-delegation-projection/v1",
-        profileId: PROFILE.id,
-        profileDigest: CODEX_MANAGED_DELEGATION_PROFILE_DIGEST,
-        intentDigest: sha256(intent),
-        assignmentDigest: intent.assignment.digest,
-        handoffDigest: intent.handoffDigest,
-        candidateDigest: intent.review?.candidateDigest ?? null,
-        nonceDigest: sha256(intent.nonce),
-        providerIdentity: {
-          taskIdentity: nativeResult.start.taskIdentity,
-          source: "direct-native-result",
-          lifecycle: "completed",
-        },
-        providerPermissions: nativeResult.permissions === undefined ? "not-exposed" : { ...nativeResult.permissions },
-        readOnlyNonmutation: readOnly ? "verified" : "not-applicable",
-        verdict: nativeResult.verdicts[0] ?? null,
-        profileTransition: intent.transition === null ? null : { ...intent.transition },
-        authorityEffect: "none",
-        detachedAuthority: "none",
-      });
+  return deepFreeze({
+    schemaVersion: "ai4x.codex-managed-delegation-preflight/v1",
+    decision: "policy-satisfied",
+    providerAdmission: "required-at-host-native-boundary",
+    providerIdentity: null,
+    verdict: null,
+    profileId: PROFILE.id,
+    profileDigest: CODEX_MANAGED_DELEGATION_PROFILE_DIGEST,
+    repositoryRoot,
+    observedResource: {
+      observedAtEpochSeconds: nowEpochSeconds,
+      freeBytes,
+      minimumFreeBytes: subject.intent.resource.minimumFreeBytes,
     },
+    intentDigest: sha256(subject.intent),
+    assignmentDigest: subject.intent.assignment.digest,
+    handoffDigest: subject.intent.handoffDigest,
+    candidateDigest: subject.intent.review?.candidateDigest ?? null,
+    nonceDigest,
+    excludedReviewerIdentities,
+    requiredHostChecks: REQUIRED_HOST_CHECKS,
+    profileTransition: subject.intent.transition === null ? null : { ...subject.intent.transition },
+    authorityEffect: "none",
+    detachedAuthority: "none",
   });
 }
 

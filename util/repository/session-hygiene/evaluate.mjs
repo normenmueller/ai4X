@@ -93,6 +93,14 @@ function pathOwns(owner, candidate) {
     || normalizedCandidate.startsWith(`${normalizedOwner}/`);
 }
 
+function canonicalOwnershipPath(value) {
+  if (!nonEmpty(value) || value.startsWith("/") || value.includes("\\") || value.includes("//")) return false;
+  const normalized = value.replace(/\/+$/u, "");
+  if (normalized.length === 0) return false;
+  const segments = normalized.split("/");
+  return segments.every((segment) => segment !== "" && segment !== "." && segment !== "..");
+}
+
 function classifyAssignment(assignment) {
   if (!isRecord(assignment)
     || !nonEmpty(assignment.id)
@@ -106,7 +114,8 @@ function classifyAssignment(assignment) {
   if ([...effects].some((effect) => effect !== WRITE_EFFECT && !READ_EFFECTS.has(effect))) return "ambiguous";
   const writes = effects.has(WRITE_EFFECT);
   if (writes !== (assignment.grantedAuthority === "write")) return "ambiguous";
-  if (writes && (assignment.ownedPaths.length === 0 || assignment.ownedPaths.some((ownedPath) => !nonEmpty(ownedPath)))) return "ambiguous";
+  if (writes && (assignment.ownedPaths.length === 0
+    || assignment.ownedPaths.some((ownedPath) => !canonicalOwnershipPath(ownedPath)))) return "ambiguous";
   if (!writes && assignment.ownedPaths.length > 0) return "ambiguous";
   return writes ? "write-capable-implementation" : "non-writing-specialist";
 }
@@ -160,6 +169,16 @@ function validateAssignmentAndContext(policy, input, add) {
 
   const writeCount = classified.filter(({ classification }) => classification === "write-capable-implementation").length;
   if (writeCount > policy.collaboration.writeCapableAssignmentLimit.maximum) add("SH-WRITE-ASSIGNMENT-LIMIT", "delegation-limit");
+
+  const writers = classified.filter(({ classification }) => classification === "write-capable-implementation");
+  for (let left = 0; left < writers.length; left += 1) {
+    for (let right = left + 1; right < writers.length; right += 1) {
+      if (writers[left].assignment.ownedPaths.some((ownedPath) =>
+        writers[right].assignment.ownedPaths.some((otherPath) => pathOwns(ownedPath, otherPath)))) {
+        add("SH-WRITER-OWNERSHIP-OVERLAP", "file-ownership");
+      }
+    }
+  }
 
   for (const { assignment, classification } of classified.slice(0, delegation.activeAssignments.length)) {
     if (classification !== "write-capable-implementation") continue;
