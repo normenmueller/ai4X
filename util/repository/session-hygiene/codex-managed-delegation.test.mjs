@@ -1,26 +1,40 @@
 import assert from "node:assert/strict";
-import { mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, writeFileSync } from "node:fs";
+import {
+  mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, symlinkSync, writeFileSync,
+} from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 import { sha256 as sourceSha256 } from "./projection.mjs";
 
 import {
+  CODEX_MANAGED_DELEGATION_INTENT_SCHEMA,
   CODEX_MANAGED_DELEGATION_PROFILE,
   CODEX_MANAGED_DELEGATION_PROFILE_DIGEST,
   DelegationFailure,
   assessCodexManagedDelegationPreflight,
   delegationAssignmentDigest,
   delegationEvidenceDigest,
+  observeCodexManagedRepositoryBinding,
   requiredCapabilities,
 } from "./codex-managed-delegation.mjs";
 
-const digest = (character) => `sha256:${character.repeat(64)}`;
+const REPOSITORY_ROOT = realpathSync(path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../../..",
+));
+const REPOSITORY_BINDING = observeCodexManagedRepositoryBinding();
+const POLICY = JSON.parse(readFileSync(
+  path.join(REPOSITORY_ROOT, ".ai4x/generated/assurance/session-hygiene-policy.json"),
+  "utf8",
+));
 const TASK = "Review the exact immutable candidate.";
 const HANDOFF = "Exact durable bounded handoff.";
 const NOW = Math.floor(Date.now() / 1_000);
+const digest = (character) => `sha256:${character.repeat(64)}`;
 
-function assignment(overrides = {}) {
+function assignment(overrides = {}, task = TASK) {
   const value = {
     id: "review-154",
     grantedAuthority: "read-only",
@@ -29,27 +43,28 @@ function assignment(overrides = {}) {
     context: { mode: "bounded", turnCount: 1, rationale: "Exact durable review handoff." },
     ...overrides,
   };
-  return { ...value, digest: delegationAssignmentDigest({ assignment: value, task: TASK }) };
+  return { ...value, digest: delegationAssignmentDigest({ assignment: value, task }) };
 }
 
-function intent(repositoryRoot, overrides = {}) {
+function intent(overrides = {}) {
   const value = {
-    schemaVersion: "ai4x.codex-managed-delegation-intent/v2",
+    schemaVersion: CODEX_MANAGED_DELEGATION_INTENT_SCHEMA,
     profileId: CODEX_MANAGED_DELEGATION_PROFILE.id,
     profileDigest: CODEX_MANAGED_DELEGATION_PROFILE_DIGEST,
     issue: "#154",
-    repositoryRoot,
-    cwd: repositoryRoot,
+    repositoryRoot: REPOSITORY_ROOT,
+    cwd: REPOSITORY_ROOT,
     lifecycle: "before-delegation",
     timestampEpochSeconds: NOW,
-    nonce: "nonce-154-review-0001",
+    nonce: "nonce-154-review-0002",
     handoffDigest: delegationEvidenceDigest(HANDOFF),
     assignment: assignment(),
-    resource: { minimumFreeBytes: 1 },
+    resource: { minimumFreeBytes: POLICY.resources.minimumFreeBytes },
     review: {
       independent: true,
-      candidateDigest: digest("c"),
-      excludedAuthorIdentities: ["/root/author"],
+      candidate: {
+        headOid: REPOSITORY_BINDING.headOid,
+      },
       maximumVerdicts: 1,
     },
     transition: null,
@@ -59,39 +74,33 @@ function intent(repositoryRoot, overrides = {}) {
     ...overrides,
     assignment: overrides.assignment ?? value.assignment,
     resource: { ...value.resource, ...overrides.resource },
-    review: overrides.review === null ? null : { ...value.review, ...overrides.review },
+    review: overrides.review === null ? null : {
+      ...value.review,
+      ...overrides.review,
+      candidate: { ...value.review.candidate, ...overrides.review?.candidate },
+    },
   };
 }
 
-function replay(overrides = {}) {
+function preflight(overrides = {}) {
   return {
-    schemaVersion: "ai4x.delegation-replay-evidence/v1",
-    consumedNonceDigests: [],
-    priorReviewerIdentities: [],
-    durableEvidence: { kind: "github", locator: "https://github.com/normenmueller/ai4X/issues/154" },
+    intent: overrides.intent ?? intent(),
+    task: overrides.task ?? TASK,
+    handoff: overrides.handoff ?? HANDOFF,
     ...overrides,
   };
 }
 
-function preflight(repositoryRoot, overrides = {}) {
-  const subjectIntent = overrides.intent ?? intent(repositoryRoot);
-  return {
-    intent: subjectIntent,
-    task: TASK,
-    handoff: HANDOFF,
-    candidateDigestAfterHandoff: subjectIntent.review === null ? null : digest("c"),
-    activeAssignments: [],
-    activeAgentOwnedPaths: [],
-    replayEvidence: replay(),
-    ...overrides,
-  };
+function code(error) {
+  assert.ok(error instanceof DelegationFailure);
+  return error.code;
 }
 
-async function withRepository(run) {
-  const root = mkdtempSync(path.join(os.tmpdir(), "ai4x-delegation-"));
+async function withForeignSelfIssuedRepository(run) {
+  const root = mkdtempSync(path.join(os.tmpdir(), "ai4x-delegation-foreign-"));
   mkdirSync(path.join(root, ".git"));
-  const collaborationSource = "test collaboration authority\n";
-  const resourceSource = "test resource authority\n";
+  const collaborationSource = "foreign self-issued collaboration authority\n";
+  const resourceSource = "foreign self-issued resource authority\n";
   mkdirSync(path.join(root, ".ai4x/coordination"), { recursive: true });
   mkdirSync(path.join(root, ".ai4x/operations"), { recursive: true });
   mkdirSync(path.join(root, ".ai4x/generated/assurance"), { recursive: true });
@@ -130,16 +139,13 @@ async function withRepository(run) {
   }
 }
 
-function code(error) {
-  assert.ok(error instanceof DelegationFailure);
-  return error.code;
-}
-
-test("profile is closed, release-neutral, and separates host truth from repository assurance", () => {
+test("profile is closed, release-neutral, and leaves admission at the direct host boundary", () => {
   assert.equal(CODEX_MANAGED_DELEGATION_PROFILE.schemaVersion, "ai4x.delegation-profile/v1");
   assert.equal(CODEX_MANAGED_DELEGATION_PROFILE.id, "codex-managed-delegation/v1");
   assert.equal(CODEX_MANAGED_DELEGATION_PROFILE.providerIdentityIngress, "host-native-boundary-only");
+  assert.equal(CODEX_MANAGED_DELEGATION_PROFILE.repositoryObservation, "module-root-and-git-head");
   assert.equal(CODEX_MANAGED_DELEGATION_PROFILE.repositoryAssuranceAuthority, "none");
+  assert.equal(CODEX_MANAGED_DELEGATION_PROFILE.hostAdmissionAuthority, "direct-provider-parent-only");
   assert.match(CODEX_MANAGED_DELEGATION_PROFILE_DIGEST, /^sha256:[0-9a-f]{64}$/u);
   assert.doesNotMatch(JSON.stringify(CODEX_MANAGED_DELEGATION_PROFILE), /0\.14[789]\.0|providerVersion/u);
   assert.deepEqual(requiredCapabilities({ authority: "read-only", independentReview: true, bootstrap: false }), [
@@ -148,179 +154,205 @@ test("profile is closed, release-neutral, and separates host truth from reposito
   ]);
 });
 
-test("F154-B-01: repository preflight cannot invoke or authenticate caller-shaped provider results", async () => {
-  await withRepository(async (root) => {
-    const result = assessCodexManagedDelegationPreflight(preflight(root));
-    assert.equal(result.decision, "policy-satisfied");
-    assert.equal(result.providerAdmission, "required-at-host-native-boundary");
-    assert.equal(result.providerIdentity, null);
-    assert.equal(result.verdict, null);
-    assert.equal(result.authorityEffect, "none");
-    assert.equal(result.detachedAuthority, "none");
-    assert.deepEqual(result.requiredHostChecks, [
-      "direct-provider-task-identity", "same-identity-at-stop",
-      "author-and-prior-reviewer-exclusion", "candidate-and-nonmutation-recheck",
-      "exactly-one-verdict", "durable-nonce-consumption",
-    ]);
-    assert.throws(
-      () => assessCodexManagedDelegationPreflight({ ...preflight(root), providerResult: { taskIdentity: "invented" } }),
-      (error) => code(error) === "SH-DELEGATION-EVIDENCE-INVALID",
-    );
-  });
+test("F154-B-01 stays closed: repository code cannot ingest provider results or authorize delegation", () => {
+  const result = assessCodexManagedDelegationPreflight(preflight());
+  assert.equal(result.decision, "local-observations-complete");
+  assert.equal(result.delegationAuthorized, false);
+  assert.equal(result.hostAdmission, "blocked-until-direct-provider-boundary");
+  assert.equal(result.providerIdentity, null);
+  assert.equal(result.verdict, null);
+  assert.equal(result.authorityEffect, "none");
+  assert.equal(result.detachedAuthority, "none");
+  assert.throws(
+    () => assessCodexManagedDelegationPreflight({ ...preflight(), providerResult: { taskIdentity: "invented" } }),
+    (error) => code(error) === "SH-DELEGATION-EVIDENCE-INVALID",
+  );
   const source = readFileSync(new URL("./codex-managed-delegation.mjs", import.meta.url), "utf8");
   assert.doesNotMatch(source, /invokeNative|source:\s*["']direct-native-result|providerResult/u);
 });
 
-test("F154-B-02: real repository, task, handoff, candidate, and measured resource are composed", async () => {
-  await withRepository(async (root) => {
-    assert.equal(assessCodexManagedDelegationPreflight(preflight(root)).repositoryRoot, root);
+test("F154-B-02: project and candidate bind to the executing module repository and actual git HEAD", async () => {
+  const result = assessCodexManagedDelegationPreflight(preflight());
+  assert.deepEqual(result.repositoryBinding, REPOSITORY_BINDING);
+  assert.equal(result.repositoryBinding.repositoryRoot, REPOSITORY_ROOT);
+
+  await withForeignSelfIssuedRepository(async (foreignRoot) => {
     assert.throws(
-      () => assessCodexManagedDelegationPreflight(preflight(path.join(root, "missing"))),
+      () => assessCodexManagedDelegationPreflight(preflight({
+        intent: intent({ repositoryRoot: foreignRoot, cwd: foreignRoot }),
+      })),
       (error) => code(error) === "SH-DELEGATION-PROJECT-BINDING",
     );
-    assert.throws(
-      () => assessCodexManagedDelegationPreflight(preflight(root, { task: "Different task." })),
-      (error) => code(error) === "SH-DELEGATION-ASSIGNMENT-DIGEST",
-    );
-    assert.throws(
-      () => assessCodexManagedDelegationPreflight(preflight(root, { handoff: "Different handoff." })),
-      (error) => code(error) === "SH-DELEGATION-HANDOFF-DIGEST",
-    );
-    assert.throws(
-      () => assessCodexManagedDelegationPreflight(preflight(root, { candidateDigestAfterHandoff: digest("d") })),
-      (error) => code(error) === "SH-DELEGATION-CANDIDATE-DRIFT",
-    );
-    assert.throws(
-      () => assessCodexManagedDelegationPreflight(preflight(root, { intent: intent(root, { resource: { minimumFreeBytes: Number.MAX_SAFE_INTEGER } }) })),
-      (error) => code(error) === "SH-DELEGATION-RESOURCE-BINDING",
-    );
   });
+  assert.throws(
+    () => assessCodexManagedDelegationPreflight(preflight({
+      intent: intent({ review: { candidate: { headOid: "0".repeat(40) } } }),
+    })),
+    (error) => code(error) === "SH-DELEGATION-CANDIDATE-DRIFT",
+  );
+  assert.throws(
+    () => assessCodexManagedDelegationPreflight(preflight({ task: "Different task." })),
+    (error) => code(error) === "SH-DELEGATION-ASSIGNMENT-DIGEST",
+  );
+  assert.throws(
+    () => assessCodexManagedDelegationPreflight(preflight({ handoff: "Different handoff." })),
+    (error) => code(error) === "SH-DELEGATION-HANDOFF-DIGEST",
+  );
+
+  const handoffWithTransportLf = `${HANDOFF}\n`;
+  const newlineIntent = intent({ handoffDigest: delegationEvidenceDigest(handoffWithTransportLf) });
+  assert.equal(
+    assessCodexManagedDelegationPreflight(preflight({
+      intent: newlineIntent,
+      handoff: handoffWithTransportLf,
+    })).handoffDigest,
+    newlineIntent.handoffDigest,
+  );
 });
 
-test("common admission rejects profile, project, context, handoff, and freshness drift", async () => {
-  await withRepository(async (root) => {
-    const cases = [
-      [intent(root, { profileId: "unknown/v9" }), "SH-DELEGATION-INTENT-INVALID"],
-      [intent(root, { profileDigest: digest("0") }), "SH-DELEGATION-INTENT-INVALID"],
-      [intent(root, { cwd: path.join(root, "foreign") }), "SH-DELEGATION-PROJECT-BINDING"],
-      [intent(root, { timestampEpochSeconds: NOW - 301 }), "SH-DELEGATION-INTENT-INVALID"],
-      [intent(root, { nonce: "" }), "SH-DELEGATION-INTENT-INVALID"],
-      [intent(root, { handoffDigest: "missing" }), "SH-DELEGATION-INTENT-INVALID"],
-      [intent(root, { assignment: assignment({ context: { mode: "bounded", turnCount: 0, rationale: "" } }) }), "SH-DELEGATION-CONTEXT-INVALID"],
-    ];
-    for (const [subjectIntent, expected] of cases) {
-      assert.throws(
-        () => assessCodexManagedDelegationPreflight(preflight(root, { intent: subjectIntent })),
-        (error) => code(error) === expected,
-      );
-    }
-  });
+test("common local observations reject profile, project, context, resource, and freshness drift", () => {
+  const cases = [
+    [intent({ schemaVersion: "ai4x.codex-managed-delegation-intent/v2" }), "SH-DELEGATION-INTENT-INVALID"],
+    [intent({ profileId: "unknown/v9" }), "SH-DELEGATION-INTENT-INVALID"],
+    [intent({ profileDigest: digest("0") }), "SH-DELEGATION-INTENT-INVALID"],
+    [intent({ cwd: path.join(REPOSITORY_ROOT, "util") }), "SH-DELEGATION-PROJECT-BINDING"],
+    [intent({ timestampEpochSeconds: NOW - 301 }), "SH-DELEGATION-INTENT-INVALID"],
+    [intent({ nonce: "" }), "SH-DELEGATION-INTENT-INVALID"],
+    [intent({ handoffDigest: "missing" }), "SH-DELEGATION-INTENT-INVALID"],
+    [intent({ resource: { minimumFreeBytes: Number.MAX_SAFE_INTEGER } }), "SH-DELEGATION-RESOURCE-BINDING"],
+    [intent({ assignment: assignment({ context: { mode: "bounded", turnCount: 0, rationale: "" } }) }), "SH-DELEGATION-CONTEXT-INVALID"],
+  ];
+  for (const [subjectIntent, expected] of cases) {
+    assert.throws(
+      () => assessCodexManagedDelegationPreflight(preflight({ intent: subjectIntent })),
+      (error) => code(error) === expected,
+    );
+  }
 });
 
-test("F154-B-03: writing requires contained paths, exact limit, and no parent or writer overlap", async () => {
-  await withRepository(async (root) => {
-    const writeAssignment = assignment({
-      grantedAuthority: "write", allowedEffects: ["modify-repository"],
-      ownedPaths: ["util/repository/session-hygiene"],
-    });
-    const writeIntent = intent(root, { assignment: writeAssignment, review: null });
-    assert.equal(assessCodexManagedDelegationPreflight(preflight(root, { intent: writeIntent })).decision, "policy-satisfied");
-
-    for (const ownedPath of ["../../outside-authority", "/tmp/outside", ".", "util//bad"]) {
-      const invalid = assignment({ grantedAuthority: "write", allowedEffects: ["modify-repository"], ownedPaths: [ownedPath] });
-      assert.throws(
-        () => assessCodexManagedDelegationPreflight(preflight(root, { intent: intent(root, { assignment: invalid, review: null }) })),
-        (error) => code(error) === "SH-DELEGATION-OWNERSHIP-INVALID",
-      );
-    }
-    assert.throws(
-      () => assessCodexManagedDelegationPreflight(preflight(root, {
-        intent: writeIntent, activeAgentOwnedPaths: ["util/repository/session-hygiene/evaluate.mjs"],
-      })),
-      (error) => code(error) === "SH-DELEGATION-OWNERSHIP-OVERLAP",
-    );
-    assert.throws(
-      () => assessCodexManagedDelegationPreflight(preflight(root, {
-        intent: writeIntent,
-        activeAssignments: [{
-          id: "other-writer", grantedAuthority: "write",
-          allowedEffects: ["modify-repository"], ownedPaths: ["util/repository"],
-        }],
-      })),
-      (error) => code(error) === "SH-DELEGATION-OWNERSHIP-OVERLAP",
-    );
-    assert.throws(
-      () => assessCodexManagedDelegationPreflight(preflight(root, {
-        intent: writeIntent,
-        activeAssignments: [{
-          id: "other-writer", grantedAuthority: "write",
-          allowedEffects: ["modify-repository"], ownedPaths: ["src"],
-        }],
-      })),
-      (error) => code(error) === "SH-DELEGATION-WRITER-LIMIT",
-    );
+test("F154-B-03: requested ownership is repository-contained and symlink-safe; topology remains a host check", () => {
+  const writeAssignment = assignment({
+    grantedAuthority: "write", allowedEffects: ["modify-repository"],
+    ownedPaths: ["util/repository/session-hygiene"],
   });
-});
+  const writeResult = assessCodexManagedDelegationPreflight(preflight({
+    intent: intent({ assignment: writeAssignment, review: null }),
+  }));
+  assert.equal(writeResult.delegationAuthorized, false);
+  assert.ok(writeResult.requiredHostChecks.includes("complete-active-assignment-topology"));
+  assert.ok(writeResult.requiredHostChecks.includes("requested-ownership-containment-recheck-at-start"));
+  assert.ok(writeResult.requiredHostChecks.includes("accepted-writer-limit-against-complete-topology"));
+  assert.ok(writeResult.requiredHostChecks.includes("all-writer-and-parent-ownership-nonoverlap"));
 
-test("F154-B-04: durable replay and prior-reviewer evidence survive assurance instances", async () => {
-  await withRepository(async (root) => {
-    const first = assessCodexManagedDelegationPreflight(preflight(root));
-    assert.throws(
-      () => assessCodexManagedDelegationPreflight(preflight(root, {
-        replayEvidence: replay({ consumedNonceDigests: [first.nonceDigest] }),
-      })),
-      (error) => code(error) === "SH-DELEGATION-NONCE-REPLAY",
-    );
-    const prior = assessCodexManagedDelegationPreflight(preflight(root, {
-      replayEvidence: replay({ priorReviewerIdentities: ["/root/reviewer-previous"] }),
-    }));
-    assert.deepEqual(prior.excludedReviewerIdentities, ["/root/author", "/root/reviewer-previous"]);
-    assert.throws(
-      () => assessCodexManagedDelegationPreflight(preflight(root, {
-        replayEvidence: replay({ durableEvidence: { kind: "file", locator: "/tmp/nonce.json" } }),
-      })),
-      (error) => code(error) === "SH-DELEGATION-REPLAY-EVIDENCE",
-    );
-  });
-});
-
-test("F154-B-05: bootstrap and review matrices reject lineage drift and remediation authority", async () => {
-  await withRepository(async (root) => {
-    const transition = {
-      predecessorProfileDigest: digest("d"),
-      successorProfileDigest: CODEX_MANAGED_DELEGATION_PROFILE_DIGEST,
-    };
-    assert.equal(assessCodexManagedDelegationPreflight(preflight(root, {
-      intent: intent(root, { transition }),
-    })).profileTransition.successorProfileDigest, CODEX_MANAGED_DELEGATION_PROFILE_DIGEST);
-    for (const invalid of [
-      { predecessorProfileDigest: CODEX_MANAGED_DELEGATION_PROFILE_DIGEST, successorProfileDigest: CODEX_MANAGED_DELEGATION_PROFILE_DIGEST },
-      { predecessorProfileDigest: digest("d"), successorProfileDigest: digest("e") },
-    ]) {
-      assert.throws(
-        () => assessCodexManagedDelegationPreflight(preflight(root, { intent: intent(root, { transition: invalid }) })),
-        (error) => code(error) === "SH-DELEGATION-TRANSITION-INVALID",
-      );
-    }
-    const remediation = assignment({
-      grantedAuthority: "write", allowedEffects: ["modify-repository"],
-      ownedPaths: ["util/repository/session-hygiene"],
+  for (const ownedPath of ["../../outside-authority", "/tmp/outside", ".", "util//bad"]) {
+    const invalid = assignment({
+      grantedAuthority: "write", allowedEffects: ["modify-repository"], ownedPaths: [ownedPath],
     });
     assert.throws(
-      () => assessCodexManagedDelegationPreflight(preflight(root, { intent: intent(root, { assignment: remediation }) })),
-      (error) => code(error) === "SH-DELEGATION-INDEPENDENCE",
+      () => assessCodexManagedDelegationPreflight(preflight({
+        intent: intent({ assignment: invalid, review: null }),
+      })),
+      (error) => code(error) === "SH-DELEGATION-OWNERSHIP-INVALID",
     );
-  });
+  }
+
+  const localBase = path.join(REPOSITORY_ROOT, ".ai4x/local");
+  mkdirSync(localBase, { recursive: true });
+  const ownedFixture = mkdtempSync(path.join(localBase, "ownership-test-"));
+  const outside = mkdtempSync(path.join(os.tmpdir(), "ai4x-owned-outside-"));
+  const escape = path.join(ownedFixture, "escape");
+  symlinkSync(outside, escape);
+  try {
+    const symlinked = assignment({
+      grantedAuthority: "write",
+      allowedEffects: ["modify-repository"],
+      ownedPaths: [path.relative(REPOSITORY_ROOT, escape)],
+    });
+    assert.throws(
+      () => assessCodexManagedDelegationPreflight(preflight({
+        intent: intent({ assignment: symlinked, review: null }),
+      })),
+      (error) => code(error) === "SH-DELEGATION-OWNERSHIP-INVALID",
+    );
+  } finally {
+    rmSync(ownedFixture, { recursive: true, force: true });
+    rmSync(outside, { recursive: true, force: true });
+  }
 });
 
-test("preflight does not mutate or freeze caller inputs and exposes no mutation surface", async () => {
-  await withRepository(async (root) => {
-    const subject = preflight(root);
-    const before = structuredClone(subject);
-    assessCodexManagedDelegationPreflight(subject);
-    assert.deepEqual(subject, before);
-    assert.equal(Object.isFrozen(subject.intent), false);
+test("F154-B-04: repository code refuses caller-shaped replay/topology assurance and leaves durable checks unresolved", () => {
+  for (const extra of [
+    { replayEvidence: { durableEvidence: { kind: "github", locator: "https://example.invalid/invented" } } },
+    { activeAssignments: [], activeAgentOwnedPaths: [] },
+  ]) {
+    assert.throws(
+      () => assessCodexManagedDelegationPreflight({ ...preflight(), ...extra }),
+      (error) => code(error) === "SH-DELEGATION-EVIDENCE-INVALID",
+    );
+  }
+  const first = assessCodexManagedDelegationPreflight(preflight());
+  const second = assessCodexManagedDelegationPreflight(preflight());
+  assert.equal(first.delegationAuthorized, false);
+  assert.equal(second.delegationAuthorized, false);
+  assert.ok(first.requiredHostChecks.includes("authenticated-durable-replay-state"));
+  assert.ok(first.requiredHostChecks.includes("author-and-prior-reviewer-exclusion"));
+  assert.ok(first.requiredHostChecks.includes("durable-nonce-consumption"));
+  assert.equal(Object.hasOwn(first, "excludedReviewerIdentities"), false);
+  assert.equal(Object.hasOwn(first, "durableEvidence"), false);
+});
+
+test("F154-B-05: bootstrap matrix keeps every unverified host fact blocking and rejects reviewer remediation", () => {
+  const transition = {
+    predecessorProfileDigest: digest("d"),
+    successorProfileDigest: CODEX_MANAGED_DELEGATION_PROFILE_DIGEST,
+  };
+  const result = assessCodexManagedDelegationPreflight(preflight({
+    intent: intent({ transition }),
+  }));
+  assert.equal(result.profileTransition.successorProfileDigest, CODEX_MANAGED_DELEGATION_PROFILE_DIGEST);
+  assert.equal(result.delegationAuthorized, false);
+  for (const required of [
+    "direct-provider-task-identity",
+    "same-identity-at-stop",
+    "complete-active-assignment-topology",
+    "authenticated-durable-replay-state",
+    "author-and-prior-reviewer-exclusion",
+    "exact-provider-candidate-tree-and-nonmutation-recheck",
+    "read-only-repository-and-remote-nonmutation",
+    "exactly-one-verdict",
+    "durable-nonce-consumption",
+  ]) assert.ok(result.requiredHostChecks.includes(required));
+
+  for (const invalid of [
+    { predecessorProfileDigest: CODEX_MANAGED_DELEGATION_PROFILE_DIGEST, successorProfileDigest: CODEX_MANAGED_DELEGATION_PROFILE_DIGEST },
+    { predecessorProfileDigest: digest("d"), successorProfileDigest: digest("e") },
+  ]) {
+    assert.throws(
+      () => assessCodexManagedDelegationPreflight(preflight({ intent: intent({ transition: invalid }) })),
+      (error) => code(error) === "SH-DELEGATION-TRANSITION-INVALID",
+    );
+  }
+  const remediation = assignment({
+    grantedAuthority: "write", allowedEffects: ["modify-repository"],
+    ownedPaths: ["util/repository/session-hygiene"],
   });
+  assert.throws(
+    () => assessCodexManagedDelegationPreflight(preflight({
+      intent: intent({ assignment: remediation }),
+    })),
+    (error) => code(error) === "SH-DELEGATION-INDEPENDENCE",
+  );
+
+  const source = readFileSync(new URL("./codex-managed-delegation.mjs", import.meta.url), "utf8");
+  assert.doesNotMatch(source, /decision:\s*["']policy-satisfied|replayEvidence|activeAssignments|activeAgentOwnedPaths|durableEvidence/u);
+});
+
+test("local observation is non-mutating and exposes no write, process, provider, or discovery surface", () => {
+  const subject = preflight();
+  const before = structuredClone(subject);
+  assessCodexManagedDelegationPreflight(subject);
+  assert.deepEqual(subject, before);
+  assert.equal(Object.isFrozen(subject.intent), false);
   const source = readFileSync(new URL("./codex-managed-delegation.mjs", import.meta.url), "utf8");
   assert.doesNotMatch(source, /node:child_process|spawnSync|execFile|\bcodex\s|\bresume\b|readdir|glob|unlink|rmSync|writeFile|appendFile/u);
 });

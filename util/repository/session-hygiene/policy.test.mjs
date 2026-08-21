@@ -35,7 +35,13 @@ test("normative workflow declares required contract sections and stable rule ide
   assert.match(policy, /normal provider-managed delegation/);
   assert.match(policy, /Only the direct host-boundary result supplies child\/task identity/);
   assert.match(policy, /repository preflight does not call or authenticate the provider/);
-  assert.match(policy, /no provider identity, and no verdict/);
+  assert.match(policy, /local-observations-complete/);
+  assert.match(policy, /delegationAuthorized = false/);
+  assert.match(policy, /actual Git `HEAD` from its verified ref identity/);
+  assert.match(policy, /refuses caller-supplied active-topology, replay, reviewer, or provider assurance/);
+  assert.match(policy, /existing components are non-symlinked and contained/);
+  assert.match(policy, /Complete topology is a direct host observation/);
+  assert.match(policy, /authenticated durable replay\/reviewer state/);
   assert.match(policy, /all delegated writers among themselves/);
   assert.match(policy, /durably recording nonce consumption/);
   assert.match(policy, /detachedAuthority = none/);

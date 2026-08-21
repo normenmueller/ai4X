@@ -1,7 +1,13 @@
 import { createHash } from "node:crypto";
-import { lstatSync, realpathSync, statfsSync } from "node:fs";
+import { lstatSync, readFileSync, realpathSync, statfsSync } from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { loadPolicyProjection } from "./projection.mjs";
+
+const MODULE_REPOSITORY_ROOT = realpathSync(path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../../..",
+));
 
 const PROFILE = deepFreeze({
   schemaVersion: "ai4x.delegation-profile/v1",
@@ -25,39 +31,44 @@ const PROFILE = deepFreeze({
     "exact-rollout-measurement/v1",
   ],
   providerIdentityIngress: "host-native-boundary-only",
+  repositoryObservation: "module-root-and-git-head",
   repositoryAssuranceAuthority: "none",
+  hostAdmissionAuthority: "direct-provider-parent-only",
   detachedProjectionAuthority: "none",
 });
 
-const INTENT_SCHEMA = "ai4x.codex-managed-delegation-intent/v2";
-const REPLAY_SCHEMA = "ai4x.delegation-replay-evidence/v1";
-const PREFLIGHT_KEYS = new Set([
-  "intent", "task", "handoff", "candidateDigestAfterHandoff", "activeAssignments",
-  "activeAgentOwnedPaths", "replayEvidence",
-]);
+const INTENT_SCHEMA = "ai4x.codex-managed-delegation-intent/v3";
+const PREFLIGHT_KEYS = new Set(["intent", "task", "handoff"]);
 const INTENT_KEYS = new Set([
   "schemaVersion", "profileId", "profileDigest", "issue", "repositoryRoot", "cwd",
   "lifecycle", "timestampEpochSeconds", "nonce", "handoffDigest", "assignment",
   "resource", "review", "transition",
 ]);
 const ASSIGNMENT_KEYS = new Set(["id", "digest", "grantedAuthority", "allowedEffects", "ownedPaths", "context"]);
-const ACTIVE_ASSIGNMENT_KEYS = new Set(["id", "grantedAuthority", "allowedEffects", "ownedPaths"]);
 const CONTEXT_KEYS = new Set(["mode", "turnCount", "rationale"]);
 const FULL_CONTEXT_KEYS = new Set(["mode", "turnCount", "rationale", "poDecisionReference", "approvedIssue", "task"]);
 const RESOURCE_KEYS = new Set(["minimumFreeBytes"]);
-const REVIEW_KEYS = new Set(["independent", "candidateDigest", "excludedAuthorIdentities", "maximumVerdicts"]);
+const REVIEW_KEYS = new Set(["independent", "candidate", "maximumVerdicts"]);
+const CANDIDATE_KEYS = new Set(["headOid"]);
 const TRANSITION_KEYS = new Set(["predecessorProfileDigest", "successorProfileDigest"]);
-const REPLAY_KEYS = new Set(["schemaVersion", "consumedNonceDigests", "priorReviewerIdentities", "durableEvidence"]);
-const DURABLE_KEYS = new Set(["kind", "locator"]);
 const READ_EFFECTS = new Set(["read-repository", "review", "advise"]);
 const WRITE_EFFECT = "modify-repository";
-const REQUIRED_HOST_CHECKS = Object.freeze([
+const COMMON_HOST_CHECKS = Object.freeze([
   "direct-provider-task-identity",
   "same-identity-at-stop",
+  "exact-provider-permissions-or-not-exposed",
+  "complete-active-assignment-topology",
+  "authenticated-durable-replay-state",
   "author-and-prior-reviewer-exclusion",
-  "candidate-and-nonmutation-recheck",
+  "exact-provider-candidate-tree-and-nonmutation-recheck",
+  "read-only-repository-and-remote-nonmutation",
   "exactly-one-verdict",
   "durable-nonce-consumption",
+]);
+const WRITER_HOST_CHECKS = Object.freeze([
+  "requested-ownership-containment-recheck-at-start",
+  "accepted-writer-limit-against-complete-topology",
+  "all-writer-and-parent-ownership-nonoverlap",
 ]);
 
 export class DelegationFailure extends Error {
@@ -100,12 +111,20 @@ function nonEmpty(value) {
   return typeof value === "string" && value.trim().length > 0 && value.trim() === value;
 }
 
+function contentPresent(value) {
+  return typeof value === "string" && value.trim().length > 0;
+}
+
 function natural(value) {
   return Number.isSafeInteger(value) && value >= 0;
 }
 
 function digest(value) {
   return typeof value === "string" && /^sha256:[0-9a-f]{64}$/u.test(value);
+}
+
+function gitOid(value) {
+  return typeof value === "string" && /^[0-9a-f]{40}$/u.test(value);
 }
 
 function exactKeys(value, allowed) {
@@ -129,7 +148,7 @@ function validateContext(context, issue) {
   }
 }
 
-function canonicalOwnedPath(value) {
+function lexicalOwnedPath(value) {
   if (!nonEmpty(value)
     || value.includes("\\")
     || value.includes("//")
@@ -146,11 +165,42 @@ function canonicalOwnedPath(value) {
   return normalized;
 }
 
-function assignmentClass(subject, issue, { active = false } = {}) {
-  const keys = active ? ACTIVE_ASSIGNMENT_KEYS : ASSIGNMENT_KEYS;
-  if (!exactKeys(subject, keys)
+function repositoryOwnedPath(repositoryRoot, value) {
+  const ownedPath = lexicalOwnedPath(value);
+  let current = repositoryRoot;
+  const segments = ownedPath.split("/");
+  for (const [index, segment] of segments.entries()) {
+    current = path.join(current, segment);
+    let stat;
+    try {
+      stat = lstatSync(current);
+    } catch (error) {
+      if (error?.code === "ENOENT") break;
+      fail("SH-DELEGATION-OWNERSHIP-INVALID", "owned path cannot be verified");
+    }
+    if (stat.isSymbolicLink()) {
+      fail("SH-DELEGATION-OWNERSHIP-INVALID", "owned path traverses a symbolic link");
+    }
+    if (index < segments.length - 1 && !stat.isDirectory()) {
+      fail("SH-DELEGATION-OWNERSHIP-INVALID", "owned path traverses a non-directory");
+    }
+    let resolved;
+    try {
+      resolved = realpathSync(current);
+    } catch {
+      fail("SH-DELEGATION-OWNERSHIP-INVALID", "owned path cannot be resolved safely");
+    }
+    if (resolved !== repositoryRoot && !resolved.startsWith(`${repositoryRoot}${path.sep}`)) {
+      fail("SH-DELEGATION-OWNERSHIP-INVALID", "owned path escapes the repository");
+    }
+  }
+  return ownedPath;
+}
+
+function assignmentClass(subject, issue, repositoryRoot) {
+  if (!exactKeys(subject, ASSIGNMENT_KEYS)
     || !nonEmpty(subject.id)
-    || (!active && !digest(subject.digest))
+    || !digest(subject.digest)
     || !["read-only", "write"].includes(subject.grantedAuthority)
     || !Array.isArray(subject.allowedEffects)
     || subject.allowedEffects.length === 0
@@ -166,33 +216,104 @@ function assignmentClass(subject, issue, { active = false } = {}) {
     || (writing && subject.ownedPaths.length === 0)) {
     fail("SH-DELEGATION-ASSIGNMENT-INVALID", "Assignment effects or ownership are invalid");
   }
-  const ownedPaths = subject.ownedPaths.map(canonicalOwnedPath);
+  const ownedPaths = subject.ownedPaths.map((ownedPath) => repositoryOwnedPath(repositoryRoot, ownedPath));
   if (new Set(ownedPaths).size !== ownedPaths.length) {
     fail("SH-DELEGATION-OWNERSHIP-INVALID", "owned paths are duplicated");
   }
-  if (!active) validateContext(subject.context, issue);
+  validateContext(subject.context, issue);
   return { writing, ownedPaths };
 }
 
-function pathsOverlap(left, right) {
-  return left === right || left.startsWith(`${right}/`) || right.startsWith(`${left}/`);
+function readRegularText(filePath, code, label) {
+  try {
+    const stat = lstatSync(filePath);
+    if (!stat.isFile() || stat.isSymbolicLink()) throw new Error("unsafe-file");
+    const value = readFileSync(filePath, "utf8").trim();
+    if (value.length === 0) throw new Error("empty-file");
+    return value;
+  } catch {
+    fail(code, `${label} is unavailable or unsafe`);
+  }
+}
+
+function resolveGitDirectory(repositoryRoot) {
+  const marker = path.join(repositoryRoot, ".git");
+  let stat;
+  try {
+    stat = lstatSync(marker);
+  } catch {
+    fail("SH-DELEGATION-PROJECT-BINDING", "canonical repository marker is unavailable");
+  }
+  if (stat.isSymbolicLink()) fail("SH-DELEGATION-PROJECT-BINDING", "canonical repository marker is symlinked");
+  if (stat.isDirectory()) return realpathSync(marker);
+  if (!stat.isFile()) fail("SH-DELEGATION-PROJECT-BINDING", "canonical repository marker is invalid");
+  const declaration = readRegularText(marker, "SH-DELEGATION-PROJECT-BINDING", "git directory declaration");
+  const match = /^gitdir: (.+)$/u.exec(declaration);
+  if (match === null) fail("SH-DELEGATION-PROJECT-BINDING", "git directory declaration is invalid");
+  try {
+    return realpathSync(path.resolve(repositoryRoot, match[1]));
+  } catch {
+    fail("SH-DELEGATION-PROJECT-BINDING", "git directory cannot be resolved");
+  }
+}
+
+function resolveHeadOid(gitDirectory) {
+  const head = readRegularText(path.join(gitDirectory, "HEAD"), "SH-DELEGATION-CANDIDATE-UNAVAILABLE", "git HEAD");
+  if (gitOid(head)) return head;
+  const match = /^ref: (refs\/[A-Za-z0-9._/-]+)$/u.exec(head);
+  if (match === null || match[1].includes("..") || match[1].includes("//")) {
+    fail("SH-DELEGATION-CANDIDATE-UNAVAILABLE", "git HEAD reference is invalid");
+  }
+  const looseRef = path.join(gitDirectory, ...match[1].split("/"));
+  let looseStat;
+  try {
+    looseStat = lstatSync(looseRef);
+  } catch (error) {
+    if (error?.code !== "ENOENT") {
+      fail("SH-DELEGATION-CANDIDATE-UNAVAILABLE", "git HEAD reference is unavailable or unsafe");
+    }
+  }
+  if (looseStat !== undefined) {
+    if (!looseStat.isFile() || looseStat.isSymbolicLink()) {
+      fail("SH-DELEGATION-CANDIDATE-UNAVAILABLE", "git HEAD reference is unavailable or unsafe");
+    }
+    const oid = readFileSync(looseRef, "utf8").trim();
+    if (!gitOid(oid)) fail("SH-DELEGATION-CANDIDATE-UNAVAILABLE", "git HEAD reference identity is invalid");
+    return oid;
+  }
+  const packed = readRegularText(path.join(gitDirectory, "packed-refs"), "SH-DELEGATION-CANDIDATE-UNAVAILABLE", "packed refs");
+  for (const line of packed.split("\n")) {
+    const packedMatch = /^([0-9a-f]{40}) (refs\/[A-Za-z0-9._/-]+)$/u.exec(line);
+    if (packedMatch?.[2] === match[1]) return packedMatch[1];
+  }
+  fail("SH-DELEGATION-CANDIDATE-UNAVAILABLE", "git HEAD reference is absent");
+}
+
+function observeRepositoryBinding() {
+  const gitDirectory = resolveGitDirectory(MODULE_REPOSITORY_ROOT);
+  const headOid = resolveHeadOid(gitDirectory);
+  return { repositoryRoot: MODULE_REPOSITORY_ROOT, headOid };
 }
 
 function validateRepository(intent) {
-  let root;
-  let cwd;
+  let requestedRoot;
+  let requestedCwd;
+  let activeCwd;
   try {
-    root = realpathSync(intent.repositoryRoot);
-    cwd = realpathSync(intent.cwd);
-    const marker = lstatSync(path.join(root, ".git"));
-    if (!marker.isDirectory() && !marker.isFile()) throw new Error("unsupported .git marker");
+    requestedRoot = realpathSync(intent.repositoryRoot);
+    requestedCwd = realpathSync(intent.cwd);
+    activeCwd = realpathSync(process.cwd());
   } catch {
     fail("SH-DELEGATION-PROJECT-BINDING", "repository or working directory is not canonical");
   }
-  if (root !== cwd || root !== intent.repositoryRoot || cwd !== intent.cwd) {
-    fail("SH-DELEGATION-PROJECT-BINDING", "repository and working directory bindings differ");
+  if (requestedRoot !== MODULE_REPOSITORY_ROOT
+    || requestedCwd !== MODULE_REPOSITORY_ROOT
+    || activeCwd !== MODULE_REPOSITORY_ROOT
+    || requestedRoot !== intent.repositoryRoot
+    || requestedCwd !== intent.cwd) {
+    fail("SH-DELEGATION-PROJECT-BINDING", "requested project is not the executing module repository");
   }
-  return root;
+  return observeRepositoryBinding();
 }
 
 function observeFreeBytes(repositoryRoot) {
@@ -206,32 +327,7 @@ function observeFreeBytes(repositoryRoot) {
   }
 }
 
-function durableEvidence(value) {
-  return exactKeys(value, DURABLE_KEYS)
-    && ["git", "github", "governed-evidence"].includes(value.kind)
-    && nonEmpty(value.locator)
-    && !value.locator.startsWith("/tmp/")
-    && !value.locator.startsWith(".ai4x/local/");
-}
-
-function validateReplayEvidence(subject, nonceDigest) {
-  if (!exactKeys(subject, REPLAY_KEYS)
-    || subject.schemaVersion !== REPLAY_SCHEMA
-    || !Array.isArray(subject.consumedNonceDigests)
-    || subject.consumedNonceDigests.some((value) => !digest(value))
-    || new Set(subject.consumedNonceDigests).size !== subject.consumedNonceDigests.length
-    || !Array.isArray(subject.priorReviewerIdentities)
-    || subject.priorReviewerIdentities.some((value) => !nonEmpty(value))
-    || new Set(subject.priorReviewerIdentities).size !== subject.priorReviewerIdentities.length
-    || !durableEvidence(subject.durableEvidence)) {
-    fail("SH-DELEGATION-REPLAY-EVIDENCE", "durable replay or reviewer evidence is invalid");
-  }
-  if (subject.consumedNonceDigests.includes(nonceDigest)) {
-    fail("SH-DELEGATION-NONCE-REPLAY", "delegation nonce was already durably consumed");
-  }
-}
-
-function validateIntent(subject, nowEpochSeconds) {
+function validateIntent(subject, nowEpochSeconds, repositoryBinding) {
   if (!exactKeys(subject, INTENT_KEYS)
     || subject.schemaVersion !== INTENT_SCHEMA
     || subject.profileId !== PROFILE.id
@@ -246,18 +342,18 @@ function validateIntent(subject, nowEpochSeconds) {
     || !natural(subject.resource.minimumFreeBytes)) {
     fail("SH-DELEGATION-INTENT-INVALID", "delegation intent is invalid or stale");
   }
-  const assignment = assignmentClass(subject.assignment, subject.issue);
+  const assignment = assignmentClass(subject.assignment, subject.issue, repositoryBinding.repositoryRoot);
   if (subject.review !== null) {
     if (!exactKeys(subject.review, REVIEW_KEYS)
       || subject.review.independent !== true
-      || !digest(subject.review.candidateDigest)
-      || !Array.isArray(subject.review.excludedAuthorIdentities)
-      || subject.review.excludedAuthorIdentities.length === 0
-      || subject.review.excludedAuthorIdentities.some((identity) => !nonEmpty(identity))
-      || new Set(subject.review.excludedAuthorIdentities).size !== subject.review.excludedAuthorIdentities.length
+      || !exactKeys(subject.review.candidate, CANDIDATE_KEYS)
+      || !gitOid(subject.review.candidate.headOid)
       || subject.review.maximumVerdicts !== 1
       || assignment.writing) {
       fail("SH-DELEGATION-INDEPENDENCE", "independent review binding is invalid");
+    }
+    if (subject.review.candidate.headOid !== repositoryBinding.headOid) {
+      fail("SH-DELEGATION-CANDIDATE-DRIFT", "actual git HEAD differs from the review intent");
     }
   }
   if (subject.transition !== null) {
@@ -272,35 +368,6 @@ function validateIntent(subject, nowEpochSeconds) {
   return assignment;
 }
 
-function validateWriterTopology(intent, requested, activeAssignments, activeAgentOwnedPaths, limit) {
-  if (!Array.isArray(activeAssignments) || !Array.isArray(activeAgentOwnedPaths) || !natural(limit)) {
-    fail("SH-DELEGATION-EVIDENCE-INVALID", "writer topology evidence is invalid");
-  }
-  const primaryPaths = activeAgentOwnedPaths.map(canonicalOwnedPath);
-  const writers = [];
-  const ids = new Set([intent.assignment.id]);
-  for (const active of activeAssignments) {
-    if (ids.has(active?.id)) fail("SH-DELEGATION-ASSIGNMENT-INVALID", "Assignment identity is duplicated");
-    ids.add(active?.id);
-    const classified = assignmentClass(active, intent.issue, { active: true });
-    if (classified.writing) writers.push({ id: active.id, ownedPaths: classified.ownedPaths });
-  }
-  if (requested.writing) writers.push({ id: intent.assignment.id, ownedPaths: requested.ownedPaths });
-  for (const writer of writers) {
-    if (writer.ownedPaths.some((owned) => primaryPaths.some((primary) => pathsOverlap(owned, primary)))) {
-      fail("SH-DELEGATION-OWNERSHIP-OVERLAP", "writer ownership overlaps the active parent");
-    }
-  }
-  for (let left = 0; left < writers.length; left += 1) {
-    for (let right = left + 1; right < writers.length; right += 1) {
-      if (writers[left].ownedPaths.some((owned) => writers[right].ownedPaths.some((other) => pathsOverlap(owned, other)))) {
-        fail("SH-DELEGATION-OWNERSHIP-OVERLAP", "delegated writer ownership overlaps");
-      }
-    }
-  }
-  if (writers.length > limit) fail("SH-DELEGATION-WRITER-LIMIT", "write-capable Assignment limit is exceeded");
-}
-
 export function delegationEvidenceDigest(value) {
   return sha256(value);
 }
@@ -311,6 +378,10 @@ export function delegationAssignmentDigest({ assignment, task } = {}) {
   }
   const { digest: ignored, ...contract } = assignment;
   return sha256({ assignment: contract, taskDigest: sha256(task) });
+}
+
+export function observeCodexManagedRepositoryBinding() {
+  return deepFreeze({ ...observeRepositoryBinding() });
 }
 
 export function requiredCapabilities({ authority, independentReview, bootstrap }) {
@@ -328,16 +399,16 @@ export function requiredCapabilities({ authority, independentReview, bootstrap }
 
 export function assessCodexManagedDelegationPreflight(subject) {
   if (!exactKeys(subject, PREFLIGHT_KEYS)) {
-    fail("SH-DELEGATION-EVIDENCE-INVALID", "preflight evidence schema is invalid");
+    fail("SH-DELEGATION-EVIDENCE-INVALID", "repository preflight accepts only local-observation inputs");
   }
   const nowEpochSeconds = Math.floor(Date.now() / 1_000);
-  const requested = validateIntent(subject.intent, nowEpochSeconds);
-  const repositoryRoot = validateRepository(subject.intent);
+  const repositoryBinding = validateRepository(subject.intent ?? {});
+  const requested = validateIntent(subject.intent, nowEpochSeconds, repositoryBinding);
   let policy;
   try {
     policy = loadPolicyProjection({
-      repositoryRoot,
-      projectionPath: path.join(repositoryRoot, ".ai4x/generated/assurance/session-hygiene-policy.json"),
+      repositoryRoot: repositoryBinding.repositoryRoot,
+      projectionPath: path.join(repositoryBinding.repositoryRoot, ".ai4x/generated/assurance/session-hygiene-policy.json"),
     });
   } catch {
     fail("SH-DELEGATION-POLICY-INVALID", "accepted policy projection is absent, stale, or invalid");
@@ -361,7 +432,7 @@ export function assessCodexManagedDelegationPreflight(subject) {
       fail("SH-DELEGATION-CONTEXT-INVALID", "full-history context lacks exact accepted authority");
     }
   }
-  if (!nonEmpty(subject.task) || !nonEmpty(subject.handoff)) {
+  if (!contentPresent(subject.task) || !contentPresent(subject.handoff)) {
     fail("SH-DELEGATION-EVIDENCE-INVALID", "task or bounded handoff is absent");
   }
   if (delegationAssignmentDigest({ assignment: subject.intent.assignment, task: subject.task })
@@ -371,45 +442,27 @@ export function assessCodexManagedDelegationPreflight(subject) {
   if (sha256(subject.handoff) !== subject.intent.handoffDigest) {
     fail("SH-DELEGATION-HANDOFF-DIGEST", "bounded handoff content does not match its digest");
   }
-  if (subject.intent.review !== null
-    && (subject.candidateDigestAfterHandoff !== subject.intent.review.candidateDigest
-      || !digest(subject.candidateDigestAfterHandoff))) {
-    fail("SH-DELEGATION-CANDIDATE-DRIFT", "candidate changed after the bounded handoff");
-  }
-  if (subject.intent.review === null && subject.candidateDigestAfterHandoff !== null) {
-    fail("SH-DELEGATION-EVIDENCE-INVALID", "non-review Assignment supplied a candidate binding");
-  }
 
-  const freeBytes = observeFreeBytes(repositoryRoot);
+  const freeBytes = observeFreeBytes(repositoryBinding.repositoryRoot);
   if (freeBytes < subject.intent.resource.minimumFreeBytes) {
     fail("SH-DELEGATION-RESOURCE-LOW", "repository free space is below the exact threshold");
   }
-  const nonceDigest = sha256(subject.intent.nonce);
-  validateReplayEvidence(subject.replayEvidence, nonceDigest);
-  validateWriterTopology(
-    subject.intent,
-    requested,
-    subject.activeAssignments,
-    subject.activeAgentOwnedPaths,
-    policy.collaboration.writeCapableAssignmentLimit.maximum,
-  );
 
-  const excludedReviewerIdentities = subject.intent.review === null
-    ? []
-    : [...new Set([
-        ...subject.intent.review.excludedAuthorIdentities,
-        ...subject.replayEvidence.priorReviewerIdentities,
-      ])];
+  const requiredHostChecks = requested.writing
+    ? [...COMMON_HOST_CHECKS, ...WRITER_HOST_CHECKS]
+    : [...COMMON_HOST_CHECKS];
+  const candidate = subject.intent.review?.candidate ?? null;
 
   return deepFreeze({
-    schemaVersion: "ai4x.codex-managed-delegation-preflight/v1",
-    decision: "policy-satisfied",
-    providerAdmission: "required-at-host-native-boundary",
+    schemaVersion: "ai4x.codex-managed-delegation-local-observation/v1",
+    decision: "local-observations-complete",
+    delegationAuthorized: false,
+    hostAdmission: "blocked-until-direct-provider-boundary",
     providerIdentity: null,
     verdict: null,
     profileId: PROFILE.id,
     profileDigest: CODEX_MANAGED_DELEGATION_PROFILE_DIGEST,
-    repositoryRoot,
+    repositoryBinding: { ...repositoryBinding },
     observedResource: {
       observedAtEpochSeconds: nowEpochSeconds,
       freeBytes,
@@ -418,10 +471,12 @@ export function assessCodexManagedDelegationPreflight(subject) {
     intentDigest: sha256(subject.intent),
     assignmentDigest: subject.intent.assignment.digest,
     handoffDigest: subject.intent.handoffDigest,
-    candidateDigest: subject.intent.review?.candidateDigest ?? null,
-    nonceDigest,
-    excludedReviewerIdentities,
-    requiredHostChecks: REQUIRED_HOST_CHECKS,
+    candidateDigest: candidate === null ? null : sha256({
+      repositoryRoot: repositoryBinding.repositoryRoot,
+      ...candidate,
+    }),
+    nonceDigest: sha256(subject.intent.nonce),
+    requiredHostChecks,
     profileTransition: subject.intent.transition === null ? null : { ...subject.intent.transition },
     authorityEffect: "none",
     detachedAuthority: "none",
