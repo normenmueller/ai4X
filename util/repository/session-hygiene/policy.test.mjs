@@ -39,7 +39,7 @@ test("normative workflow declares required contract sections and stable rule ide
   assert.match(policy, /delegationAuthorized = false/);
   assert.match(policy, /actual Git `HEAD` from its verified ref identity/);
   assert.match(policy, /refuses caller-supplied active-topology, replay, reviewer, or provider assurance/);
-  assert.match(policy, /existing components are non-symlinked and contained/);
+  assert.match(policy, /existing components use their exact native canonical spelling and are non-symlinked and contained/);
   assert.match(policy, /Complete topology is a direct host observation/);
   assert.match(policy, /authenticated durable replay\/reviewer state/);
   assert.match(policy, /all delegated writers among themselves/);

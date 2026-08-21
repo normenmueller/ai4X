@@ -186,9 +186,12 @@ function repositoryOwnedPath(repositoryRoot, value) {
     }
     let resolved;
     try {
-      resolved = realpathSync(current);
+      resolved = realpathSync.native(current);
     } catch {
       fail("SH-DELEGATION-OWNERSHIP-INVALID", "owned path cannot be resolved safely");
+    }
+    if (resolved !== current) {
+      fail("SH-DELEGATION-OWNERSHIP-INVALID", "owned path component spelling is not canonical");
     }
     if (resolved !== repositoryRoot && !resolved.startsWith(`${repositoryRoot}${path.sep}`)) {
       fail("SH-DELEGATION-OWNERSHIP-INVALID", "owned path escapes the repository");

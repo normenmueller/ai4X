@@ -280,6 +280,28 @@ test("F154-B-03: requested ownership is repository-contained and symlink-safe; t
   }
 });
 
+test("F154-B-03 rejects case-aliased ownership when the filesystem resolves it to an existing canonical path", () => {
+  const canonical = path.join(REPOSITORY_ROOT, "util/repository/session-hygiene");
+  const aliased = path.join(REPOSITORY_ROOT, "UTIL/repository/session-hygiene");
+  try {
+    assert.equal(realpathSync.native(aliased), canonical);
+  } catch (error) {
+    if (error?.code === "ENOENT") return;
+    throw error;
+  }
+  const aliasedAssignment = assignment({
+    grantedAuthority: "write",
+    allowedEffects: ["modify-repository"],
+    ownedPaths: ["UTIL/repository/session-hygiene"],
+  });
+  assert.throws(
+    () => assessCodexManagedDelegationPreflight(preflight({
+      intent: intent({ assignment: aliasedAssignment, review: null }),
+    })),
+    (error) => code(error) === "SH-DELEGATION-OWNERSHIP-INVALID",
+  );
+});
+
 test("F154-B-04: repository code refuses caller-shaped replay/topology assurance and leaves durable checks unresolved", () => {
   for (const extra of [
     { replayEvidence: { durableEvidence: { kind: "github", locator: "https://example.invalid/invented" } } },
