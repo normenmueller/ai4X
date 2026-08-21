@@ -13,10 +13,17 @@ import {
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  CODEX_MANAGED_DELEGATION_PROFILE,
+  CODEX_MANAGED_DELEGATION_PROFILE_DIGEST,
+} from "./codex-managed-delegation.mjs";
 
-const REQUEST_SCHEMA = "ai4x.codex-session-measurement-request/v1";
-const RESULT_SCHEMA = "ai4x.codex-session-observation/v1";
-const SUPPORTED_VERSION = "0.147.0";
+const REQUEST_SCHEMA = "ai4x.codex-session-measurement-request/v2";
+const RESULT_SCHEMA = "ai4x.codex-session-observation/v2";
+const REQUEST_KEYS = new Set([
+  "schemaVersion", "provider", "providerVersion", "lifecycle", "issue", "cwd", "projectRoot",
+  "parentSessionId", "parentRolloutPath", "childAgentId", "childRolloutPath", "codexHome",
+]);
 const LIFECYCLES = new Set(["before-delegation", "active-interval", "subagent-stop", "after-issue-completion", "handoff-boundary"]);
 
 export class MeasurementFailure extends Error {
@@ -100,21 +107,34 @@ function diskFreeBytes(projectRoot, io) {
   return Number(value);
 }
 
+function diagnoseExactFile(subject, expectedId, sessionsRoot, setupFailure, io) {
+  if (setupFailure !== null) return Object.freeze({ state: "failed", code: setupFailure });
+  try {
+    return Object.freeze({ state: "satisfied", bytes: measureExactFile(subject, expectedId, sessionsRoot, io) });
+  } catch (error) {
+    if (error instanceof MeasurementFailure) return Object.freeze({ state: "failed", code: error.code });
+    return Object.freeze({ state: "failed", code: "SH-MEASURE-UNSAFE-PATH" });
+  }
+}
+
 const DEFAULT_IO = Object.freeze({ closeSync, fstatSync, lstatSync, openSync, realpathSync, statfsSync });
 
 export function measureCodexRequest(request, overrides = {}) {
   const io = { ...DEFAULT_IO, ...overrides };
-  if (!request || typeof request !== "object" || Array.isArray(request) || request.schemaVersion !== REQUEST_SCHEMA) {
+  if (!request
+    || typeof request !== "object"
+    || Array.isArray(request)
+    || request.schemaVersion !== REQUEST_SCHEMA
+    || Object.keys(request).some((key) => !REQUEST_KEYS.has(key))) {
     fail("SH-MEASURE-INVALID-REQUEST", "measurement request schema is invalid");
   }
   if (request.provider !== "codex") fail("SH-MEASURE-UNSUPPORTED-PROVIDER", "provider is unsupported");
-  if (request.providerVersion !== SUPPORTED_VERSION) fail("SH-MEASURE-UNSUPPORTED-VERSION", "provider version is unsupported");
+  if (!nonEmpty(request.providerVersion)) fail("SH-MEASURE-MISSING-FIELD", "provider version telemetry is absent");
   if (!LIFECYCLES.has(request.lifecycle)) fail("SH-MEASURE-INVALID-LIFECYCLE", "lifecycle is unsupported");
-  for (const field of ["issue", "sessionId", "transcriptPath", "cwd", "projectRoot", "codexHome"]) {
+  for (const field of ["issue", "cwd", "projectRoot"]) {
     if (!nonEmpty(request[field])) fail("SH-MEASURE-MISSING-FIELD", `required field is absent: ${field}`);
   }
   if (!/^#[1-9][0-9]*$/.test(request.issue)) fail("SH-MEASURE-INVALID-REQUEST", "Issue identity is invalid");
-  if (!/^[A-Za-z0-9][A-Za-z0-9-]{7,127}$/.test(request.sessionId)) fail("SH-MEASURE-ID-MISMATCH", "parent session identity is malformed");
 
   const projectRoot = safeRealpath(request.projectRoot, io, "SH-MEASURE-PROJECT-BINDING");
   const cwd = safeRealpath(request.cwd, io, "SH-MEASURE-PROJECT-BINDING");
@@ -128,19 +148,49 @@ export function measureCodexRequest(request, overrides = {}) {
   }
   if (!gitMarker.isDirectory() && !gitMarker.isFile()) fail("SH-MEASURE-PROJECT-BINDING", "project root repository binding is unsupported");
 
-  const codexHome = safeRealpath(request.codexHome, io, "SH-MEASURE-PATH-ESCAPE");
-  const trustedCodexHome = safeRealpath(overrides.trustedCodexHome ?? process.env.CODEX_HOME ?? path.join(os.homedir(), ".codex"), io, "SH-MEASURE-PATH-ESCAPE");
-  if (codexHome !== trustedCodexHome) fail("SH-MEASURE-PATH-ESCAPE", "request does not match the trusted Codex home");
-  const sessionsRoot = safeRealpath(path.join(trustedCodexHome, "sessions"), io, "SH-MEASURE-PATH-ESCAPE");
-  const parentRolloutBytes = measureExactFile(request.transcriptPath, request.sessionId, sessionsRoot, io);
-  let childRollout;
-  if (request.lifecycle === "before-delegation") childRollout = { state: "not-created" };
-  else if (request.lifecycle === "active-interval") childRollout = { state: "pending-provider-path" };
-  else if (request.lifecycle === "subagent-stop") {
-    if (!nonEmpty(request.agentId) || !nonEmpty(request.agentTranscriptPath)) fail("SH-MEASURE-MISSING-FIELD", "SubagentStop lacks exact child identity or path");
-    if (!/^[A-Za-z0-9][A-Za-z0-9-]{7,127}$/.test(request.agentId)) fail("SH-MEASURE-ID-MISMATCH", "child agent identity is malformed");
-    childRollout = { state: "measured", bytes: measureExactFile(request.agentTranscriptPath, request.agentId, sessionsRoot, io) };
-  } else childRollout = { state: "not-applicable" };
+  const parentIdentitySupplied = request.parentSessionId !== undefined;
+  const parentPathSupplied = request.parentRolloutPath !== undefined;
+  const childIdentitySupplied = request.childAgentId !== undefined;
+  const childPathSupplied = request.childRolloutPath !== undefined;
+  if (parentIdentitySupplied !== parentPathSupplied || childIdentitySupplied !== childPathSupplied) {
+    fail("SH-MEASURE-MISSING-FIELD", "exact rollout identity and path must be supplied together");
+  }
+  if (parentIdentitySupplied && (!nonEmpty(request.parentSessionId)
+      || !/^[A-Za-z0-9][A-Za-z0-9-]{7,127}$/.test(request.parentSessionId))) {
+    fail("SH-MEASURE-ID-MISMATCH", "parent session identity is malformed");
+  }
+  if (childIdentitySupplied && (!nonEmpty(request.childAgentId)
+      || !/^[A-Za-z0-9][A-Za-z0-9-]{7,127}$/.test(request.childAgentId))) {
+    fail("SH-MEASURE-ID-MISMATCH", "child agent identity is malformed");
+  }
+  if (childIdentitySupplied && request.lifecycle !== "subagent-stop") {
+    fail("SH-MEASURE-INVALID-LIFECYCLE", "child rollout measurement is only accepted at SubagentStop");
+  }
+
+  let sessionsRoot;
+  let rolloutSetupFailure = null;
+  if (parentIdentitySupplied || childIdentitySupplied) {
+    if (!nonEmpty(request.codexHome)) fail("SH-MEASURE-MISSING-FIELD", "Codex home is required for exact rollout measurement");
+    try {
+      const codexHome = safeRealpath(request.codexHome, io, "SH-MEASURE-PATH-ESCAPE");
+      const trustedCodexHome = safeRealpath(overrides.trustedCodexHome ?? process.env.CODEX_HOME ?? path.join(os.homedir(), ".codex"), io, "SH-MEASURE-PATH-ESCAPE");
+      if (codexHome !== trustedCodexHome) fail("SH-MEASURE-PATH-ESCAPE", "request does not match the trusted Codex home");
+      sessionsRoot = safeRealpath(path.join(trustedCodexHome, "sessions"), io, "SH-MEASURE-PATH-ESCAPE");
+    } catch (error) {
+      rolloutSetupFailure = error instanceof MeasurementFailure ? error.code : "SH-MEASURE-PATH-ESCAPE";
+    }
+  }
+
+  const parent = parentIdentitySupplied
+    ? diagnoseExactFile(request.parentRolloutPath, request.parentSessionId, sessionsRoot, rolloutSetupFailure, io)
+    : Object.freeze({ state: "unavailable" });
+  let child;
+  if (request.lifecycle === "before-delegation") child = { state: "not-created" };
+  else if (["active-interval", "subagent-stop"].includes(request.lifecycle)) {
+    child = childIdentitySupplied
+      ? diagnoseExactFile(request.childRolloutPath, request.childAgentId, sessionsRoot, rolloutSetupFailure, io)
+      : { state: "unavailable" };
+  } else child = { state: "not-applicable" };
 
   return Object.freeze({
     schemaVersion: RESULT_SCHEMA,
@@ -149,13 +199,13 @@ export function measureCodexRequest(request, overrides = {}) {
     repositoryRoot: projectRoot,
     observedAtEpochSeconds: Math.floor((overrides.nowMilliseconds?.() ?? Date.now()) / 1000),
     freeBytes: diskFreeBytes(projectRoot, io),
-    parentRolloutBytes,
-    childRollout: Object.freeze(childRollout),
+    rolloutDiagnostic: Object.freeze({ parent, child: Object.freeze(child) }),
     binding: Object.freeze({
       provider: "codex",
-      providerVersion: SUPPORTED_VERSION,
-      sessionIdPresent: true,
-      parentPathValidated: true,
+      providerVersion: request.providerVersion,
+      providerVersionAuthority: "telemetry-only",
+      profileId: CODEX_MANAGED_DELEGATION_PROFILE.id,
+      profileDigest: CODEX_MANAGED_DELEGATION_PROFILE_DIGEST,
       cwdMatchesProject: true,
     }),
   });
@@ -178,4 +228,3 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) process.exitCode = main(
 
 export const CODEX_MEASUREMENT_REQUEST_SCHEMA = REQUEST_SCHEMA;
 export const CODEX_MEASUREMENT_RESULT_SCHEMA = RESULT_SCHEMA;
-export const SUPPORTED_CODEX_VERSION = SUPPORTED_VERSION;

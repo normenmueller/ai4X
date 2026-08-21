@@ -1,7 +1,11 @@
 import { loadPolicyProjection, validatePolicyProjection } from "./projection.mjs";
+import {
+  CODEX_MANAGED_DELEGATION_PROFILE,
+  CODEX_MANAGED_DELEGATION_PROFILE_DIGEST,
+} from "./codex-managed-delegation.mjs";
 
-const EVALUATION_SCHEMA = "ai4x.session-hygiene-evaluation/v1";
-const OBSERVATION_SCHEMA = "ai4x.codex-session-observation/v1";
+const EVALUATION_SCHEMA = "ai4x.session-hygiene-evaluation/v2";
+const OBSERVATION_SCHEMA = "ai4x.codex-session-observation/v2";
 const RESTART_SCHEMA = "ai4x.session-hygiene-restart-evaluation/v1";
 const WRITE_EFFECT = "modify-repository";
 const READ_EFFECTS = new Set(["read-repository", "review", "advise"]);
@@ -35,9 +39,33 @@ const RESTART_INPUT_KEYS = new Set([
   "startMode",
   "changeClasses",
 ]);
+const OBSERVATION_KEYS = new Set([
+  "schemaVersion", "lifecycle", "issue", "repositoryRoot", "observedAtEpochSeconds",
+  "freeBytes", "rolloutDiagnostic", "binding",
+]);
+const ROLLOUT_KEYS = new Set(["parent", "child"]);
+const BINDING_KEYS = new Set([
+  "provider", "providerVersion", "providerVersionAuthority", "profileId", "profileDigest", "cwdMatchesProject",
+]);
+const ROLLOUT_FAILURE_CODES = new Set([
+  "SH-MEASURE-MISSING-FILE",
+  "SH-MEASURE-UNSAFE-PATH",
+  "SH-MEASURE-TERMINAL-SYMLINK",
+  "SH-MEASURE-PATH-ESCAPE",
+  "SH-MEASURE-ID-MISMATCH",
+  "SH-MEASURE-IDENTITY-CHANGED",
+  "SH-MEASURE-SIZE-UNSAFE",
+  "SH-MEASURE-DESCRIPTOR-CLOSE",
+]);
 
 function isRecord(value) {
   return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+function exactRecord(value, keys) {
+  return isRecord(value)
+    && Object.keys(value).length === keys.size
+    && Object.keys(value).every((key) => keys.has(key));
 }
 
 function nonEmpty(value) {
@@ -177,18 +205,25 @@ function validateAssignmentAndContext(policy, input, add) {
   }
 }
 
-function validateObservation(policy, input, add) {
+function validRolloutEntry(entry, states) {
+  if (!isRecord(entry) || !states.has(entry.state)) return false;
+  if (entry.state === "satisfied") return Object.keys(entry).length === 2 && natural(entry.bytes);
+  if (entry.state === "failed") return Object.keys(entry).length === 2 && ROLLOUT_FAILURE_CODES.has(entry.code);
+  return Object.keys(entry).length === 1;
+}
+
+function validateObservation(policy, input, add, reportRollout) {
   const observation = input.observation;
   if (!isRecord(observation)) {
     add("SH-OBSERVATION-MISSING", "observation");
     return;
   }
-  if (!natural(input.nowEpochSeconds)
+  if (!exactRecord(observation, OBSERVATION_KEYS)
+    || !natural(input.nowEpochSeconds)
     || !natural(observation.observedAtEpochSeconds)
     || !natural(observation.freeBytes)
-    || !natural(observation.parentRolloutBytes)
     || observation.observedAtEpochSeconds > input.nowEpochSeconds
-    || !isRecord(observation.childRollout)) {
+    || !exactRecord(observation.rolloutDiagnostic, ROLLOUT_KEYS)) {
     add("SH-OBSERVATION-MALFORMED", "observation");
     return;
   }
@@ -205,11 +240,12 @@ function validateObservation(policy, input, add) {
   if (input.nowEpochSeconds - observation.observedAtEpochSeconds > policy.resources.maximumObservationAgeSeconds) {
     add("SH-OBSERVATION-STALE", "observation-age");
   }
-  if (!isRecord(observation.binding)
+  if (!exactRecord(observation.binding, BINDING_KEYS)
     || observation.binding.provider !== "codex"
-    || observation.binding.providerVersion !== "0.147.0"
-    || observation.binding.sessionIdPresent !== true
-    || observation.binding.parentPathValidated !== true
+    || !nonEmpty(observation.binding.providerVersion)
+    || observation.binding.providerVersionAuthority !== "telemetry-only"
+    || observation.binding.profileId !== CODEX_MANAGED_DELEGATION_PROFILE.id
+    || observation.binding.profileDigest !== CODEX_MANAGED_DELEGATION_PROFILE_DIGEST
     || observation.binding.cwdMatchesProject !== true) {
     add("SH-OBSERVATION-BINDING-INVALID", "provider-binding");
   }
@@ -220,30 +256,38 @@ function validateObservation(policy, input, add) {
     if (!isRecord(previous)
       || previous.repositoryRoot !== input.repositoryRoot
       || !natural(previous.freeBytes)
-      || !natural(previous.parentRolloutBytes)) {
+      || !isRecord(previous.rolloutDiagnostic)
+      || !validRolloutEntry(previous.rolloutDiagnostic.parent, new Set(["unavailable", "failed", "satisfied"]))) {
       add("SH-PREVIOUS-OBSERVATION-INVALID", "previous-observation");
     } else {
       const freeDecrease = Math.max(0, previous.freeBytes - observation.freeBytes);
       if (freeDecrease >= policy.resources.unexplainedFreeSpaceDecreaseBytes && !durableEvidence(input.explanations?.freeSpaceDecrease)) {
         add("SH-FREE-SPACE-DECREASE", "free-space");
       }
-      const parentGrowth = Math.max(0, observation.parentRolloutBytes - previous.parentRolloutBytes);
-      if (parentGrowth >= policy.resources.abnormalSingleRolloutGrowthBytes && !durableEvidence(input.explanations?.parentGrowth)) {
-        add("SH-PARENT-ROLLOUT-GROWTH", "parent-rollout");
+      if (observation.rolloutDiagnostic.parent?.state === "satisfied"
+        && previous.rolloutDiagnostic.parent.state === "satisfied") {
+        const parentGrowth = Math.max(0, observation.rolloutDiagnostic.parent.bytes - previous.rolloutDiagnostic.parent.bytes);
+        if (parentGrowth >= policy.resources.abnormalSingleRolloutGrowthBytes && !durableEvidence(input.explanations?.parentGrowth)) {
+          add("SH-PARENT-ROLLOUT-GROWTH", "parent-rollout");
+        }
       }
     }
   }
 
-  const child = observation.childRollout;
-  if (!new Set(["not-created", "pending-provider-path", "not-applicable", "measured"]).has(child.state)
-    || (child.state === "measured" && !natural(child.bytes))) {
-    add("SH-OBSERVATION-MALFORMED", "child-observation");
+  const parent = observation.rolloutDiagnostic.parent;
+  const child = observation.rolloutDiagnostic.child;
+  if (!validRolloutEntry(parent, new Set(["unavailable", "failed", "satisfied"]))
+    || !validRolloutEntry(child, new Set(["not-created", "unavailable", "failed", "satisfied", "not-applicable"]))) {
+    add("SH-OBSERVATION-MALFORMED", "rollout-diagnostic");
+    return;
   }
+  if (parent.state === "failed") reportRollout(parent.code, "parent-rollout");
+  if (child.state === "failed") reportRollout(child.code, "child-rollout");
   if (input.lifecycle === "before-delegation" && child.state !== "not-created") add("SH-CHILD-LIFECYCLE-INVALID", "child-observation");
-  if (input.lifecycle === "active-interval" && child.state !== "pending-provider-path") add("SH-CHILD-LIFECYCLE-INVALID", "child-observation");
-  if (input.lifecycle === "subagent-stop" && child.state !== "measured") add("SH-CHILD-PATH-MISSING", "child-observation");
+  if (["active-interval", "subagent-stop"].includes(input.lifecycle)
+    && !["unavailable", "failed", "satisfied"].includes(child.state)) add("SH-CHILD-LIFECYCLE-INVALID", "child-observation");
   if (["after-issue-completion", "handoff-boundary"].includes(input.lifecycle) && child.state !== "not-applicable") add("SH-CHILD-LIFECYCLE-INVALID", "child-observation");
-  if (child.state === "measured"
+  if (child.state === "satisfied"
     && child.bytes >= policy.resources.abnormalSingleRolloutGrowthBytes
     && !durableEvidence(input.explanations?.childGrowth)) {
     add("SH-CHILD-ROLLOUT-GROWTH", "child-rollout");
@@ -252,11 +296,18 @@ function validateObservation(policy, input, add) {
 
 function evaluateValidatedSessionHygiene(policy, input) {
   const diagnostics = [];
+  const rolloutDiagnostics = [];
   const seen = new Set();
   const add = (code, subject) => {
     const key = `${code}\0${subject}`;
     if (!seen.has(key)) diagnostics.push(Object.freeze({ code, subject }));
     seen.add(key);
+  };
+  const reportRollout = (code, subject) => {
+    const key = `${code}\0${subject}`;
+    if (!rolloutDiagnostics.some((item) => `${item.code}\0${item.subject}` === key)) {
+      rolloutDiagnostics.push(Object.freeze({ code, subject }));
+    }
   };
 
   if (!validatePolicy(policy, add)) return Object.freeze({ decision: "block", diagnostics: Object.freeze(diagnostics) });
@@ -270,7 +321,7 @@ function evaluateValidatedSessionHygiene(policy, input) {
   }
 
   validateAssignmentAndContext(policy, input, add);
-  validateObservation(policy, input, add);
+  validateObservation(policy, input, add, reportRollout);
 
   if (["after-issue-completion", "handoff-boundary"].includes(input.lifecycle)) {
     if (!Array.isArray(input.essentialEvidence)
@@ -283,6 +334,10 @@ function evaluateValidatedSessionHygiene(policy, input) {
   return Object.freeze({
     decision: diagnostics.length === 0 ? "allow" : "block",
     diagnostics: Object.freeze(diagnostics),
+    rolloutDiagnostics: Object.freeze(rolloutDiagnostics),
+    authorityEffect: "none",
+    profileId: CODEX_MANAGED_DELEGATION_PROFILE.id,
+    profileDigest: CODEX_MANAGED_DELEGATION_PROFILE_DIGEST,
   });
 }
 
