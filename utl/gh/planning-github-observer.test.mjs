@@ -84,6 +84,10 @@ function optionalValue(kind, memberIds = ["M_1", "M_2"]) {
       field: { id: "PVTF_labels", name: "Labels" },
       value: { __typename: "ProjectV2ItemFieldLabelValue", field: { id: "PVTF_labels" }, labels: page(memberIds.map((id) => ({ id: `L_${id}` }))) },
     },
+    PullRequest: {
+      field: { id: "PVTF_pull_requests", name: "Linked pull requests" },
+      value: { __typename: "ProjectV2ItemFieldPullRequestValue", field: { id: "PVTF_pull_requests" }, pullRequests: page(memberIds.map((id) => ({ id: `PR_${id}` }))) },
+    },
     Text: {
       field: { id: "PVTF_text", name: "Text" },
       value: { __typename: "ProjectV2ItemFieldTextValue", id: "PVTFV_text", field: { id: "PVTF_text" }, text: null },
@@ -104,6 +108,7 @@ function addMixedSupportedValues(snapshot, reverse = false) {
     { id: "PVTF_users", name: "Users" },
     { id: "PVTF_repository", name: "Repository" },
     { id: "PVTF_labels", name: "Labels" },
+    { id: "PVTF_pull_requests", name: "Linked pull requests" },
     { id: "PVTF_text", name: "Text" },
   ];
   const memberIds = reverse ? ["M_2", "M_1"] : ["M_1", "M_2"];
@@ -111,6 +116,7 @@ function addMixedSupportedValues(snapshot, reverse = false) {
     { __typename: "ProjectV2ItemFieldUserValue", field: { id: "PVTF_users" }, users: page(memberIds.map((id) => ({ id }))) },
     { __typename: "ProjectV2ItemFieldRepositoryValue", field: { id: "PVTF_repository" }, repository: { id: "R_value" } },
     { __typename: "ProjectV2ItemFieldLabelValue", field: { id: "PVTF_labels" }, labels: page(memberIds.map((id) => ({ id: `L_${id}` }))) },
+    { __typename: "ProjectV2ItemFieldPullRequestValue", field: { id: "PVTF_pull_requests" }, pullRequests: page(memberIds.map((id) => ({ id: `PR_${id}` }))) },
     { __typename: "ProjectV2ItemFieldTextValue", id: "PVTFV_text", field: { id: "PVTF_text" }, text: null },
   ];
   snapshot.project.fields.nodes.push(...(reverse ? fields.reverse() : fields));
@@ -179,7 +185,7 @@ function transportFixture(overrides = {}) {
     if (query === QUERY_DOCUMENTS.items) return { data: { project: { items: overrides.itemPages?.[variables.cursor] ?? overrides.itemsPage ?? page([]) } } };
     if (query === QUERY_DOCUMENTS.fields) return { data: { project: { fields: overrides.fieldPages?.[variables.cursor] ?? overrides.fieldsPage ?? page([]) } } };
     if (query === QUERY_DOCUMENTS.values) return { data: { item: { fieldValues: overrides.valuePages?.[variables.cursor] ?? overrides.valuesPage ?? page([]) } } };
-    if (query === QUERY_DOCUMENTS.userMembers || query === QUERY_DOCUMENTS.labelMembers) {
+    if (query === QUERY_DOCUMENTS.userMembers || query === QUERY_DOCUMENTS.labelMembers || query === QUERY_DOCUMENTS.pullRequestMembers) {
       const memberPage = overrides.memberPages?.[variables.memberCursor];
       if (memberPage !== undefined) return { data: memberPage };
     }
@@ -254,7 +260,7 @@ test("complete stable observation binds every identity and validates without net
 });
 
 test("each supported field-value variant uses only its minimal provider projection", async () => {
-  for (const kind of ["SingleSelect", "User", "Repository", "Label", "Text"]) {
+  for (const kind of ["SingleSelect", "User", "Repository", "Label", "PullRequest", "Text"]) {
     const fixture = transportFixture();
     if (kind !== "SingleSelect") {
       addOptionalValue(fixture.start, kind);
@@ -285,7 +291,7 @@ test("synthetic #128-shaped mixed closure remains Backlog evidence without workf
   assert.doesNotMatch(JSON.stringify(verdict), /"(?:command|transition|mutation|calls?)"/iu);
 });
 
-test("canonical sorting independently tolerates top-level, User-member, and Label-member reordering", async () => {
+test("canonical sorting independently tolerates top-level and nested-member reordering", async () => {
   const cases = [
     ["top-level", (end) => {
       end.project.items.nodes.reverse();
@@ -294,6 +300,7 @@ test("canonical sorting independently tolerates top-level, User-member, and Labe
     }],
     ["User members", (end) => { end.item.fieldValues.nodes.find(({ __typename }) => __typename === "ProjectV2ItemFieldUserValue").users.nodes.reverse(); }],
     ["Label members", (end) => { end.item.fieldValues.nodes.find(({ __typename }) => __typename === "ProjectV2ItemFieldLabelValue").labels.nodes.reverse(); }],
+    ["PullRequest members", (end) => { end.item.fieldValues.nodes.find(({ __typename }) => __typename === "ProjectV2ItemFieldPullRequestValue").pullRequests.nodes.reverse(); }],
   ];
   for (const [name, reorder] of cases) {
     const fixture = transportFixture();
@@ -330,18 +337,20 @@ test("start and end independently enumerate stable multipage closures", async ()
   assert.deepEqual(new Set(wrapped.calls.filter(({ variables }) => variables.cursor).map(({ variables }) => variables.cursor)), new Set(["items-1", "fields-1", "values-1", "end-items-1", "end-fields-1", "end-values-1"]));
 });
 
-test("outer values and nested User and Label members paginate independently at both window endpoints", async () => {
+test("outer values and nested User, Label, and PullRequest members paginate independently at both window endpoints", async () => {
   const fixture = transportFixture();
   function configure(snapshot, prefix) {
-    const definitions = [optionalValue("User"), optionalValue("Repository"), optionalValue("Label"), optionalValue("Text")];
+    const definitions = [optionalValue("User"), optionalValue("Repository"), optionalValue("Label"), optionalValue("PullRequest"), optionalValue("Text")];
     snapshot.project.fields.nodes.push(...definitions.map(({ field }) => field));
     const user = definitions[0].value;
     const label = definitions[2].value;
+    const pullRequest = definitions[3].value;
     user.users = page([{ id: "M_1" }], true, `${prefix}-users-1`);
     label.labels = page([{ id: "L_M_1" }], true, `${prefix}-labels-1`);
+    pullRequest.pullRequests = page([{ id: "PR_M_1" }], true, `${prefix}-pull-requests-1`);
     snapshot.item.fieldValues = page([statusValue()], true, `${prefix}-values-1`);
     const continuation = page(definitions.map(({ value }) => value));
-    return { continuation, user, label };
+    return { continuation, user, label, pullRequest };
   }
   const start = configure(fixture.start, "start");
   const end = configure(fixture.end, "end");
@@ -353,11 +362,15 @@ test("outer values and nested User and Label members paginate independently at b
   const startLabelCursor = start.continuation.edges.find(({ node }) => node === start.label).cursor;
   const endUserCursor = end.continuation.edges.find(({ node }) => node === end.user).cursor;
   const endLabelCursor = end.continuation.edges.find(({ node }) => node === end.label).cursor;
+  const startPullRequestCursor = start.continuation.edges.find(({ node }) => node === start.pullRequest).cursor;
+  const endPullRequestCursor = end.continuation.edges.find(({ node }) => node === end.pullRequest).cursor;
   const memberPages = {
     "start-users-1": nestedMemberData(start.user, startUserCursor, "users", page([{ id: "M_2" }])),
     "end-users-1": nestedMemberData(end.user, endUserCursor, "users", page([{ id: "M_2" }])),
     "start-labels-1": nestedMemberData(start.label, startLabelCursor, "labels", page([{ id: "L_M_2" }])),
     "end-labels-1": nestedMemberData(end.label, endLabelCursor, "labels", page([{ id: "L_M_2" }])),
+    "start-pull-requests-1": nestedMemberData(start.pullRequest, startPullRequestCursor, "pullRequests", page([{ id: "PR_M_2" }])),
+    "end-pull-requests-1": nestedMemberData(end.pullRequest, endPullRequestCursor, "pullRequests", page([{ id: "PR_M_2" }])),
   };
   const wrapped = transportFixture({ start: fixture.start, end: fixture.end, valuePages, memberPages });
   const result = await observePlanning(expectedEnvelope(), { transport: wrapped.transport });
@@ -368,7 +381,7 @@ test("outer values and nested User and Label members paginate independently at b
   );
   assert.deepEqual(
     wrapped.calls.filter(({ variables }) => variables.memberCursor).map(({ variables }) => variables.memberCursor).sort(),
-    ["end-labels-1", "end-users-1", "start-labels-1", "start-users-1"],
+    ["end-labels-1", "end-pull-requests-1", "end-users-1", "start-labels-1", "start-pull-requests-1", "start-users-1"],
   );
 });
 
@@ -402,6 +415,7 @@ test("malformed required members and unsupported variants fail closed with one r
     ["User connection", { __typename: "ProjectV2ItemFieldUserValue", field: { id: "PVTF_bad" } }],
     ["Repository identity", { __typename: "ProjectV2ItemFieldRepositoryValue", field: { id: "PVTF_bad" }, repository: { id: "" } }],
     ["Label connection", { __typename: "ProjectV2ItemFieldLabelValue", field: { id: "PVTF_bad" }, labels: null }],
+    ["PullRequest connection", { __typename: "ProjectV2ItemFieldPullRequestValue", field: { id: "PVTF_bad" }, pullRequests: null }],
     ["Text value identity", { __typename: "ProjectV2ItemFieldTextValue", field: { id: "PVTF_bad" }, text: null }],
     ["Text presence", { __typename: "ProjectV2ItemFieldTextValue", id: "PVTFV_bad", field: { id: "PVTF_bad" } }],
     ["Text type", { __typename: "ProjectV2ItemFieldTextValue", id: "PVTFV_bad", field: { id: "PVTF_bad" }, text: { secret: "SECRET_TEXT_TYPE" } }],
@@ -442,10 +456,10 @@ test("outer field-value pagination fails on missing cursor, locator truncation, 
   expectCode(await observePlanning(expectedEnvelope(), { transport: capped.transport, limits: { values: 1 } }), "OBSERVATION_LIMIT");
 });
 
-test("nested User and Label pagination fails on incomplete closure, member limits, duplicates, and locator drift", async () => {
-  for (const kind of ["User", "Label"]) {
-    const connectionName = kind === "User" ? "users" : "labels";
-    const limitName = kind === "User" ? "users" : "labels";
+test("nested member pagination fails on incomplete closure, member limits, duplicates, and locator drift", async () => {
+  for (const kind of ["User", "Label", "PullRequest"]) {
+    const connectionName = kind === "User" ? "users" : kind === "Label" ? "labels" : "pullRequests";
+    const limitName = connectionName;
 
     const missingCursor = transportFixture();
     const missingValue = addOptionalValue(missingCursor.start, kind);
@@ -596,6 +610,7 @@ test("semantic movement in every supported field-value variant is observation dr
     ["User", (value) => { value.users.nodes.push({ id: "M_3" }); }],
     ["Repository", (value) => { value.repository.id = "R_moved"; }],
     ["Label", (value) => { value.labels.nodes.push({ id: "L_M_3" }); }],
+    ["PullRequest", (value) => { value.pullRequests.nodes.push({ id: "PR_M_3" }); }],
     ["Text", (value) => { value.text = "moved"; }],
   ];
   for (const [kind, mutate] of cases) {
