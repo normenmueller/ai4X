@@ -133,6 +133,23 @@ test("allows a fresh, bound observation and one write-capable delegated Assignme
   assert.deepEqual(result.diagnostics, []);
 });
 
+test("accepts exactly the closed Codex version set through evaluation", () => {
+  const binding = (providerVersion) => ({
+    provider: "codex",
+    providerVersion,
+    sessionIdPresent: true,
+    parentPathValidated: true,
+    cwdMatchesProject: true,
+  });
+  for (const providerVersion of ["0.147.0", "0.148.0"]) {
+    assert.equal(evaluate(policy(), input({ observation: { binding: binding(providerVersion) } })).decision, "allow");
+  }
+  for (const providerVersion of ["0.146.0", "0.147.1", "0.149.0"]) {
+    const result = evaluate(policy(), input({ observation: { binding: binding(providerVersion) } }));
+    assert.ok(codes(result).includes("SH-OBSERVATION-BINDING-INVALID"));
+  }
+});
+
 test("ordinary evaluation rejects incomplete, manipulated, and stale projection provenance", () => {
   const incomplete = policy();
   incomplete.provenance.sources = [];

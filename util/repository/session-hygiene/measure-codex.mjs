@@ -14,9 +14,10 @@ import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { acceptsCodexVersion } from "./codex-version-contract.mjs";
+
 const REQUEST_SCHEMA = "ai4x.codex-session-measurement-request/v1";
 const RESULT_SCHEMA = "ai4x.codex-session-observation/v1";
-const SUPPORTED_VERSION = "0.147.0";
 const LIFECYCLES = new Set(["before-delegation", "active-interval", "subagent-stop", "after-issue-completion", "handoff-boundary"]);
 
 export class MeasurementFailure extends Error {
@@ -108,7 +109,7 @@ export function measureCodexRequest(request, overrides = {}) {
     fail("SH-MEASURE-INVALID-REQUEST", "measurement request schema is invalid");
   }
   if (request.provider !== "codex") fail("SH-MEASURE-UNSUPPORTED-PROVIDER", "provider is unsupported");
-  if (request.providerVersion !== SUPPORTED_VERSION) fail("SH-MEASURE-UNSUPPORTED-VERSION", "provider version is unsupported");
+  if (!acceptsCodexVersion(request.providerVersion)) fail("SH-MEASURE-UNSUPPORTED-VERSION", "provider version is unsupported");
   if (!LIFECYCLES.has(request.lifecycle)) fail("SH-MEASURE-INVALID-LIFECYCLE", "lifecycle is unsupported");
   for (const field of ["issue", "sessionId", "transcriptPath", "cwd", "projectRoot", "codexHome"]) {
     if (!nonEmpty(request[field])) fail("SH-MEASURE-MISSING-FIELD", `required field is absent: ${field}`);
@@ -153,7 +154,7 @@ export function measureCodexRequest(request, overrides = {}) {
     childRollout: Object.freeze(childRollout),
     binding: Object.freeze({
       provider: "codex",
-      providerVersion: SUPPORTED_VERSION,
+      providerVersion: request.providerVersion,
       sessionIdPresent: true,
       parentPathValidated: true,
       cwdMatchesProject: true,
@@ -178,4 +179,3 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) process.exitCode = main(
 
 export const CODEX_MEASUREMENT_REQUEST_SCHEMA = REQUEST_SCHEMA;
 export const CODEX_MEASUREMENT_RESULT_SCHEMA = RESULT_SCHEMA;
-export const SUPPORTED_CODEX_VERSION = SUPPORTED_VERSION;

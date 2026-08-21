@@ -1,4 +1,5 @@
 import { loadPolicyProjection, validatePolicyProjection } from "./projection.mjs";
+import { acceptsCodexVersion } from "./codex-version-contract.mjs";
 
 const EVALUATION_SCHEMA = "ai4x.session-hygiene-evaluation/v1";
 const OBSERVATION_SCHEMA = "ai4x.codex-session-observation/v1";
@@ -207,7 +208,7 @@ function validateObservation(policy, input, add) {
   }
   if (!isRecord(observation.binding)
     || observation.binding.provider !== "codex"
-    || observation.binding.providerVersion !== "0.147.0"
+    || !acceptsCodexVersion(observation.binding.providerVersion)
     || observation.binding.sessionIdPresent !== true
     || observation.binding.parentPathValidated !== true
     || observation.binding.cwdMatchesProject !== true) {

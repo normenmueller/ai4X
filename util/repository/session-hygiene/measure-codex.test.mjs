@@ -56,17 +56,20 @@ function failureCode(action) {
   return null;
 }
 
-test("measures exact parent metadata and disk without returning a path or transcript content", () => {
+test("measures both accepted versions exactly without returning a path or transcript content", () => {
   const fx = fixture();
   try {
     const before = readFileSync(fx.parentPath);
-    const result = measure(fx, request(fx));
-    assert.equal(result.parentRolloutBytes, before.length);
-    assert.equal(result.childRollout.state, "not-created");
-    assert.equal(result.binding.parentPathValidated, true);
-    assert.equal(result.observedAtEpochSeconds, 1_000);
-    assert.ok(result.freeBytes > 0);
-    assert.doesNotMatch(JSON.stringify(result), /parent secret|sessions|rollout-|\.jsonl/);
+    for (const providerVersion of ["0.147.0", "0.148.0"]) {
+      const result = measure(fx, request(fx, { providerVersion }));
+      assert.equal(result.parentRolloutBytes, before.length);
+      assert.equal(result.childRollout.state, "not-created");
+      assert.equal(result.binding.providerVersion, providerVersion);
+      assert.equal(result.binding.parentPathValidated, true);
+      assert.equal(result.observedAtEpochSeconds, 1_000);
+      assert.ok(result.freeBytes > 0);
+      assert.doesNotMatch(JSON.stringify(result), /parent secret|sessions|rollout-|\.jsonl/);
+    }
     assert.deepEqual(readFileSync(fx.parentPath), before);
   } finally {
     rmSync(fx.root, { recursive: true, force: true });
@@ -90,10 +93,23 @@ test("reports pending child path during activity and measures only provider path
   }
 });
 
-test("fails closed for unsupported provider version and project mismatch", () => {
+test("fails closed below, between, and above the exact accepted version set", () => {
   const fx = fixture();
   try {
-    assert.equal(failureCode(() => measure(fx, request(fx, { providerVersion: "0.148.0" }))), "SH-MEASURE-UNSUPPORTED-VERSION");
+    for (const providerVersion of ["0.146.0", "0.147.1", "0.149.0"]) {
+      assert.equal(
+        failureCode(() => measure(fx, request(fx, { providerVersion }))),
+        "SH-MEASURE-UNSUPPORTED-VERSION",
+      );
+    }
+  } finally {
+    rmSync(fx.root, { recursive: true, force: true });
+  }
+});
+
+test("fails closed for project mismatch", () => {
+  const fx = fixture();
+  try {
     assert.equal(failureCode(() => measure(fx, request(fx, { cwd: fx.root }))), "SH-MEASURE-PROJECT-BINDING");
     assert.equal(failureCode(() => measure(fx, request(fx, { cwd: fx.root, projectRoot: fx.root }))), "SH-MEASURE-PROJECT-BINDING");
     assert.equal(failureCode(() => measure(fx, request(fx, { codexHome: fx.root }))), "SH-MEASURE-PATH-ESCAPE");
