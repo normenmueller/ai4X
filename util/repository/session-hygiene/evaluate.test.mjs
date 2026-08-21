@@ -4,6 +4,10 @@ import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 import { evaluateRestartBoundary, evaluateSessionHygiene } from "./evaluate.mjs";
+import {
+  CODEX_MANAGED_DELEGATION_PROFILE,
+  CODEX_MANAGED_DELEGATION_PROFILE_DIGEST,
+} from "./codex-managed-delegation.mjs";
 import { sha256 } from "./projection.mjs";
 
 const COLLABORATION_SOURCE = "test collaboration authority\n";
@@ -47,25 +51,28 @@ function policy(overrides = {}) {
 
 function input(overrides = {}) {
   const value = {
-    schemaVersion: "ai4x.session-hygiene-evaluation/v1",
+    schemaVersion: "ai4x.session-hygiene-evaluation/v2",
     repositoryRoot: "/work/ai4X",
     issue: "#121",
     lifecycle: "before-delegation",
     nowEpochSeconds: 1_000,
     observation: {
-      schemaVersion: "ai4x.codex-session-observation/v1",
+      schemaVersion: "ai4x.codex-session-observation/v2",
       lifecycle: "before-delegation",
       issue: "#121",
       observedAtEpochSeconds: 900,
       repositoryRoot: "/work/ai4X",
       freeBytes: 40_000_000_000,
-      parentRolloutBytes: 10_000,
-      childRollout: { state: "not-created" },
+      rolloutDiagnostic: {
+        parent: { state: "unavailable" },
+        child: { state: "not-created" },
+      },
       binding: {
         provider: "codex",
-        providerVersion: "0.147.0",
-        sessionIdPresent: true,
-        parentPathValidated: true,
+        providerVersion: "0.149.0",
+        providerVersionAuthority: "telemetry-only",
+        profileId: CODEX_MANAGED_DELEGATION_PROFILE.id,
+        profileDigest: CODEX_MANAGED_DELEGATION_PROFILE_DIGEST,
         cwdMatchesProject: true,
       },
     },
@@ -219,6 +226,41 @@ test("blocks ownership overlap between the active agent and a delegated writer",
   assert.ok(codes(result).includes("SH-PRIMARY-OWNERSHIP-OVERLAP"));
 });
 
+test("blocks unsafe ownership paths and overlap between delegated writers", () => {
+  const escaping = evaluate(policy(), input({
+    delegation: {
+      requestedAssignment: {
+        ...input().delegation.requestedAssignment,
+        ownedPaths: ["../../outside-authority"],
+      },
+    },
+  }));
+  assert.ok(codes(escaping).includes("SH-ASSIGNMENT-EFFECTS-AMBIGUOUS"));
+
+  const activeWriter = {
+    ...input().delegation.requestedAssignment,
+    id: "writer-active",
+    ownedPaths: ["util/repository"],
+  };
+  const overlap = evaluate(policy({ collaboration: {
+    writeCapableAssignmentLimit: {
+      maximum: 2,
+      aboveOneApproval: { decisionReference: "M121-EXACT", approvedMaximum: 2 },
+    },
+  } }), input({
+    delegation: {
+      active: true,
+      activeAssignments: [activeWriter],
+      requestedAssignment: {
+        ...input().delegation.requestedAssignment,
+        id: "writer-requested",
+        ownedPaths: ["util/repository/session-hygiene"],
+      },
+    },
+  }));
+  assert.ok(codes(overlap).includes("SH-WRITER-OWNERSHIP-OVERLAP"));
+});
+
 test("requires rationale for bounded inheritance and exact PO authority for full history", () => {
   const bounded = evaluate(policy(), input({
     delegation: { contextInheritance: { mode: "bounded", turnCount: 3, rationale: "" } },
@@ -296,18 +338,79 @@ test("binds every observation to the exact schema, Issue, and lifecycle", () => 
   }
 });
 
+test("host release changes remain telemetry while unknown or drifted profiles block", () => {
+  for (const providerVersion of ["0.147.0", "0.148.0", "0.149.0", "9.0.0-next"]) {
+    const result = evaluate(policy(), input({
+      observation: { binding: {
+        provider: "codex",
+        providerVersion,
+        providerVersionAuthority: "telemetry-only",
+        profileId: CODEX_MANAGED_DELEGATION_PROFILE.id,
+        profileDigest: CODEX_MANAGED_DELEGATION_PROFILE_DIGEST,
+        cwdMatchesProject: true,
+      } },
+    }));
+    assert.equal(result.decision, "allow", providerVersion);
+  }
+
+  for (const binding of [
+    {
+      provider: "codex", providerVersion: "0.149.0", providerVersionAuthority: "telemetry-only",
+      profileId: "unknown/v9", profileDigest: CODEX_MANAGED_DELEGATION_PROFILE_DIGEST, cwdMatchesProject: true,
+    },
+    {
+      provider: "codex", providerVersion: "0.149.0", providerVersionAuthority: "telemetry-only",
+      profileId: CODEX_MANAGED_DELEGATION_PROFILE.id, profileDigest: `sha256:${"0".repeat(64)}`, cwdMatchesProject: true,
+    },
+    {
+      provider: "codex", providerVersion: "0.149.0", providerVersionAuthority: "telemetry-only",
+      profileId: CODEX_MANAGED_DELEGATION_PROFILE.id, profileDigest: CODEX_MANAGED_DELEGATION_PROFILE_DIGEST,
+      cwdMatchesProject: true, providerIdentity: "caller-shaped",
+    },
+  ]) assert.ok(codes(evaluate(policy(), input({ observation: { binding } }))).includes("SH-OBSERVATION-BINDING-INVALID"));
+});
+
+test("failed or unavailable rollout diagnostics create no rollout claim and do not decide admission", () => {
+  const unavailable = evaluate(policy(), input());
+  assert.equal(unavailable.decision, "allow");
+  assert.deepEqual(unavailable.rolloutDiagnostics, []);
+
+  const failed = evaluate(policy(), input({
+    observation: {
+      rolloutDiagnostic: {
+        parent: { state: "failed", code: "SH-MEASURE-UNSAFE-PATH" },
+        child: { state: "not-created" },
+      },
+    },
+  }));
+  assert.equal(failed.decision, "allow");
+  assert.deepEqual(failed.rolloutDiagnostics, [{ code: "SH-MEASURE-UNSAFE-PATH", subject: "parent-rollout" }]);
+
+  const spoofed = evaluate(policy(), input({
+    observation: {
+      rolloutDiagnostic: {
+        parent: { state: "failed", code: "SECRET_PROVIDER_PAYLOAD" },
+        child: { state: "not-created" },
+      },
+    },
+  }));
+  assert.equal(spoofed.decision, "block");
+  assert.ok(codes(spoofed).includes("SH-OBSERVATION-MALFORMED"));
+  assert.doesNotMatch(JSON.stringify(spoofed), /SECRET_PROVIDER_PAYLOAD/);
+});
+
 test("blocks low free space and unexplained threshold-equal decrease", () => {
   const low = evaluate(policy(), input({ observation: { freeBytes: 32_212_254_719 } }));
   assert.ok(codes(low).includes("SH-FREE-SPACE-LOW"));
 
   const decrease = evaluate(policy(), input({
-    previousObservation: { repositoryRoot: "/work/ai4X", freeBytes: 41_073_741_824, parentRolloutBytes: 10_000 },
+    previousObservation: { repositoryRoot: "/work/ai4X", freeBytes: 41_073_741_824, rolloutDiagnostic: { parent: { state: "unavailable" } } },
     observation: { freeBytes: 40_000_000_000 },
   }));
   assert.ok(codes(decrease).includes("SH-FREE-SPACE-DECREASE"));
 
   const explained = evaluate(policy(), input({
-    previousObservation: { repositoryRoot: "/work/ai4X", freeBytes: 41_073_741_824, parentRolloutBytes: 10_000 },
+    previousObservation: { repositoryRoot: "/work/ai4X", freeBytes: 41_073_741_824, rolloutDiagnostic: { parent: { state: "unavailable" } } },
     observation: { freeBytes: 40_000_000_000 },
     explanations: { freeSpaceDecrease: durable() },
   }));
@@ -316,20 +419,20 @@ test("blocks low free space and unexplained threshold-equal decrease", () => {
 
 test("blocks unexplained parent and completed-child threshold-equal growth", () => {
   const parent = evaluate(policy(), input({
-    previousObservation: { repositoryRoot: "/work/ai4X", freeBytes: 40_000_000_000, parentRolloutBytes: 10_000 },
-    observation: { parentRolloutBytes: 268_445_456 },
+    previousObservation: { repositoryRoot: "/work/ai4X", freeBytes: 40_000_000_000, rolloutDiagnostic: { parent: { state: "satisfied", bytes: 10_000 } } },
+    observation: { rolloutDiagnostic: { parent: { state: "satisfied", bytes: 268_445_456 }, child: { state: "not-created" } } },
   }));
   assert.ok(codes(parent).includes("SH-PARENT-ROLLOUT-GROWTH"));
 
   const child = evaluate(policy(), input({
     lifecycle: "subagent-stop",
     delegation: { requestedAssignment: null },
-    observation: { childRollout: { state: "measured", bytes: 268_435_456 } },
+    observation: { rolloutDiagnostic: { parent: { state: "unavailable" }, child: { state: "satisfied", bytes: 268_435_456 } } },
   }));
   assert.ok(codes(child).includes("SH-CHILD-ROLLOUT-GROWTH"));
 });
 
-test("accepts pending child path during activity and requires it at SubagentStop", () => {
+test("truthful unavailable child rollout is non-blocking during activity and at SubagentStop", () => {
   const activeSpecialist = {
     id: "review-active",
     roleName: "implementation-agent",
@@ -340,16 +443,17 @@ test("accepts pending child path during activity and requires it at SubagentStop
   const active = evaluate(policy(), input({
     lifecycle: "active-interval",
     delegation: { active: true, activeAssignments: [activeSpecialist], requestedAssignment: null },
-    observation: { childRollout: { state: "pending-provider-path" } },
+    observation: { rolloutDiagnostic: { parent: { state: "unavailable" }, child: { state: "unavailable" } } },
   }));
   assert.equal(active.decision, "allow");
 
   const stopped = evaluate(policy(), input({
     lifecycle: "subagent-stop",
     delegation: { requestedAssignment: null },
-    observation: { childRollout: { state: "pending-provider-path" } },
+    observation: { rolloutDiagnostic: { parent: { state: "unavailable" }, child: { state: "unavailable" } } },
   }));
-  assert.ok(codes(stopped).includes("SH-CHILD-PATH-MISSING"));
+  assert.equal(stopped.decision, "allow");
+  assert.deepEqual(stopped.rolloutDiagnostics, []);
 });
 
 test("requires durable evidence at completion and handoff boundaries", () => {
@@ -360,7 +464,7 @@ test("requires durable evidence at completion and handoff boundaries", () => {
   ]) {
     const result = evaluate(policy(), input({
       lifecycle: "handoff-boundary",
-      observation: { childRollout: { state: "not-applicable" } },
+      observation: { rolloutDiagnostic: { parent: { state: "unavailable" }, child: { state: "not-applicable" } } },
       delegation: { requestedAssignment: null },
       essentialEvidence,
     }));
@@ -368,7 +472,7 @@ test("requires durable evidence at completion and handoff boundaries", () => {
   }
   const result = evaluate(policy(), input({
     lifecycle: "after-issue-completion",
-    observation: { childRollout: { state: "not-applicable" } },
+    observation: { rolloutDiagnostic: { parent: { state: "unavailable" }, child: { state: "not-applicable" } } },
     delegation: { requestedAssignment: null },
     essentialEvidence: [durable()],
   }));

@@ -31,6 +31,25 @@ test("normative workflow declares required contract sections and stable rule ide
   ]) assert.match(policy, new RegExp(`\\b${classification}\\b`));
   assert.match(policy, /fresh-without-resume/);
   assert.match(policy, /fullHistoryApproval = null/);
+  assert.match(policy, /codex-managed-delegation\/v1/);
+  assert.match(policy, /normal provider-managed delegation/);
+  assert.match(policy, /Only the direct host-boundary result supplies child\/task identity/);
+  assert.match(policy, /repository preflight does not call or authenticate the provider/);
+  assert.match(policy, /local-observations-complete/);
+  assert.match(policy, /delegationAuthorized = false/);
+  assert.match(policy, /actual Git `HEAD` from its verified ref identity/);
+  assert.match(policy, /refuses caller-supplied active-topology, replay, reviewer, or provider assurance/);
+  assert.match(policy, /existing components use their exact native canonical spelling and are non-symlinked and contained/);
+  assert.match(policy, /Complete topology is a direct host observation/);
+  assert.match(policy, /authenticated durable replay\/reviewer state/);
+  assert.match(policy, /all delegated writers among themselves/);
+  assert.match(policy, /durably recording nonce consumption/);
+  assert.match(policy, /detachedAuthority = none/);
+  assert.match(policy, /Host release is telemetry, never an admission allowlist/);
+  assert.match(policy, /Path absence is truthful `unavailable`/);
+  assert.match(policy, /When a rollout path is supplied or measurement is claimed/);
+  assert.match(policy, /Product Owner manually replaces the active primary Codex CLI session without `resume`/);
+  assert.match(policy, /never created by launching a separate Codex CLI process/);
   assert.doesNotMatch(policy, /30 GiB|1 GiB|300 seconds|256 MiB|32,212,254,720|1,073,741,824|268,435,456/);
   assert.match(policy, /\.\/session-hygiene\.dhall/);
   assert.match(policy, /\.\.\/coordination\/collaboration\.dhall/);
@@ -42,10 +61,11 @@ test("project-owned ignore contract covers all local runtime state", () => {
 });
 
 test("production session-hygiene utility exposes no destructive capability", () => {
-  const production = ["evaluate.mjs", "projection.mjs", "measure-codex.mjs"]
+  const production = ["evaluate.mjs", "projection.mjs", "measure-codex.mjs", "codex-managed-delegation.mjs"]
     .map((name) => read(`util/repository/session-hygiene/${name}`))
     .join("\n");
   assert.doesNotMatch(production, /unlinkSync|rmSync|rmdirSync|renameSync|truncateSync|writeFileSync|appendFileSync|process\.kill|\barchiveSession\b|\bdeleteSession\b|\brepairSession\b/);
+  assert.doesNotMatch(production, /node:child_process|spawnSync\(|execFile(?:Sync)?\(/);
 
   const publisher = read("util/repository/session-hygiene/publish-projection.mjs");
   assert.doesNotMatch(publisher, /unlinkSync|rmSync|rmdirSync|truncateSync|appendFileSync|process\.kill/);
