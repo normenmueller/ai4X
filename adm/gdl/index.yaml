@@ -49,6 +49,7 @@ tasks:
     - crp/gov/prc/workflow.md
 
   planning:
+    - crp/gov/qlt/ai-strategy-quality.md
     - adm/gdl/planning-workflow.md
     - adm/gdl/planning-conformance.md
     - adm/gdl/board-policy.md
@@ -105,7 +106,7 @@ library:
 
   - path: crp/gov/prc/development-conformance.md
     shape: protocol
-    depends_on: [crp/gov/qlt/engineering-quality.md]
+    depends_on: [crp/gov/qlt/engineering-quality.md, crp/gov/qlt/ai-strategy-quality.md]
 
   - path: crp/gov/prc/development-conformance-template.md
     shape: protocol
@@ -113,7 +114,7 @@ library:
 
   - path: crp/gov/prc/workflow.md
     shape: protocol
-    depends_on: [crp/gov/qlt/engineering-quality.md, crp/gov/prc/development-conformance.md]
+    depends_on: [crp/gov/qlt/engineering-quality.md, crp/gov/qlt/ai-strategy-quality.md, crp/gov/prc/development-conformance.md]
 
   - path: crp/gov/prc/capability-sweep.md
     shape: protocol
@@ -129,8 +130,8 @@ library:
 
   - path: adm/gdl/planning-workflow.md
     shape: protocol
-    depends_on: [crp/gov/prc/workflow.md]
+    depends_on: [crp/gov/prc/workflow.md, crp/gov/qlt/ai-strategy-quality.md]
 
   - path: adm/gdl/planning-conformance.md
     shape: protocol
-    depends_on: [adm/gdl/planning-workflow.md, adm/gdl/board-policy.md]
+    depends_on: [adm/gdl/planning-workflow.md, adm/gdl/board-policy.md, crp/gov/qlt/ai-strategy-quality.md]

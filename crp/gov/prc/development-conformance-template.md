@@ -1,6 +1,6 @@
 ---
-version: 1.1.0
-last_updated: 2026-08-12
+version: 1.2.0
+last_updated: 2026-08-19
 ---
 
 # Agent Conformance One-Page Template
@@ -19,6 +19,8 @@ Use this compact template during active sessions.
 
 ## Artifact Check
 - Requirements Pack: present (Epic-level) | present (Story-refined) | missing
+- AI-suitability classification gate per `crp/gov/qlt/ai-strategy-quality.md`: conforming | nonconforming ->
+- AI-suitability specialist gate per `crp/gov/qlt/ai-strategy-quality.md`: conforming | n/a | nonconforming ->
 - Architecture Pack: present | n/a | missing
 - Review A Findings: present | n/a | missing
 - AI Strategy Note: present | n/a | missing
