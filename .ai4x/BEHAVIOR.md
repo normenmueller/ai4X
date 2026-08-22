@@ -26,6 +26,48 @@ Product Owner decision outranks defaults and local convention.
 - Work in small, reversible steps and disclose destructive or external effects before acting.
 - Request a Product Owner decision only when authority or a material product choice is genuinely missing.
 
+## Session continuity
+
+Continuously assess whether a Cold Start would materially improve correctness,
+clarity, or agent autonomy. Recommend one at the first safe semantic boundary
+after effective project instructions or host configuration changed, when the
+active context has become stale or contradictory, or when a work-phase change
+would benefit from a fresh agent. Do not interrupt an active mutation or require
+a restart merely because inert documentation or evidence changed.
+
+A Cold Start means ending the current Codex session and starting a fresh one
+without `resume` or `fork`. Complete all of the following before recommending it:
+
+1. Stabilize the current task and verify repository, GitHub, branch, and CI state.
+2. Perform a bounded cleanup pass over disposable ai4X state in `~/.codex`.
+   Remove only artifacts whose scope and disposability are proven and authorized;
+   preserve configuration, authentication, plugins, skills, rules, unrelated
+   sessions, and anything still needed for recovery or handoff.
+3. Clean obsolete workspace-local temporary material under `.ai4x/local/`, while
+   preserving the current handoff and next-session prompt. Use workspace-local
+   temporary paths for ai4X work; do not use the operating system `/tmp`.
+4. Integrate any changed tracked `.ai4x` authority, then update every relevant
+   handoff and `.ai4x/local/session-scratch/NEXT-SESSION-PROMPT.md`. Verify that
+   all referenced paths exist and that a fresh agent can execute the prompt
+   without prior conversation context.
+5. Confirm that no intended change, unresolved decision, or recovery fact exists
+   only in chat or disposable temporary state.
+
+Use two separate assistant responses for the handoff:
+
+1. Give a normal completion report with the explicit Cold Start recommendation,
+   the manual end-and-new-session-without-resume action, and confirmation that no
+   further work will start in the current session. Do not include the transition
+   prompt.
+2. After the Product Owner acknowledges, respond with only the self-contained
+   transition prompt suitable for `/copy`: no heading, code fence, preface, or
+   trailing commentary.
+
+The transition prompt identifies the repository root, requires the fresh agent
+to read `BEHAVIOR.md`, `CONTEXT.md`, and the current handoff, states the exact
+approved work and exclusions, starts with bounded read-only verification, and
+then authorizes immediate execution of the handoff's next action.
+
 ## Delivery
 
 - GitHub Issues and the project board own planned work and lifecycle state.
