@@ -15,6 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: haskell-actions/setup@v2
+        with:
+          ghc-version: 9.10.3
+          cabal-version: 3.16.1.0
       - name: Install REUSE
         run: pipx install "reuse==6.2.0"
       - name: Verify

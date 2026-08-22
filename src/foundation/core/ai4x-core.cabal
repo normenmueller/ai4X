@@ -1,0 +1,45 @@
+cabal-version: 3.12
+
+name: ai4x-core
+version: 0.1.0.0
+synopsis: Stable cross-cutting contracts for ai4X
+description:
+  Opaque stable identifiers and canonical SHA-256 digests shared by ai4X
+  packages.
+homepage: https://github.com/normenmueller/ai4X
+bug-reports: https://github.com/normenmueller/ai4X/issues
+license: Apache-2.0
+license-file: LICENSE
+author: ai4X contributors
+maintainer: ai4X contributors
+category: Development
+build-type: Simple
+
+common language-and-warnings
+  default-language: GHC2024
+  ghc-options: -Wall
+
+library
+  import: language-and-warnings
+  exposed-modules: AI4X.Core
+  other-modules:
+      AI4X.Core.Internal.Identifier
+      AI4X.Core.Internal.Sha256
+  hs-source-dirs: src
+  build-depends:
+      base ==4.20.2.0
+    , bytestring >=0.12.2 && <0.13
+    , text >=2.1.3 && <2.2
+
+test-suite ai4x-core-test
+  import: language-and-warnings
+  type: exitcode-stdio-1.0
+  main-is: Main.hs
+  other-modules:
+      AI4X.Core.IdentifierTest
+      AI4X.Core.Sha256Test
+  hs-source-dirs: tst
+  build-depends:
+      ai4x-core
+    , base ==4.20.2.0
+    , text >=2.1.3 && <2.2
