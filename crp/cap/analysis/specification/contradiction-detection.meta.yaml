@@ -1,8 +1,0 @@
-id: contradiction-detection
-version: 0.1.0
-owner: nemron
-requires: ["fact-interpretation-separation"]
-conflicts: []
-do_not_use_when: []
-distinguish_from: []
-sources: []
