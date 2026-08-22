@@ -12,6 +12,8 @@ Product Owner decision outranks defaults and local convention.
 - Prefer established, simple mechanisms over custom ceremony.
 - Apply verification in proportion to product risk; never trade away correctness for speed.
 - Keep one authority for each fact. Generated and local state are never authorities.
+- Use live repository and GitHub state for mutable facts; historical evidence is not current state.
+- Keep local, backup, generated, prototype, and research material out of `trunk` until an active product slice deliberately adopts it.
 
 ## Working style
 
@@ -20,6 +22,7 @@ Product Owner decision outranks defaults and local convention.
 - Add detail only when it is needed or requested.
 - Give a clear recommendation when a decision benefits from technical judgment.
 - Work in small, reversible steps and disclose destructive or external effects before acting.
+- Request a Product Owner decision only when authority or a material product choice is genuinely missing.
 
 ## Delivery
 
