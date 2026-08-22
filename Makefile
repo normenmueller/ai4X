@@ -43,30 +43,32 @@ REQUIRED_DIRS := \
 	doc/diagrams \
 	doc/examples \
 	doc/reference \
-	src/assurance \
-	src/bundles \
-	src/cli \
-	src/corpus/capabilities \
-	src/corpus/governance \
-	src/corpus/releases \
-	src/corpus/schema \
-	src/light \
-	src/packages/activation \
-	src/packages/adapter \
-	src/packages/bundle \
-	src/packages/check \
-	src/packages/collaboration \
-	src/packages/context-protocol \
-	src/packages/core \
-	src/packages/curation \
-	src/packages/declaration \
-	src/packages/declaration-protocol \
-	src/packages/governance \
-	src/packages/intent \
-	src/packages/project-entry \
-	src/packages/work-management \
-	src/policy \
-	src/skeletons \
+	src/foundation/core \
+	src/foundation/context-protocol \
+	src/foundation/declaration-protocol \
+	src/foundation/generation \
+	src/domains/corpus \
+	src/domains/intent \
+	src/domains/curation \
+	src/domains/collaboration \
+	src/domains/work-management \
+	src/domains/governance \
+	src/domains/assurance \
+	src/domains/declaration \
+	src/domains/check \
+	src/domains/project-entry \
+	src/domains/activation \
+	src/domains/bundle \
+	src/interfaces/cli \
+	src/interfaces/adapters/codex \
+	src/interfaces/adapters/github \
+	src/resources/assurance/packs \
+	src/resources/bundles \
+	src/resources/corpus/capabilities \
+	src/resources/corpus/governance \
+	src/resources/corpus/releases \
+	src/resources/corpus/schema \
+	src/resources/skeletons \
 	util/assurance \
 	util/documentation \
 	util/repository
@@ -81,6 +83,14 @@ LEGACY_DIRS := \
 	doc/agn \
 	doc/arc \
 	doc/usr \
+	src/assurance \
+	src/bundles \
+	src/cli \
+	src/corpus \
+	src/light \
+	src/packages \
+	src/policy \
+	src/skeletons \
 	util/assurance/vendor \
 	utl
 
