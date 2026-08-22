@@ -20,7 +20,7 @@ than as a wholesale migration of the previous prototype.
 ## Repository
 
 - `.ai4x/` — canonical Project Memory and project declarations
-- `src/` — product implementation and reusable product assets
+- `src/` — semantic product source: foundation, domains, interfaces, and resources
 - `doc/` — human-readable documentation and durable evidence
 - `util/` — repository development and verification tooling
 - `.github/`, `.codex/`, and `AGENTS.md` — thin host integration facades

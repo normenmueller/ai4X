@@ -10,6 +10,25 @@ Its `.gitkeep` markers are location commitments, not permission to invent empty
 contracts or speculative implementations. Materialize content through small,
 verified vertical slices.
 
+`src/` is organized by responsibility:
+
+- `foundation/` owns stable, cross-cutting contracts;
+- `domains/` owns ai4X product semantics;
+- `interfaces/` owns thin entry points and host adapters;
+- `resources/` owns declarative, versioned product resources.
+
+Dependencies point inward: `interfaces -> domains -> foundation`. All three use
+typed access to `resources`; `foundation` never imports `domains` or
+`interfaces`, and `domains` never imports `interfaces`. Product semantics do not
+belong in CLI or adapter code, and executable business rules do not belong in
+resources.
+
+The future Haskell workspace is one Cabal project rooted in `src/`, composed of
+multiple packages. Its workspace and package files are materialized only by the
+implementation slices that need them. `light` and `policy` are not independent
+source roots: a future Light edition must be expressed as a justified bundle or
+skeleton, while policy belongs to Corpus Governance or Assurance packs.
+
 Authoritative project declarations are intended to use Dhall; closed product
 semantics are intended to use Haskell. Prototype and historical evidence remain
 outside `trunk` until a product slice deliberately adopts a proven result.
