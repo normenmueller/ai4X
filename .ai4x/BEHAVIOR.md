@@ -14,6 +14,8 @@ Product Owner decision outranks defaults and local convention.
 - Keep one authority for each fact. Generated and local state are never authorities.
 - Use live repository and GitHub state for mutable facts; historical evidence is not current state.
 - Keep local, backup, generated, prototype, and research material out of `trunk` until an active product slice deliberately adopts it.
+- Design adopted slices from current needs and explicit invariants. Never restore legacy structures or use workarounds, speculative hooks, or patchwork as product design.
+- Prefer coherent module ownership, deterministic behavior, traceable decisions, and measured performance.
 
 ## Working style
 
