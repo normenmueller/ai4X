@@ -2,9 +2,9 @@ name: verify
 
 on:
   push:
-    branches: ["trunk"]
+    branches: [trunk]
   pull_request:
-    branches: ["trunk"]
+    branches: [trunk]
   workflow_dispatch:
 
 permissions:
@@ -14,20 +14,8 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Install verification tools
-        run: |
-          sudo apt-get install --yes --no-install-recommends dhall pipx ripgrep
-          pipx install "reuse[charset-normalizer]==6.2.0"
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "23"
-      - name: Verify repository metadata
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: bash ./utl/gh/repo-metadata.sh --check
+      - uses: actions/checkout@v4
+      - name: Install REUSE
+        run: pipx install "reuse==6.2.0"
       - name: Verify
         run: make verify

@@ -1,8 +1,0 @@
-id: strategic-fit
-version: 0.1.0
-owner: nemron
-requires: ["decision-gates","strategy-diagnosis","portfolio-prioritization","kpi-system"]
-conflicts: []
-do_not_use_when: []
-distinguish_from: []
-sources: []
