@@ -1,0 +1,6 @@
+cradle:
+  cabal:
+    - path: "foundation/core/src"
+      component: "lib:ai4x-core"
+    - path: "foundation/core/tst"
+      component: "ai4x-core:test:ai4x-core-test"

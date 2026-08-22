@@ -1,4 +1,8 @@
-.PHONY: verify structure-check licensing-check
+.PHONY: verify structure-check licensing-check haskell-check
+
+GHC_VERSION := 9.10.3
+CABAL_VERSION := 3.16.1.0
+AI4X_LOCAL_TMP := $(CURDIR)/.ai4x/local/build-tmp
 
 REQUIRED_FILES := \
 	.ai4x/.gitignore \
@@ -18,7 +22,18 @@ REQUIRED_FILES := \
 	LICENSING.md \
 	README.md \
 	REUSE.toml \
-	SECURITY.md
+	SECURITY.md \
+	src/cabal.project \
+	src/cabal.project.freeze \
+	src/hie.yaml \
+	src/foundation/core/LICENSE \
+	src/foundation/core/ai4x-core.cabal \
+	src/foundation/core/src/AI4X/Core.hs \
+	src/foundation/core/src/AI4X/Core/Internal/Identifier.hs \
+	src/foundation/core/src/AI4X/Core/Internal/Sha256.hs \
+	src/foundation/core/tst/Main.hs \
+	src/foundation/core/tst/AI4X/Core/IdentifierTest.hs \
+	src/foundation/core/tst/AI4X/Core/Sha256Test.hs
 
 REQUIRED_DIRS := \
 	.ai4x/agents \
@@ -94,7 +109,7 @@ LEGACY_DIRS := \
 	util/assurance/vendor \
 	utl
 
-verify: structure-check licensing-check
+verify: structure-check licensing-check haskell-check
 	@git diff --check
 	@echo '[ai4x] verify: passed'
 
@@ -108,7 +123,22 @@ structure-check:
 	@for path in $(LEGACY_DIRS); do \
 		test ! -e "$$path" || { echo "[ai4x] ERROR legacy root remains: $$path" >&2; exit 2; }; \
 	done
+	@test ! -e cabal.project || { echo '[ai4x] ERROR Cabal project belongs under src/' >&2; exit 2; }
+	@test ! -e cabal.project.freeze || { echo '[ai4x] ERROR Cabal freeze file belongs under src/' >&2; exit 2; }
+	@test ! -e hie.yaml || { echo '[ai4x] ERROR HLS configuration belongs under src/' >&2; exit 2; }
+	@test -z "$$(find . -maxdepth 1 -name '*.cabal' -print -quit)" || { echo '[ai4x] ERROR Cabal packages belong under src/' >&2; exit 2; }
 
 licensing-check:
 	@command -v reuse >/dev/null 2>&1 || { echo '[ai4x] ERROR reuse is required' >&2; exit 2; }
 	@reuse --no-multiprocessing lint
+
+haskell-check:
+	@command -v ghc >/dev/null 2>&1 || { echo '[ai4x] ERROR GHC $(GHC_VERSION) is required' >&2; exit 2; }
+	@command -v cabal >/dev/null 2>&1 || { echo '[ai4x] ERROR Cabal $(CABAL_VERSION) is required' >&2; exit 2; }
+	@test "$$(ghc --numeric-version)" = "$(GHC_VERSION)" || { echo '[ai4x] ERROR GHC $(GHC_VERSION) is required' >&2; exit 2; }
+	@test "$$(cabal --numeric-version)" = "$(CABAL_VERSION)" || { echo '[ai4x] ERROR Cabal $(CABAL_VERSION) is required' >&2; exit 2; }
+	@mkdir -p "$(AI4X_LOCAL_TMP)"
+	@TMPDIR="$(AI4X_LOCAL_TMP)" cabal --project-dir=src build all --ghc-options=-Werror
+	@TMPDIR="$(AI4X_LOCAL_TMP)" cabal --project-dir=src test all --ghc-options=-Werror
+	@TMPDIR="$(AI4X_LOCAL_TMP)" cabal --project-dir=src haddock all
+	@cd src/foundation/core && TMPDIR="$(AI4X_LOCAL_TMP)" cabal check
