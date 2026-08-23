@@ -33,7 +33,17 @@ REQUIRED_FILES := \
 	src/foundation/core/src/AI4X/Core/Internal/Sha256.hs \
 	src/foundation/core/tst/Main.hs \
 	src/foundation/core/tst/AI4X/Core/IdentifierTest.hs \
-	src/foundation/core/tst/AI4X/Core/Sha256Test.hs
+	src/foundation/core/tst/AI4X/Core/Sha256Test.hs \
+	src/foundation/context-protocol/LICENSE \
+	src/foundation/context-protocol/ai4x-context-protocol.cabal \
+	src/foundation/context-protocol/src/AI4X/ContextProtocol.hs \
+	src/foundation/context-protocol/src/AI4X/ContextProtocol/Internal/Port.hs \
+	src/foundation/context-protocol/src/AI4X/ContextProtocol/Internal/Reference.hs \
+	src/foundation/context-protocol/src/AI4X/ContextProtocol/Internal/Value.hs \
+	src/foundation/context-protocol/tst/Main.hs \
+	src/foundation/context-protocol/tst/AI4X/ContextProtocol/PortTest.hs \
+	src/foundation/context-protocol/tst/AI4X/ContextProtocol/ReferenceTest.hs \
+	src/foundation/context-protocol/tst/AI4X/ContextProtocol/ValueTest.hs
 
 REQUIRED_DIRS := \
 	.ai4x/agents \
@@ -142,3 +152,4 @@ haskell-check:
 	@TMPDIR="$(AI4X_LOCAL_TMP)" cabal --project-dir=src test all --ghc-options=-Werror
 	@TMPDIR="$(AI4X_LOCAL_TMP)" cabal --project-dir=src haddock all
 	@cd src/foundation/core && TMPDIR="$(AI4X_LOCAL_TMP)" cabal check
+	@cd src/foundation/context-protocol && TMPDIR="$(AI4X_LOCAL_TMP)" cabal check

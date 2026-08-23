@@ -4,3 +4,7 @@ cradle:
       component: "lib:ai4x-core"
     - path: "foundation/core/tst"
       component: "ai4x-core:test:ai4x-core-test"
+    - path: "foundation/context-protocol/src"
+      component: "lib:ai4x-context-protocol"
+    - path: "foundation/context-protocol/tst"
+      component: "ai4x-context-protocol:test:ai4x-context-protocol-test"
