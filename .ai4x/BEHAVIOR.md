@@ -74,6 +74,21 @@ then authorizes immediate execution of the handoff's next action.
 - Use a short-lived topic branch, a focused pull request, required green checks, and squash merge.
 - Require human approval for product and governance decisions; automation supplies evidence, not authority.
 - Only the Product Owner performs the Project status transitions `Refinement -> Ready` and `In review -> Done`; approval does not delegate those transitions to an agent.
+- Review every implementation Story independently before merge, resolve every
+  material finding, and rerun the proportionate verification gates. Keep the
+  Story `In progress` during implementation, local verification, and independent
+  technical review. Move it to `In review` only when its focused pull request is
+  published with explicit authority, all pre-review gates are green, and it is
+  ready for Product Owner review.
+- Treat review findings and ratings as evidence rather than authority. An
+  independent reviewer must not have authored the reviewed slice and must assess
+  the current Issue contract, public API, tests, architecture boundaries, and
+  non-goals. A perfect score without inspectable findings is not an acceptance
+  gate.
+- After all Stories of an Epic have passed their individual review and delivery,
+  review the integrated Epic against its acceptance criteria and dependency
+  boundaries before requesting `Done`. Do not defer Story-level review until
+  that final Epic review.
 - Keep Issue titles outcome-focused. Native relationships and `level:*` labels own structural level, so do not prefix titles with `Epic:` or `Story:`.
 - Do not publish, merge, close, delete, rewrite, or force-push without authority covering that exact effect.
 - Repository administration bypass and force-push capability remain available to the Product Owner for emergencies. They are not normal delivery paths.
