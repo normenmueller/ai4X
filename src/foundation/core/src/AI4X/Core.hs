@@ -6,6 +6,7 @@ module AI4X.Core
     identifierText,
     Sha256,
     Sha256Defect (..),
+    sha256,
     sha256FromHex,
     sha256Hex,
   )
@@ -20,6 +21,7 @@ import AI4X.Core.Internal.Identifier
 import AI4X.Core.Internal.Sha256
   ( Sha256,
     Sha256Defect (..),
+    sha256,
     sha256FromHex,
     sha256Hex,
   )

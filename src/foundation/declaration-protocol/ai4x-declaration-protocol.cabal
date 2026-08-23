@@ -1,11 +1,10 @@
 cabal-version: 3.12
 
-name: ai4x-core
+name: ai4x-declaration-protocol
 version: 0.1.0.0
-synopsis: Stable cross-cutting contracts for ai4X
+synopsis: Deterministic declaration transport contracts for ai4X
 description:
-  Opaque stable identifiers and canonical SHA-256 digests shared by ai4X
-  packages.
+  Closed versioned values, canonical codecs, and Generation identity validation.
 homepage: https://github.com/normenmueller/ai4X
 bug-reports: https://github.com/normenmueller/ai4X/issues
 license: Apache-2.0
@@ -21,27 +20,31 @@ common language-and-warnings
 
 library
   import: language-and-warnings
-  exposed-modules: AI4X.Core
+  exposed-modules: AI4X.DeclarationProtocol
   other-modules:
-      AI4X.Core.Internal.Identifier
-      AI4X.Core.Internal.Sha256
+      AI4X.DeclarationProtocol.Internal.Json
+      AI4X.DeclarationProtocol.Internal.Protocol
   hs-source-dirs: src
   build-depends:
-      base ==4.20.2.0
+      ai4x-core >=0.1 && <0.2
+    , base ==4.20.2.0
     , bytestring >=0.12.2 && <0.13
-    , cryptohash-sha256 >=0.11.102 && <0.12
+    , containers >=0.7 && <0.8
     , text >=2.1.3 && <2.2
 
-test-suite ai4x-core-test
+test-suite ai4x-declaration-protocol-test
   import: language-and-warnings
   type: exitcode-stdio-1.0
   main-is: Main.hs
   other-modules:
-      AI4X.Core.IdentifierTest
-      AI4X.Core.Sha256Test
+      AI4X.DeclarationProtocol.CodecTest
+      AI4X.DeclarationProtocol.ContractTest
+      AI4X.DeclarationProtocol.Fixture
+      AI4X.DeclarationProtocol.ValidationTest
   hs-source-dirs: tst
   build-depends:
-      ai4x-core
+      ai4x-core >=0.1 && <0.2
+    , ai4x-declaration-protocol
     , base ==4.20.2.0
     , bytestring >=0.12.2 && <0.13
     , text >=2.1.3 && <2.2
