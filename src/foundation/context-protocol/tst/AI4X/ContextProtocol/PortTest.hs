@@ -18,6 +18,11 @@ workSystemFakeReadsPublishedSummary =
     let fake = workSystemPort (\requested -> pure (if requested == reference then Just summary else Nothing))
     found <- readPublishedSummary fake reference
     assert "work-system fake did not return its summary" (found == Just summary)
+    case contextReference ContextProtocolV1 WorkSystemOwner WorkItemEntity "item-43" of
+      Left defect -> failTest ("unexpected context defect: " <> show defect)
+      Right missingReference -> do
+        missing <- readPublishedSummary fake missingReference
+        assert "work-system fake returned an unrelated summary" (missing == Nothing)
 
 recordStoreFakeWritesReceiptSummary :: IO ()
 recordStoreFakeWritesReceiptSummary =

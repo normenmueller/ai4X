@@ -9,6 +9,7 @@ import Control.Monad (unless)
 tests :: IO ()
 tests = do
   everyVersionAndValidTagPairRoundTrips
+  preservesExactReferenceIdentifier
   rejectsEveryInvalidTagPair
   rejectsEveryReferenceDefect
 
@@ -36,6 +37,16 @@ everyVersionAndValidTagPairRoundTrips =
           assert "reference rendering is not canonical" (renderContextReference reference == expectedRendering)
           assert "canonical reference did not round trip" (parseContextReference expectedRendering == Right reference)
 
+preservesExactReferenceIdentifier :: IO ()
+preservesExactReferenceIdentifier =
+  case contextReference ContextProtocolV1 WorkSystemOwner WorkItemEntity "  item-é  " of
+    Left defect -> failTest ("unexpected context defect: " <> show defect)
+    Right reference -> do
+      assert "reference identifier was normalized" (contextReferenceIdentifier reference == "  item-é  ")
+      assert
+        "exact reference identifier did not round trip"
+        (parseContextReference (renderContextReference reference) == Right reference)
+
 rejectsEveryInvalidTagPair :: IO ()
 rejectsEveryInvalidTagPair = do
   assert
@@ -54,6 +65,11 @@ rejectsEveryReferenceDefect = do
   assert
     "malformed reference was accepted"
     (parseContextReference "work-system/item-42" == Left (MalformedContextReference "work-system/item-42"))
+  assert
+    "reference with a non-canonical prefix was accepted"
+    ( parseContextReference "context/v1/work-system/work-item/item-42"
+        == Left (MalformedContextReference "context/v1/work-system/work-item/item-42")
+    )
   assert
     "unsupported version was accepted"
     ( parseContextReference "ai4x-context/v2/work-system/work-item/item-42"
