@@ -18,7 +18,7 @@ jobs:
       haskell_required: ${{ steps.changes.outputs.haskell_required }}
       haskell_reason: ${{ steps.changes.outputs.haskell_reason }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
       - name: Classify changed paths
@@ -49,7 +49,13 @@ jobs:
             local path
 
             for path in \
+              AGENTS.md \
+              CODE_OF_CONDUCT.md \
+              CONTRIBUTING.md \
+              GOVERNANCE.md \
+              LICENSING.md \
               README.md \
+              SECURITY.md \
               .ai4x/context/architecture.md \
               .github/copilot-instructions.md \
               doc/reference/example.md; do
@@ -171,7 +177,7 @@ jobs:
     name: licensing
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install REUSE
         run: pipx install "reuse==6.2.0"
       - name: Verify licensing
@@ -183,8 +189,8 @@ jobs:
     if: ${{ always() && needs.structure.outputs.haskell_required == 'true' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
-      - uses: haskell-actions/setup@v2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: haskell-actions/setup@cd0d9bdd65b20557f41bea4dbe43d0b5fbbfe553 # v2.11.0
         with:
           ghc-version: 9.10.3
           cabal-version: 3.16.1.0
