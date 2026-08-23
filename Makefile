@@ -43,7 +43,17 @@ REQUIRED_FILES := \
 	src/foundation/context-protocol/tst/Main.hs \
 	src/foundation/context-protocol/tst/AI4X/ContextProtocol/PortTest.hs \
 	src/foundation/context-protocol/tst/AI4X/ContextProtocol/ReferenceTest.hs \
-	src/foundation/context-protocol/tst/AI4X/ContextProtocol/ValueTest.hs
+	src/foundation/context-protocol/tst/AI4X/ContextProtocol/ValueTest.hs \
+	src/foundation/declaration-protocol/LICENSE \
+	src/foundation/declaration-protocol/ai4x-declaration-protocol.cabal \
+	src/foundation/declaration-protocol/src/AI4X/DeclarationProtocol.hs \
+	src/foundation/declaration-protocol/src/AI4X/DeclarationProtocol/Internal/Json.hs \
+	src/foundation/declaration-protocol/src/AI4X/DeclarationProtocol/Internal/Protocol.hs \
+	src/foundation/declaration-protocol/tst/Main.hs \
+	src/foundation/declaration-protocol/tst/AI4X/DeclarationProtocol/CodecTest.hs \
+	src/foundation/declaration-protocol/tst/AI4X/DeclarationProtocol/ContractTest.hs \
+	src/foundation/declaration-protocol/tst/AI4X/DeclarationProtocol/Fixture.hs \
+	src/foundation/declaration-protocol/tst/AI4X/DeclarationProtocol/ValidationTest.hs
 
 REQUIRED_DIRS := \
 	.ai4x/agents \
@@ -153,3 +163,4 @@ haskell-check:
 	@TMPDIR="$(AI4X_LOCAL_TMP)" cabal --project-dir=src haddock all
 	@cd src/foundation/core && TMPDIR="$(AI4X_LOCAL_TMP)" cabal check
 	@cd src/foundation/context-protocol && TMPDIR="$(AI4X_LOCAL_TMP)" cabal check
+	@cd src/foundation/declaration-protocol && TMPDIR="$(AI4X_LOCAL_TMP)" cabal check

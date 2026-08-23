@@ -1,11 +1,13 @@
 module AI4X.Core.Internal.Sha256
   ( Sha256,
     Sha256Defect (..),
+    sha256,
     sha256FromHex,
     sha256Hex,
   )
 where
 
+import qualified Crypto.Hash.SHA256 as SHA256
 import Data.ByteString (ByteString)
 import qualified Data.ByteString as ByteString
 import Data.Char (ord)
@@ -24,6 +26,10 @@ data Sha256Defect
   -- | The character at the zero-based position is not canonical lowercase hex.
   | NonCanonicalSha256Character Int Char
   deriving stock (Eq, Ord, Show)
+
+-- | Compute the SHA-256 digest of exact bytes.
+sha256 :: ByteString -> Sha256
+sha256 = Sha256 . SHA256.hash
 
 -- | Parse exactly 64 lowercase hexadecimal characters into a digest.
 sha256FromHex :: Text -> Either Sha256Defect Sha256
