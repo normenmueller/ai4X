@@ -64,7 +64,9 @@ REQUIRED_FILES := \
 	src/foundation/generation/tst/AI4X/Generation/FailureTest.hs \
 	src/foundation/generation/tst/AI4X/Generation/Fixture.hs \
 	src/foundation/generation/tst/AI4X/Generation/ProtocolTest.hs \
-	src/foundation/generation/tst/AI4X/Generation/SuccessTest.hs
+	src/foundation/generation/tst/AI4X/Generation/SuccessTest.hs \
+	util/repository/verify-foundation.sh \
+	util/repository/tst/verify-foundation.sh
 
 REQUIRED_DIRS := \
 	.ai4x/agents \
@@ -117,7 +119,8 @@ REQUIRED_DIRS := \
 	src/resources/skeletons \
 	util/assurance \
 	util/documentation \
-	util/repository
+	util/repository \
+	util/repository/tst
 
 LEGACY_DIRS := \
 	.ai4x/planning \
@@ -158,6 +161,8 @@ structure-check:
 	@test ! -e cabal.project.freeze || { echo '[ai4x] ERROR Cabal freeze file belongs under src/' >&2; exit 2; }
 	@test ! -e hie.yaml || { echo '[ai4x] ERROR HLS configuration belongs under src/' >&2; exit 2; }
 	@test -z "$$(find . -maxdepth 1 -name '*.cabal' -print -quit)" || { echo '[ai4x] ERROR Cabal packages belong under src/' >&2; exit 2; }
+	@./util/repository/verify-foundation.sh
+	@./util/repository/tst/verify-foundation.sh
 
 licensing-check:
 	@command -v reuse >/dev/null 2>&1 || { echo '[ai4x] ERROR reuse is required' >&2; exit 2; }
