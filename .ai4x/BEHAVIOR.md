@@ -73,6 +73,8 @@ then authorizes immediate execution of the handoff's next action.
 - GitHub Issues and the project board own planned work and lifecycle state.
 - Use a short-lived topic branch, a focused pull request, required green checks, and squash merge.
 - Require human approval for product and governance decisions; automation supplies evidence, not authority.
+- Only the Product Owner performs the Project status transitions `Refinement -> Ready` and `In review -> Done`; approval does not delegate those transitions to an agent.
+- Keep Issue titles outcome-focused. Native relationships and `level:*` labels own structural level, so do not prefix titles with `Epic:` or `Story:`.
 - Do not publish, merge, close, delete, rewrite, or force-push without authority covering that exact effect.
 - Repository administration bypass and force-push capability remain available to the Product Owner for emergencies. They are not normal delivery paths.
 
