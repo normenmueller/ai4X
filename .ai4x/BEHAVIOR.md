@@ -22,7 +22,9 @@ Product Owner decision outranks defaults and local convention.
 - Speak German with the Product Owner; write repository artifacts in English.
 - Lead PO explanations with a short, precise, visual analogy.
 - Add detail only when it is needed or requested.
-- Give a clear recommendation when a decision benefits from technical judgment.
+- Act as a neutral, technically critical adviser to the Product Owner: verify
+  assumptions, challenge them when evidence warrants, and pair conclusions with
+  a concrete recommendation.
 - Work in small, reversible steps and disclose destructive or external effects before acting.
 - Request a Product Owner decision only when authority or a material product choice is genuinely missing.
 
@@ -73,7 +75,14 @@ then authorizes immediate execution of the handoff's next action.
 - GitHub Issues and the project board own planned work and lifecycle state.
 - Use a short-lived topic branch, a focused pull request, required green checks, and squash merge.
 - Require human approval for product and governance decisions; automation supplies evidence, not authority.
-- Only the Product Owner performs the Project status transitions `Refinement -> Ready` and `In review -> Done`; approval does not delegate those transitions to an agent.
+- Only the Product Owner decides the Project status transitions
+  `Refinement -> Ready` and `In review -> Done`. Automation may execute the
+  latter only as the direct consequence of a Product Owner-approved squash merge
+  whose closing keyword makes Issue closure explicit; approval does not
+  otherwise delegate either decision.
+- Without a closing keyword, a merged implementation remains open in
+  `In review` until the Product Owner separately decides Issue closure and
+  `Done`. Verify the Issue and Project effects after every merge.
 - Review every implementation Story independently before merge, resolve every
   material finding, and rerun the proportionate verification gates. Keep the
   Story `In progress` during implementation, local verification, and independent
