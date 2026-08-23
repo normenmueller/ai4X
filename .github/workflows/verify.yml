@@ -45,6 +45,36 @@ jobs:
             esac
           }
 
+          validate_documentation_policy() {
+            local path
+
+            for path in \
+              README.md \
+              .ai4x/context/architecture.md \
+              .github/copilot-instructions.md \
+              doc/reference/example.md; do
+              if ! is_documentation_path "$path"; then
+                printf '::error::approved documentation path was rejected: %s\n' "$path"
+                return 1
+              fi
+            done
+
+            for path in \
+              Makefile \
+              .github/workflows/verify.yml \
+              .github/agents/reviewer.md \
+              doc/examples/example.sh \
+              src/foundation/core/src/AI4X/Core.hs \
+              future/README.md; do
+              if is_documentation_path "$path"; then
+                printf '::error::technical or unknown path was accepted as documentation: %s\n' "$path"
+                return 1
+              fi
+            done
+          }
+
+          validate_documentation_policy
+
           haskell_required=true
           haskell_reason='Haskell runs: changed paths were not proven documentation-only.'
           base_sha=''
@@ -173,6 +203,38 @@ jobs:
           HASKELL_REQUIRED: ${{ needs.structure.outputs.haskell_required }}
         run: |
           set -u
+
+          aggregate_is_valid() {
+            local structure_result="$1"
+            local licensing_result="$2"
+            local haskell_result="$3"
+            local haskell_required="$4"
+
+            [[ "$structure_result" == 'success' && "$licensing_result" == 'success' ]] || return 1
+
+            if [[ "$haskell_required" == 'true' ]]; then
+              [[ "$haskell_result" == 'success' ]]
+            elif [[ "$haskell_required" == 'false' ]]; then
+              [[ "$haskell_result" == 'skipped' ]]
+            else
+              return 1
+            fi
+          }
+
+          if ! aggregate_is_valid success success success true || \
+              ! aggregate_is_valid success success skipped false; then
+            printf '::error::valid aggregate policy fixture was rejected\n'
+            exit 1
+          fi
+
+          if aggregate_is_valid failure success skipped false || \
+              aggregate_is_valid success failure skipped false || \
+              aggregate_is_valid success success skipped true || \
+              aggregate_is_valid success success success false || \
+              aggregate_is_valid success success skipped ''; then
+            printf '::error::invalid aggregate policy fixture was accepted\n'
+            exit 1
+          fi
 
           verification_failed=false
 
