@@ -11,15 +11,160 @@ permissions:
   contents: read
 
 jobs:
-  verify:
+  structure:
+    name: structure
+    runs-on: ubuntu-latest
+    outputs:
+      haskell_required: ${{ steps.changes.outputs.haskell_required }}
+      haskell_reason: ${{ steps.changes.outputs.haskell_reason }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Classify changed paths
+        id: changes
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_BEFORE: ${{ github.event.before }}
+          EVENT_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          EVENT_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          CURRENT_SHA: ${{ github.sha }}
+        run: |
+          set -u
+
+          is_documentation_path() {
+            case "$1" in
+              AGENTS.md | CODE_OF_CONDUCT.md | CONTRIBUTING.md | GOVERNANCE.md | LICENSING.md | README.md | SECURITY.md | \
+                .ai4x/*.md | .github/copilot-instructions.md | doc/*.md)
+                return 0
+                ;;
+              *)
+                return 1
+                ;;
+            esac
+          }
+
+          haskell_required=true
+          haskell_reason='Haskell runs: changed paths were not proven documentation-only.'
+          base_sha=''
+          head_sha=''
+
+          case "$EVENT_NAME" in
+            pull_request)
+              base_sha="$EVENT_BASE_SHA"
+              head_sha="$EVENT_HEAD_SHA"
+              ;;
+            push)
+              base_sha="$EVENT_BEFORE"
+              head_sha="$CURRENT_SHA"
+              ;;
+            *)
+              haskell_reason="Haskell runs: event '$EVENT_NAME' has no trusted changed-path comparison."
+              ;;
+          esac
+
+          if [[ "$EVENT_NAME" == 'pull_request' || "$EVENT_NAME" == 'push' ]]; then
+            if [[ "$base_sha" =~ ^[0-9a-fA-F]{40}$ && \
+                  "$head_sha" =~ ^[0-9a-fA-F]{40}$ && \
+                  ! "$base_sha" =~ ^0+$ ]] && \
+                git cat-file -e "${base_sha}^{commit}" 2>/dev/null && \
+                git cat-file -e "${head_sha}^{commit}" 2>/dev/null; then
+              changed_paths_file='.ai4x/local/ci/changed-paths'
+              mkdir -p "$(dirname "$changed_paths_file")"
+
+              if git diff --name-only --no-renames -z "$base_sha" "$head_sha" > "$changed_paths_file"; then
+                changed_path_count=0
+                documentation_only=true
+                first_technical_path=''
+
+                while IFS= read -r -d '' path; do
+                  ((changed_path_count += 1))
+
+                  if [[ -z "$first_technical_path" ]] && ! is_documentation_path "$path"; then
+                    documentation_only=false
+                    first_technical_path="$path"
+                  fi
+                done < "$changed_paths_file"
+
+                if (( changed_path_count == 0 )); then
+                  haskell_reason='Haskell runs: the trusted comparison contained no changed paths.'
+                else
+                  if [[ "$documentation_only" == true ]]; then
+                    haskell_required=false
+                    haskell_reason="Haskell skips: all $changed_path_count changed path(s) are explicitly documentation-only."
+                  else
+                    printf -v quoted_path '%q' "$first_technical_path"
+                    haskell_reason="Haskell runs: changed path $quoted_path is technical or unknown."
+                  fi
+                fi
+              else
+                haskell_reason='Haskell runs: the changed-path comparison failed.'
+              fi
+            else
+              haskell_reason='Haskell runs: comparison SHAs were missing, invalid, or unavailable.'
+            fi
+          fi
+
+          {
+            printf 'haskell_required=%s\n' "$haskell_required"
+            printf 'haskell_reason=%s\n' "$haskell_reason"
+          } >> "$GITHUB_OUTPUT"
+
+          {
+            printf '### Haskell selection\n\n'
+            printf -- '- Required: `%s`\n' "$haskell_required"
+            printf -- '- Reason: %s\n' "$haskell_reason"
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Verify structure
+        run: make structure-check
+
+  licensing:
+    name: licensing
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
+      - name: Install REUSE
+        run: pipx install "reuse==6.2.0"
+      - name: Verify licensing
+        run: make licensing-check
+
+  haskell:
+    name: haskell
+    needs: structure
+    if: ${{ always() && needs.structure.outputs.haskell_required == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
       - uses: haskell-actions/setup@v2
         with:
           ghc-version: 9.10.3
           cabal-version: 3.16.1.0
-      - name: Install REUSE
-        run: pipx install "reuse==6.2.0"
-      - name: Verify
-        run: make verify
+      - name: Verify Haskell
+        run: make haskell-check
+
+  verify:
+    name: verify
+    needs: [structure, licensing, haskell]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify required jobs
+        env:
+          STRUCTURE_RESULT: ${{ needs.structure.result }}
+          LICENSING_RESULT: ${{ needs.licensing.result }}
+          HASKELL_RESULT: ${{ needs.haskell.result }}
+          HASKELL_REQUIRED: ${{ needs.structure.outputs.haskell_required }}
+        run: |
+          set -euo pipefail
+
+          [[ "$STRUCTURE_RESULT" == 'success' ]]
+          [[ "$LICENSING_RESULT" == 'success' ]]
+
+          if [[ "$HASKELL_REQUIRED" == 'true' ]]; then
+            [[ "$HASKELL_RESULT" == 'success' ]]
+          elif [[ "$HASKELL_REQUIRED" == 'false' ]]; then
+            [[ "$HASKELL_RESULT" == 'skipped' ]]
+          else
+            exit 1
+          fi
