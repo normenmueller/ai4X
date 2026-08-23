@@ -73,7 +73,9 @@ jobs:
             done
           }
 
-          validate_documentation_policy
+          if ! validate_documentation_policy; then
+            exit 1
+          fi
 
           haskell_required=true
           haskell_reason='Haskell runs: changed paths were not proven documentation-only.'
@@ -236,33 +238,6 @@ jobs:
             exit 1
           fi
 
-          verification_failed=false
-
-          if [[ "$STRUCTURE_RESULT" != 'success' ]]; then
-            printf '::error::structure concluded %s\n' "$STRUCTURE_RESULT"
-            verification_failed=true
-          fi
-
-          if [[ "$LICENSING_RESULT" != 'success' ]]; then
-            printf '::error::licensing concluded %s\n' "$LICENSING_RESULT"
-            verification_failed=true
-          fi
-
-          if [[ "$HASKELL_REQUIRED" == 'true' ]]; then
-            if [[ "$HASKELL_RESULT" != 'success' ]]; then
-              printf '::error::haskell was required but concluded %s\n' "$HASKELL_RESULT"
-              verification_failed=true
-            fi
-          elif [[ "$HASKELL_REQUIRED" == 'false' ]]; then
-            if [[ "$HASKELL_RESULT" != 'skipped' ]]; then
-              printf '::error::haskell was not required but concluded %s\n' "$HASKELL_RESULT"
-              verification_failed=true
-            fi
-          else
-            printf '::error::haskell requirement was missing or invalid: %s\n' "$HASKELL_REQUIRED"
-            verification_failed=true
-          fi
-
           {
             printf '### Verification aggregate\n\n'
             printf -- '- `structure`: `%s`\n' "$STRUCTURE_RESULT"
@@ -270,6 +245,26 @@ jobs:
             printf -- '- `haskell`: `%s` (required: `%s`)\n' "$HASKELL_RESULT" "$HASKELL_REQUIRED"
           } >> "$GITHUB_STEP_SUMMARY"
 
-          if [[ "$verification_failed" == true ]]; then
+          if ! aggregate_is_valid \
+              "$STRUCTURE_RESULT" \
+              "$LICENSING_RESULT" \
+              "$HASKELL_RESULT" \
+              "$HASKELL_REQUIRED"; then
+            if [[ "$STRUCTURE_RESULT" != 'success' ]]; then
+              printf '::error::structure concluded %s\n' "$STRUCTURE_RESULT"
+            fi
+
+            if [[ "$LICENSING_RESULT" != 'success' ]]; then
+              printf '::error::licensing concluded %s\n' "$LICENSING_RESULT"
+            fi
+
+            if [[ "$HASKELL_REQUIRED" == 'true' && "$HASKELL_RESULT" != 'success' ]]; then
+              printf '::error::haskell was required but concluded %s\n' "$HASKELL_RESULT"
+            elif [[ "$HASKELL_REQUIRED" == 'false' && "$HASKELL_RESULT" != 'skipped' ]]; then
+              printf '::error::haskell was not required but concluded %s\n' "$HASKELL_RESULT"
+            elif [[ "$HASKELL_REQUIRED" != 'true' && "$HASKELL_REQUIRED" != 'false' ]]; then
+              printf '::error::haskell requirement was missing or invalid: %s\n' "$HASKELL_REQUIRED"
+            fi
+
             exit 1
           fi
