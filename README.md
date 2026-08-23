@@ -5,6 +5,8 @@
 ai4X is an operating model for explicit, reusable, and host-independent agentic
 AI work—agentic cognition engineering (ACE).
 
+This temporary documentation-only line validates the #172 CI path and is not intended for merge.
+
 The project is rebuilding from a deliberately small, greenfield baseline.
 Product capabilities will return as focused, verified vertical slices rather
 than as a wholesale migration of the previous prototype.
