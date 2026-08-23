@@ -11,15 +11,266 @@ permissions:
   contents: read
 
 jobs:
-  verify:
+  structure:
+    name: structure
+    runs-on: ubuntu-latest
+    outputs:
+      haskell_required: ${{ steps.changes.outputs.haskell_required }}
+      haskell_reason: ${{ steps.changes.outputs.haskell_reason }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Classify changed paths
+        id: changes
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_BEFORE: ${{ github.event.before }}
+          EVENT_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          EVENT_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          CURRENT_SHA: ${{ github.sha }}
+        run: |
+          set -u
+
+          is_documentation_path() {
+            case "$1" in
+              AGENTS.md | CODE_OF_CONDUCT.md | CONTRIBUTING.md | GOVERNANCE.md | LICENSING.md | README.md | SECURITY.md | \
+                .ai4x/*.md | .github/copilot-instructions.md | doc/*.md)
+                return 0
+                ;;
+              *)
+                return 1
+                ;;
+            esac
+          }
+
+          validate_documentation_policy() {
+            local path
+
+            for path in \
+              AGENTS.md \
+              CODE_OF_CONDUCT.md \
+              CONTRIBUTING.md \
+              GOVERNANCE.md \
+              LICENSING.md \
+              README.md \
+              SECURITY.md \
+              .ai4x/context/architecture.md \
+              .github/copilot-instructions.md \
+              doc/reference/example.md; do
+              if ! is_documentation_path "$path"; then
+                printf '::error::approved documentation path was rejected: %s\n' "$path"
+                return 1
+              fi
+            done
+
+            for path in \
+              Makefile \
+              .github/workflows/verify.yml \
+              .github/agents/reviewer.md \
+              doc/examples/example.sh \
+              src/foundation/core/src/AI4X/Core.hs \
+              future/README.md; do
+              if is_documentation_path "$path"; then
+                printf '::error::technical or unknown path was accepted as documentation: %s\n' "$path"
+                return 1
+              fi
+            done
+          }
+
+          if ! validate_documentation_policy; then
+            exit 1
+          fi
+
+          haskell_required=true
+          haskell_reason='Haskell runs: changed paths were not proven documentation-only.'
+          base_sha=''
+          head_sha=''
+
+          case "$EVENT_NAME" in
+            pull_request)
+              base_sha="$EVENT_BASE_SHA"
+              head_sha="$EVENT_HEAD_SHA"
+              ;;
+            push)
+              base_sha="$EVENT_BEFORE"
+              head_sha="$CURRENT_SHA"
+              ;;
+            *)
+              haskell_reason="Haskell runs: event '$EVENT_NAME' has no trusted changed-path comparison."
+              ;;
+          esac
+
+          if [[ "$EVENT_NAME" == 'pull_request' || "$EVENT_NAME" == 'push' ]]; then
+            if [[ "$base_sha" =~ ^[0-9a-fA-F]{40}$ && \
+                  "$head_sha" =~ ^[0-9a-fA-F]{40}$ && \
+                  ! "$base_sha" =~ ^0+$ ]] && \
+                git cat-file -e "${base_sha}^{commit}" 2>/dev/null && \
+                git cat-file -e "${head_sha}^{commit}" 2>/dev/null; then
+              comparison_sha="$base_sha"
+              comparison_ready=true
+
+              if [[ "$EVENT_NAME" == 'pull_request' ]]; then
+                merge_base_sha=$(git merge-base "$base_sha" "$head_sha" 2>/dev/null || true)
+
+                if [[ "$merge_base_sha" =~ ^[0-9a-fA-F]{40}$ ]] && \
+                    git cat-file -e "${merge_base_sha}^{commit}" 2>/dev/null; then
+                  comparison_sha="$merge_base_sha"
+                else
+                  comparison_ready=false
+                  haskell_reason='Haskell runs: no trusted pull-request merge base was available.'
+                fi
+              fi
+
+              changed_paths_file='.ai4x/local/ci/changed-paths'
+              mkdir -p "$(dirname "$changed_paths_file")"
+
+              if [[ "$comparison_ready" == true ]] && \
+                  git diff --name-only --no-renames -z "$comparison_sha" "$head_sha" > "$changed_paths_file"; then
+                changed_path_count=0
+                documentation_only=true
+                first_technical_path=''
+
+                while IFS= read -r -d '' path; do
+                  ((changed_path_count += 1))
+
+                  if [[ -z "$first_technical_path" ]] && ! is_documentation_path "$path"; then
+                    documentation_only=false
+                    first_technical_path="$path"
+                  fi
+                done < "$changed_paths_file"
+
+                if (( changed_path_count == 0 )); then
+                  haskell_reason='Haskell runs: the trusted comparison contained no changed paths.'
+                else
+                  if [[ "$documentation_only" == true ]]; then
+                    haskell_required=false
+                    haskell_reason="Haskell skips: all $changed_path_count changed path(s) are explicitly documentation-only."
+                  else
+                    printf -v quoted_path '%q' "$first_technical_path"
+                    haskell_reason="Haskell runs: changed path $quoted_path is technical or unknown."
+                  fi
+                fi
+              elif [[ "$comparison_ready" == true ]]; then
+                haskell_reason='Haskell runs: the changed-path comparison failed.'
+              fi
+            else
+              haskell_reason='Haskell runs: comparison SHAs were missing, invalid, or unavailable.'
+            fi
+          fi
+
+          {
+            printf 'haskell_required=%s\n' "$haskell_required"
+            printf 'haskell_reason=%s\n' "$haskell_reason"
+          } >> "$GITHUB_OUTPUT"
+
+          {
+            printf '### Haskell selection\n\n'
+            printf -- '- Required: `%s`\n' "$haskell_required"
+            printf -- '- Reason: %s\n' "$haskell_reason"
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Verify structure
+        run: make structure-check
+
+  licensing:
+    name: licensing
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: haskell-actions/setup@v2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Install REUSE
+        run: pipx install "reuse==6.2.0"
+      - name: Verify licensing
+        run: make licensing-check
+
+  haskell:
+    name: haskell
+    needs: structure
+    if: ${{ always() && needs.structure.outputs.haskell_required == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: haskell-actions/setup@cd0d9bdd65b20557f41bea4dbe43d0b5fbbfe553 # v2.11.0
         with:
           ghc-version: 9.10.3
           cabal-version: 3.16.1.0
-      - name: Install REUSE
-        run: pipx install "reuse==6.2.0"
-      - name: Verify
-        run: make verify
+      - name: Verify Haskell
+        run: make haskell-check
+
+  verify:
+    name: verify
+    needs: [structure, licensing, haskell]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify required jobs
+        env:
+          STRUCTURE_RESULT: ${{ needs.structure.result }}
+          LICENSING_RESULT: ${{ needs.licensing.result }}
+          HASKELL_RESULT: ${{ needs.haskell.result }}
+          HASKELL_REQUIRED: ${{ needs.structure.outputs.haskell_required }}
+        run: |
+          set -u
+
+          aggregate_is_valid() {
+            local structure_result="$1"
+            local licensing_result="$2"
+            local haskell_result="$3"
+            local haskell_required="$4"
+
+            [[ "$structure_result" == 'success' && "$licensing_result" == 'success' ]] || return 1
+
+            if [[ "$haskell_required" == 'true' ]]; then
+              [[ "$haskell_result" == 'success' ]]
+            elif [[ "$haskell_required" == 'false' ]]; then
+              [[ "$haskell_result" == 'skipped' ]]
+            else
+              return 1
+            fi
+          }
+
+          if ! aggregate_is_valid success success success true || \
+              ! aggregate_is_valid success success skipped false; then
+            printf '::error::valid aggregate policy fixture was rejected\n'
+            exit 1
+          fi
+
+          if aggregate_is_valid failure success skipped false || \
+              aggregate_is_valid success failure skipped false || \
+              aggregate_is_valid success success skipped true || \
+              aggregate_is_valid success success success false || \
+              aggregate_is_valid success success skipped ''; then
+            printf '::error::invalid aggregate policy fixture was accepted\n'
+            exit 1
+          fi
+
+          {
+            printf '### Verification aggregate\n\n'
+            printf -- '- `structure`: `%s`\n' "$STRUCTURE_RESULT"
+            printf -- '- `licensing`: `%s`\n' "$LICENSING_RESULT"
+            printf -- '- `haskell`: `%s` (required: `%s`)\n' "$HASKELL_RESULT" "$HASKELL_REQUIRED"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if ! aggregate_is_valid \
+              "$STRUCTURE_RESULT" \
+              "$LICENSING_RESULT" \
+              "$HASKELL_RESULT" \
+              "$HASKELL_REQUIRED"; then
+            if [[ "$STRUCTURE_RESULT" != 'success' ]]; then
+              printf '::error::structure concluded %s\n' "$STRUCTURE_RESULT"
+            fi
+
+            if [[ "$LICENSING_RESULT" != 'success' ]]; then
+              printf '::error::licensing concluded %s\n' "$LICENSING_RESULT"
+            fi
+
+            if [[ "$HASKELL_REQUIRED" == 'true' && "$HASKELL_RESULT" != 'success' ]]; then
+              printf '::error::haskell was required but concluded %s\n' "$HASKELL_RESULT"
+            elif [[ "$HASKELL_REQUIRED" == 'false' && "$HASKELL_RESULT" != 'skipped' ]]; then
+              printf '::error::haskell was not required but concluded %s\n' "$HASKELL_RESULT"
+            elif [[ "$HASKELL_REQUIRED" != 'true' && "$HASKELL_REQUIRED" != 'false' ]]; then
+              printf '::error::haskell requirement was missing or invalid: %s\n' "$HASKELL_REQUIRED"
+            fi
+
+            exit 1
+          fi
