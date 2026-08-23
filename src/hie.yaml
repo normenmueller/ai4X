@@ -12,3 +12,7 @@ cradle:
       component: "lib:ai4x-declaration-protocol"
     - path: "foundation/declaration-protocol/tst"
       component: "ai4x-declaration-protocol:test:ai4x-declaration-protocol-test"
+    - path: "foundation/generation/src"
+      component: "lib:ai4x-generation"
+    - path: "foundation/generation/tst"
+      component: "ai4x-generation:test:ai4x-generation-test"

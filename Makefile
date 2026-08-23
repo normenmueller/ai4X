@@ -53,7 +53,18 @@ REQUIRED_FILES := \
 	src/foundation/declaration-protocol/tst/AI4X/DeclarationProtocol/CodecTest.hs \
 	src/foundation/declaration-protocol/tst/AI4X/DeclarationProtocol/ContractTest.hs \
 	src/foundation/declaration-protocol/tst/AI4X/DeclarationProtocol/Fixture.hs \
-	src/foundation/declaration-protocol/tst/AI4X/DeclarationProtocol/ValidationTest.hs
+	src/foundation/declaration-protocol/tst/AI4X/DeclarationProtocol/ValidationTest.hs \
+	src/foundation/generation/LICENSE \
+	src/foundation/generation/ai4x-generation.cabal \
+	src/foundation/generation/src/AI4X/Generation.hs \
+	src/foundation/generation/src/AI4X/Generation/Internal/Port.hs \
+	src/foundation/generation/src/AI4X/Generation/Internal/Reader.hs \
+	src/foundation/generation/tst/Main.hs \
+	src/foundation/generation/tst/AI4X/Generation/ContractTest.hs \
+	src/foundation/generation/tst/AI4X/Generation/FailureTest.hs \
+	src/foundation/generation/tst/AI4X/Generation/Fixture.hs \
+	src/foundation/generation/tst/AI4X/Generation/ProtocolTest.hs \
+	src/foundation/generation/tst/AI4X/Generation/SuccessTest.hs
 
 REQUIRED_DIRS := \
 	.ai4x/agents \
@@ -164,3 +175,4 @@ haskell-check:
 	@cd src/foundation/core && TMPDIR="$(AI4X_LOCAL_TMP)" cabal check
 	@cd src/foundation/context-protocol && TMPDIR="$(AI4X_LOCAL_TMP)" cabal check
 	@cd src/foundation/declaration-protocol && TMPDIR="$(AI4X_LOCAL_TMP)" cabal check
+	@cd src/foundation/generation && TMPDIR="$(AI4X_LOCAL_TMP)" cabal check
