@@ -2,6 +2,7 @@ packages:
   foundation/core
   foundation/context-protocol
   foundation/declaration-protocol
+  foundation/generation
 
 with-compiler: ghc-9.10.3
 index-state: hackage.haskell.org 2026-08-08T11:11:58Z

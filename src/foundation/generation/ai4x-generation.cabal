@@ -1,0 +1,53 @@
+cabal-version: 3.12
+
+name: ai4x-generation
+version: 0.1.0.0
+synopsis: Fail-closed accepted Generation reading for ai4X
+description:
+  Host-neutral direct artifact reads for one explicitly selected and fully
+  validated accepted Generation.
+homepage: https://github.com/normenmueller/ai4X
+bug-reports: https://github.com/normenmueller/ai4X/issues
+license: Apache-2.0
+license-file: LICENSE
+author: ai4X contributors
+maintainer: ai4X contributors
+category: Development
+build-type: Simple
+
+common language-and-warnings
+  default-language: GHC2024
+  ghc-options: -Wall
+
+library
+  import: language-and-warnings
+  exposed-modules: AI4X.Generation
+  other-modules:
+      AI4X.Generation.Internal.Port
+      AI4X.Generation.Internal.Reader
+  hs-source-dirs: src
+  build-depends:
+      ai4x-core >=0.1 && <0.2
+    , ai4x-declaration-protocol >=0.1 && <0.2
+    , base ==4.20.2.0
+    , bytestring >=0.12.2 && <0.13
+    , text >=2.1.3 && <2.2
+
+test-suite ai4x-generation-test
+  import: language-and-warnings
+  type: exitcode-stdio-1.0
+  main-is: Main.hs
+  other-modules:
+      AI4X.Generation.ContractTest
+      AI4X.Generation.FailureTest
+      AI4X.Generation.Fixture
+      AI4X.Generation.ProtocolTest
+      AI4X.Generation.SuccessTest
+  hs-source-dirs: tst
+  build-depends:
+      ai4x-core >=0.1 && <0.2
+    , ai4x-declaration-protocol >=0.1 && <0.2
+    , ai4x-generation
+    , base ==4.20.2.0
+    , bytestring >=0.12.2 && <0.13
+    , text >=2.1.3 && <2.2
