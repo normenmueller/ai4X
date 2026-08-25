@@ -1,13 +1,40 @@
-# ai4X
+<p align="center">
+  <img src="doc/assets/brand/ai4x-logo.jpg" alt="ai4X" width="260">
+</p>
 
-[![verify](https://github.com/normenmueller/ai4X/actions/workflows/verify.yml/badge.svg)](https://github.com/normenmueller/ai4X/actions/workflows/verify.yml)
+<p align="center">
+  <em>From human intent to fit-for-purpose Agentic Constellations.</em>
+</p>
 
-ai4X is an operating model for explicit, reusable, and host-independent agentic
-AI work—agentic cognition engineering (ACE).
+<p align="center">
+  <a href="https://github.com/normenmueller/ai4X/actions/workflows/verify.yml"><img src="https://github.com/normenmueller/ai4X/actions/workflows/verify.yml/badge.svg" alt="verify"></a>
+</p>
+
+ai4X turns human intent into fit-for-purpose Agentic Constellations—coherently
+curated and explicitly activated under human authority. It is a human-led
+Need-to-Capability system for agentic cognition engineering (ACE).
 
 The project is rebuilding from a deliberately small, greenfield baseline.
 Product capabilities will return as focused, verified vertical slices rather
 than as a wholesale migration of the previous prototype.
+
+## ai4X Need-to-Capability Architecture
+
+The ai4X Need-to-Capability Architecture is the functional target state for the
+first ai4X release. It follows a human concern from a guided expert interview
+through need confirmation and fit-for-purpose Capability scouting, the coherent
+curation of an Agent Team and its Collaboration, Work Management, and Governance
+Models, deterministic persistence, and explicit runtime activation.
+
+<p align="center">
+  <a href="doc/diagrams/need-to-capability.png">
+    <img src="doc/diagrams/need-to-capability.png" alt="ai4X Need-to-Capability functional architecture" width="760">
+  </a>
+</p>
+
+<p align="center">
+  <sub>Open the diagram for the full-size architecture view. Publication source: <a href="doc/diagrams/need-to-capability.tex">TikZ</a>.</sub>
+</p>
 
 ## Direction
 
@@ -15,7 +42,7 @@ than as a wholesale migration of the previous prototype.
 - **Host-independent:** keep project and agent declarations separate from host adapters.
 - **Agentic-first:** make context discoverable, bounded, and executable by AI agents.
 - **Human-approvable:** make intent, effects, evidence, and decisions understandable to people.
-- **Self-applicable:** evolve ai4X using the same operating model it provides.
+- **Self-applicable:** evolve ai4X using the same Need-to-Capability discipline it provides.
 
 ## Repository
 
