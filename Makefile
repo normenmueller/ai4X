@@ -8,8 +8,14 @@ REQUIRED_FILES := \
 	.ai4x/.gitignore \
 	.ai4x/BEHAVIOR.md \
 	.ai4x/CONTEXT.md \
+	.ai4x/bindings/work-continuity.md \
 	.ai4x/context/architecture.md \
 	.ai4x/context/domain-language.md \
+	.ai4x/operations/work-continuity/INCLUDE.txt \
+	.ai4x/operations/work-continuity.md \
+	.ai4x/operations/work-continuity/RECOVERY.md \
+	.ai4x/records/evidence/assurance/work-continuity/factory-reset-restore-proof.md \
+	.ai4x/records/receipts/work-continuity/factory-reset-readiness.md \
 	.github/CODEOWNERS \
 	.github/copilot-instructions.md \
 	.github/workflows/verify.yml \
@@ -66,7 +72,11 @@ REQUIRED_FILES := \
 	src/foundation/generation/tst/AI4X/Generation/ProtocolTest.hs \
 	src/foundation/generation/tst/AI4X/Generation/SuccessTest.hs \
 	util/repository/verify-foundation.sh \
-	util/repository/tst/verify-foundation.sh
+	util/repository/tst/verify-foundation.sh \
+	util/work-continuity/common.sh \
+	util/work-continuity/create-checkpoint.sh \
+	util/work-continuity/verify-checkpoint.sh \
+	util/work-continuity/tst/verify-work-continuity.sh
 
 REQUIRED_DIRS := \
 	.ai4x/agents \
@@ -78,9 +88,11 @@ REQUIRED_DIRS := \
 	.ai4x/intent \
 	.ai4x/operations \
 	.ai4x/records/evidence/assurance \
+	.ai4x/records/evidence/assurance/work-continuity \
 	.ai4x/records/evidence/reviews \
 	.ai4x/records/provenance \
 	.ai4x/records/receipts \
+	.ai4x/records/receipts/work-continuity \
 	.codex \
 	.github/agents \
 	.github/ISSUE_TEMPLATE \
@@ -120,7 +132,9 @@ REQUIRED_DIRS := \
 	util/assurance \
 	util/documentation \
 	util/repository \
-	util/repository/tst
+	util/repository/tst \
+	util/work-continuity \
+	util/work-continuity/tst
 
 LEGACY_DIRS := \
 	.ai4x/planning \
@@ -161,8 +175,12 @@ structure-check:
 	@test ! -e cabal.project.freeze || { echo '[ai4x] ERROR Cabal freeze file belongs under src/' >&2; exit 2; }
 	@test ! -e hie.yaml || { echo '[ai4x] ERROR HLS configuration belongs under src/' >&2; exit 2; }
 	@test -z "$$(find . -maxdepth 1 -name '*.cabal' -print -quit)" || { echo '[ai4x] ERROR Cabal packages belong under src/' >&2; exit 2; }
+	@test -x util/work-continuity/create-checkpoint.sh || { echo '[ai4x] ERROR checkpoint tool is not executable' >&2; exit 2; }
+	@test -x util/work-continuity/verify-checkpoint.sh || { echo '[ai4x] ERROR checkpoint verifier is not executable' >&2; exit 2; }
+	@test -x util/work-continuity/tst/verify-work-continuity.sh || { echo '[ai4x] ERROR work-continuity tests are not executable' >&2; exit 2; }
 	@./util/repository/verify-foundation.sh
 	@./util/repository/tst/verify-foundation.sh
+	@./util/work-continuity/tst/verify-work-continuity.sh
 
 licensing-check:
 	@command -v reuse >/dev/null 2>&1 || { echo '[ai4x] ERROR reuse is required' >&2; exit 2; }
