@@ -142,8 +142,7 @@
 \node[human decision] (alignment) at (human |- draft) {
   \textbf{Align on the Need}\\[1pt]
   \detailtext{confirm WHY + WHAT or}\\[-1pt]
-  \detailtext{request focused correction}\\[2pt]
-  \commandtext{\typeindex{Need}{Confirmed}}
+  \detailtext{request focused correction}
 };
 \draw[cognitive flow] (draft.west) -- node[relation] {``Is this your Need?''} (alignment.east);
 \draw[return flow]
@@ -164,8 +163,7 @@
   \textbf{Author Project Intent}\\[1pt]
   \detailtext{derive outcomes and Cognitive Jobs;}\\[-1pt]
   \detailtext{bind constraints and priorities;}\\[-1pt]
-  \detailtext{state acceptance evidence}\\[2pt]
-  \commandtext{\typeindex{ProjectIntent}{Draft}}
+  \detailtext{state acceptance evidence}
 };
 \draw[cognitive flow]
   (confirmed.east) -- node[relation] {grounds intent}
