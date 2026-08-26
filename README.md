@@ -23,8 +23,13 @@ than as a wholesale migration of the previous prototype.
 The ai4X Need-to-Capability Architecture is the functional target state for the
 first ai4X release. It follows a human concern from a guided expert interview
 through need confirmation and fit-for-purpose Capability scouting, the coherent
-curation of an Agent Team and its Collaboration, Work Management, and Governance
-Models, deterministic persistence, and explicit runtime activation.
+curation of selected Capabilities, a Cognitive Agent Team, and an Operating
+Model comprising Collaboration, Work Management, and Governance Models,
+deterministic persistence, and explicit runtime activation.
+
+Its formal boundary is strongly and statically typed: total, typed Dhall
+declarations become closed Haskell domain values whose invariants,
+deterministic evidence, and projections are controlled by explicit types.
 
 <p align="center">
   <a href="doc/diagrams/need-to-capability.png">

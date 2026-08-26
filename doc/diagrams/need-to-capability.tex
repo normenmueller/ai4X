@@ -11,6 +11,7 @@
 \definecolor{aaccent}{HTML}{8E839F}
 \definecolor{ahuman}{HTML}{F8F3E8}
 \definecolor{acognitive}{HTML}{F2EFF8}
+\definecolor{acognitivestate}{HTML}{F7F5FB}
 \definecolor{adeterministic}{HTML}{EEE9F6}
 \definecolor{aartifact}{HTML}{F8F6FB}
 \definecolor{ascouting}{HTML}{F8F6FC}
@@ -41,7 +42,7 @@
   activity box/.style={box, rounded corners=0.5pt, line width=0.85pt},
   decision box/.style={box, rounded corners=7pt, line width=0.85pt},
   human state/.style={value box, fill=ahuman},
-  cognitive state/.style={value box, fill=acognitive},
+  cognitive state/.style={value box, fill=acognitivestate},
   cognitive activity/.style={activity box, fill=acognitive},
   deterministic activity/.style={activity box, fill=adeterministic},
   human decision/.style={decision box, fill=ahuman},
@@ -83,17 +84,18 @@
   \draw[aaccent, line width=0.45pt] (20,0.45) -- (20,-41.75);
 \end{scope}
 
-\node[font=\sffamily\tiny\bfseries, text=aaccent] at (11.40,2.12)
+\node[font=\sffamily\tiny\bfseries, text=aaccent] at (11.40,2.57)
   {AI for \textit{everything}!};
 \node[inner sep=0pt, font=\sffamily\Large\bfseries, text=aink]
-  at (11.40,1.62) {
+  at (11.40,2.07) {
     \raisebox{-0.13cm}{%
       \includegraphics[height=0.64cm]{../assets/brand/ai4x-logo.jpg}%
     }\hspace{0.28cm}Need to Capability
   };
-\node[font=\sffamily\small, text=amuted] at (11.40,1.08)
-  {Meaning stays cognitive; invariants, evidence and projections stay deterministic};
-\node[font=\sffamily\scriptsize, text=amuted] at (11.40,0.67) {
+\node[font=\sffamily\small, text=amuted] at (11.40,1.53)
+  {Agentic Cognition Engineering (ACE): meaning stays cognitive;
+  invariants, evidence and projections stay deterministic};
+\node[font=\sffamily\scriptsize, text=amuted] at (11.40,1.12) {
   \texttt{Typed boundary: Dhall declarations $\to$ closed Haskell values
   $\to$ deterministic evidence + projections}
 };
@@ -166,12 +168,12 @@
   \commandtext{\typeindex{ProjectIntent}{Draft}}
 };
 \draw[cognitive flow]
-  (confirmed.east) -- node[relation, font=\ttfamily\scriptsize]
-  {\typeindex{Need}{Confirmed}} (authorintent.west);
+  (confirmed.east) -- node[relation] {grounds intent}
+  (authorintent.west);
 
 \node[cognitive state, below=\primaryflowgap of authorintent, text width=4.9cm] (intent) {
   \textbf{Project Intent Draft}\\[1pt]
-  \detailtext{outcomes + Cognitive Jobs + constraints;}\\[-1pt]
+  \detailtext{outcomes + Cognitive Jobs + constraints}\\[-1pt]
   \detailtext{priorities + acceptance evidence}\\[2pt]
   \commandtext{\typeindex{ProjectIntent}{Draft}}
 };
@@ -186,120 +188,263 @@
   \commandtext{\typeindex{ProjectIntent}{Validated}}
 };
 \draw[deterministic flow]
-  (intent.east) -- node[relation, font=\ttfamily\scriptsize]
-  {\typeindex{ProjectIntent}{Draft}} (validateintent.west);
+  (intent.east) -- node[relation] {enters validation}
+  (validateintent.west);
 
-\node[artifact state] (validatedintent) at (artifacts |- intent) {
+\node[artifact state, text width=5.60cm] (validatedintent) at (artifacts |- intent) {
   \textbf{Validated Project Intent}\\[1pt]
-  \detailtext{exact identity + revision;}\\[-1pt]
-  \detailtext{canonical content digest}\\[2pt]
+  \detailtext{confirmed Need + outcomes + Cognitive Jobs}\\[-1pt]
+  \detailtext{constraints + priorities + acceptance evidence}\\[-1pt]
+  \detailtext{identity + revision + canonical digest}\\[2pt]
   \commandtext{\typeindex{ProjectIntent}{Validated}}
 };
 \draw[deterministic flow]
-  (validateintent.east) -- node[relation] {validation succeeds} (validatedintent.west);
+  (validateintent.east) -- node[relation, pos=0.46] {validation succeeds}
+  (validatedintent.west);
 
-\node[cognitive activity, below=1.10cm of intent, text width=4.30cm]
-  (scoutcapabilities) {
-  \textbf{Scout Capability Candidates}\\[1pt]
-  \detailtext{derive required Cognitive Jobs;}\\[-1pt]
-  \detailtext{identify need-fit candidates only}\\[2pt]
-  \commandtext{\typeindex{CapabilityCandidates}{Identified}}
-};
-
-\node[artifact state] (corpus) at (artifacts |- scoutcapabilities) {
+\node[artifact state, below=1.55cm of intent, xshift=16cm] (corpus) {
   \textbf{Capability Corpus Release}\\[1pt]
   \detailtext{exact Capability versions;}\\[-1pt]
   \detailtext{declaration + contract digests}\\[2pt]
   \commandtext{\typeindex{CapabilityCorpus}{Released}}
 };
-\coordinate (validatedintentfeed) at ([yshift=-0.42cm]validatedintent.south);
-\coordinate (semanticcurationfeed) at
-  (validatedintentfeed -| scoutcapabilities.north);
-\draw[cognitive flow]
-  (validatedintent.south) -- (validatedintentfeed)
-  -- node[relation, midway, font=\ttfamily\scriptsize]
-  {\typeindex{ProjectIntent}{Validated}} (semanticcurationfeed)
-  -- (scoutcapabilities.north);
-\draw[cognitive flow]
-  (corpus.west) -- node[relation, font=\ttfamily\scriptsize]
-  {\typeindex{CapabilityCorpus}{Released}} (scoutcapabilities.east);
 
-\node[artifact state, below=0.75cm of corpus, text width=4.30cm]
+\node[artifact state, below=1.15cm of corpus, text width=4.30cm]
   (candidates) {
   \textbf{Scouted Capability Candidates}\\[1pt]
   \detailtext{need-fit references + Job coverage;}\\[-1pt]
   \detailtext{rationale + explicit uncertainty}\\[2pt]
   \commandtext{\typeindex{CapabilityCandidates}{Identified}}
 };
+
+\coordinate (artifactscoutinggap) at
+  ($(corpus.south)!0.5!(candidates.north)$);
+\node[cognitive activity, text width=4.30cm]
+  (scoutcapabilities) at (cognitive |- artifactscoutinggap) {
+  \textbf{Scout Capability Candidates}\\[1pt]
+  \detailtext{derive required Cognitive Jobs;}\\[-1pt]
+  \detailtext{identify need-fit candidates only}\\[2pt]
+  \commandtext{\typeindex{CapabilityCandidates}{Identified}}
+};
+\coordinate (scoutintentinput) at
+  ($(scoutcapabilities.north west)!0.43!(scoutcapabilities.north east)$);
+\coordinate (scoutcorpusinput) at
+  ($(scoutcapabilities.north west)!0.57!(scoutcapabilities.north east)$);
+
+\coordinate (validatedintentfeed) at ([yshift=-0.68cm]validatedintent.south);
+\coordinate (semanticcurationfeed) at
+  (validatedintentfeed -| scoutintentinput);
 \draw[cognitive flow]
-  (scoutcapabilities.south) -- ++(0,-0.42) -|
-  node[relation, pos=0.70] {identifies} (candidates.west);
+  (validatedintent.south) -- (validatedintentfeed)
+  -- node[relation, midway] {guides candidate scouting}
+  (semanticcurationfeed)
+  -- (scoutintentinput);
+\coordinate (corpussearchturn) at
+  (scoutcorpusinput |- corpus.west);
+\draw[cognitive flow]
+  (corpus.west) -- node[relation, midway] {bounds candidate search}
+  (corpussearchturn) -- (scoutcorpusinput);
+
+\coordinate (candidateidentificationturn) at
+  (scoutcapabilities.east -| candidates.north);
+\draw[cognitive flow]
+  (scoutcapabilities.east)
+  -- node[relation, pos=0.22] {identifies} (candidateidentificationturn)
+  -- (candidates.north);
 
 \node[cognitive activity, below=0.85cm of candidates, xshift=-16cm,
-  text width=4.65cm] (semanticcuration) {
-  \textbf{Curate Agentic Constellation}\\[1pt]
-  \detailtext{select and compose need-fit Capabilities;}\\[-1pt]
-  \detailtext{form the Agent Team + Collaboration;}\\[-1pt]
-  \detailtext{bind Work Management + Governance}\\[2pt]
-  \commandtext{\typeindex{AgenticConstellation}{Draft}}
-};
-\coordinate (candidatefeed) at ([yshift=-0.42cm]candidates.south);
-\coordinate (curationfeed) at (candidatefeed -| semanticcuration.east);
-\draw[cognitive flow]
-  (candidates.south) -- (candidatefeed)
-  -- node[relation, midway, font=\ttfamily\scriptsize]
-  {\typeindex{CapabilityCandidates}{Identified}} (curationfeed)
-  -- (semanticcuration.east);
+  text width=5.90cm, minimum height=3.75cm] (semanticcuration) {};
+\node[font=\sffamily\small\bfseries, text=aink, anchor=north]
+  at ([yshift=-0.16cm]semanticcuration.north)
+  {Curate Agentic Constellation};
+\node[font=\ttfamily\scriptsize, text=aink, anchor=west]
+  (draftproposal)
+  at ([xshift=-2.45cm,yshift=-0.70cm]semanticcuration.north)
+  {\typeindex{CurationProposal}{Draft}};
+\node[font=\ttfamily\scriptsize, text=amuted, anchor=west]
+  (draftconstellation)
+  at ([xshift=-2.10cm,yshift=-1.05cm]semanticcuration.north)
+  {\typeindex{AgenticConstellation}{Draft}};
+\node[font=\sffamily\scriptsize, text=amuted, anchor=west]
+  (selectedcapabilities)
+  at ([xshift=-1.75cm,yshift=-1.38cm]semanticcuration.north)
+  {selected cognitive Capabilities};
+\node[font=\sffamily\scriptsize, text=amuted, anchor=west]
+  (cognitiveagentteam)
+  at ([xshift=-1.75cm,yshift=-1.68cm]semanticcuration.north)
+  {Cognitive Agent Team};
+\node[font=\sffamily\scriptsize, text=amuted, anchor=west]
+  (operatingmodel)
+  at ([xshift=-1.75cm,yshift=-1.98cm]semanticcuration.north)
+  {Operating Model};
+\node[font=\sffamily\scriptsize, text=amuted, anchor=west]
+  (collaborationmodel)
+  at ([xshift=-1.40cm,yshift=-2.28cm]semanticcuration.north)
+  {Collaboration Model};
+\node[font=\sffamily\scriptsize, text=amuted, anchor=west]
+  (workmanagementmodel)
+  at ([xshift=-1.40cm,yshift=-2.58cm]semanticcuration.north)
+  {Work Management Model};
+\node[font=\sffamily\scriptsize, text=amuted, anchor=west]
+  (governancemodel)
+  at ([xshift=-1.40cm,yshift=-2.88cm]semanticcuration.north)
+  {Governance Model};
+\node[font=\ttfamily\scriptsize, text=amuted, anchor=west]
+  (draftrationale)
+  at ([xshift=-2.10cm,yshift=-3.22cm]semanticcuration.north)
+  {\typeindex{CurationRationale}{Authored}};
+\coordinate (proposalbranchstart) at
+  ([xshift=-2.32cm,yshift=-0.88cm]semanticcuration.north);
+\coordinate (proposalbranchend) at
+  (proposalbranchstart |- draftrationale.west);
+\draw[aaccent, line width=0.45pt]
+  (proposalbranchstart) -- (proposalbranchend);
+\draw[aaccent, line width=0.45pt]
+  (proposalbranchstart |- draftconstellation.west) -- (draftconstellation.west)
+  (proposalbranchstart |- draftrationale.west) -- (draftrationale.west);
+\coordinate (constellationbranchstart) at
+  ([xshift=-1.97cm,yshift=-1.22cm]semanticcuration.north);
+\coordinate (constellationbranchend) at
+  (constellationbranchstart |- operatingmodel.west);
+\draw[aaccent, line width=0.45pt]
+  (constellationbranchstart) -- (constellationbranchend);
+\draw[aaccent, line width=0.45pt]
+  (constellationbranchstart |- selectedcapabilities.west) -- (selectedcapabilities.west)
+  (constellationbranchstart |- cognitiveagentteam.west) -- (cognitiveagentteam.west)
+  (constellationbranchstart |- operatingmodel.west) -- (operatingmodel.west);
+\coordinate (modelbranchstart) at
+  ([xshift=-1.62cm,yshift=-2.14cm]semanticcuration.north);
+\coordinate (modelbranchend) at
+  (modelbranchstart |- governancemodel.west);
+\draw[aaccent, line width=0.45pt]
+  (modelbranchstart) -- (modelbranchend);
+\draw[aaccent, line width=0.45pt]
+  (modelbranchstart |- collaborationmodel.west) -- (collaborationmodel.west)
+  (modelbranchstart |- workmanagementmodel.west) -- (workmanagementmodel.west)
+  (modelbranchstart |- governancemodel.west) -- (governancemodel.west);
+\coordinate (curationfeed) at (semanticcuration.north |- candidates.west);
 
 \node[deterministic activity, below=0.75cm of semanticcuration, xshift=8cm,
   text width=4.75cm]
   (verifycuration) {
   \commandtext{verifyCuration}\\[1pt]
   \textbf{Verify Curation}\\[1pt]
-  \detailtext{check refs, digests and release membership;}\\[-1pt]
-  \detailtext{close dependency and conflict graph;}\\[-1pt]
-  \detailtext{establish canonical order}\\[2pt]
-  \commandtext{\typeindex{Curation}{Trace}}
+  \detailtext{bind exact Draft + Corpus release;}\\[-1pt]
+  \detailtext{check complete Candidate decisions;}\\[-1pt]
+  \detailtext{close graph + canonical order}\\[2pt]
+  \commandtext{VerifiedCuration}
 };
+\coordinate (verifydraftinput) at
+  ($(verifycuration.north west)!0.43!(verifycuration.north east)$);
+\coordinate (verifyreleaseinput) at
+  ($(verifycuration.north west)!0.57!(verifycuration.north east)$);
+\coordinate (draftverificationturn) at
+  (verifydraftinput |- semanticcuration.east);
 \draw[deterministic flow]
-  (semanticcuration.south) -- ++(0,-0.45) -|
-  node[relation, pos=0.52, font=\ttfamily\scriptsize]
-  {\typeindex{AgenticConstellation}{Draft}} (verifycuration.west);
+  (semanticcuration.east)
+  -- node[relation, midway] {enters verification}
+  (draftverificationturn)
+  -- (verifydraftinput);
+\coordinate (corpusverificationfeed) at ([yshift=-0.35cm]corpus.south);
+\coordinate (releasecheckturn) at
+  (corpusverificationfeed -| verifyreleaseinput);
 \draw[deterministic flow]
-  (corpus.south) -- ++(0,-0.45) -|
-  node[relation, pos=0.55, font=\ttfamily\scriptsize]
-  {\typeindex{CapabilityCorpus}{Released}} (verifycuration.north east);
+  (corpus.south) -- (corpusverificationfeed)
+  -- node[relation, midway] {supplies release facts} (releasecheckturn)
+  -- (verifyreleaseinput);
+\draw[cognitive flow, preaction={draw=white, line width=3pt, -}]
+  (candidates.west)
+  -- node[relation, pos=0.53] {grounds constellation curation}
+  (curationfeed)
+  -- (semanticcuration.north);
 
-\node[artifact state] (trace) at (artifacts |- verifycuration) {
-  \textbf{Curation Trace}\\[1pt]
-  \detailtext{selected Capability references;}\\[-1pt]
-  \detailtext{canonical graph and evidence;}\\[-1pt]
-  \detailtext{kept separate from rationale}\\[2pt]
-  \commandtext{\typeindex{Curation}{Trace}}
-};
+\node[artifact state, text width=5.35cm, minimum height=2.15cm]
+  (verifiedcuration) at (artifacts |- verifycuration) {};
+\node[font=\sffamily\small\bfseries, text=aink, anchor=north]
+  at ([yshift=-0.16cm]verifiedcuration.north)
+  {Verified Curation};
+\node[font=\ttfamily\scriptsize, text=aink, anchor=west]
+  (verifiedroot)
+  at ([xshift=-2.15cm,yshift=-0.70cm]verifiedcuration.north)
+  {VerifiedCuration};
+\node[font=\ttfamily\scriptsize, text=amuted, anchor=west]
+  (verifiedproposal)
+  at ([xshift=-1.80cm,yshift=-1.08cm]verifiedcuration.north)
+  {\typeindex{CurationProposal}{Draft}};
+\node[font=\ttfamily\scriptsize, text=amuted, anchor=west]
+  (verifiedtrace)
+  at ([xshift=-1.80cm,yshift=-1.45cm]verifiedcuration.north)
+  {CurationTrace};
+\coordinate (verifiedbranchstart) at
+  ([xshift=-2.02cm,yshift=-0.88cm]verifiedcuration.north);
+\coordinate (verifiedbranchend) at
+  (verifiedbranchstart |- verifiedtrace.west);
+\draw[aaccent, line width=0.45pt]
+  (verifiedbranchstart) -- (verifiedbranchend);
+\draw[aaccent, line width=0.45pt]
+  (verifiedbranchstart |- verifiedproposal.west) -- (verifiedproposal.west)
+  (verifiedbranchstart |- verifiedtrace.west) -- (verifiedtrace.west);
 \draw[deterministic flow]
-  (verifycuration.east) -- node[relation] {verification succeeds} (trace.west);
+  (verifycuration.east) -- node[relation] {verification succeeds}
+  (verifiedcuration.west);
 
 \node[cognitive activity, below=0.75cm of verifycuration, xshift=-8cm,
-  text width=4.15cm] (explain) {
-  \textbf{Explain the Curation}\\[1pt]
-  \detailtext{present rationale and evidence;}\\[-1pt]
-  \detailtext{surface gaps and uncertainty}\\[2pt]
-  \commandtext{\typeindex{Curation}{Trace}}
-};
+  text width=5.35cm, minimum height=2.25cm] (explain) {};
+\node[font=\sffamily\small\bfseries, text=aink, anchor=north]
+  at ([yshift=-0.16cm]explain.north)
+  {Explain the Curation};
+\node[font=\ttfamily\scriptsize, text=amuted, anchor=west]
+  (reviewproposal)
+  at ([xshift=-2.15cm,yshift=-0.72cm]explain.north)
+  {\typeindex{CurationProposal}{Reviewable}};
+\node[font=\ttfamily\scriptsize, text=amuted, anchor=west]
+  (reviewverified)
+  at ([xshift=-1.80cm,yshift=-1.12cm]explain.north)
+  {VerifiedCuration};
+\node[font=\ttfamily\scriptsize, text=amuted, anchor=west]
+  (reviewexplanation)
+  at ([xshift=-1.80cm,yshift=-1.50cm]explain.north)
+  {\typeindex{ReviewExplanation}{Authored}};
+\coordinate (reviewbranchstart) at
+  ([xshift=-2.02cm,yshift=-0.92cm]explain.north);
+\coordinate (reviewbranchend) at
+  (reviewbranchstart |- reviewexplanation.west);
+\draw[aaccent, line width=0.45pt]
+  (reviewbranchstart) -- (reviewbranchend);
+\draw[aaccent, line width=0.45pt]
+  (reviewbranchstart |- reviewverified.west) -- (reviewverified.west)
+  (reviewbranchstart |- reviewexplanation.west) -- (reviewexplanation.west);
+\coordinate (traceexplanationturn) at
+  (verifiedcuration.south |- explain.east);
 \draw[cognitive flow]
-  (trace.south) -- ++(0,-0.42) -|
-  node[relation, pos=0.55, font=\ttfamily\scriptsize]
-  {\typeindex{Curation}{Trace}} (explain.east);
+  (verifiedcuration.south) -- (traceexplanationturn)
+  -- node[relation, midway] {grounds review explanation}
+  (explain.east);
 
-\node[human decision] (curationgate) at (human |- explain) {
-  \textbf{Decide on the Constellation}\\[1pt]
-  \detailtext{accept, reject or}\\[-1pt]
-  \detailtext{request focused revision}\\[2pt]
-  \commandtext{\typeindex{AgenticConstellation}{Curated}}
-};
+\node[human decision, text width=5.20cm, minimum height=2.45cm]
+  (curationgate) at (human |- explain) {};
+\node[font=\sffamily\small\bfseries, text=aink, anchor=north]
+  at ([yshift=-0.16cm]curationgate.north)
+  {Decide on the Curation Proposal};
+\node[font=\sffamily\scriptsize, text=amuted, align=center, anchor=north]
+  at ([yshift=-0.62cm]curationgate.north)
+  {accept, reject or\\[-1pt]request focused revision};
+\node[font=\ttfamily\scriptsize, text=aink, anchor=west]
+  (acceptedroot)
+  at ([xshift=-1.85cm,yshift=-1.42cm]curationgate.north)
+  {AcceptedCuration};
+\node[font=\ttfamily\scriptsize, text=amuted, anchor=west]
+  (acceptedconstellation)
+  at ([xshift=-1.50cm,yshift=-1.82cm]curationgate.north)
+  {\typeindex{AgenticConstellation}{Curated}};
+\coordinate (acceptedbranchstart) at
+  ([xshift=-1.72cm,yshift=-1.62cm]curationgate.north);
+\draw[aaccent, line width=0.45pt]
+  (acceptedbranchstart) -- (acceptedbranchstart |- acceptedconstellation.west)
+  -- (acceptedconstellation.west);
 \draw[cognitive flow]
-  (explain.west) -- node[relation] {present rationale} (curationgate.east);
+  (explain.west) -- node[relation] {presents reviewable proposal}
+  (curationgate.east);
 \draw[return flow]
   (curationgate.north) -- ++(0,0.42) -|
   node[relation, pos=0.19] {revise semantics}
@@ -317,8 +462,7 @@
 \coordinate (persistencefeed) at (acceptedfeed -| persistconfiguration.west);
 \draw[deterministic flow]
   (curationgate.south) -- (acceptedfeed)
-  -- node[relation, midway, font=\ttfamily\scriptsize]
-  {\typeindex{AgenticConstellation}{Curated}} (persistencefeed)
+  -- node[relation, midway] {authorizes persistence} (persistencefeed)
   -- (persistconfiguration.west);
 
 \node[artifact state, text width=4.15cm]
@@ -447,9 +591,10 @@
   $\to$ \texttt{\typeindex{ProjectIntent}{Draft}}
   $\to$ \texttt{\typeindex{ProjectIntent}{Validated}}
   $\to$ \texttt{\typeindex{CapabilityCandidates}{Identified}}
-  $\to$ \texttt{\typeindex{AgenticConstellation}{Draft}}
-  $\to$ \texttt{\typeindex{Curation}{Trace}}
-  $\to$ \texttt{\typeindex{AgenticConstellation}{Curated}}
+  $\to$ \texttt{\typeindex{CurationProposal}{Draft}}
+  $\to$ \texttt{VerifiedCuration}
+  $\to$ \texttt{\typeindex{CurationProposal}{Reviewable}}
+  $\to$ \texttt{AcceptedCuration}
   $\to$ \texttt{\typeindex{ProjectConfiguration}{Persisted}}
   $\to$ \texttt{\typeindex{Activation}{Projected}}
   $\to$ \texttt{\typeindex{Result}{Reviewable}}
