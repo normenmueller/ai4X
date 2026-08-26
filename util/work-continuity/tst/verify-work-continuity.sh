@@ -44,12 +44,22 @@ expect_failure() {
 
 valid="$scratch_root/valid"
 mkdir -p "$valid"
-branch=$(git -C "$repository" branch --show-current)
-head_revision=$(git -C "$repository" rev-parse HEAD)
-upstream_revision=$(git -C "$repository" rev-parse '@{upstream}')
-origin_trunk=$(git -C "$repository" rev-parse refs/remotes/origin/trunk)
+fixture_repository="$scratch_root/git-source"
+mkdir -p "$fixture_repository"
+git -C "$fixture_repository" init -q
+git -C "$fixture_repository" config user.name 'ai4X Work Continuity Test'
+git -C "$fixture_repository" config user.email 'work-continuity-test@invalid.example'
+printf 'fixture\n' > "$fixture_repository/content"
+git -C "$fixture_repository" add content
+git -C "$fixture_repository" commit -q -m fixture
+branch=fixture-work-continuity
+git -C "$fixture_repository" branch -m "$branch"
+head_revision=$(git -C "$fixture_repository" rev-parse HEAD)
+upstream_revision=$head_revision
+origin_trunk=$head_revision
+git -C "$fixture_repository" update-ref refs/remotes/origin/trunk "$origin_trunk"
 
-git -C "$repository" bundle create "$valid/all-refs.bundle" --all
+git -C "$fixture_repository" bundle create "$valid/all-refs.bundle" --all
 tar -czf "$valid/local-continuity.tar.gz" -C "$repository" -T "$include_file"
 cp "$repository/.ai4x/operations/work-continuity/RECOVERY.md" "$valid/RECOVERY.md"
 cp "$include_file" "$valid/INCLUDE.txt"
