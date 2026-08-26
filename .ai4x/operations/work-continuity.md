@@ -7,6 +7,10 @@ and supplies evidence for the future Portfolio offering discussed in
 [Issue #180](https://github.com/normenmueller/ai4X/issues/180). It is not a
 released `WorkContinuityBundle` or a stable product API.
 
+The scripts under `util/work-continuity/` are repository tooling only. #180
+must retire them after the released Portfolio implementation under `src/`
+proves the equivalent project path.
+
 ## Readiness invariant
 
 ```text
@@ -24,8 +28,10 @@ workspace or a competing project authority.
 ## Project-instance boundary
 
 ```text
+.ai4x/operations/work-continuity.md
+  tracked agent-facing rules and operating procedure
+
 .ai4x/operations/work-continuity/
-  README.md       tracked rules and operating procedure
   INCLUDE.txt     explicit local-continuity inventory
   RECOVERY.md     cold-start recovery procedure
 
