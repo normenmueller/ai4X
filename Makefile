@@ -10,10 +10,14 @@ REQUIRED_FILES := \
 	.ai4x/CONTEXT.md \
 	.ai4x/bindings/work-continuity.md \
 	.ai4x/context/architecture.md \
+	.ai4x/context/curation.md \
 	.ai4x/context/domain-language.md \
+	.ai4x/context/need-to-capability.md \
+	.ai4x/operations/session-continuity.md \
 	.ai4x/operations/work-continuity/INCLUDE.txt \
 	.ai4x/operations/work-continuity.md \
 	.ai4x/operations/work-continuity/RECOVERY.md \
+	.ai4x/records/evidence/reviews/session-continuity/183-ai-review.md \
 	.ai4x/records/evidence/assurance/work-continuity/factory-reset-restore-proof.md \
 	.ai4x/records/receipts/work-continuity/factory-reset-readiness.md \
 	.github/CODEOWNERS \
@@ -72,7 +76,9 @@ REQUIRED_FILES := \
 	src/foundation/generation/tst/AI4X/Generation/ProtocolTest.hs \
 	src/foundation/generation/tst/AI4X/Generation/SuccessTest.hs \
 	util/repository/verify-foundation.sh \
+	util/repository/verify-session-continuity.sh \
 	util/repository/tst/verify-foundation.sh \
+	util/repository/tst/verify-session-continuity.sh \
 	util/work-continuity/common.sh \
 	util/work-continuity/create-checkpoint.sh \
 	util/work-continuity/verify-checkpoint.sh \
@@ -90,6 +96,7 @@ REQUIRED_DIRS := \
 	.ai4x/records/evidence/assurance \
 	.ai4x/records/evidence/assurance/work-continuity \
 	.ai4x/records/evidence/reviews \
+	.ai4x/records/evidence/reviews/session-continuity \
 	.ai4x/records/provenance \
 	.ai4x/records/receipts \
 	.ai4x/records/receipts/work-continuity \
@@ -178,8 +185,12 @@ structure-check:
 	@test -x util/work-continuity/create-checkpoint.sh || { echo '[ai4x] ERROR checkpoint tool is not executable' >&2; exit 2; }
 	@test -x util/work-continuity/verify-checkpoint.sh || { echo '[ai4x] ERROR checkpoint verifier is not executable' >&2; exit 2; }
 	@test -x util/work-continuity/tst/verify-work-continuity.sh || { echo '[ai4x] ERROR work-continuity tests are not executable' >&2; exit 2; }
+	@test -x util/repository/verify-session-continuity.sh || { echo '[ai4x] ERROR session-continuity verifier is not executable' >&2; exit 2; }
+	@test -x util/repository/tst/verify-session-continuity.sh || { echo '[ai4x] ERROR session-continuity tests are not executable' >&2; exit 2; }
 	@./util/repository/verify-foundation.sh
 	@./util/repository/tst/verify-foundation.sh
+	@./util/repository/verify-session-continuity.sh
+	@./util/repository/tst/verify-session-continuity.sh
 	@./util/work-continuity/tst/verify-work-continuity.sh
 
 licensing-check:

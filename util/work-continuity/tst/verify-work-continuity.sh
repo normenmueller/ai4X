@@ -62,8 +62,6 @@ git -C "$fixture_repository" update-ref refs/remotes/origin/trunk "$origin_trunk
 fixture_include="$scratch_root/fixture-INCLUDE.txt"
 printf '%s\n' \
   '.ai4x/local/session-scratch/102/epic-review.md' \
-  '.ai4x/local/session-scratch/103/command-surface-review.md' \
-  '.ai4x/local/session-scratch/103/curation-functional-contract.md' \
   '.ai4x/local/session-scratch/103/epic-body.md' \
   '.ai4x/local/session-scratch/103/first-story-body.md' \
   '.ai4x/local/session-scratch/103/reference/ai4x-logo/ai4X Logo.jpg' \
@@ -73,7 +71,6 @@ printf '%s\n' \
   '.ai4x/local/session-scratch/103/refinement-comment.md' \
   '.ai4x/local/session-scratch/180/work-continuity-portfolio-and-project-instance.md' \
   '.ai4x/local/session-scratch/CURRENT-HANDOFF.md' \
-  '.ai4x/local/session-scratch/NEXT-SESSION-PROMPT.md' \
   > "$fixture_include"
 
 if ! cmp -s "$include_file" "$fixture_include"; then
