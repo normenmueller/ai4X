@@ -59,10 +59,37 @@ upstream_revision=$head_revision
 origin_trunk=$head_revision
 git -C "$fixture_repository" update-ref refs/remotes/origin/trunk "$origin_trunk"
 
+fixture_include="$scratch_root/fixture-INCLUDE.txt"
+printf '%s\n' \
+  '.ai4x/local/session-scratch/102/epic-review.md' \
+  '.ai4x/local/session-scratch/103/command-surface-review.md' \
+  '.ai4x/local/session-scratch/103/curation-functional-contract.md' \
+  '.ai4x/local/session-scratch/103/epic-body.md' \
+  '.ai4x/local/session-scratch/103/first-story-body.md' \
+  '.ai4x/local/session-scratch/103/reference/ai4x-logo/ai4X Logo.jpg' \
+  '.ai4x/local/session-scratch/103/reference/complete-sfe-run-interaction.md' \
+  '.ai4x/local/session-scratch/103/reference/complete-sfe-run-interaction.png' \
+  '.ai4x/local/session-scratch/103/reference/complete-sfe-run-interaction.tex' \
+  '.ai4x/local/session-scratch/103/refinement-comment.md' \
+  '.ai4x/local/session-scratch/180/work-continuity-portfolio-and-project-instance.md' \
+  '.ai4x/local/session-scratch/CURRENT-HANDOFF.md' \
+  '.ai4x/local/session-scratch/NEXT-SESSION-PROMPT.md' \
+  > "$fixture_include"
+
+if ! cmp -s "$include_file" "$fixture_include"; then
+  echo 'test fixture inclusion policy differs from tracked policy' >&2
+  exit 1
+fi
+
+while IFS= read -r included_path; do
+  mkdir -p "$(dirname -- "$fixture_repository/$included_path")"
+  printf 'fixture: %s\n' "$included_path" > "$fixture_repository/$included_path"
+done < "$fixture_include"
+
 git -C "$fixture_repository" bundle create "$valid/all-refs.bundle" --all
-tar -czf "$valid/local-continuity.tar.gz" -C "$repository" -T "$include_file"
+tar -czf "$valid/local-continuity.tar.gz" -C "$fixture_repository" -T "$fixture_include"
 cp "$repository/.ai4x/operations/work-continuity/RECOVERY.md" "$valid/RECOVERY.md"
-cp "$include_file" "$valid/INCLUDE.txt"
+cp "$fixture_include" "$valid/INCLUDE.txt"
 printf '%s\n' \
   'schema=ai4x-project-work-continuity-bootstrap-v1' \
   'issue=181' \
@@ -117,7 +144,7 @@ tar -xzf "$valid/local-continuity.tar.gz" -C "$archive_root"
 symlink_member="$archive_root/.ai4x/local/session-scratch/102/epic-review.md"
 rm "$symlink_member"
 ln -s ../CURRENT-HANDOFF.md "$symlink_member"
-tar -czf "$symlink_archive/local-continuity.tar.gz" -C "$archive_root" -T "$include_file"
+tar -czf "$symlink_archive/local-continuity.tar.gz" -C "$archive_root" -T "$fixture_include"
 write_checksums "$symlink_archive"
 expect_failure symlink-archive "$verifier" "$symlink_archive"
 
@@ -127,6 +154,13 @@ printf 'safe\n' > "$source_root/.ai4x/local/real/file"
 ln -s real "$source_root/.ai4x/local/link"
 printf '.ai4x/local/link/file\n' > "$scratch_root/symlink-parent-include.txt"
 expect_failure symlink-parent validate_local_sources "$source_root" "$scratch_root/symlink-parent-include.txt"
+
+root_symlink_source="$scratch_root/root-symlink-source"
+mkdir -p "$root_symlink_source/.ai4x" "$root_symlink_source/real-local/real"
+printf 'unsafe\n' > "$root_symlink_source/real-local/real/file"
+ln -s ../../real-local "$root_symlink_source/.ai4x/local"
+printf '.ai4x/local/real/file\n' > "$scratch_root/symlink-root-include.txt"
+expect_failure symlink-root validate_local_sources "$root_symlink_source" "$scratch_root/symlink-root-include.txt"
 expect_failure credential-url require_safe_repository_url 'https://token@github.com/normenmueller/ai4X.git'
 
 echo '[ai4x] work-continuity-test: passed'

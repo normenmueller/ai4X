@@ -39,12 +39,18 @@ validate_include_syntax() (
 validate_local_sources() (
   repository=$1
   include_file=$2
+  local_root="$repository/.ai4x/local"
 
   validate_include_syntax "$include_file"
 
+  if [ -L "$local_root" ] || [ ! -d "$local_root" ]; then
+    echo ".ai4x/local must be a real directory boundary" >&2
+    exit 65
+  fi
+
   while IFS= read -r included_path; do
     relative_path=${included_path#.ai4x/local/}
-    prefix="$repository/.ai4x/local"
+    prefix=$local_root
     previous_ifs=$IFS
     set -f
     IFS=/
