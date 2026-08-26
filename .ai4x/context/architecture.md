@@ -30,8 +30,12 @@ source roots: a future Light edition must be expressed as a justified bundle or
 skeleton, while policy belongs to Corpus Governance or Assurance packs.
 
 Authoritative project declarations are intended to use Dhall; closed product
-semantics are intended to use Haskell. Prototype and historical evidence remain
-outside `trunk` until a product slice deliberately adopts a proven result.
+semantics are intended to use Haskell. Describe this formal boundary as
+**strongly and statically typed**, not as a "strict type system": Dhall provides
+total, typed declarative inputs, while Haskell owns closed domain types,
+invariants, and deterministic transformations; Haskell evaluation itself is
+non-strict. Prototype and historical evidence remain outside `trunk` until a
+product slice deliberately adopts a proven result.
 
 `.ai4x/generated/` and `.ai4x/local/` are declared exceptions to the tracked
 skeleton. They are created only on demand and remain ignored. Their intended
