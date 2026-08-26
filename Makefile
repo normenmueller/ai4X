@@ -14,6 +14,8 @@ REQUIRED_FILES := \
 	.ai4x/operations/work-continuity/INCLUDE.txt \
 	.ai4x/operations/work-continuity.md \
 	.ai4x/operations/work-continuity/RECOVERY.md \
+	.ai4x/records/evidence/assurance/work-continuity/factory-reset-restore-proof.md \
+	.ai4x/records/receipts/work-continuity/factory-reset-readiness.md \
 	.github/CODEOWNERS \
 	.github/copilot-instructions.md \
 	.github/workflows/verify.yml \
@@ -86,9 +88,11 @@ REQUIRED_DIRS := \
 	.ai4x/intent \
 	.ai4x/operations \
 	.ai4x/records/evidence/assurance \
+	.ai4x/records/evidence/assurance/work-continuity \
 	.ai4x/records/evidence/reviews \
 	.ai4x/records/provenance \
 	.ai4x/records/receipts \
+	.ai4x/records/receipts/work-continuity \
 	.codex \
 	.github/agents \
 	.github/ISSUE_TEMPLATE \
