@@ -5,6 +5,20 @@
 tooling. `.github/`, `.codex/`, and root `AGENTS.md` are thin host facades; they
 must not become independent semantic authorities.
 
+Authority is split by fact kind:
+
+- current explicit Product Owner instructions own current mutation authority;
+- tracked `.ai4x/` and tracked architecture own durable behavior and semantics;
+- GitHub Issues, the project board, and Pull Requests own mutable work and
+  lifecycle state;
+- the observed worktree is state to preserve, never an instruction to discard;
+- `.ai4x/local/` contains working and continuity material only; it is never
+  semantic or governance authority;
+- external recovery material is inert continuity fallback, never work authority.
+
+On disagreement, use the owner for that fact kind. Preserve local changes and
+fail closed to the Product Owner when authority or the owning work is ambiguous.
+
 The complete planned directory skeleton is intentionally tracked as a memory aid.
 Its `.gitkeep` markers are location commitments, not permission to invent empty
 contracts or speculative implementations. Materialize content through small,
@@ -43,25 +57,11 @@ It returns typed defects or a phase-indexed validated value. Success provides
 deterministic evidence; it never supplies semantic fitness, human confirmation,
 or approval.
 
-A `CurationProposal<Draft>` binds the validated Project Intent and the complete
-set of identified Capability Candidates to exhaustive Candidate decisions, an
-`AgenticConstellation<Draft>`, and one authoritative authored rationale. Every
-Candidate is selected or not selected, and every required Cognitive Job is
-covered or recorded as an explicit gap.
-
-`verifyCuration` deterministically constructs an opaque `VerifiedCuration` that
-binds the exact Draft Proposal to its `CurationTrace` and the released
-Capability Corpus that was checked. The trace contains verification facts and
-evidence; semantic selection and non-selection rationale remains separate and
-comes from cognitive curation.
-
-`Explain the Curation` presents that exact `VerifiedCuration` and a cognitive
-`ReviewExplanation<Authored>` as a `CurationProposal<Reviewable>`. It may
-clarify existing semantics but cannot silently change them. Human acceptance
-then constructs `AcceptedCuration`, binding the exact Reviewable Proposal,
-recorded human acceptance, and the unchanged draft Constellation phase-promoted
-to `AgenticConstellation<Curated>`. Neither verification nor explanation can
-supply that authority.
+The Need-to-Capability ownership flow is tracked in
+[need-to-capability.md](need-to-capability.md). Its normative Curation algebra
+and invariants have exactly one owner: [curation.md](curation.md). Diagrams,
+vocabulary, examples, and local drafts are projections or evidence, not
+competing type authorities.
 
 `.ai4x/generated/` and `.ai4x/local/` are declared exceptions to the tracked
 skeleton. They are created only on demand and remain ignored. Their intended
