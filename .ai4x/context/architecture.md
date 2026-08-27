@@ -5,6 +5,20 @@
 tooling. `.github/`, `.codex/`, and root `AGENTS.md` are thin host facades; they
 must not become independent semantic authorities.
 
+Authority is split by fact kind:
+
+- current explicit Product Owner instructions own current mutation authority;
+- tracked `.ai4x/` and tracked architecture own durable behavior and semantics;
+- GitHub Issues, the project board, and Pull Requests own mutable work and
+  lifecycle state;
+- the observed worktree is state to preserve, never an instruction to discard;
+- `.ai4x/local/` contains working and continuity material only; it is never
+  semantic or governance authority;
+- external recovery material is inert continuity fallback, never work authority.
+
+On disagreement, use the owner for that fact kind. Preserve local changes and
+fail closed to the Product Owner when authority or the owning work is ambiguous.
+
 The complete planned directory skeleton is intentionally tracked as a memory aid.
 Its `.gitkeep` markers are location commitments, not permission to invent empty
 contracts or speculative implementations. Materialize content through small,
@@ -30,8 +44,18 @@ source roots: a future Light edition must be expressed as a justified bundle or
 skeleton, while policy belongs to Corpus Governance or Assurance packs.
 
 Authoritative project declarations are intended to use Dhall; closed product
-semantics are intended to use Haskell. Prototype and historical evidence remain
-outside `trunk` until a product slice deliberately adopts a proven result.
+semantics are intended to use Haskell. Describe this formal boundary as
+**strongly and statically typed**, not as a "strict type system": Dhall provides
+total, typed declarative inputs, while Haskell owns closed domain types,
+invariants, and deterministic transformations; Haskell evaluation itself is
+non-strict. Prototype and historical evidence remain outside `trunk` until a
+product slice deliberately adopts a proven result.
+
+The Need-to-Capability ownership flow is tracked in
+[need-to-capability.md](need-to-capability.md). Its normative Curation algebra
+and invariants have exactly one owner: [curation.md](curation.md). Diagrams,
+vocabulary, examples, and local drafts are projections or evidence, not
+competing type authorities.
 
 `.ai4x/generated/` and `.ai4x/local/` are declared exceptions to the tracked
 skeleton. They are created only on demand and remain ignored. Their intended

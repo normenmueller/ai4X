@@ -41,34 +41,30 @@ A Cold Start means ending the current Codex session and starting a fresh one
 without `resume` or `fork`. Complete all of the following before recommending it:
 
 1. Stabilize the current task and verify repository, GitHub, branch, and CI state.
-2. Perform a bounded cleanup pass over disposable ai4X state in `~/.codex`.
-   Remove only artifacts whose scope and disposability are proven and authorized;
-   preserve configuration, authentication, plugins, skills, rules, unrelated
-   sessions, and anything still needed for recovery or handoff.
-3. Clean obsolete workspace-local temporary material under `.ai4x/local/`, while
-   preserving the current handoff and next-session prompt. Use workspace-local
-   temporary paths for ai4X work; do not use the operating system `/tmp`.
-4. Integrate any changed tracked `.ai4x` authority, then update every relevant
-   handoff and `.ai4x/local/session-scratch/NEXT-SESSION-PROMPT.md`. Verify that
-   all referenced paths exist and that a fresh agent can execute the prompt
-   without prior conversation context.
-5. Confirm that no intended change, unresolved decision, or recovery fact exists
-   only in chat or disposable temporary state.
+2. Move every durable semantic or governance decision out of chat and local
+   scratch into its tracked owner or the owning GitHub Issue.
+3. Clean only workspace-local material proven obsolete and disposable. Preserve
+   unknown or unrelated state; never make host-wide cleanup a routine Cold Start
+   requirement.
+4. Update one concise `.ai4x/local/session-scratch/CURRENT-HANDOFF.md` when local
+   continuity is still useful. It is a non-authoritative snapshot and router,
+   not a copied prompt or semantic owner.
+5. Refresh the external recovery set only when necessary local continuity state
+   materially changed, then prove that no required fact exists only in chat or
+   disposable state.
 
-Use two separate assistant responses for the handoff:
+Report that the Cold Start is prepared, ask the Product Owner to end the session
+with `/delete`, open a fresh session in this repository without `resume` or
+`fork`, and send a normal continuation greeting such as `Hi Gertrud, weiter
+geht's!`. Do not ask the Product Owner to copy a transition prompt and do not
+start further work in the old session.
 
-1. Give a normal completion report with the explicit Cold Start recommendation,
-   the manual end-and-new-session-without-resume action, and confirmation that no
-   further work will start in the current session. Do not include the transition
-   prompt.
-2. After the Product Owner acknowledges, respond with only the self-contained
-   transition prompt suitable for `/copy`: no heading, code fence, preface, or
-   trailing commentary.
-
-The transition prompt identifies the repository root, requires the fresh agent
-to read `BEHAVIOR.md`, `CONTEXT.md`, and the current handoff, states the exact
-approved work and exclusions, starts with bounded read-only verification, and
-then authorizes immediate execution of the handoff's next action.
+A continuation greeting without a concrete task authorizes only the bounded
+read-only bootstrap in [operations/session-continuity.md](operations/session-continuity.md).
+It never grants branch switching, cleanup, publication, merge, lifecycle,
+destructive, or new-scope authority. Mutation may resume only after that
+procedure establishes one unambiguous existing work context whose live contract
+already grants the required effect.
 
 ## Delivery
 

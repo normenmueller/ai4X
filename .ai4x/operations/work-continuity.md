@@ -25,6 +25,11 @@ recovery target contains only inert fallback material for explicitly selected
 local continuity state and additional local Git history. It is never an active
 workspace or a competing project authority.
 
+Normal `/delete` and fresh-session continuation use the intact workspace and
+[session-continuity.md](session-continuity.md). They do not read or rotate the
+external recovery target. Work Continuity is used only when tracked or necessary
+local state must be reconstructed.
+
 ## Project-instance boundary
 
 ```text
