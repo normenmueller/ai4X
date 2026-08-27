@@ -117,6 +117,10 @@ The canonical Curation states and functions are owned only by
 - Prefer balanced manual line breaks and remove prose before shrinking type.
 - Use horizontal `ai4X SCOUTING`, `ai4X CURATION`, and `ai4X SPAWNING` phase
   bands while the vertical lanes retain execution ownership.
+- Do not add a separate USP box. Keep the ACE statement as the value
+  proposition, give the Dhall/Haskell boundary restrained typographic emphasis
+  as the formal core, and let the ownership lanes and Constellation tree show
+  the remaining product differentiation.
 - Preserve the accepted layout and spacing; render and inspect every approved
   point, but commit coherent groups rather than individual micro-edits.
 
