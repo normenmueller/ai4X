@@ -8,11 +8,14 @@ REQUIRED_FILES := \
 	.ai4x/.gitignore \
 	.ai4x/BEHAVIOR.md \
 	.ai4x/CONTEXT.md \
+	.ai4x/STATE.md \
+	.ai4x/TEAM.md \
 	.ai4x/bindings/work-continuity.md \
 	.ai4x/context/architecture.md \
 	.ai4x/context/curation.md \
 	.ai4x/context/domain-language.md \
 	.ai4x/context/need-to-capability.md \
+	.ai4x/governance/work-authority.md \
 	.ai4x/operations/session-continuity.md \
 	.ai4x/operations/work-continuity/INCLUDE.txt \
 	.ai4x/operations/work-continuity.md \

@@ -7,110 +7,132 @@ workspace-loss recovery belong to [work-continuity.md](work-continuity.md).
 ## Continuation signal
 
 A fresh-session greeting with continuation intent and no concrete task, for
-example `Hi Gertrud, weiter geht's!`, authorizes only this read-only bootstrap.
-It is not mutation, publication, merge, lifecycle, cleanup, recovery-rotation,
-or new-scope authority.
+example `Hi Gertrud, weiter geht's!`, authorizes one bounded read-only discovery
+pass. It is not mutation, publication, merge, lifecycle, cleanup,
+recovery-rotation, or new-scope authority.
 
 ## Discovery algorithm
 
 1. Resolve the repository root with Git. Do not depend on a remembered absolute
    path.
 2. Read the root agent facade, `.ai4x/BEHAVIOR.md`, and `.ai4x/CONTEXT.md`.
-3. If present, read `.ai4x/local/session-scratch/CURRENT-HANDOFF.md`. Treat it
-   only as an observed snapshot and routing hint. Reject an unknown schema or
-   duplicate required fields.
-4. Observe, without mutation, the current branch, `HEAD`, configured upstream,
-   tracked and untracked worktree state, and relevant local refs.
-5. Read live GitHub state for the handoff's owning Issue, project item,
-   relationships, matching Pull Request, remote branch, and required checks.
-6. Resolve every observation against its owning authority:
+3. Observe the current branch, `HEAD`, configured upstream, tracked and
+   untracked worktree state, and relevant refs without mutation.
+4. Read `.ai4x/STATE.md` and evaluate its `Applies on branch` binding against
+   the observed branch without switching branches. A STATE bound elsewhere is
+   dormant only on clean `trunk`; on dirty `trunk` or another non-trunk branch
+   it is drift.
+5. If `.ai4x/local/ACTIVE.md` exists, treat it only as a possible route from a
+   stable checkout to another worktree. Verify that its relative target exists,
+   belongs to the same Git common directory, is on its exact expected branch,
+   and has an applicable tracked STATE. A present but invalid or unsafe pointer
+   is `Stop on drift`, never ignored. A valid pointer makes that target the new
+   discovery root: repeat STATE, Git, worktree, GitHub, and authority discovery
+   there, and do not mutate the stable source checkout.
+6. Only for an applicable STATE, read live GitHub state for its owning Issue,
+   project item, relationships, matching Pull Request, remote branch, and
+   required checks. For absent or dormant STATE, use the bounded fallback below.
+7. Resolve each fact through its sole owner:
 
    ```text
-   explicit current Product Owner instruction -> mutation authority
-   tracked Project Memory and architecture     -> behavior and semantics
-   live GitHub Issue / Project / PR             -> work and lifecycle state
-   observed worktree                            -> preserve local state
-   local handoff                                -> snapshot and routing only
-   external recovery target                     -> inert fallback only
+   explicit current Product Owner decision          -> execution authority
+   .ai4x/governance/work-authority.md                -> risk and effect rules
+   tracked Project Memory and architecture           -> behavior and semantics
+   live GitHub Issue / Project / Pull Request         -> work and gate state
+   observed worktree                                  -> local state to preserve
+   tracked branch-applicable STATE                    -> return context only
+   optional local ACTIVE pointer                      -> routing hint only
+   external recovery target                           -> inert fallback only
    ```
 
-7. Load only the owning Issue and its task-relevant context, source, tests, and
+8. Load only the owning Issue and its task-relevant context, source, tests, and
    documentation.
-8. Produce exactly one routing result:
+9. Produce exactly one result in the same read-only pass:
 
-   - `Resume`: one owning work item and next safe action are unambiguous. After
-     bootstrap, mutations may continue only when the live work contract already
-     grants that exact effect.
-   - `Await Product Owner`: the work context is clear but the next material
-     decision or authority is not.
-   - `Stop on drift`: observations conflict with their owners or local work
-     could be endangered. Preserve state, report the conflict, and do not
-     mutate.
+   - `Resume`: STATE applies, live owners agree, and one safe work route is
+     unambiguous. Do not request a new Product Owner decision when the existing
+     exact work contract already grants the next effect.
+   - `Resume in <relative worktree>`: a valid ACTIVE pointer rerooted discovery
+     and the target's tracked and live owners grant one unambiguous route.
+   - `Dormant`: clean `trunk` carries a STATE bound to another non-trunk branch.
+     Do not act on that STATE or resume mutation directly on `trunk`.
+   - `Await Product Owner`: context is clear but the next material decision or
+     authority is genuinely absent.
+   - `Stop on drift`: observations conflict or local work could be endangered.
+     Preserve state and do not mutate.
 
-The bootstrap itself never switches branches, discards or cleans local state,
-publishes, merges, closes, changes project status, rotates recovery, or executes
-a mutation merely because the handoff suggests it.
+The bootstrap never switches branches, cleans local state, publishes, merges,
+closes, changes project status, rotates recovery, or executes a mutation merely
+because STATE or ACTIVE points at work.
+
+## STATE contract
+
+`.ai4x/STATE.md` has this compact shape:
+
+```text
+# ai4X Work State
+Schema: ai4x-work-state-v1
+Applies on branch: valid/non-trunk-branch
+Owning Issue: #number
+
+## Return context
+## Route
+## Authority boundary
+## Concurrency limit
+```
+
+STATE may contain durable pointers and a concise return summary. It must not
+copy board status, execution authorization, gate status, mutable revisions, or
+product semantics. Update it at coherent return-context changes, not after
+every micro-step.
+
+One tracked STATE file supports the initial serial work model. Parallel branches
+may contain different revisions and therefore conflict on integration. Preserve
+such conflicts and fail closed; this slice does not claim a general parallel
+STATE merge protocol.
+
+## Optional ACTIVE pointer
+
+`.ai4x/local/ACTIVE.md`, when useful, has only:
+
+```text
+# ai4X Active Worktree Pointer
+Schema: ai4x-active-worktree-pointer-v1
+Worktree: relative/path/from/repository
+Expected Branch: valid/non-trunk-branch
+```
+
+It is ignored, disposable, machine-local, and non-authoritative. It contains no
+Issue status, approval, gate, absolute path, or semantic content.
 
 ## Fail-closed cases
 
-Use `Await Product Owner` or `Stop on drift`, as appropriate, when any of these
-conditions prevents one safe route:
+Use `Await Product Owner` or `Stop on drift` when any required observation is
+missing, malformed, stale, conflicting, unavailable, or ambiguous, including:
 
-- the handoff is missing, malformed, uses an unknown schema, or names multiple
-  owning Issues;
-- the owning Issue is closed, absent from the expected project, or conflicts
-  with its recorded board state;
-- branch, `HEAD`, upstream, remote branch, Pull Request, or required-check state
-  disagrees with the handoff or live work contract;
-- the worktree contains tracked or untracked changes whose ownership is not
-  proven;
-- more than one open work item plausibly owns the checkout;
-- GitHub is unavailable and current mutable work state is needed to choose or
-  authorize the next action;
-- an accepted semantic or governance decision exists only in chat, local
-  scratch, a handoff, evidence, or recovery material;
-- the suggested continuation requires branch switching, cleanup, publication,
-  merge, lifecycle mutation, destructive action, or new scope without exact
-  authority;
-- a local reference required by the route is missing;
-- external `CURRENT` or a restored handoff is older than tracked or live state.
+- STATE is malformed, names more than one Issue, or does not apply on the
+  current non-trunk branch;
+- ACTIVE is unsafe, points outside the repository, names another Git common
+  directory, or disagrees with the target worktree and STATE;
+- Issue, board, branch, upstream, Pull Request, checks, or worktree observations
+  disagree with their owners;
+- more than one work item plausibly owns the checkout;
+- GitHub is unavailable and current live state is required;
+- accepted semantics or governance exists only in chat, local scratch, evidence,
+  or recovery material;
+- the next effect exceeds the active work envelope.
 
 Never repair these cases by guessing. Preserve the workspace and ask one
-focused question only when read-only evidence cannot resolve the ambiguity.
+focused question only when read-only evidence cannot resolve a material choice.
 
-## Handoff contract
+## Missing or dormant STATE fallback
 
-`CURRENT-HANDOFF.md` is optional local continuity with this exact top-level
-shape:
-
-```text
-# ai4X Session Handoff
-Schema: ai4x-session-handoff-v1
-Observed: ISO-8601 timestamp
-Repository: owner/name
-Owning Issue: #number
-Expected Branch: branch
-
-## Route
-## Immediate next action
-## Authority boundaries
-## Observed snapshot
-## Necessary local-only continuity
-## Open decisions
-```
-
-The handoff contains concise pointers and observations only. Snapshot values
-must be re-read from Git and GitHub before mutation. Stable architecture,
-terminology, type contracts, figure grammar, command design, historical reports,
-and restore proofs belong to tracked owners or GitHub, never to the handoff.
-
-## Missing handoff fallback
-
-If no usable handoff exists, inspect the current branch, matching open Pull
-Request, and live active project items. Resume only when exactly one owning
-Issue and safe action are unambiguous from tracked and live authority. Otherwise
-await the Product Owner.
+If STATE is absent or dormant, inspect the current branch, matching open Pull
+Request, and live active project items only to explain the situation or locate a
+candidate worktree. A normal continuation greeting never resumes mutation
+directly on `trunk` merely because one board item exists. Route through one
+verified existing worktree or await the Product Owner.
 
 Use external recovery only when the workspace or necessary local-only state is
-actually missing. Recovered handoffs remain snapshots and are resolved against
+actually missing. Recovery material remains inert and must be resolved against
 the fresh tracked checkout and live GitHub state before use.
