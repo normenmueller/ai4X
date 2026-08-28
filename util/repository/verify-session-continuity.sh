@@ -62,6 +62,39 @@ require_bounded_markdown() {
     fail "${file#$repository/} exceeds its byte limit"
 }
 
+validate_state_contract() {
+  file=$1
+  label=$2
+  require_bounded_markdown "$file" 80 8192
+  test "$(sed -n '1p' "$file")" = '# ai4X Work State' ||
+    fail "$label has an unexpected STATE title"
+
+  schema=$(single_field "$file" Schema)
+  test "$schema" = 'ai4x-work-state-v1' || fail "$label has an unknown STATE schema: $schema"
+
+  validated_state_branch=$(single_field "$file" 'Applies on branch')
+  git check-ref-format --branch "$validated_state_branch" >/dev/null 2>&1 ||
+    fail "$label STATE branch is not a valid branch name"
+  test "$validated_state_branch" != trunk || fail "$label STATE must bind a non-trunk work branch"
+
+  validated_state_issue=$(single_field "$file" 'Owning Issue')
+  printf '%s\n' "$validated_state_issue" | grep -E '^#[1-9][0-9]*$' >/dev/null ||
+    fail "$label Owning Issue must contain exactly one Issue number"
+
+  require_sections "$file" '## Return context
+## Route
+## Authority boundary
+## Concurrency limit'
+
+  if grep -n -E '^(Status|Work status|Execution authorization|Gate status|Pull Request|HEAD|Revision): ' "$file" >/dev/null; then
+    fail "$label STATE duplicates mutable work, authority, gate, or revision state"
+  fi
+
+  if grep -n -E '/(Users|home|var|private|tmp|Volumes|opt|mnt|srv)/|[A-Za-z]:\\' "$file" >/dev/null; then
+    fail "$label STATE contains an absolute machine-local path"
+  fi
+}
+
 for file in \
   AGENTS.md \
   .github/copilot-instructions.md \
@@ -94,34 +127,9 @@ if grep -n -E 'NEXT-SESSION-PROMPT|CURRENT-HANDOFF|transition prompt suitable fo
   fail 'obsolete local-handoff or copied-prompt protocol remains in active routing'
 fi
 
-require_bounded_markdown "$state_file" 80 8192
-test "$(sed -n '1p' "$state_file")" = '# ai4X Work State' ||
-  fail 'unexpected STATE title'
-
-state_schema=$(single_field "$state_file" Schema)
-test "$state_schema" = 'ai4x-work-state-v1' || fail "unknown STATE schema: $state_schema"
-
-state_branch=$(single_field "$state_file" 'Applies on branch')
-git check-ref-format --branch "$state_branch" >/dev/null 2>&1 ||
-  fail 'STATE branch is not a valid branch name'
-test "$state_branch" != trunk || fail 'STATE must bind a non-trunk work branch'
-
-owning_issue=$(single_field "$state_file" 'Owning Issue')
-printf '%s\n' "$owning_issue" | grep -E '^#[1-9][0-9]*$' >/dev/null ||
-  fail 'Owning Issue must contain exactly one Issue number'
-
-require_sections "$state_file" '## Return context
-## Route
-## Authority boundary
-## Concurrency limit'
-
-if grep -n -E '^(Status|Work status|Execution authorization|Gate status|Pull Request|HEAD|Revision): ' "$state_file" >/dev/null; then
-  fail 'STATE duplicates mutable work, authority, gate, or revision state'
-fi
-
-if grep -n -E '/(Users|home|var|private|tmp|Volumes|opt|mnt|srv)/|[A-Za-z]:\\' "$state_file" >/dev/null; then
-  fail 'STATE contains an absolute machine-local path'
-fi
+validate_state_contract "$state_file" source
+state_branch=$validated_state_branch
+owning_issue=$validated_state_issue
 
 require_bounded_markdown "$team_file" 100 10240
 test "$(sed -n '1p' "$team_file")" = '# ai4X Team Routing' ||
@@ -242,25 +250,14 @@ if test -e "$active_file"; then
     fail 'ACTIVE target branch disagrees with Expected Branch'
 
   target_state=$active_target/.ai4x/STATE.md
-  test -f "$target_state" || fail 'ACTIVE target has no tracked STATE'
-  require_bounded_markdown "$target_state" 80 8192
-  test "$(sed -n '1p' "$target_state")" = '# ai4X Work State' ||
-    fail 'ACTIVE target has an unexpected STATE title'
-  test "$(single_field "$target_state" Schema)" = 'ai4x-work-state-v1' ||
-    fail 'ACTIVE target has an unknown STATE schema'
-  target_state_branch=$(single_field "$target_state" 'Applies on branch')
+  test -f "$target_state" || fail 'ACTIVE target has no STATE'
+  git -C "$active_target" ls-files --error-unmatch -- .ai4x/STATE.md >/dev/null 2>&1 ||
+    fail 'ACTIVE target STATE is not tracked'
+  validate_state_contract "$target_state" 'ACTIVE target'
+  target_state_branch=$validated_state_branch
   test "$target_state_branch" = "$active_branch" ||
     fail 'ACTIVE target STATE does not apply on its branch'
-  active_issue=$(single_field "$target_state" 'Owning Issue')
-  printf '%s\n' "$active_issue" | grep -E '^#[1-9][0-9]*$' >/dev/null ||
-    fail 'ACTIVE target STATE has an invalid Owning Issue'
-  require_sections "$target_state" '## Return context
-## Route
-## Authority boundary
-## Concurrency limit'
-  if grep -n -E '^(Status|Work status|Execution authorization|Gate status|Pull Request|HEAD|Revision): ' "$target_state" >/dev/null; then
-    fail 'ACTIVE target STATE duplicates mutable work, authority, gate, or revision state'
-  fi
+  active_issue=$validated_state_issue
   active_route=$active_worktree
 fi
 

@@ -199,4 +199,25 @@ write_active_pointer "$wrong_target_state" '.ai4x/local/worktrees/188' \
   feature/188-lean-agent-governance
 expect_failure wrong-target-state "$verifier" "$wrong_target_state" trunk clean
 
+untracked_target_state=$scratch_root/untracked-target-state
+make_git_fixture "$untracked_target_state"
+mkdir -p "$untracked_target_state/.ai4x/local/worktrees"
+git -C "$untracked_target_state" worktree add -q -b feature/188-lean-agent-governance \
+  "$untracked_target_state/.ai4x/local/worktrees/188"
+git -C "$untracked_target_state/.ai4x/local/worktrees/188" rm -q --cached .ai4x/STATE.md
+write_active_pointer "$untracked_target_state" '.ai4x/local/worktrees/188' \
+  feature/188-lean-agent-governance
+expect_failure untracked-target-state "$verifier" "$untracked_target_state" trunk clean
+
+absolute_target_state=$scratch_root/absolute-target-state
+make_git_fixture "$absolute_target_state"
+mkdir -p "$absolute_target_state/.ai4x/local/worktrees"
+git -C "$absolute_target_state" worktree add -q -b feature/188-lean-agent-governance \
+  "$absolute_target_state/.ai4x/local/worktrees/188"
+printf '\n- /Users/person/unsafe\n' >> \
+  "$absolute_target_state/.ai4x/local/worktrees/188/.ai4x/STATE.md"
+write_active_pointer "$absolute_target_state" '.ai4x/local/worktrees/188' \
+  feature/188-lean-agent-governance
+expect_failure absolute-target-state "$verifier" "$absolute_target_state" trunk clean
+
 echo '[ai4x] session-continuity-test: passed'
