@@ -192,7 +192,7 @@ structure-check:
 	@test -x util/repository/tst/verify-session-continuity.sh || { echo '[ai4x] ERROR session-continuity tests are not executable' >&2; exit 2; }
 	@./util/repository/verify-foundation.sh
 	@./util/repository/tst/verify-foundation.sh
-	@./util/repository/verify-session-continuity.sh
+	@./util/repository/verify-session-continuity.sh . --static
 	@./util/repository/tst/verify-session-continuity.sh
 	@./util/work-continuity/tst/verify-work-continuity.sh
 
