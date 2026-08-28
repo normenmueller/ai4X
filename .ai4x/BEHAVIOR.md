@@ -28,6 +28,18 @@ Product Owner decision outranks defaults and local convention.
 - Work in small, reversible steps and disclose destructive or external effects before acting.
 - Request a Product Owner decision only when authority or a material product choice is genuinely missing.
 
+## Risk and work authority
+
+Use the three risk paths and atomic work-unit boundary in
+[governance/work-authority.md](governance/work-authority.md). Gertrud works
+directly by default; route collaboration through [TEAM.md](TEAM.md) only when a
+capability, risk, or review-independence trigger applies.
+
+Do not confuse work status, execution authority, acceptance gates, or technical
+permissions. A Product Owner-released exact Ready Issue carries its declared
+work through `In review`; Merge, Done, cleanup, scope expansion, and other
+excluded effects remain separate Product Owner decisions.
+
 ## Session continuity
 
 Continuously assess whether a Cold Start would materially improve correctness,
@@ -46,9 +58,10 @@ without `resume` or `fork`. Complete all of the following before recommending it
 3. Clean only workspace-local material proven obsolete and disposable. Preserve
    unknown or unrelated state; never make host-wide cleanup a routine Cold Start
    requirement.
-4. Update one concise `.ai4x/local/session-scratch/CURRENT-HANDOFF.md` when local
-   continuity is still useful. It is a non-authoritative snapshot and router,
-   not a copied prompt or semantic owner.
+4. Update the concise tracked `.ai4x/STATE.md` only when its branch-bound return
+   context materially changes. It is a router, never live work or authority.
+   An optional `.ai4x/local/ACTIVE.md` may point a stable checkout to another
+   worktree but remains disposable and non-authoritative.
 5. Refresh the external recovery set only when necessary local continuity state
    materially changed, then prove that no required fact exists only in chat or
    disposable state.

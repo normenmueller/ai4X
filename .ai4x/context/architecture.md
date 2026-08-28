@@ -19,6 +19,13 @@ Authority is split by fact kind:
 On disagreement, use the owner for that fact kind. Preserve local changes and
 fail closed to the Product Owner when authority or the owning work is ambiguous.
 
+`.ai4x/STATE.md` is tracked branch-bound return context, not mutable work state.
+It may point to an owning Issue and canonical context but never owns board
+status, execution authorization, acceptance gates, or product facts. Those are
+reconstructed from their owners at Cold Start. `.ai4x/TEAM.md` owns lean
+collaboration routing, while `.ai4x/governance/work-authority.md` owns the
+project-instance risk and authority model.
+
 The complete planned directory skeleton is intentionally tracked as a memory aid.
 Its `.gitkeep` markers are location commitments, not permission to invent empty
 contracts or speculative implementations. Materialize content through small,
