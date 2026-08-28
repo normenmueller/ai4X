@@ -8,8 +8,8 @@ Owning Issue: #188
 
 - Apply lean, repository-native agent governance to the ai4X project instance.
 - Preserve #103 and its Need-to-Capability diagram/type-system work unchanged.
-- Current checkpoint: tracked contract and invariant checker implemented;
-  complete full verification and independent review.
+- Current checkpoint: implementation, full verification, and independent review
+  complete; publish the focused Pull Request and verify CI.
 
 ## Route
 
