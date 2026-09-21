@@ -42,7 +42,7 @@ recovery-rotation, or new-scope authority.
    observed worktree                                  -> local state to preserve
    tracked branch-applicable STATE                    -> return context only
    optional local ACTIVE pointer                      -> routing hint only
-   external recovery target                           -> inert fallback only
+   historical backup material                         -> not required for recovery
    ```
 
 8. Load only the owning Issue and its task-relevant context, source, tests, and
@@ -136,6 +136,7 @@ owners does not activate its branch or grant execution authority. A normal conti
 directly on `trunk` merely because one board item exists. Route through one
 verified existing worktree or await the Product Owner.
 
-Use external recovery only when the workspace or necessary local-only state is
-actually missing. Recovery material remains inert and must be resolved against
-the fresh tracked checkout and live GitHub state before use.
+When the workspace is missing, reconstruct published work from GitHub through
+[work-continuity.md](work-continuity.md). Historical external backups are not
+part of the current recovery path. Never search for or restore a cloud-drive
+target or local handoff to interpret a continuation greeting.
