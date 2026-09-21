@@ -129,7 +129,10 @@ focused question only when read-only evidence cannot resolve a material choice.
 
 If STATE is absent or dormant, inspect the current branch, matching open Pull
 Request, and live active project items only to explain the situation or locate a
-candidate worktree. A normal continuation greeting never resumes mutation
+candidate worktree. For a dormant STATE on clean `trunk`, also read its named
+Issue, project item, and remote branch as a bounded recovery candidate, including
+when the item is in `Refinement`. The pointer remains dormant; reading its live
+owners does not activate its branch or grant execution authority. A normal continuation greeting never resumes mutation
 directly on `trunk` merely because one board item exists. Route through one
 verified existing worktree or await the Product Owner.
 

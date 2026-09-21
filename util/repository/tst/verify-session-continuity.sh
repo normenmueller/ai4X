@@ -4,6 +4,7 @@ set -eu
 script_directory=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 repository=$(CDPATH= cd -- "$script_directory/../../.." && pwd -P)
 verifier=$repository/util/repository/verify-session-continuity.sh
+fixture_branch=feature/session-continuity-fixture
 scratch_parent=$repository/.ai4x/local/verification
 mkdir -p "$scratch_parent"
 scratch_root=$(mktemp -d "$scratch_parent/session-continuity.XXXXXX")
@@ -27,6 +28,9 @@ make_fixture() {
   cp "$repository/.ai4x/BEHAVIOR.md" "$target/.ai4x/BEHAVIOR.md"
   cp "$repository/.ai4x/CONTEXT.md" "$target/.ai4x/CONTEXT.md"
   cp "$repository/.ai4x/STATE.md" "$target/.ai4x/STATE.md"
+  sed -i.bak "s|^Applies on branch:.*|Applies on branch: $fixture_branch|" \
+    "$target/.ai4x/STATE.md"
+  rm "$target/.ai4x/STATE.md.bak"
   cp "$repository/.ai4x/TEAM.md" "$target/.ai4x/TEAM.md"
   cp "$repository/.ai4x/governance/work-authority.md" "$target/.ai4x/governance/work-authority.md"
   cp "$repository/.ai4x/operations/session-continuity.md" "$target/.ai4x/operations/session-continuity.md"
@@ -69,7 +73,7 @@ expect_failure() {
 
 valid=$scratch_root/valid
 make_fixture "$valid"
-"$verifier" "$valid" feature/188-lean-agent-governance clean >/dev/null
+"$verifier" "$valid" "$fixture_branch" clean >/dev/null
 
 dormant=$scratch_root/dormant
 make_fixture "$dormant"
@@ -94,78 +98,78 @@ make_fixture "$duplicate_issue"
 sed -i.bak '/^Owning Issue:/a\
 Owning Issue: #189' "$duplicate_issue/.ai4x/STATE.md"
 rm "$duplicate_issue/.ai4x/STATE.md.bak"
-expect_failure duplicate-issue "$verifier" "$duplicate_issue" feature/188-lean-agent-governance clean
+expect_failure duplicate-issue "$verifier" "$duplicate_issue" "$fixture_branch" clean
 
 live_status=$scratch_root/live-status
 make_fixture "$live_status"
 sed -i.bak '/^Owning Issue:/a\
 Status: In progress' "$live_status/.ai4x/STATE.md"
 rm "$live_status/.ai4x/STATE.md.bak"
-expect_failure live-status "$verifier" "$live_status" feature/188-lean-agent-governance clean
+expect_failure live-status "$verifier" "$live_status" "$fixture_branch" clean
 
 bad_state_branch=$scratch_root/bad-state-branch
 make_fixture "$bad_state_branch"
 sed -i.bak 's|^Applies on branch:.*|Applies on branch: ../escape|' "$bad_state_branch/.ai4x/STATE.md"
 rm "$bad_state_branch/.ai4x/STATE.md.bak"
-expect_failure bad-state-branch "$verifier" "$bad_state_branch" feature/188-lean-agent-governance clean
+expect_failure bad-state-branch "$verifier" "$bad_state_branch" "$fixture_branch" clean
 
 absolute_state_path=$scratch_root/absolute-state-path
 make_fixture "$absolute_state_path"
 printf '\n- /Users/person/unsafe\n' >> "$absolute_state_path/.ai4x/STATE.md"
-expect_failure absolute-state-path "$verifier" "$absolute_state_path" feature/188-lean-agent-governance clean
+expect_failure absolute-state-path "$verifier" "$absolute_state_path" "$fixture_branch" clean
 
 wrong_direct_default=$scratch_root/wrong-direct-default
 make_fixture "$wrong_direct_default"
 sed -i.bak 's/^Direct default:.*/Direct default: mandatory team/' "$wrong_direct_default/.ai4x/TEAM.md"
 rm "$wrong_direct_default/.ai4x/TEAM.md.bak"
-expect_failure wrong-direct-default "$verifier" "$wrong_direct_default" feature/188-lean-agent-governance clean
+expect_failure wrong-direct-default "$verifier" "$wrong_direct_default" "$fixture_branch" clean
 
 review_not_independent=$scratch_root/review-not-independent
 make_fixture "$review_not_independent"
 sed -i.bak 's/^Review independence:.*/Review independence: optional/' "$review_not_independent/.ai4x/TEAM.md"
 rm "$review_not_independent/.ai4x/TEAM.md.bak"
-expect_failure review-not-independent "$verifier" "$review_not_independent" feature/188-lean-agent-governance clean
+expect_failure review-not-independent "$verifier" "$review_not_independent" "$fixture_branch" clean
 
 permission_is_authority=$scratch_root/permission-is-authority
 make_fixture "$permission_is_authority"
 sed -i.bak 's/^Technical permission grants authority:.*/Technical permission grants authority: yes/' \
   "$permission_is_authority/.ai4x/governance/work-authority.md"
 rm "$permission_is_authority/.ai4x/governance/work-authority.md.bak"
-expect_failure permission-is-authority "$verifier" "$permission_is_authority" feature/188-lean-agent-governance clean
+expect_failure permission-is-authority "$verifier" "$permission_is_authority" "$fixture_branch" clean
 
 merge_not_po=$scratch_root/merge-not-po
 make_fixture "$merge_not_po"
 sed -i.bak 's/^Merge authority:.*/Merge authority: automation/' \
   "$merge_not_po/.ai4x/governance/work-authority.md"
 rm "$merge_not_po/.ai4x/governance/work-authority.md.bak"
-expect_failure merge-not-po "$verifier" "$merge_not_po" feature/188-lean-agent-governance clean
+expect_failure merge-not-po "$verifier" "$merge_not_po" "$fixture_branch" clean
 
 persisted_credentials=$scratch_root/persisted-credentials
 make_fixture "$persisted_credentials"
 sed -i.bak 's/persist-credentials: false/persist-credentials: true/' \
   "$persisted_credentials/.github/workflows/verify.yml"
 rm "$persisted_credentials/.github/workflows/verify.yml.bak"
-expect_failure persisted-credentials "$verifier" "$persisted_credentials" feature/188-lean-agent-governance clean
+expect_failure persisted-credentials "$verifier" "$persisted_credentials" "$fixture_branch" clean
 
 safe_active=$scratch_root/safe-active
 make_git_fixture "$safe_active"
 mkdir -p "$safe_active/.ai4x/local/worktrees"
-git -C "$safe_active" worktree add -q -b feature/188-lean-agent-governance \
+git -C "$safe_active" worktree add -q -b "$fixture_branch" \
   "$safe_active/.ai4x/local/worktrees/188"
 write_active_pointer "$safe_active" '.ai4x/local/worktrees/188' \
-  feature/188-lean-agent-governance
+  "$fixture_branch"
 "$verifier" "$safe_active" trunk clean >/dev/null
 
 unsafe_active=$scratch_root/unsafe-active
 make_fixture "$unsafe_active"
 write_active_pointer "$unsafe_active" '../../outside' \
-  feature/188-lean-agent-governance
-expect_failure unsafe-active "$verifier" "$unsafe_active" feature/188-lean-agent-governance clean
+  "$fixture_branch"
+expect_failure unsafe-active "$verifier" "$unsafe_active" "$fixture_branch" clean
 
 missing_active_target=$scratch_root/missing-active-target
 make_git_fixture "$missing_active_target"
 write_active_pointer "$missing_active_target" '.ai4x/local/worktrees/missing' \
-  feature/188-lean-agent-governance
+  "$fixture_branch"
 expect_failure missing-active-target "$verifier" "$missing_active_target" trunk clean
 
 cross_repository=$scratch_root/cross-repository
@@ -173,9 +177,9 @@ make_git_fixture "$cross_repository"
 cross_target=$cross_repository/.ai4x/local/worktrees/foreign
 mkdir -p "$cross_target"
 git -C "$cross_target" init -q
-git -C "$cross_target" checkout -q -b feature/188-lean-agent-governance
+git -C "$cross_target" checkout -q -b "$fixture_branch"
 write_active_pointer "$cross_repository" '.ai4x/local/worktrees/foreign' \
-  feature/188-lean-agent-governance
+  "$fixture_branch"
 expect_failure cross-repository "$verifier" "$cross_repository" trunk clean
 
 wrong_active_branch=$scratch_root/wrong-active-branch
@@ -184,40 +188,40 @@ mkdir -p "$wrong_active_branch/.ai4x/local/worktrees"
 git -C "$wrong_active_branch" worktree add -q -b feature/wrong \
   "$wrong_active_branch/.ai4x/local/worktrees/wrong"
 write_active_pointer "$wrong_active_branch" '.ai4x/local/worktrees/wrong' \
-  feature/188-lean-agent-governance
+  "$fixture_branch"
 expect_failure wrong-active-branch "$verifier" "$wrong_active_branch" trunk clean
 
 wrong_target_state=$scratch_root/wrong-target-state
 make_git_fixture "$wrong_target_state"
 mkdir -p "$wrong_target_state/.ai4x/local/worktrees"
-git -C "$wrong_target_state" worktree add -q -b feature/188-lean-agent-governance \
+git -C "$wrong_target_state" worktree add -q -b "$fixture_branch" \
   "$wrong_target_state/.ai4x/local/worktrees/188"
 sed -i.bak 's|^Applies on branch:.*|Applies on branch: feature/other|' \
   "$wrong_target_state/.ai4x/local/worktrees/188/.ai4x/STATE.md"
 rm "$wrong_target_state/.ai4x/local/worktrees/188/.ai4x/STATE.md.bak"
 write_active_pointer "$wrong_target_state" '.ai4x/local/worktrees/188' \
-  feature/188-lean-agent-governance
+  "$fixture_branch"
 expect_failure wrong-target-state "$verifier" "$wrong_target_state" trunk clean
 
 untracked_target_state=$scratch_root/untracked-target-state
 make_git_fixture "$untracked_target_state"
 mkdir -p "$untracked_target_state/.ai4x/local/worktrees"
-git -C "$untracked_target_state" worktree add -q -b feature/188-lean-agent-governance \
+git -C "$untracked_target_state" worktree add -q -b "$fixture_branch" \
   "$untracked_target_state/.ai4x/local/worktrees/188"
 git -C "$untracked_target_state/.ai4x/local/worktrees/188" rm -q --cached .ai4x/STATE.md
 write_active_pointer "$untracked_target_state" '.ai4x/local/worktrees/188' \
-  feature/188-lean-agent-governance
+  "$fixture_branch"
 expect_failure untracked-target-state "$verifier" "$untracked_target_state" trunk clean
 
 absolute_target_state=$scratch_root/absolute-target-state
 make_git_fixture "$absolute_target_state"
 mkdir -p "$absolute_target_state/.ai4x/local/worktrees"
-git -C "$absolute_target_state" worktree add -q -b feature/188-lean-agent-governance \
+git -C "$absolute_target_state" worktree add -q -b "$fixture_branch" \
   "$absolute_target_state/.ai4x/local/worktrees/188"
 printf '\n- /Users/person/unsafe\n' >> \
   "$absolute_target_state/.ai4x/local/worktrees/188/.ai4x/STATE.md"
 write_active_pointer "$absolute_target_state" '.ai4x/local/worktrees/188' \
-  feature/188-lean-agent-governance
+  "$fixture_branch"
 expect_failure absolute-target-state "$verifier" "$absolute_target_state" trunk clean
 
 echo '[ai4x] session-continuity-test: passed'

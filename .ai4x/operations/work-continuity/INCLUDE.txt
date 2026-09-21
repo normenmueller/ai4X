@@ -7,4 +7,3 @@
 .ai4x/local/session-scratch/103/reference/complete-sfe-run-interaction.tex
 .ai4x/local/session-scratch/103/refinement-comment.md
 .ai4x/local/session-scratch/180/work-continuity-portfolio-and-project-instance.md
-.ai4x/local/session-scratch/CURRENT-HANDOFF.md

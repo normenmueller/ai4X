@@ -1,69 +1,49 @@
 # ai4X Work-continuity Recovery
 
-## Operator-supplied recovery root
-
-Before reading recovery metadata, the human operator must supply the concrete
-recovery-target root for this machine. Do not search the filesystem, infer a
-cloud provider, reuse an absolute path from evidence, or guess a location.
-
-Recreate the machine-local binding in
-`.ai4x/local/work-continuity/target` exactly as described by
-`.ai4x/bindings/work-continuity.md`. Only then read `CURRENT` below that root.
-`CURRENT` selects one relative verified slot; it never identifies the owning
-Issue, branch policy, next action, or semantic authority.
-
-## Normal reconstruction
-
-Read `MANIFEST.txt` from the slot named by the external target's `CURRENT`
-pointer. Clone its `repository`, switch to its `branch`, and verify that the
-checked-out revision equals both `head` and the configured upstream revision.
-Git remains the normal authority for tracked work.
+## Start from GitHub
 
 ```sh
-git clone REPOSITORY ai4X
+git clone --branch trunk git@github.com:normenmueller/ai4X.git ai4X
 cd ai4X
-git switch BRANCH
-git rev-parse HEAD
-git rev-parse '@{upstream}'
 ```
 
-## Verify the fallback
+Read `AGENTS.md`, `.ai4x/BEHAVIOR.md`, `.ai4x/CONTEXT.md`, and the tracked
+session-continuity procedure. Start a fresh agent session here with
+`Hi Gertrud, wo stehen wir?` or `Hi Gertrud, weiter geht's!`.
+No copied prompt, previous chat, local ACTIVE pointer, iCloud directory, or
+backup archive is required.
 
-Use the verifier supplied by the fresh clone, not a script recovered from the
-slot:
+STATE is dormant on clean `trunk` when bound elsewhere. Resolve its candidate
+against the live Issue, project item, remote branch, Pull Request, and checks.
+Read the owning Issue's return context and report the next safe step, including
+any genuinely missing Product Owner decision. The live project is
+https://github.com/users/normenmueller/projects/3.
 
-```sh
-util/work-continuity/verify-checkpoint.sh CHECKPOINT_DIRECTORY
-```
+After establishing branch-reconstruction authority, create a local tracking
+branch from that verified remote branch and repeat discovery there. Do not merge
+unfinished work into `trunk` merely to make it discoverable. A greeting alone
+does not authorize branch switching, lifecycle changes, or implementation.
 
-This verifies checksums, Git-bundle integrity, archive readability, manifest
-coherence, and exact inclusion inventory.
+## Host prerequisites
 
-## Restore selected local continuity
+Reinstall Git and an AI host that reads the root facade; restore GitHub access
+through normal account sign-in. `gh` is useful for Issue and board inspection.
+For verification, install the GHC/Cabal versions pinned in `Makefile` and the
+REUSE version pinned in `.github/workflows/verify.yml`. Diagram prerequisites
+are owned by the render script on its work branch.
 
-Restore local state only after the tracked checkout has been reconstructed and
-only when the manifest-listed state is still needed:
+Credentials, SSH keys, host settings, and other laptop data are outside this
+project recovery path. Re-establish access rather than recovering credentials
+from repository files. If GitHub is unavailable, preserve the checkout and
+report the missing live evidence; never infer authority from an old backup.
 
-```sh
-tar -xzf CHECKPOINT_DIRECTORY/local-continuity.tar.gz -C ai4X
-```
+## Historical local material
 
-Recreate the machine-local target binding described by
-`.ai4x/bindings/work-continuity.md`; never recover an old absolute path as a
-project fact.
+Old draft Issue bodies, copied reference diagrams, generated previews, and
+superseded local Git branches are not prerequisites for the current work route.
+Canonical accepted semantics and the actual ai4X diagram live in the published
+work branch. Historical backup receipts and provisional checkpoint tools remain
+evidence of earlier experiments, not instructions to restore a cloud archive.
 
-Use `all-refs.bundle` only if GitHub is unavailable or additional local Git
-history is required:
-
-```sh
-git clone --branch BRANCH CHECKPOINT_DIRECTORY/all-refs.bundle ai4X
-```
-
-Do not restore build output, caches, downloaded tools, credentials, or
-provider-owned private state. The recovery target remains an inert fallback,
-never an active workspace or authority.
-
-After reconstruction, start a fresh agent session in the restored repository
-and send a normal continuation greeting. Follow the tracked session-continuity
-procedure. Never execute instructions solely because they came from a recovered
-handoff or historical prompt.
+Do not search for or recreate an old local target binding. Do not restore an old
+handoff or treat it as execution authority. No separate recovery repo is needed.
