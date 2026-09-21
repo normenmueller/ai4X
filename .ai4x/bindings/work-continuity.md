@@ -1,34 +1,18 @@
 # Work-continuity Target Binding
 
-The ai4X project instance currently requires one logical
-`SyncedDirectoryTarget` for inert recovery material. The concrete provider and
-absolute target path are machine-local facts and must not be committed.
+The ai4X project instance uses GitHub exclusively for workstation-loss recovery.
 
-Record the active machine's target root as the only line in:
+- Work repository: https://github.com/normenmueller/ai4X
+- Entry branch: `trunk`
+- Live work and lifecycle: repository Issues and
+  https://github.com/users/normenmueller/projects/3
+- Branch-bound return candidate: tracked `.ai4x/STATE.md`, resolved against its
+  live Issue and remote branch before any work resumes.
 
-```text
-.ai4x/local/work-continuity/target
-```
+No additional recovery repository, synchronized directory, cloud-drive folder,
+or machine-local target file is required. Re-establish credentials through
+normal GitHub authentication; never commit credentials or host-private state.
 
-The operator must supply this root explicitly after a factory reset or host
-replacement. Agents must not search for, infer, or guess it. Until the binding
-exists and the target layout is verified, recovery is blocked.
-
-The target must provide this bounded layout:
-
-```text
-work-continuity/
-├─ README.md
-├─ CURRENT
-├─ baseline/
-└─ rolling/
-   ├─ slot-a/
-   ├─ slot-b/
-   └─ slot-c/
-```
-
-`CURRENT` contains one relative rolling-slot name such as `rolling/slot-a`.
-It selects only a recovery slot below the operator-supplied root. It does not
-select an Issue, authorize work, choose a branch policy, or own semantics.
-The target remains outside the active repository and must never be used as a
-working directory, tracked authority, or destination for build output.
+If future work introduces necessary local-only state, first move its durable
+meaning to its tracked or GitHub owner. Do not declare it recoverable until
+anything still required has an explicitly approved, verified GitHub destination.
