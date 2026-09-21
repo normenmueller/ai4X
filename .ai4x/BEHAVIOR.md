@@ -62,9 +62,9 @@ without `resume` or `fork`. Complete all of the following before recommending it
    context materially changes. It is a router, never live work or authority.
    An optional `.ai4x/local/ACTIVE.md` may point a stable checkout to another
    worktree but remains disposable and non-authoritative.
-5. Refresh the external recovery set only when necessary local continuity state
-   materially changed, then prove that no required fact exists only in chat or
-   disposable state.
+5. Follow the GitHub-only work-continuity procedure and prove that no required
+   fact or artifact exists only in chat, disposable local state, or an external
+   backup. Do not read or refresh a cloud-drive recovery set.
 
 Report that the Cold Start is prepared, ask the Product Owner to end the session
 with `/delete`, open a fresh session in this repository without `resume` or

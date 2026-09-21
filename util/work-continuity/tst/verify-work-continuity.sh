@@ -70,7 +70,6 @@ printf '%s\n' \
   '.ai4x/local/session-scratch/103/reference/complete-sfe-run-interaction.tex' \
   '.ai4x/local/session-scratch/103/refinement-comment.md' \
   '.ai4x/local/session-scratch/180/work-continuity-portfolio-and-project-instance.md' \
-  '.ai4x/local/session-scratch/CURRENT-HANDOFF.md' \
   > "$fixture_include"
 
 if ! cmp -s "$include_file" "$fixture_include"; then
@@ -140,7 +139,7 @@ mkdir -p "$archive_root"
 tar -xzf "$valid/local-continuity.tar.gz" -C "$archive_root"
 symlink_member="$archive_root/.ai4x/local/session-scratch/102/epic-review.md"
 rm "$symlink_member"
-ln -s ../CURRENT-HANDOFF.md "$symlink_member"
+ln -s ../103/epic-body.md "$symlink_member"
 tar -czf "$symlink_archive/local-continuity.tar.gz" -C "$archive_root" -T "$fixture_include"
 write_checksums "$symlink_archive"
 expect_failure symlink-archive "$verifier" "$symlink_archive"
