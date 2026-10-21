@@ -7,5 +7,9 @@ If the Product Owner starts a fresh session with only a continuation greeting,
 follow the Cold Start procedure routed by `.ai4x/CONTEXT.md`; do not request or
 reconstruct a copied transition prompt.
 
+For starts in another registered worktree, follow the registered-worktree
+re-entry procedure in `.ai4x/operations/session-continuity.md`. It resolves the
+preferred working checkout and the owning Issue's current re-entry context.
+
 This file is a discovery facade. Canonical repository behavior remains in
 `.ai4x/BEHAVIOR.md`.

@@ -5,7 +5,8 @@ Start with [BEHAVIOR.md](BEHAVIOR.md). Then load only what the task needs:
 - [context/architecture.md](context/architecture.md) for structure and authority boundaries;
 - [context/domain-language.md](context/domain-language.md) for core terminology;
 - [operations/session-continuity.md](operations/session-continuity.md) when a
-  fresh session begins with only a continuation greeting;
+  fresh session begins with only a continuation greeting, including discovery
+  of the preferred working checkout from another registered worktree;
 - [STATE.md](STATE.md) for the branch-bound return pointer when it applies;
 - [governance/work-authority.md](governance/work-authority.md) for risk,
   execution authority, effect bounds, identity, and gate separation;
