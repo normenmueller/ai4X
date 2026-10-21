@@ -1,7 +1,7 @@
 # ai4X Work State
 
 Schema: ai4x-work-state-v1
-Applies on branch: docs/103-need-to-capability
+Applies on branch: doc/103-need-to-capability
 Owning Issue: #103
 
 ## Return context
