@@ -186,7 +186,9 @@ if test "$static_only" = no; then
 fi
 
 if test -z "$observed_clean"; then
-  if test -z "$(git -C "$repository" status --porcelain=v1 2>/dev/null)"; then
+  worktree_status=$(git -C "$repository" status --porcelain=v1 --untracked-files=all) ||
+    fail 'cannot verify worktree cleanliness'
+  if test -z "$worktree_status"; then
     observed_clean=clean
   else
     observed_clean=dirty
