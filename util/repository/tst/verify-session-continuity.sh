@@ -79,6 +79,17 @@ dormant=$scratch_root/dormant
 make_fixture "$dormant"
 "$verifier" "$dormant" trunk clean >/dev/null
 
+trunk_entry=$scratch_root/trunk-entry
+make_git_fixture "$trunk_entry"
+sed -i.bak 's|^Applies on branch:.*|Applies on branch: trunk|' "$trunk_entry/.ai4x/STATE.md"
+rm "$trunk_entry/.ai4x/STATE.md.bak"
+"$verifier" "$trunk_entry" trunk clean | grep -F 'read-only entry' >/dev/null
+git -C "$trunk_entry" add .ai4x/STATE.md
+git -C "$trunk_entry" commit -q -m "Bind fixture to trunk"
+git -C "$trunk_entry" config status.showUntrackedFiles no
+touch "$trunk_entry/untracked"
+expect_failure dirty-trunk-entry "$verifier" "$trunk_entry"
+
 detached=$scratch_root/detached
 make_git_fixture "$detached"
 git -C "$detached" checkout -q --detach
