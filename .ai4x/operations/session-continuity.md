@@ -83,7 +83,7 @@ because STATE or ACTIVE points at work.
 ```text
 # ai4X Work State
 Schema: ai4x-work-state-v1
-Applies on branch: valid/non-trunk-branch
+Applies on branch: valid-branch-name
 Owning Issue: #number
 
 ## Return context
@@ -91,6 +91,10 @@ Owning Issue: #number
 ## Authority boundary
 ## Concurrency limit
 ```
+
+A STATE bound to `trunk` makes the clean trunk checkout the entry for read-only
+discovery. Use a separately authorized topic branch for implementation. A dirty
+trunk checkout stops discovery so local changes can be preserved.
 
 STATE may contain durable pointers and a concise return summary. It must not
 copy board status, execution authorization, gate status, mutable revisions, or

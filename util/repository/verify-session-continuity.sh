@@ -75,7 +75,6 @@ validate_state_contract() {
   validated_state_branch=$(single_field "$file" 'Applies on branch')
   git check-ref-format --branch "$validated_state_branch" >/dev/null 2>&1 ||
     fail "$label STATE branch is not a valid branch name"
-  test "$validated_state_branch" != trunk || fail "$label STATE must bind a non-trunk work branch"
 
   validated_state_issue=$(single_field "$file" 'Owning Issue')
   printf '%s\n' "$validated_state_issue" | grep -E '^#[1-9][0-9]*$' >/dev/null ||
@@ -272,7 +271,10 @@ if test -n "$active_route"; then
   exit 0
 fi
 
-if test "$observed_branch" = "$state_branch"; then
+if test "$observed_branch" = trunk && test "$state_branch" = trunk; then
+  test "$observed_clean" = clean || fail 'dirty trunk cannot be used for re-entry'
+  printf '[ai4x] session-continuity: read-only entry (%s, trunk)\n' "$owning_issue"
+elif test "$observed_branch" = "$state_branch"; then
   printf '[ai4x] session-continuity: active (%s, %s)\n' "$owning_issue" "$state_branch"
 elif test "$observed_branch" = trunk && test "$observed_clean" = clean; then
   printf '[ai4x] session-continuity: dormant (%s applies on %s)\n' "$owning_issue" "$state_branch"

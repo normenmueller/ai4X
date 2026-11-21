@@ -1,11 +1,13 @@
 # ai4X Work State
 
 Schema: ai4x-work-state-v1
-Applies on branch: doc/103-need-to-capability
+Applies on branch: trunk
 Owning Issue: #103
 
 ## Return context
 
+- Start reboot discussions on clean `trunk`. A continuation greeting grants
+  read-only discovery; implementation still uses an authorized topic branch.
 - Read the owning Issue's `Current re-entry` section for the current discussion
   and prerequisite work before resuming architecture refinement.
 - Preserve the accepted poster layout and semantics; change only the next

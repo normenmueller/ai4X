@@ -79,6 +79,13 @@ dormant=$scratch_root/dormant
 make_fixture "$dormant"
 "$verifier" "$dormant" trunk clean >/dev/null
 
+trunk_entry=$scratch_root/trunk-entry
+make_fixture "$trunk_entry"
+sed -i.bak 's|^Applies on branch:.*|Applies on branch: trunk|' "$trunk_entry/.ai4x/STATE.md"
+rm "$trunk_entry/.ai4x/STATE.md.bak"
+"$verifier" "$trunk_entry" trunk clean | grep -F 'read-only entry' >/dev/null
+expect_failure dirty-trunk-entry "$verifier" "$trunk_entry" trunk dirty
+
 detached=$scratch_root/detached
 make_git_fixture "$detached"
 git -C "$detached" checkout -q --detach
