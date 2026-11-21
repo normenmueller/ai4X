@@ -58,6 +58,12 @@ invariants, and deterministic transformations; Haskell evaluation itself is
 non-strict. Prototype and historical evidence remain outside `trunk` until a
 product slice deliberately adopts a proven result.
 
+At deterministic validation boundaries such as `validateIntent`, Haskell
+checks an authored, decoded draft only for closed types and formal invariants.
+It returns typed defects or a phase-indexed validated value. Success provides
+deterministic evidence; it never supplies semantic fitness, human confirmation,
+or approval.
+
 The Need-to-Capability ownership flow is tracked in
 [need-to-capability.md](need-to-capability.md). Its normative Curation algebra
 and invariants have exactly one owner: [curation.md](curation.md). Diagrams,

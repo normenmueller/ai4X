@@ -1,0 +1,625 @@
+\documentclass[tikz,border=10pt]{standalone}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{lmodern}
+\usetikzlibrary{arrows.meta,backgrounds,calc,positioning}
+
+\definecolor{aink}{HTML}{253238}
+\definecolor{amuted}{HTML}{647178}
+\definecolor{aaccent}{HTML}{8E839F}
+\definecolor{ahuman}{HTML}{F8F3E8}
+\definecolor{acognitive}{HTML}{F2EFF8}
+\definecolor{acognitivestate}{HTML}{F7F5FB}
+\definecolor{adeterministic}{HTML}{EEE9F6}
+\definecolor{aartifact}{HTML}{F8F6FB}
+\definecolor{ascouting}{HTML}{F8F6FC}
+\definecolor{acuration}{HTML}{F2EDF8}
+\definecolor{aspawning}{HTML}{EAE3F4}
+
+\newcommand{\commandtext}[1]{{\scriptsize\ttfamily #1}}
+\newcommand{\detailtext}[1]{{\scriptsize\color{amuted}#1}}
+\newcommand{\typeindex}[2]{#1\textless{}#2\textgreater{}}
+\newcommand{\primaryflowgap}{0.80cm}
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+
+\begin{document}
+\begin{tikzpicture}[
+  font=\sffamily,
+  box/.style={
+    draw=aink,
+    fill=white,
+    line width=0.75pt,
+    minimum height=1.45cm,
+    text width=4.05cm,
+    align=center,
+    inner sep=6pt,
+    font=\sffamily\small
+  },
+  value box/.style={box, rounded corners=2pt},
+  activity box/.style={box, rounded corners=0.5pt, line width=0.85pt},
+  decision box/.style={box, rounded corners=7pt, line width=0.85pt},
+  human state/.style={value box, fill=ahuman},
+  cognitive state/.style={value box, fill=acognitivestate},
+  cognitive activity/.style={activity box, fill=acognitive},
+  deterministic activity/.style={activity box, fill=adeterministic},
+  human decision/.style={decision box, fill=ahuman},
+  artifact state/.style={value box, fill=aartifact, draw=aaccent, dashed},
+  cognitive flow/.style={-{Stealth[length=2.1mm]}, draw=aaccent, line width=1pt},
+  deterministic flow/.style={-{Stealth[length=2.1mm]}, draw=aink, line width=0.9pt},
+  return flow/.style={-{Stealth[length=2mm]}, draw=amuted, dashed, line width=0.8pt},
+  relation/.style={
+    fill=white,
+    align=center,
+    inner xsep=4pt,
+    inner ysep=2pt,
+    text=aink,
+    font=\sffamily\scriptsize
+  },
+  lane title/.style={font=\sffamily\small\bfseries, text=aink, align=center},
+  lane subtitle/.style={font=\sffamily\scriptsize, text=amuted, align=center},
+  phase header/.style={
+    font=\sffamily\scriptsize\bfseries,
+    text=aink,
+    align=center
+  },
+  phase/.style={font=\sffamily\scriptsize\bfseries, text=amuted}
+]
+
+\coordinate (human) at (0,0);
+\coordinate (cognitive) at (8,0);
+\coordinate (deterministic) at (16,0);
+\coordinate (artifacts) at (24,0);
+
+\begin{scope}[on background layer]
+  \fill[ahuman, opacity=0.28] (-4,0.45) rectangle (4,-41.75);
+  \fill[acognitive, opacity=0.38] (4,0.45) rectangle (12,-41.75);
+  \fill[adeterministic, opacity=0.38] (12,0.45) rectangle (20,-41.75);
+  \fill[aartifact, opacity=0.44] (20,0.45) rectangle (28,-41.75);
+  \draw[aaccent, line width=0.6pt] (-4,0.45) rectangle (28,-41.75);
+  \draw[aaccent, line width=0.45pt] (4,0.45) -- (4,-41.75);
+  \draw[aaccent, line width=0.45pt] (12,0.45) -- (12,-41.75);
+  \draw[aaccent, line width=0.45pt] (20,0.45) -- (20,-41.75);
+\end{scope}
+
+\node[font=\sffamily\tiny\bfseries, text=aaccent] at (11.40,2.57)
+  {AI for \textit{everything}!};
+\node[
+  font=\sffamily\scriptsize,
+  text=amuted,
+  text width=8.80cm,
+  align=right,
+  anchor=north east
+] at (27.60,2.62) {
+  \textcolor{aink}{\textbf{Treat \textit{it} as people!}}\\[-1pt]
+  {\tiny \ldots{} and beware --- ``people'' might be wrong. Handle ``it''!}
+};
+\node[inner sep=0pt, font=\sffamily\Large\bfseries, text=aink]
+  at (11.40,2.07) {
+    \raisebox{-0.13cm}{%
+      \includegraphics[height=0.64cm]{../assets/brand/ai4x-logo.jpg}%
+    }\hspace{0.28cm}Need to Capability
+  };
+\node[font=\sffamily\small, text=amuted] at (11.40,1.53)
+  {Agentic Cognition Engineering (ACE): meaning stays cognitive;
+  invariants, evidence and projections stay deterministic};
+\node[font=\sffamily\scriptsize, text=amuted] at (11.40,1.12) {
+  \texttt{Typed boundary: Dhall declarations $\to$ closed Haskell values
+  $\to$ deterministic evidence + projections}
+};
+
+\node[lane title] at (human) {HUMAN AUTHORITY};
+\node[lane subtitle] at ($(human)+(0,-0.38)$) {states intent and decides};
+\node[lane title] at (cognitive) {AI HOST + ai4X COGNITION};
+\node[lane subtitle] at ($(cognitive)+(0,-0.38)$)
+  {interprets meaning and authors proposals};
+\node[lane title] at (deterministic) {ai4X LIBRARY / CLI};
+\node[lane subtitle] at ($(deterministic)+(0,-0.38)$)
+  {validates invariants and materializes projections};
+\node[lane title] at (artifacts) {VERSIONED ARTIFACTS};
+\node[lane subtitle] at ($(artifacts)+(0,-0.38)$)
+  {preserve identity, evidence and provenance};
+
+\node[human state] (concern) at (0,-2.30) {
+  \textbf{Initial Concern}\\[1pt]
+  \detailtext{wish, problem, idea or situation;}\\[-1pt]
+  \detailtext{available evidence and uncertainty;}\\[-1pt]
+  \detailtext{\textit{not yet a confirmed Need}}\\[2pt]
+  \commandtext{\typeindex{Concern}{Initial}}
+};
+
+\node[cognitive activity, text width=4.70cm] (interview) at (8,-2.30) {
+  \textbf{Conduct Guided Expert Interview}\\[1pt]
+  \detailtext{elicit WHY, WHAT and constraints;}\\[-1pt]
+  \detailtext{clarify success and available evidence;}\\[-1pt]
+  \detailtext{surface uncertainty explicitly}
+};
+\draw[cognitive flow]
+  (concern.east) -- node[relation, pos=0.46] {enters AI-assisted work}
+  (interview.west);
+
+\node[cognitive state, below=\primaryflowgap of interview] (draft) {
+  \textbf{Need Draft}\\[1pt]
+  \detailtext{WHY + WHAT, explicitly bounded;}\\[-1pt]
+  \detailtext{evidence and uncertainty visible}\\[2pt]
+  \commandtext{\typeindex{Need}{Draft}}
+};
+\draw[cognitive flow]
+  (interview.south) -- node[relation] {produces} (draft.north);
+
+\node[human decision] (alignment) at (human |- draft) {
+  \textbf{Align on the Need}\\[1pt]
+  \detailtext{confirm WHY + WHAT or}\\[-1pt]
+  \detailtext{request focused correction}
+};
+\draw[cognitive flow] (draft.west) -- node[relation] {``Is this your Need?''} (alignment.east);
+\draw[return flow]
+  (alignment.north) -- ++(0,0.34) -| node[relation, pos=0.23] {correct / clarify}
+  ([xshift=-0.85cm]interview.south);
+
+\node[human state, below=\primaryflowgap of alignment] (confirmed) {
+  \textbf{Confirmed Need}\\[1pt]
+  \detailtext{human-confirmed WHY + WHAT;}\\[-1pt]
+  \detailtext{ready for structured intent}\\[2pt]
+  \commandtext{\typeindex{Need}{Confirmed}}
+};
+\draw[cognitive flow]
+  (alignment.south) -- node[relation] {confirm} (confirmed.north);
+
+\node[cognitive activity, text width=4.9cm] (authorintent)
+  at (cognitive |- confirmed) {
+  \textbf{Author Project Intent}\\[1pt]
+  \detailtext{derive outcomes and Cognitive Jobs;}\\[-1pt]
+  \detailtext{bind constraints and priorities;}\\[-1pt]
+  \detailtext{state acceptance evidence}
+};
+\draw[cognitive flow]
+  (confirmed.east) -- node[relation] {grounds intent}
+  (authorintent.west);
+
+\node[cognitive state, below=\primaryflowgap of authorintent, text width=4.9cm] (intent) {
+  \textbf{Project Intent Draft}\\[1pt]
+  \detailtext{outcomes + Cognitive Jobs + constraints}\\[-1pt]
+  \detailtext{priorities + acceptance evidence}\\[2pt]
+  \commandtext{\typeindex{ProjectIntent}{Draft}}
+};
+\draw[cognitive flow]
+  (authorintent.south) -- node[relation] {produces} (intent.north);
+
+\node[deterministic activity] (validateintent) at (deterministic |- intent) {
+  \commandtext{validateIntent}\\[1pt]
+  \textbf{Validate Project Intent}\\[1pt]
+  \detailtext{check closed values and invariants;}\\[-1pt]
+  \detailtext{return only typed defects}\\[2pt]
+  \commandtext{\typeindex{ProjectIntent}{Validated}}
+};
+\draw[deterministic flow]
+  (intent.east) -- node[relation] {enters validation}
+  (validateintent.west);
+
+\node[artifact state, text width=5.60cm] (validatedintent) at (artifacts |- intent) {
+  \textbf{Validated Project Intent}\\[1pt]
+  \detailtext{confirmed Need + outcomes + Cognitive Jobs}\\[-1pt]
+  \detailtext{constraints + priorities + acceptance evidence}\\[-1pt]
+  \detailtext{identity + revision + canonical digest}\\[2pt]
+  \commandtext{\typeindex{ProjectIntent}{Validated}}
+};
+\draw[deterministic flow]
+  (validateintent.east) -- node[relation, pos=0.46] {validation succeeds}
+  (validatedintent.west);
+
+\node[artifact state, below=1.55cm of intent, xshift=16cm] (corpus) {
+  \textbf{Capability Corpus Release}\\[1pt]
+  \detailtext{exact Capability versions;}\\[-1pt]
+  \detailtext{declaration + contract digests}\\[2pt]
+  \commandtext{\typeindex{CapabilityCorpus}{Released}}
+};
+
+\node[artifact state, below=1.15cm of corpus, text width=4.30cm]
+  (candidates) {
+  \textbf{Scouted Capability Candidates}\\[1pt]
+  \detailtext{need-fit references + Job coverage;}\\[-1pt]
+  \detailtext{rationale + explicit uncertainty}\\[2pt]
+  \commandtext{\typeindex{CapabilityCandidates}{Identified}}
+};
+
+\coordinate (artifactscoutinggap) at
+  ($(corpus.south)!0.5!(candidates.north)$);
+\node[cognitive activity, text width=4.30cm]
+  (scoutcapabilities) at (cognitive |- artifactscoutinggap) {
+  \textbf{Scout Capability Candidates}\\[1pt]
+  \detailtext{derive required Cognitive Jobs;}\\[-1pt]
+  \detailtext{identify need-fit candidates only}\\[2pt]
+  \commandtext{\typeindex{CapabilityCandidates}{Identified}}
+};
+\coordinate (scoutintentinput) at
+  ($(scoutcapabilities.north west)!0.43!(scoutcapabilities.north east)$);
+\coordinate (scoutcorpusinput) at
+  ($(scoutcapabilities.north west)!0.57!(scoutcapabilities.north east)$);
+
+\coordinate (validatedintentfeed) at ([yshift=-0.68cm]validatedintent.south);
+\coordinate (semanticcurationfeed) at
+  (validatedintentfeed -| scoutintentinput);
+\draw[cognitive flow]
+  (validatedintent.south) -- (validatedintentfeed)
+  -- node[relation, midway] {guides candidate scouting}
+  (semanticcurationfeed)
+  -- (scoutintentinput);
+\coordinate (corpussearchturn) at
+  (scoutcorpusinput |- corpus.west);
+\draw[cognitive flow]
+  (corpus.west) -- node[relation, midway] {bounds candidate search}
+  (corpussearchturn) -- (scoutcorpusinput);
+
+\coordinate (candidateidentificationturn) at
+  (scoutcapabilities.east -| candidates.north);
+\draw[cognitive flow]
+  (scoutcapabilities.east)
+  -- node[relation, pos=0.22] {identifies} (candidateidentificationturn)
+  -- (candidates.north);
+
+\node[cognitive activity, below=0.85cm of candidates, xshift=-16cm,
+  text width=5.90cm, minimum height=3.75cm] (semanticcuration) {};
+\node[font=\sffamily\small\bfseries, text=aink, anchor=north]
+  at ([yshift=-0.16cm]semanticcuration.north)
+  {Curate Agentic Constellation};
+\node[font=\ttfamily\scriptsize, text=aink, anchor=west]
+  (draftproposal)
+  at ([xshift=-2.45cm,yshift=-0.70cm]semanticcuration.north)
+  {\typeindex{CurationProposal}{Draft}};
+\node[font=\ttfamily\scriptsize, text=amuted, anchor=west]
+  (draftconstellation)
+  at ([xshift=-2.10cm,yshift=-1.05cm]semanticcuration.north)
+  {\typeindex{AgenticConstellation}{Draft}};
+\node[font=\sffamily\scriptsize, text=amuted, anchor=west]
+  (selectedcapabilities)
+  at ([xshift=-1.75cm,yshift=-1.38cm]semanticcuration.north)
+  {selected cognitive Capabilities};
+\node[font=\sffamily\scriptsize, text=amuted, anchor=west]
+  (cognitiveagentteam)
+  at ([xshift=-1.75cm,yshift=-1.68cm]semanticcuration.north)
+  {Cognitive Agent Team};
+\node[font=\sffamily\scriptsize, text=amuted, anchor=west]
+  (operatingmodel)
+  at ([xshift=-1.75cm,yshift=-1.98cm]semanticcuration.north)
+  {Operating Model};
+\node[font=\sffamily\scriptsize, text=amuted, anchor=west]
+  (collaborationmodel)
+  at ([xshift=-1.40cm,yshift=-2.28cm]semanticcuration.north)
+  {Collaboration Model};
+\node[font=\sffamily\scriptsize, text=amuted, anchor=west]
+  (workmanagementmodel)
+  at ([xshift=-1.40cm,yshift=-2.58cm]semanticcuration.north)
+  {Work Management Model};
+\node[font=\sffamily\scriptsize, text=amuted, anchor=west]
+  (governancemodel)
+  at ([xshift=-1.40cm,yshift=-2.88cm]semanticcuration.north)
+  {Governance Model};
+\node[font=\ttfamily\scriptsize, text=amuted, anchor=west]
+  (draftrationale)
+  at ([xshift=-2.10cm,yshift=-3.22cm]semanticcuration.north)
+  {\typeindex{CurationRationale}{Authored}};
+\coordinate (proposalbranchstart) at
+  ([xshift=-2.32cm,yshift=-0.88cm]semanticcuration.north);
+\coordinate (proposalbranchend) at
+  (proposalbranchstart |- draftrationale.west);
+\draw[aaccent, line width=0.45pt]
+  (proposalbranchstart) -- (proposalbranchend);
+\draw[aaccent, line width=0.45pt]
+  (proposalbranchstart |- draftconstellation.west) -- (draftconstellation.west)
+  (proposalbranchstart |- draftrationale.west) -- (draftrationale.west);
+\coordinate (constellationbranchstart) at
+  ([xshift=-1.97cm,yshift=-1.22cm]semanticcuration.north);
+\coordinate (constellationbranchend) at
+  (constellationbranchstart |- operatingmodel.west);
+\draw[aaccent, line width=0.45pt]
+  (constellationbranchstart) -- (constellationbranchend);
+\draw[aaccent, line width=0.45pt]
+  (constellationbranchstart |- selectedcapabilities.west) -- (selectedcapabilities.west)
+  (constellationbranchstart |- cognitiveagentteam.west) -- (cognitiveagentteam.west)
+  (constellationbranchstart |- operatingmodel.west) -- (operatingmodel.west);
+\coordinate (modelbranchstart) at
+  ([xshift=-1.62cm,yshift=-2.14cm]semanticcuration.north);
+\coordinate (modelbranchend) at
+  (modelbranchstart |- governancemodel.west);
+\draw[aaccent, line width=0.45pt]
+  (modelbranchstart) -- (modelbranchend);
+\draw[aaccent, line width=0.45pt]
+  (modelbranchstart |- collaborationmodel.west) -- (collaborationmodel.west)
+  (modelbranchstart |- workmanagementmodel.west) -- (workmanagementmodel.west)
+  (modelbranchstart |- governancemodel.west) -- (governancemodel.west);
+\coordinate (curationfeed) at (semanticcuration.north |- candidates.west);
+
+\node[deterministic activity, below=0.75cm of semanticcuration, xshift=8cm,
+  text width=4.75cm]
+  (verifycuration) {
+  \commandtext{verifyCuration}\\[1pt]
+  \textbf{Verify Curation}\\[1pt]
+  \detailtext{bind exact Draft + Corpus release;}\\[-1pt]
+  \detailtext{check complete Candidate decisions;}\\[-1pt]
+  \detailtext{close graph + canonical order}\\[2pt]
+  \commandtext{VerifiedCuration}
+};
+\coordinate (verifydraftinput) at
+  ($(verifycuration.north west)!0.43!(verifycuration.north east)$);
+\coordinate (verifyreleaseinput) at
+  ($(verifycuration.north west)!0.57!(verifycuration.north east)$);
+\coordinate (draftverificationturn) at
+  (verifydraftinput |- semanticcuration.east);
+\draw[deterministic flow]
+  (semanticcuration.east)
+  -- node[relation, midway] {enters verification}
+  (draftverificationturn)
+  -- (verifydraftinput);
+\coordinate (corpusverificationfeed) at ([yshift=-0.35cm]corpus.south);
+\coordinate (releasecheckturn) at
+  (corpusverificationfeed -| verifyreleaseinput);
+\draw[deterministic flow]
+  (corpus.south) -- (corpusverificationfeed)
+  -- node[relation, midway] {supplies release facts} (releasecheckturn)
+  -- (verifyreleaseinput);
+\draw[cognitive flow, preaction={draw=white, line width=3pt, -}]
+  (candidates.west)
+  -- node[relation, pos=0.53] {grounds constellation curation}
+  (curationfeed)
+  -- (semanticcuration.north);
+
+\node[artifact state, text width=5.35cm, minimum height=2.15cm]
+  (verifiedcuration) at (artifacts |- verifycuration) {};
+\node[font=\sffamily\small\bfseries, text=aink, anchor=north]
+  at ([yshift=-0.16cm]verifiedcuration.north)
+  {Verified Curation};
+\node[font=\ttfamily\scriptsize, text=aink, anchor=west]
+  (verifiedroot)
+  at ([xshift=-2.15cm,yshift=-0.70cm]verifiedcuration.north)
+  {VerifiedCuration};
+\node[font=\ttfamily\scriptsize, text=amuted, anchor=west]
+  (verifiedproposal)
+  at ([xshift=-1.80cm,yshift=-1.08cm]verifiedcuration.north)
+  {\typeindex{CurationProposal}{Draft}};
+\node[font=\ttfamily\scriptsize, text=amuted, anchor=west]
+  (verifiedtrace)
+  at ([xshift=-1.80cm,yshift=-1.45cm]verifiedcuration.north)
+  {CurationTrace};
+\coordinate (verifiedbranchstart) at
+  ([xshift=-2.02cm,yshift=-0.88cm]verifiedcuration.north);
+\coordinate (verifiedbranchend) at
+  (verifiedbranchstart |- verifiedtrace.west);
+\draw[aaccent, line width=0.45pt]
+  (verifiedbranchstart) -- (verifiedbranchend);
+\draw[aaccent, line width=0.45pt]
+  (verifiedbranchstart |- verifiedproposal.west) -- (verifiedproposal.west)
+  (verifiedbranchstart |- verifiedtrace.west) -- (verifiedtrace.west);
+\draw[deterministic flow]
+  (verifycuration.east) -- node[relation] {verification succeeds}
+  (verifiedcuration.west);
+
+\node[cognitive activity, below=0.75cm of verifycuration, xshift=-8cm,
+  text width=5.35cm, minimum height=2.25cm] (explain) {};
+\node[font=\sffamily\small\bfseries, text=aink, anchor=north]
+  at ([yshift=-0.16cm]explain.north)
+  {Explain the Curation};
+\node[font=\ttfamily\scriptsize, text=amuted, anchor=west]
+  (reviewproposal)
+  at ([xshift=-2.15cm,yshift=-0.72cm]explain.north)
+  {\typeindex{CurationProposal}{Reviewable}};
+\node[font=\ttfamily\scriptsize, text=amuted, anchor=west]
+  (reviewverified)
+  at ([xshift=-1.80cm,yshift=-1.12cm]explain.north)
+  {VerifiedCuration};
+\node[font=\ttfamily\scriptsize, text=amuted, anchor=west]
+  (reviewexplanation)
+  at ([xshift=-1.80cm,yshift=-1.50cm]explain.north)
+  {\typeindex{ReviewExplanation}{Authored}};
+\coordinate (reviewbranchstart) at
+  ([xshift=-2.02cm,yshift=-0.92cm]explain.north);
+\coordinate (reviewbranchend) at
+  (reviewbranchstart |- reviewexplanation.west);
+\draw[aaccent, line width=0.45pt]
+  (reviewbranchstart) -- (reviewbranchend);
+\draw[aaccent, line width=0.45pt]
+  (reviewbranchstart |- reviewverified.west) -- (reviewverified.west)
+  (reviewbranchstart |- reviewexplanation.west) -- (reviewexplanation.west);
+\coordinate (traceexplanationturn) at
+  (verifiedcuration.south |- explain.east);
+\draw[cognitive flow]
+  (verifiedcuration.south) -- (traceexplanationturn)
+  -- node[relation, midway] {grounds review explanation}
+  (explain.east);
+
+\node[human decision, text width=5.20cm, minimum height=2.45cm]
+  (curationgate) at (human |- explain) {};
+\node[font=\sffamily\small\bfseries, text=aink, anchor=north]
+  at ([yshift=-0.16cm]curationgate.north)
+  {Decide on the Curation Proposal};
+\node[font=\sffamily\scriptsize, text=amuted, align=center, anchor=north]
+  at ([yshift=-0.62cm]curationgate.north)
+  {accept, reject or\\[-1pt]request focused revision};
+\node[font=\ttfamily\scriptsize, text=aink, anchor=west]
+  (acceptedroot)
+  at ([xshift=-1.85cm,yshift=-1.42cm]curationgate.north)
+  {AcceptedCuration};
+\node[font=\ttfamily\scriptsize, text=amuted, anchor=west]
+  (acceptedconstellation)
+  at ([xshift=-1.50cm,yshift=-1.82cm]curationgate.north)
+  {\typeindex{AgenticConstellation}{Curated}};
+\coordinate (acceptedbranchstart) at
+  ([xshift=-1.72cm,yshift=-1.62cm]curationgate.north);
+\draw[aaccent, line width=0.45pt]
+  (acceptedbranchstart) -- (acceptedbranchstart |- acceptedconstellation.west)
+  -- (acceptedconstellation.west);
+\draw[cognitive flow]
+  (explain.west) -- node[relation] {presents reviewable proposal}
+  (curationgate.east);
+\draw[return flow]
+  (curationgate.north) -- ++(0,0.42) -|
+  node[relation, pos=0.19] {revise semantics}
+  ([xshift=-0.42cm]semanticcuration.west) -- (semanticcuration.west);
+
+\node[deterministic activity, text width=4.15cm,
+  below=0.95cm of explain, xshift=8cm] (persistconfiguration) {
+  \commandtext{persistCuration}\\[1pt]
+  \textbf{Persist Curated Constellation}\\[1pt]
+  \detailtext{write the accepted Constellation}\\[-1pt]
+  \detailtext{atomically to \texttt{\textless{}project\textgreater{}/.ai4x}}\\[2pt]
+  \commandtext{\typeindex{ProjectConfiguration}{Persisted}}
+};
+\coordinate (acceptedfeed) at ([yshift=-0.48cm]curationgate.south);
+\coordinate (persistencefeed) at (acceptedfeed -| persistconfiguration.west);
+\draw[deterministic flow]
+  (curationgate.south) -- (acceptedfeed)
+  -- node[relation, midway] {authorizes persistence} (persistencefeed)
+  -- (persistconfiguration.west);
+
+\node[artifact state, text width=4.15cm]
+  (configuration) at (artifacts |- persistconfiguration) {
+  \textbf{Persisted Project Configuration}\\[1pt]
+  \detailtext{curated Agentic Constellation;}\\[-1pt]
+  \detailtext{exact references + provenance;}\\[-1pt]
+  \detailtext{ready for explicit host binding}\\[2pt]
+  \commandtext{\typeindex{ProjectConfiguration}{Persisted}}
+};
+\draw[deterministic flow]
+  (persistconfiguration.east) -- node[relation] {persistence succeeds}
+  (configuration.west);
+
+\node[human decision, below=0.95cm of configuration, xshift=-24cm]
+  (activationauthority) {
+  \textbf{Authorize Activation}\\[1pt]
+  \detailtext{approve Assignment + Participant;}\\[-1pt]
+  \detailtext{bind exactly one explicit host}\\[2pt]
+  \commandtext{\typeindex{Assignment}{Approved}}\\[-1pt]
+  \commandtext{+ \typeindex{HostBinding}{Explicit}}
+};
+
+\node[deterministic activity] (spawn) at (deterministic |- activationauthority) {
+  \textbf{Plan or Materialize for the Bound Host}\\[1pt]
+  \detailtext{project the accepted configuration;}\\[-1pt]
+  \detailtext{materialize for the bound host}\\[2pt]
+  \commandtext{\typeindex{Activation}{Projected}}
+};
+\draw[deterministic flow]
+  (activationauthority.east) -- node[relation, font=\ttfamily\scriptsize]
+  {\typeindex{Assignment}{Approved} + \typeindex{HostBinding}{Explicit}}
+  (spawn.west);
+\draw[deterministic flow]
+  (configuration.south) -- ++(0,-0.40) -|
+  node[relation, pos=0.62, font=\ttfamily\scriptsize]
+  {\typeindex{ProjectConfiguration}{Persisted}} (spawn.north east);
+
+\node[artifact state] (projection) at (artifacts |- activationauthority) {
+  \textbf{Activation Projection}\\[1pt]
+  \detailtext{selected contracts + authorized context;}\\[-1pt]
+  \detailtext{bounded, inert and without authority}\\[2pt]
+  \commandtext{\typeindex{Activation}{Projected}}
+};
+\draw[deterministic flow]
+  (spawn.east) -- node[relation] {materialization succeeds} (projection.west);
+
+\node[cognitive activity, below=0.70cm of spawn, xshift=-8cm,
+  text width=4.15cm] (execute) {
+  \textbf{Execute Cognitively}\\[1pt]
+  \detailtext{use exact Capability contracts;}\\[-1pt]
+  \detailtext{stay inside the Assignment boundary}\\[2pt]
+  \commandtext{\typeindex{Result}{Reviewable}}
+};
+\coordinate (hostactivationfeed) at ([yshift=-0.40cm]projection.south);
+\coordinate (executionfeed) at (hostactivationfeed -| execute.east);
+\draw[cognitive flow]
+  (projection.south) -- (hostactivationfeed)
+  -- node[relation, midway] {host activation} (executionfeed)
+  -- (execute.east);
+
+\node[human state] (result) at (human |- execute) {
+  \textbf{Reviewable Result}\\[1pt]
+  \detailtext{outcome + supporting evidence;}\\[-1pt]
+  \detailtext{unresolved gaps made explicit}\\[2pt]
+  \commandtext{\typeindex{Result}{Reviewable}}
+};
+\draw[cognitive flow]
+  (execute.west) -- node[relation] {produces} (result.east);
+
+% Horizontal lifecycle swimlanes cross-cut the vertical ownership lanes.
+% The narrow left cells title the user-facing ai4X session without adding a
+% process box or changing execution ownership.
+\coordinate (phaseleft) at (-5.20,0);
+\coordinate (mainleft) at (-4,0);
+\coordinate (phaseright) at (28,0);
+\coordinate (phaseheadbottom) at (0,-0.78);
+\coordinate (scoutingboundary) at
+  ($(candidates.south)!0.5!(semanticcuration.north)$);
+\coordinate (curationboundary) at
+  ($(configuration.south)!0.5!(activationauthority.north)$);
+\coordinate (phasebottom) at (0,-41.75);
+
+\begin{scope}[on background layer]
+  \fill[ascouting, opacity=0.40]
+    (mainleft |- phaseheadbottom) rectangle (phaseright |- scoutingboundary);
+  \fill[acuration, opacity=0.40]
+    (mainleft |- scoutingboundary) rectangle (phaseright |- curationboundary);
+  \fill[aspawning, opacity=0.40]
+    (mainleft |- curationboundary) rectangle (phaseright |- phasebottom);
+
+  \fill[ascouting]
+    (phaseleft |- phaseheadbottom) rectangle (mainleft |- scoutingboundary);
+  \fill[acuration]
+    (phaseleft |- scoutingboundary) rectangle (mainleft |- curationboundary);
+  \fill[aspawning]
+    (phaseleft |- curationboundary) rectangle (mainleft |- phasebottom);
+
+  \draw[aaccent, line width=0.65pt]
+    (phaseleft |- phaseheadbottom) -- (phaseright |- phaseheadbottom);
+  \draw[aaccent, line width=0.65pt]
+    (phaseleft |- scoutingboundary) -- (phaseright |- scoutingboundary);
+  \draw[aaccent, line width=0.65pt]
+    (phaseleft |- curationboundary) -- (phaseright |- curationboundary);
+  \draw[aaccent, line width=0.65pt]
+    (phaseleft |- phasebottom) -- (phaseright |- phasebottom);
+  \draw[aaccent, line width=0.65pt]
+    (phaseleft |- phaseheadbottom) -- (phaseleft |- phasebottom);
+\end{scope}
+
+\node[phase header, rotate=90]
+  at ($(phaseleft |- phaseheadbottom)!0.5!(mainleft |- scoutingboundary)$)
+  {ai4X SCOUTING};
+\node[phase header, rotate=90]
+  at ($(phaseleft |- scoutingboundary)!0.5!(mainleft |- curationboundary)$)
+  {ai4X CURATION};
+\node[phase header, rotate=90]
+  at ($(phaseleft |- curationboundary)!0.5!(mainleft |- phasebottom)$)
+  {ai4X SPAWNING};
+
+\node[phase, anchor=west] at (-5.20,-42.65) {SEMANTIC STATES};
+\node[font=\sffamily\scriptsize, text=amuted, text width=28.4cm, align=center, anchor=north west]
+  at (-0.3,-42.51) {
+  \texttt{\typeindex{Concern}{Initial}} $\to$
+  \texttt{\typeindex{Need}{Draft}} $\to$ \texttt{\typeindex{Need}{Confirmed}}
+  $\to$ \texttt{\typeindex{ProjectIntent}{Draft}}
+  $\to$ \texttt{\typeindex{ProjectIntent}{Validated}}
+  $\to$ \texttt{\typeindex{CapabilityCandidates}{Identified}}
+  $\to$ \texttt{\typeindex{CurationProposal}{Draft}}
+  $\to$ \texttt{VerifiedCuration}
+  $\to$ \texttt{\typeindex{CurationProposal}{Reviewable}}
+  $\to$ \texttt{AcceptedCuration}
+  $\to$ \texttt{\typeindex{ProjectConfiguration}{Persisted}}
+  $\to$ \texttt{\typeindex{Activation}{Projected}}
+  $\to$ \texttt{\typeindex{Result}{Reviewable}}
+};
+\node[font=\sffamily\scriptsize, text=amuted, text width=31.5cm, align=center]
+  at (12,-43.85) {
+  Deterministic success is evidence, never semantic fitness, human confirmation,
+  governance acceptance or execution authority.
+};
+\node[font=\sffamily\tiny, text=aaccent, align=center] at (11.40,-44.30) {
+  \textcopyright{} 2026 nemron \qquad
+  \#hgtt \quad \#human-initiated \quad \#agentic-first \quad
+  \#agentic-facing \quad \#human-approvable
+};
+\node[font=\sffamily\tiny, text=aaccent, anchor=east] at (27.80,-44.63) {
+  \texttt{https://github.com/normenmueller/ai4X}
+};
+
+\end{tikzpicture}
+\end{document}
