@@ -6,6 +6,6 @@ In the original scenario, the team member wanted to start a strategy session wit
 
 Before launch, the proposed workflow checked that the workspace was ready and that the selected profile could resolve the agent, its skills and the host. A missing required component would surface while the user could still correct the setup.
 
-Once the session started, the team member could inspect the effective settings. For example, if they chose a different model for that run, they could see which model actually ran alongside the active agent, skills and host. That gave a colleague enough context to understand how the session had been started.
+Once the session started, the team member could inspect the effective settings. For example, if they chose a different model for that run, they could see which model the host was configured to use for that session. That gave a colleague enough context to understand how the session had been started.
 
 This historical design note draws on journey 1 in the v1 *AI4x User Journeys* and scenarios 1 and 5 in *AI4x Scenarios*.
