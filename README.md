@@ -14,6 +14,10 @@ ai4X turns human intent into fit-for-purpose Agentic Constellations—coherently
 curated and explicitly activated under human authority. It is a human-led
 Need-to-Capability system for agentic cognition engineering (ACE).
 
+ai4X helps teams turn information into insights they can explain and stand behind together.
+A colleague should be able to retrace how a conclusion was reached, check the evidence and
+understand why the team acted on it. [Why ai4X exists](doc/purpose.md)
+
 The project is rebuilding from a deliberately small, greenfield baseline.
 Product capabilities will return as focused, verified vertical slices rather
 than as a wholesale migration of the previous prototype.
