@@ -1,0 +1,42 @@
+version: 0.1.0
+
+defaults:
+  runtime: altman
+
+clients:
+  codex:
+    adapter: codex/cli
+    run:
+      command: ["codex"]
+      options:
+        - req: ["--model", "{runtime.params.model}"]
+        - req: ["--ask-for-approval", "{runtime.params.approval}"]
+
+  copilot:
+    adapter: copilot/cli
+    run:
+      command: ["copilot"]
+      options:
+        - req: ["--model", "{runtime.params.model}"]
+
+  vscode+copilot:
+    adapter: copilot/vscode
+    run:
+      command: ["code"]
+      options:
+        - req: ["-n", ".", "--wait"]
+
+runtimes:
+  altman:
+    client: codex
+    params:
+      model: "gpt-5.4"
+      approval: "on-request"
+
+  nadella:
+    client: copilot
+    params:
+      model: "claude-opus-4.6"
+
+  satya:
+    client: vscode+copilot

@@ -107,12 +107,11 @@ REQUIRED_DIRS := \
 	.github/agents \
 	.github/ISSUE_TEMPLATE \
 	.github/workflows \
-	doc/architecture/evidence \
-	doc/commands \
-	doc/concepts \
-	doc/diagrams \
-	doc/examples \
-	doc/reference \
+	doc/need-to-capability \
+	doc/need-to-capability/need-specification \
+	doc/runtime-activation \
+	doc/project-architecture \
+	acc/brand \
 	src/foundation/core \
 	src/foundation/context-protocol \
 	src/foundation/declaration-protocol \
@@ -149,7 +148,6 @@ REQUIRED_DIRS := \
 LEGACY_DIRS := \
 	.ai4x/planning \
 	.ai4x/team \
-	acc \
 	adm \
 	cli \
 	crp \

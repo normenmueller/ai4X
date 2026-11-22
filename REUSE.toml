@@ -24,6 +24,7 @@ path = [
   "README.md",
   "SECURITY.md",
   "doc/**",
+  "acc/**",
 ]
 precedence = "override"
 SPDX-FileCopyrightText = "2026 nemron <https://github.com/normenmueller>"
