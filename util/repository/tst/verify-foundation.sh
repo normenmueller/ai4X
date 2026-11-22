@@ -29,7 +29,10 @@ mkdir -p "$base_root/src/foundation/declaration-protocol"
 mkdir -p "$base_root/src/foundation/generation"
 mkdir -p "$base_root/src/domains"
 mkdir -p "$base_root/src/interfaces"
-mkdir -p "$base_root/src/resources"
+corpus_root="$base_root/src/resources/corpus/capabilities/foundation/core"
+mkdir -p "$corpus_root"
+printf '# Sample capability\n' >"$corpus_root/sample.md"
+printf 'version: 0.1.0\n' >"$corpus_root/sample.meta.yaml"
 
 cp "$repository_root/src/cabal.project" "$base_root/src/cabal.project"
 cp "$repository_root/src/foundation/core/ai4x-core.cabal" "$base_root/src/foundation/core/ai4x-core.cabal"
@@ -248,6 +251,16 @@ case_root=$(copy_case later-product-surface)
 mkdir -p "$case_root/src/domains/unexpected"
 printf 'module Unexpected where\n' >"$case_root/src/domains/unexpected/Product.hs"
 expect_failure "$case_root" workspace src/domains/unexpected/Product.hs
+
+case_root=$(copy_case unreleased-corpus)
+mkdir -p "$case_root/src/resources/corpus/releases"
+printf '{}\n' >"$case_root/src/resources/corpus/releases/0.1.0.dhall"
+expect_failure "$case_root" workspace src/resources/corpus/releases/0.1.0.dhall
+
+case_root=$(copy_case unexpected-capability-file)
+unexpected_path=src/resources/corpus/capabilities/foundation/core/sample.dhall
+printf '{}\n' >"$case_root/$unexpected_path"
+expect_failure "$case_root" workspace "$unexpected_path"
 
 case_root=$(copy_case untracked-required-input)
 printf '\trequired.txt\n' >>"$case_root/Makefile"
