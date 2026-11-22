@@ -3,7 +3,7 @@
 set -eu
 
 repository_root=$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)
-source_file="$repository_root/doc/need-to-capability/need-to-capability.tex"
+source_file="$repository_root/doc/system-design/need-to-capability/need-to-capability.tex"
 build_directory="$repository_root/.ai4x/local/diagram-build/need-to-capability"
 output_stem=need-to-capability
 
@@ -17,7 +17,7 @@ command -v pdftoppm >/dev/null 2>&1 || {
 }
 
 mkdir -p "$build_directory"
-cd "$repository_root/doc/need-to-capability"
+cd "$repository_root/doc/system-design/need-to-capability"
 
 pdflatex \
   -interaction=nonstopmode \
@@ -30,6 +30,6 @@ pdftoppm \
   -r 240 \
   -singlefile \
   "$build_directory/$output_stem.pdf" \
-  "$repository_root/doc/need-to-capability/$output_stem"
+  "$repository_root/doc/system-design/need-to-capability/$output_stem"
 
-echo '[ai4x] rendered doc/need-to-capability/need-to-capability.png'
+echo '[ai4x] rendered doc/system-design/need-to-capability/need-to-capability.png'

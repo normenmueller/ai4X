@@ -24,7 +24,7 @@ Owning Issue: #103
   working checkout. Start the working Codex CLI session there; a session
   started elsewhere performs read-only discovery and reports that location.
 - Load `.ai4x/context/need-to-capability.md`, `.ai4x/context/curation.md`, and
-  `doc/need-to-capability/need-to-capability.tex`; render the PNG only after a coherent
+  `doc/system-design/need-to-capability/need-to-capability.tex`; render the PNG only after a coherent
   diagram increment.
 - Load `.ai4x/governance/work-authority.md` and `.ai4x/TEAM.md` for execution and
   collaboration routing.

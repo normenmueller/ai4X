@@ -107,10 +107,15 @@ REQUIRED_DIRS := \
 	.github/agents \
 	.github/ISSUE_TEMPLATE \
 	.github/workflows \
-	doc/need-to-capability \
-	doc/need-to-capability/need-specification \
-	doc/runtime-activation \
-	doc/project-architecture \
+	doc/portfolio \
+	doc/portfolio/agent-portfolio \
+	doc/portfolio/capability-corpus \
+	doc/use-cases \
+	doc/system-design \
+	doc/system-design/need-to-capability \
+	doc/system-design/need-to-capability/need-specification \
+	doc/system-design/runtime-activation \
+	doc/system-design/project-architecture \
 	acc/brand \
 	src/foundation/core \
 	src/foundation/context-protocol \
