@@ -6,8 +6,4 @@ The [architecture poster](need-to-capability.png) and its [TikZ source](need-to-
 
 The [design scenario](design-scenario.md) asks how one project would use both VS Code with Copilot and Codex CLI. Follow the [need specification](need-specification/README.md) for the inputs to curation and [runtime activation](../runtime-activation/README.md) for the choice of host.
 
-[The first agent session in a new workspace](first-agent-session.md) takes the new team member’s perspective on activation. It explores how the proposed workflow makes the active agent, its skills and its host visible at startup.
-
-[Updating an agent’s capabilities](capability-updates.md) follows a maintainer from a pinned corpus revision to the reviewed bundle selected for the next session.
-
-[Assessing competing pitches](pitch-assessment.md) illustrates how a team could use one set of criteria to prioritize ideas and revisit the ranking after a single pitch changed.
+The [use cases](../../use-cases/README.md) follow the people who use these capabilities in their work.
