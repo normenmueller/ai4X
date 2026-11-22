@@ -46,3 +46,9 @@ path = [
 precedence = "override"
 SPDX-FileCopyrightText = "2026 nemron <https://github.com/normenmueller>"
 SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = "src/resources/corpus/capabilities/**"
+precedence = "override"
+SPDX-FileCopyrightText = "2026 nemron <https://github.com/normenmueller>"
+SPDX-License-Identifier = "CC-BY-4.0"

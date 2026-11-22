@@ -309,6 +309,10 @@ for future_root in src/domains src/interfaces src/resources; do
   while IFS= read -r future_file; do
     [ -n "$future_file" ] || continue
     relative_future=${future_file#"$repository_root"/}
+    # The reboot preserves the historical corpus before formal release admission.
+    case "$relative_future" in
+      src/resources/corpus/capabilities/*.md | src/resources/corpus/capabilities/*.meta.yaml) continue ;;
+    esac
     fail workspace "$relative_future" 'later product surface was materialized'
   done <<EOF
 $(find "$repository_root/$future_root" -type f ! -name '.gitkeep' -print | LC_ALL=C sort)
