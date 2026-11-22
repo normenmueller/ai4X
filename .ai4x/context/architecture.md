@@ -31,6 +31,11 @@ Its `.gitkeep` markers are location commitments, not permission to invent empty
 contracts or speculative implementations. Materialize content through small,
 verified vertical slices.
 
+The reboot preserves the original cognitive contracts, indexes and YAML
+metadata under `src/resources/corpus/capabilities/`. They are source material
+for later curation. A versioned Corpus release identifies the capabilities
+admitted for product use.
+
 `src/` is organized by responsibility:
 
 - `foundation/` owns stable, cross-cutting contracts;
