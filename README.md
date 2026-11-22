@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="doc/assets/brand/ai4x-logo.jpg" alt="ai4X" width="260">
+  <img src="acc/brand/ai4x-logo.jpg" alt="ai4X" width="260">
 </p>
 
 <p align="center">
@@ -32,13 +32,13 @@ declarations become closed Haskell domain values whose invariants,
 deterministic evidence, and projections are controlled by explicit types.
 
 <p align="center">
-  <a href="doc/diagrams/need-to-capability.png">
-    <img src="doc/diagrams/need-to-capability.png" alt="ai4X Need-to-Capability functional architecture" width="760">
+  <a href="doc/need-to-capability/need-to-capability.png">
+    <img src="doc/need-to-capability/need-to-capability.png" alt="ai4X Need-to-Capability functional architecture" width="760">
   </a>
 </p>
 
 <p align="center">
-  <sub>Open the diagram for the full-size architecture view. Publication source: <a href="doc/diagrams/need-to-capability.tex">TikZ</a>.</sub>
+  <sub>Open the diagram for the full-size architecture view. Publication source: <a href="doc/need-to-capability/need-to-capability.tex">TikZ</a>.</sub>
 </p>
 
 ## Direction
@@ -54,6 +54,7 @@ deterministic evidence, and projections are controlled by explicit types.
 - `.ai4x/` — canonical Project Memory and project declarations
 - `src/` — semantic product source: foundation, domains, interfaces, and resources
 - `doc/` — human-readable documentation and durable evidence
+- `acc/` — accompanying material, including shared brand assets
 - `util/` — repository development and verification tooling
 - `.github/`, `.codex/`, and `AGENTS.md` — thin host integration facades
 

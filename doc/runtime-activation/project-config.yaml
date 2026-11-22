@@ -1,0 +1,5 @@
+# Project-local config. Overrides global per key (no deep-merge).
+version: 0.1.0
+
+defaults:
+  runtime: satya
