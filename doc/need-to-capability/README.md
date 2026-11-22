@@ -9,3 +9,5 @@ The [original design scenario](design-scenario.md) asks how one project would us
 [The first agent session in a new workspace](first-agent-session.md) takes the new team member’s perspective on activation. It records how the v1 design made the active agent, its skills and its host visible at startup.
 
 [Updating an agent’s capabilities](capability-updates.md) follows a v1 maintainer from a pinned corpus revision to the reviewed bundle selected for the next session.
+
+[Assessing competing pitches](pitch-assessment.md) illustrates how a team could use one set of criteria to prioritize ideas and revisit the ranking after a single pitch changed.
