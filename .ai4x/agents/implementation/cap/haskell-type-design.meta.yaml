@@ -1,0 +1,16 @@
+id: haskell-type-design
+version: 0.1.0
+owner: nemron
+requires: []
+conflicts: []
+do_not_use_when:
+  - "The job is limited to naming domain concepts or documenting vocabulary."
+distinguish_from:
+  - id: domain-modeling-rigor
+    boundary: "Domain modeling owns meaning and vocabulary. Type design determines which Haskell terms can express or violate an established invariant."
+sources:
+  - title: "O2I Haskell authoring"
+    organization: "O2I"
+    url: "https://github.com/normenmueller/o2i/blob/8f5bbee2f0b41369cfd4f3485b515ffaaed2f2d5/.ai4x/operations/haskell-authoring.md"
+    kind: "adoption-guidance"
+    accessed_at: 2026-11-23
