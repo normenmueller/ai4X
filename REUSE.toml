@@ -48,7 +48,7 @@ SPDX-FileCopyrightText = "2026 nemron <https://github.com/normenmueller>"
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/resources/corpus/capabilities/**", "src/resources/corpus/governance/**/*.md", "src/resources/corpus/governance/*.md"]
+path = ["src/resources/corpus/capabilities/**", "src/resources/corpus/governance/**/*.md", "src/resources/corpus/governance/*.md", "src/resources/corpus/governance/index.yaml"]
 precedence = "override"
 SPDX-FileCopyrightText = "2026 nemron <https://github.com/normenmueller>"
 SPDX-License-Identifier = "CC-BY-4.0"

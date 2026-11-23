@@ -4,6 +4,8 @@ Draft for review.
 
 These contracts are candidates for adoption. A consuming project selects a revision, assigns responsibilities and identifies the actions its agents may take. Storing a draft here grants no team or release authority.
 
+The [task index](index.yaml) lists the contracts for each task and their prerequisites.
+
 | Task | Start here |
 | --- | --- |
 | Define, admit, version or retire a capability | [Capability authoring](capability-authoring-governance.md) |

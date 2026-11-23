@@ -40,6 +40,7 @@ printf 'fields: {}\n' >"$schema_root/capability-meta.schema.yaml"
 
 governance_root="$base_root/src/resources/corpus/governance/quality"
 mkdir -p "$governance_root"
+printf 'status: draft\n' >"$base_root/src/resources/corpus/governance/index.yaml"
 printf '# Sample review contract\n' >"$governance_root/review.md"
 
 cp "$repository_root/src/cabal.project" "$base_root/src/cabal.project"
