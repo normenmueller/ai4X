@@ -15,3 +15,5 @@ Write each acceptance criterion as an observable EARS statement. Choose the patt
 | Unwanted condition | If …, then the system shall … |
 
 Supply a concrete observation that could falsify each criterion. Resolve hidden defaults and contradictory or untestable criteria before implementation. Ask the product owner a specific decision question when the ambiguity changes product behavior.
+
+Before requesting approval for an Epic's proposed Stories, check coverage in both directions. Which Stories cover each Epic acceptance criterion? Which criterion does each Story help satisfy? Identify any uncovered criterion or Story with no clear contribution and resolve it before requesting approval.
