@@ -119,7 +119,7 @@ A new capability is admitted only when:
 
 1. A demand signal exists (feature requirement, portfolio gap identified during sweep, or explicit product-owner request).
 2. Compare the proposed work with the closest existing capability. For an empty corpus, record the empty baseline and a concrete task the first capability would serve.
-3. If overlap exists, the decision is: extend existing capability OR split into two with clear boundary — never silently duplicate.
+3. If capabilities overlap, propose extending the existing capability or splitting the responsibilities along a clear boundary. For that overlap, name in the proposal which capability owns the task and which feature of the task distinguishes it from its nearest alternative.
 4. The designated capability reviewer performs the nearest-neighbor analysis and proposes the admission decision.
 5. The authorized product owner approves admission before authoring a release candidate. A local exploratory draft may precede that decision.
 
