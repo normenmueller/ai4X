@@ -12,11 +12,11 @@ Owning Issue: none
   independent review found that session entry still pointed at the architecture
   discussion on trunk. The working branch now carries the unified Cold Start.
 - The same fresh greeting reached the team review in both hosts. The reset
-  documents now live beside the checkpoint tools. Next, ask nemron whether to
-  retire the three historical records for #181 and #183 from active Project
-  Memory. Corpus governance adoption is a separate open review point. Then
-  return to team acceptance and the remaining research files; review the
-  documentation branch and backups afterwards.
+  documents now live beside the checkpoint tools. The three historical records
+  for #181 and #183 have been retired from active Project Memory on nemron's
+  decision. Next, ask nemron to review the team and its Cold Start. Continue
+  with the remaining research files, then the documentation branch and backups.
+  Corpus governance adoption remains a separate open review point.
 
 ## Route
 
