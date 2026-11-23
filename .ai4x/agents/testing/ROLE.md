@@ -17,8 +17,8 @@ Source: ai4X corpus, Git commit `ede74ba17d55b91bd094be066b4abec304691ee5`. Each
 
 ## Haskell capabilities
 
-Load these local contracts when their triggers apply. Source for the following pairs is ai4X corpus revision `cc2ec3dea26d2b223a0a9ef70a695b75fe1a1959`.
+Load these local contracts when their triggers apply. Source for the following pairs is ai4X corpus revision `2f3166cb1b3fc0722b98960c6406292295d8e2a1`.
 
 | Capability | Version | Source path |
 | --- | --- | --- |
-| [haskell-contract-verification](cap/haskell-contract-verification.md) | 0.1.0 | `src/resources/corpus/capabilities/engineering/haskell/haskell-contract-verification.md` |
+| [haskell-contract-verification](cap/haskell-contract-verification.md) | 0.1.1 | `src/resources/corpus/capabilities/engineering/haskell/haskell-contract-verification.md` |

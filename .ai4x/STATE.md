@@ -7,7 +7,7 @@ Owning Issue: none
 ## Return context
 
 - nemron approved Gertrud, the seven specialist roles and Cold Start for this branch at `67c8407`. The research branch review continues.
-- The architecture governance draft covers decision records, design inputs and compatibility of commands and configuration. The design completion rule is approved. The draft also covers consistency rules that span multiple values. The Corpus drafts now cover both testing-profile decisions: effective configuration and allowed or rejected state transitions. The implementation contract now takes verification commands from the project and work item. The historical Doctor checks remain pending in the CLI comparison. Runtime and paths follow the target component. The Haskell drafts from `cc2ec3d` are selected for architecture, implementation, testing and independent review. Next, assess the remaining differences from the O2I Haskell authoring guide.
+- The architecture governance draft covers decision records, design inputs and compatibility of commands and configuration. The design completion rule is approved. The draft also covers consistency rules that span multiple values. The Corpus drafts now cover both testing-profile decisions: effective configuration and allowed or rejected state transitions. The implementation contract now takes verification commands from the project and work item. The historical Doctor checks remain pending in the CLI comparison. Runtime and paths follow the target component. Architecture, implementation, testing and independent review use the approved Haskell refinements from corpus revision `2f3166c`. Continue the remaining research-source review.
 - After the research branch, review the documentation branch and then the backups.
 
 ## Route
