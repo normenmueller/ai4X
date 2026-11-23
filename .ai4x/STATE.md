@@ -7,7 +7,7 @@ Owning Issue: none
 ## Return context
 
 - nemron approved Gertrud, the seven specialist roles and Cold Start for this branch at `67c8407`. The research branch review continues.
-- The architecture governance draft now records the approved decision on where to document a design. The owning issue supplies the design inputs. Next, review the historical obligation to preserve command behavior and configuration semantics. Other historical profile requirements remain open.
+- The architecture governance draft covers decision records, design inputs and compatibility of commands and configuration. Next, review when the architect has enough evidence to finish the design.
 - After the research branch, review the documentation branch and then the backups.
 
 ## Route
