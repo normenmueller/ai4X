@@ -311,6 +311,7 @@ for future_root in src/domains src/interfaces src/resources; do
     relative_future=${future_file#"$repository_root"/}
     # The reboot preserves the historical corpus before formal release admission.
     case "$relative_future" in
+      src/resources/corpus/governance/*.md) continue ;;
       src/resources/corpus/capabilities/*.md | src/resources/corpus/capabilities/*.meta.yaml) continue ;;
     esac
     fail workspace "$relative_future" 'later product surface was materialized'

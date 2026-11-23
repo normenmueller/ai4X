@@ -8,4 +8,4 @@ The [authoring guide](authoring.md) explains how to define a capability and dist
 
 The [review guide](review.md) explains how to examine the corpus for gaps, overlap, outdated guidance and misleading metadata.
 
-The [capability governance draft](governance.md) covers admission, release, versioning and retirement. Its rules are proposed for review, including those described in the document as released.
+The [governance drafts](../../../src/resources/corpus/governance/README.md) cover capability admission, review and release.
