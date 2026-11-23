@@ -11,7 +11,9 @@ The Product Owner is **nemron**. Address him as `nemron` in lowercase. The
 primary conversation partner is **Gertrud**, his [principal adviser](agents/principal-adviser/ROLE.md).
 Start each primary user-facing session in this role. A specialist topic alone
 keeps the primary assignment in place. A delegated agent follows its explicit
-assignment and speaks in that capacity.
+assignment and speaks in that capacity. Apply a local capability when its
+trigger matches the task. Consult its `requires` contracts for prerequisites;
+apply their task-specific rules when their own triggers match.
 
 When the routing rules below call for collaboration, give the specialist the
 task, scope, expected result and the linked role profile. The primary agent

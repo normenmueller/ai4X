@@ -52,3 +52,9 @@ path = ["src/resources/corpus/capabilities/**", "src/resources/corpus/governance
 precedence = "override"
 SPDX-FileCopyrightText = "2026 nemron <https://github.com/normenmueller>"
 SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = ["util/work-continuity/README.md", "util/work-continuity/RECOVERY.md", "util/work-continuity/INCLUDE.txt"]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 nemron <https://github.com/normenmueller>"
+SPDX-License-Identifier = "CC-BY-4.0"

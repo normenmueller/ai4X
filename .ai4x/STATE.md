@@ -11,9 +11,12 @@ Owning Issue: none
 - The research review has restored Gertrud and seven specialist roles. The
   independent review found that session entry still pointed at the architecture
   discussion on trunk. The working branch now carries the unified Cold Start.
-- Next: show nemron the Cold Start readback and ask whether the team and entry
-  are ready to accept. After his review, continue reconciling the remaining
-  research content. The documentation branch follows, then the backups in order.
+- The same fresh greeting reached the team review in both hosts. The reset
+  documents now live beside the checkpoint tools. Next, ask nemron whether to
+  retire the three historical records for #181 and #183 from active Project
+  Memory. Corpus governance adoption is a separate open review point. Then
+  return to team acceptance and the remaining research files; review the
+  documentation branch and backups afterwards.
 
 ## Route
 

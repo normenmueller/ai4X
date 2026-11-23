@@ -17,9 +17,9 @@ REQUIRED_FILES := \
 	.ai4x/context/need-to-capability.md \
 	.ai4x/governance/work-authority.md \
 	.ai4x/operations/session-continuity.md \
-	.ai4x/operations/work-continuity/INCLUDE.txt \
-	.ai4x/operations/work-continuity.md \
-	.ai4x/operations/work-continuity/RECOVERY.md \
+	util/work-continuity/INCLUDE.txt \
+	util/work-continuity/README.md \
+	util/work-continuity/RECOVERY.md \
 	.ai4x/records/evidence/reviews/session-continuity/183-ai-review.md \
 	.ai4x/records/evidence/assurance/work-continuity/factory-reset-restore-proof.md \
 	.ai4x/records/receipts/work-continuity/factory-reset-readiness.md \

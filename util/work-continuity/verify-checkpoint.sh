@@ -10,7 +10,7 @@ checkpoint_directory=$1
 script_directory=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 repository=$(CDPATH= cd -- "$script_directory/../.." && pwd)
 verification_root="$repository/.ai4x/local/work-continuity"
-tracked_include="$repository/.ai4x/operations/work-continuity/INCLUDE.txt"
+tracked_include="$repository/util/work-continuity/INCLUDE.txt"
 . "$script_directory/common.sh"
 
 for required_file in all-refs.bundle local-continuity.tar.gz RECOVERY.md INCLUDE.txt MANIFEST.txt SHA256SUMS; do

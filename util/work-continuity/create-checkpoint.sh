@@ -37,8 +37,8 @@ upstream_revision=$(git -C "$repository" rev-parse "$upstream")
 origin_trunk=$(git -C "$repository" rev-parse refs/remotes/origin/trunk)
 repository_url=$(git -C "$repository" remote get-url origin)
 created_at=$(date -u '+%Y-%m-%dT%H:%M:%SZ')
-include_file="$repository/.ai4x/operations/work-continuity/INCLUDE.txt"
-recovery_file="$repository/.ai4x/operations/work-continuity/RECOVERY.md"
+include_file="$repository/util/work-continuity/INCLUDE.txt"
+recovery_file="$repository/util/work-continuity/RECOVERY.md"
 verifier="$repository/util/work-continuity/verify-checkpoint.sh"
 
 if [ -z "$branch" ] || ! git check-ref-format --branch "$branch" > /dev/null; then
