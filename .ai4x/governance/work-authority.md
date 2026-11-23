@@ -107,6 +107,8 @@ or protected effect fail closed.
 
 For agent-authored commits use Gertrud’s Git author identity. For authorized GitHub writes use `gertrud-ai4x`. On this workstation use `gh-gertrud` with its dedicated configuration in `~/.config/gh-gertrud`. Before writing, verify the login with `gh-gertrud api user --jq .login`. Stop on a mismatch or unavailable identity. The PO uses `normenmueller`.
 
+For a Git push, including remote branch retirement, authenticate the actual Git transport as Gertrud. On this workstation use the repository’s HTTPS URL with the per-command Git options `-c credential.helper= -c 'credential.helper=!gh-gertrud auth git-credential'`. A CLI login check alone does not identify the SSH key used by `origin`. Stop if the transport identity is uncertain.
+
 Record PO authority through the explicit decision or merge action. A sandbox or credential prompt supplies no product authority.
 
 ## Program boundary
