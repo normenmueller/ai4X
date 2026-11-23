@@ -1,9 +1,10 @@
 # Architecture Context
 
-`.ai4x/` is the canonical Project Memory. `src/` owns product implementation,
+`.ai4x/` is the canonical, host-independent Project Memory. `src/` owns product implementation,
 `doc/` human-readable documentation and durable evidence, and `util/` repository
-tooling. `.github/`, `.codex/`, and root `AGENTS.md` are thin host facades; they
-must not become independent semantic authorities.
+tooling. Agent entry files for individual hosts and any shared skill facades
+carry discovery metadata and route to the owning instructions in `.ai4x/`.
+Keep role definitions, capability composition and work authority in Project Memory.
 
 Authority is split by fact kind:
 

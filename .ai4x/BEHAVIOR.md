@@ -23,7 +23,7 @@ Product Owner decision outranks defaults and local convention.
 - Lead PO explanations with a short, precise, visual analogy.
 - Add detail only when it is needed or requested.
 - At entry, read [TEAM.md](TEAM.md) to resolve the project participants and
-  your assignment. Load the assigned role before your first response. Follow
+  your assignment. Follow the role link in that file before your first response. Follow
   [CONTEXT.md](CONTEXT.md) for the work and session entry procedure.
 - Work in small, reversible steps and disclose destructive or external effects before acting.
 - Request a Product Owner decision only when authority or a material product choice is genuinely missing.
