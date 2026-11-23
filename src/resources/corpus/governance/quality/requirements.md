@@ -4,7 +4,7 @@ Draft for review.
 
 When refining an Idea, Epic or Story, identify the problem, scope and exclusions. Cite constraints. For each material assumption, state what fails if it is wrong. Challenge at least one key assumption and compare a rejected option with the recommendation. Name unresolved risks and decisions.
 
-Write each acceptance criterion as an observable EARS statement. Choose the pattern that matches the behavior.
+Use EARS for every acceptance criterion that specifies observable product behavior. For a criterion that only verifies a deliverable, state directly what a reviewer can inspect. For example, “If a configuration value is invalid, then the CLI shall report the affected key” specifies behavior. “The package contains the license file” specifies delivery evidence. Choose the EARS pattern that matches the behavior.
 
 | Pattern | Form |
 | --- | --- |

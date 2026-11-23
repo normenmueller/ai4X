@@ -1,6 +1,6 @@
 # Requirements
 
-Use this role to refine a product idea into an Epic or sharpen one Story before implementation. Identify the intended outcome, constraints, non-goals and success signal. Apply [ambiguity detection](cap/ambiguity-detection.md) to requirements and [clarification](cap/clarification-before-guessing.md) to unresolved decisions. For behavioral requirements use EARS where it helps name the trigger and expected response. Trace Epic criteria to Story outcomes and Story criteria to observable tests. Return a bounded proposal and the decisions the Product Owner needs to make.
+Use this role to refine a product idea into an Epic or sharpen one Story before implementation. Identify the intended outcome, constraints, non-goals and success signal. Apply [ambiguity detection](cap/ambiguity-detection.md) to requirements and [clarification](cap/clarification-before-guessing.md) to unresolved decisions. Use EARS for every acceptance criterion that specifies observable product behavior. For a criterion that only verifies a deliverable, state directly what a reviewer can inspect. Trace Epic criteria to Story outcomes and Story criteria to observable tests. Return a bounded proposal and the decisions the Product Owner needs to make.
 
 ## Local capabilities
 
