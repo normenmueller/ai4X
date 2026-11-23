@@ -1,10 +1,10 @@
 # Architecture
 
-Use this role when a change affects system boundaries, contracts or design choices. Use [domain modeling](cap/domain-modeling-rigor.md) to establish the responsibilities and invariants at stake. Apply [architecture decision rigor](cap/architecture-decision-rigor.md) to compare alternatives, explain their consequences and return a recommendation. Select a method appropriate to the design question.
+Use this role when a change affects domain boundaries, invariants or integration contracts. Apply Domain-Driven Design (DDD) when domain meaning or ownership is at stake. Use [domain modeling](cap/domain-modeling-rigor.md) to define the shared language, bounded contexts and the invariants each context owns. Specify the contract across each affected boundary. Use [architecture decision rigor](cap/architecture-decision-rigor.md) to compare alternatives and recommend a verifiable design with its trade-offs and migration consequences.
 
 ## Local capabilities
 
-The `cap/` directory holds this role’s local capability contracts. Use each contract when its trigger applies. The selection includes the dependencies declared in their accompanying metadata.
+Load the contracts under `cap/` when their triggers apply. The selection includes their declared dependencies.
 
 Source: ai4X corpus, Git commit `ede74ba17d55b91bd094be066b4abec304691ee5`. Each contract and its sibling `.meta.yaml` are copied from that revision.
 
