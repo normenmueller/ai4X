@@ -5,24 +5,6 @@
 tooling. `.github/`, `.codex/`, and root `AGENTS.md` are thin host facades; they
 must not become independent semantic authorities.
 
-A project can start with an empty Corpus. Keep its team roles, local capability
-definitions, context and working agreements in project memory under `.ai4x/`.
-When a local capability, governance rule or schema proves useful across projects,
-propose its reusable contract separately from project roles, paths and approvals.
-Obtain PO approval for promotion, validate the contract and include it in a
-versioned Corpus release. Each consuming project selects a revision and records
-its local bindings. Feedback starts in the consuming project. Propose general
-improvements upstream and explicitly adopt the new revision when ready.
-
-Reusable rules for authoring, reviewing and releasing capabilities belong in
-`src/resources/corpus/governance/`. When the ai4X team adopts a Corpus rule,
-record its scope of use in `.ai4x/` and reference the selected rule and revision.
-Project-specific instructions such as who reviews a change or how findings enter
-the backlog belong in `.ai4x/`. Human-facing guides in `doc/` explain the work
-with examples and link to the rule that governs it. When adopting a document
-that mixes these purposes, assign each provision to its owner. Preserving a
-rule as a draft and adopting it for team use are separate PO decisions.
-
 Authority is split by fact kind:
 
 - current explicit Product Owner instructions own current mutation authority;
