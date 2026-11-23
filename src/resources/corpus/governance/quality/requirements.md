@@ -21,3 +21,5 @@ Use a single issue for a feature or fix that can be delivered and accepted as on
 Before requesting approval for an Epic's proposed Stories, check coverage in both directions. Which Stories cover each Epic acceptance criterion? Which criterion does each Story help satisfy? Identify any uncovered criterion or Story with no clear contribution and resolve it before requesting approval.
 
 Record the mapping with the Epic so a reviewer can trace each criterion to its Stories and each Story back to its criteria. Choose a format that suits the scope, such as linked bullets or a table.
+
+Brief the product owner on what the proposed Stories cover. If a gap remains, identify the missing coverage and recommend how to close it. Once coverage is complete, state the decision you are asking the product owner to make.
