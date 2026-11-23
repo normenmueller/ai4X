@@ -7,7 +7,7 @@ Owning Issue: none
 ## Return context
 
 - nemron approved Gertrud, the seven specialist roles and Cold Start for this branch at `67c8407`. The research branch review continues.
-- Next, resolve whether the former architecture profile’s mandatory Architecture Pack needs a dedicated artifact. Compare the current architecture role and the Corpus design-review draft. Keep the other historical profile requirements open for individual review.
+- The architecture governance draft now records the approved decision on where to document a design. Next, review which requirements and acceptance criteria the architect needs before assessing design options. Other historical profile requirements remain open.
 - After the research branch, review the documentation branch and then the backups.
 
 ## Route
