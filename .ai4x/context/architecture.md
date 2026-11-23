@@ -5,6 +5,15 @@
 tooling. `.github/`, `.codex/`, and root `AGENTS.md` are thin host facades; they
 must not become independent semantic authorities.
 
+Reusable rules for authoring, reviewing and releasing capabilities belong in
+`src/resources/corpus/governance/`. When the ai4X team adopts a Corpus rule,
+record its scope of use in `.ai4x/` and reference the selected rule and revision.
+Project-specific instructions such as who reviews a change or how findings enter
+the backlog belong in `.ai4x/`. Human-facing guides in `doc/` explain the work
+with examples and link to the rule that governs it. When adopting a document
+that mixes these purposes, assign each provision to its owner. Preserving a
+rule as a draft and adopting it for team use are separate PO decisions.
+
 Authority is split by fact kind:
 
 - current explicit Product Owner instructions own current mutation authority;
