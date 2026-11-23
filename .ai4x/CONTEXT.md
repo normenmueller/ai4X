@@ -2,6 +2,7 @@
 
 Start with [BEHAVIOR.md](BEHAVIOR.md). Then load only what the task needs:
 
+- [operations/development-workflow.md](operations/development-workflow.md) for Story delivery, conformance checks and task-specific quality rules;
 - [context/architecture.md](context/architecture.md) for structure and authority boundaries;
 - [context/domain-language.md](context/domain-language.md) for core terminology;
 - [operations/session-continuity.md](operations/session-continuity.md) when a
