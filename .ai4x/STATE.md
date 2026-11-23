@@ -7,7 +7,7 @@ Owning Issue: none
 ## Return context
 
 - nemron approved Gertrud, the seven specialist roles and Cold Start for this branch at `67c8407`. The research branch review continues.
-- The architecture governance draft covers decision records, design inputs and compatibility of commands and configuration. The design completion rule is approved. The draft also covers consistency rules that span multiple values. Next, compare the historical testing profile with the current testing role and its Corpus rules.
+- The architecture governance draft covers decision records, design inputs and compatibility of commands and configuration. The design completion rule is approved. The draft also covers consistency rules that span multiple values. The testing profile review identified two behavioral checks. The configuration resolution check is approved in the Corpus delivery draft. Next, decide how to test changes to product lifecycle transitions.
 - After the research branch, review the documentation branch and then the backups.
 
 ## Route
