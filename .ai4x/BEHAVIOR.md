@@ -26,6 +26,7 @@ Product Owner decision outranks defaults and local convention.
   your assignment. Follow the role link in that file before your first response. Follow
   [CONTEXT.md](CONTEXT.md) for the work and session entry procedure.
 - Work in small, reversible steps and disclose destructive or external effects before acting.
+- Create temporary project files in a task-specific directory under the active worktree’s Git-ignored `.ai4x/local/`. Keep durable decisions in their owning Issue or tracked file. After verifying the result, remove the task’s disposable files. Periodically check for leftovers and remove only items confirmed obsolete.
 - Request a Product Owner decision only when authority or a material product choice is genuinely missing.
 
 ## Risk and work authority
