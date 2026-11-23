@@ -98,96 +98,170 @@ validate_state_contract() {
   fi
 }
 
-for file in \
-  AGENTS.md \
-  .github/copilot-instructions.md \
-  .github/workflows/verify.yml \
-  .ai4x/BEHAVIOR.md \
-  .ai4x/CONTEXT.md \
-  .ai4x/STATE.md \
-  .ai4x/TEAM.md \
-  .ai4x/governance/work-authority.md \
-  .ai4x/operations/session-continuity.md \
-  .ai4x/context/curation.md \
-  .ai4x/context/need-to-capability.md; do
-  require_file "$file"
-done
+verify_role_file() {
+  role_file=$1
+  role_directory=${role_file%/*}
+  for role_owner in "${role_directory%/*}" "$role_directory" "$role_file"; do
+    test ! -L "$role_owner" || fail "role path contains a symlink: $role_owner"
+  done
+  test -f "$role_file" && test -s "$role_file" || fail "missing or empty role profile: $role_file"
+}
 
-require_text AGENTS.md '.ai4x/CONTEXT.md'
-require_text .github/copilot-instructions.md '.ai4x/CONTEXT.md'
-require_text .ai4x/BEHAVIOR.md 'operations/session-continuity.md'
-require_text .ai4x/BEHAVIOR.md 'governance/work-authority.md'
-require_text .ai4x/BEHAVIOR.md 'TEAM.md'
-require_text .ai4x/CONTEXT.md 'operations/session-continuity.md'
-require_text .ai4x/CONTEXT.md 'STATE.md'
+verify_specialist_roles() {
+  # Read the specialist column so a broken link cannot disappear from the check.
+  specialist_rows=$(awk -F '|' '
+    /^\|[[:space:]]*Assignment[[:space:]]*\|[[:space:]]*Specialist profile[[:space:]]*\|$/ {
+      headers++
+      in_table = 1
+      next
+    }
+    in_table && !/^\|/ { in_table = 0 }
+    in_table && /^\|[[:space:]]*-+[[:space:]]*\|[[:space:]]*-+[[:space:]]*\|$/ { next }
+    in_table {
+      link = $3
+      sub(/^[[:space:]]*/, "", link)
+      sub(/[[:space:]]*$/, "", link)
+      if (NF != 4 || link !~ /^\[[^][]+\]\(agents\/[a-z0-9][a-z0-9-]*\/ROLE\.md\)$/) exit 1
+      label = link
+      sub(/^\[/, "", label)
+      sub(/\].*$/, "", label)
+      sub(/^[^]]*\]\(/, "", link)
+      sub(/\)$/, "", link)
+      if (seen[link]++ || link == "agents/principal-adviser/ROLE.md") exit 1
+      print label "|" link
+    }
+    END { if (headers != 1) exit 1 }
+  ' "$team_file") || fail 'TEAM must link each specialist once using agents/<role>/ROLE.md'
 
-if grep -n -E 'NEXT-SESSION-PROMPT|CURRENT-HANDOFF|transition prompt suitable for /copy' \
-  "$repository/AGENTS.md" \
-  "$repository/.github/copilot-instructions.md" \
-  "$repository/.ai4x/BEHAVIOR.md" \
-  "$repository/.ai4x/CONTEXT.md" \
-  "$repository/.ai4x/operations/session-continuity.md" >/dev/null; then
-  fail 'obsolete local-handoff or copied-prompt protocol remains in active routing'
-fi
+  printf '%s\n' "$specialist_rows" |
+    while IFS='|' read -r label relative_role; do
+      role_file=$repository/.ai4x/$relative_role
+      verify_role_file "$role_file"
+      test "$(sed -n '1p' "$role_file")" = "# $label" ||
+        fail "TEAM specialist label does not match the linked profile: $label ($relative_role)"
+    done
 
-validate_state_contract "$state_file" source
-state_branch=$validated_state_branch
-owning_issue=$validated_state_issue
+  role_links=$(printf '%s\n' "$specialist_rows" | cut -d '|' -f 2)
+  for role_directory in "$repository"/.ai4x/agents/*; do
+    test -d "$role_directory" || continue
+    role_name=${role_directory##*/}
+    test "$role_name" != principal-adviser || continue
+    printf '%s\n' "$role_links" | grep -Fx "agents/$role_name/ROLE.md" >/dev/null ||
+      fail "TEAM specialist table has no link for $role_name"
+  done
+}
 
-require_bounded_markdown "$team_file" 100 10240
-test "$(sed -n '1p' "$team_file")" = '# ai4X Team Routing' ||
-  fail 'unexpected TEAM title'
-test "$(single_field "$team_file" Schema)" = 'ai4x-team-routing-v1' ||
-  fail 'unknown TEAM schema'
-test "$(single_field "$team_file" 'Direct default')" = 'primary agent' ||
-  fail 'direct work is not the TEAM default'
-test "$(single_field "$team_file" 'Co-author trigger')" = 'missing-capability-contract-or-material-risk' ||
-  fail 'co-author routing is not capability/risk triggered'
-test "$(single_field "$team_file" 'Independent review trigger')" = 'issue-implementation-or-protected-change' ||
-  fail 'independent review trigger is incomplete'
-test "$(single_field "$team_file" 'Review independence')" = required ||
-  fail 'review independence is not required'
-test "$(single_field "$team_file" 'Remote mutation executor')" = 'primary agent' ||
-  fail 'delegated remote mutation is not closed'
-require_sections "$team_file" '## Direct work
+verify_entry_files() {
+  entry_root=$1
+  for owner in BEHAVIOR.md CONTEXT.md TEAM.md STATE.md operations/session-continuity.md governance/work-authority.md; do
+    test -f "$entry_root/.ai4x/$owner" || fail "entry file missing in $entry_root: .ai4x/$owner"
+  done
+
+  primary_role=agents/principal-adviser/ROLE.md
+  grep -F "]($primary_role)" "$entry_root/.ai4x/TEAM.md" >/dev/null ||
+    fail "TEAM does not link the primary role in $entry_root"
+  verify_role_file "$entry_root/.ai4x/$primary_role"
+}
+
+verify_static_contracts() {
+  for file in \
+    AGENTS.md \
+    .github/copilot-instructions.md \
+    .github/workflows/verify.yml \
+    .ai4x/BEHAVIOR.md \
+    .ai4x/CONTEXT.md \
+    .ai4x/STATE.md \
+    .ai4x/TEAM.md \
+    .ai4x/governance/work-authority.md \
+    .ai4x/operations/session-continuity.md \
+    .ai4x/context/curation.md \
+    .ai4x/context/need-to-capability.md; do
+    require_file "$file"
+  done
+
+  require_text AGENTS.md '.ai4x/CONTEXT.md'
+  require_text .github/copilot-instructions.md '.ai4x/CONTEXT.md'
+  require_text .ai4x/BEHAVIOR.md 'operations/session-continuity.md'
+  require_text .ai4x/BEHAVIOR.md 'governance/work-authority.md'
+  require_text .ai4x/BEHAVIOR.md 'TEAM.md'
+  require_text .ai4x/CONTEXT.md 'operations/session-continuity.md'
+  require_text .ai4x/CONTEXT.md 'STATE.md'
+
+  if grep -n -E 'NEXT-SESSION-PROMPT|CURRENT-HANDOFF|transition prompt suitable for /copy' \
+    "$repository/AGENTS.md" \
+    "$repository/.github/copilot-instructions.md" \
+    "$repository/.ai4x/BEHAVIOR.md" \
+    "$repository/.ai4x/CONTEXT.md" \
+    "$repository/.ai4x/operations/session-continuity.md" >/dev/null; then
+    fail 'obsolete local-handoff or copied-prompt protocol remains in active routing'
+  fi
+
+  require_bounded_markdown "$team_file" 100 10240
+  test "$(sed -n '1p' "$team_file")" = '# ai4X Team Routing' ||
+    fail 'unexpected TEAM title'
+  test "$(single_field "$team_file" Schema)" = 'ai4x-team-routing-v1' ||
+    fail 'unknown TEAM schema'
+  test "$(single_field "$team_file" 'Direct default')" = 'primary agent' ||
+    fail 'direct work is not the TEAM default'
+  test "$(single_field "$team_file" 'Co-author trigger')" = 'missing-capability-contract-or-material-risk' ||
+    fail 'co-author routing is not capability/risk triggered'
+  test "$(single_field "$team_file" 'Independent review trigger')" = 'issue-implementation-or-protected-change' ||
+    fail 'independent review trigger is incomplete'
+  test "$(single_field "$team_file" 'Review independence')" = required ||
+    fail 'review independence is not required'
+  test "$(single_field "$team_file" 'Remote mutation executor')" = 'primary agent' ||
+    fail 'delegated remote mutation is not closed'
+  require_sections "$team_file" '## Direct work
 ## Co-author
 ## Independent reviewer
 ## Provider boundary'
 
-require_bounded_markdown "$authority_file" 180 18432
-test "$(sed -n '1p' "$authority_file")" = '# ai4X Work Authority' ||
-  fail 'unexpected work-authority title'
-test "$(single_field "$authority_file" Schema)" = 'ai4x-work-authority-v1' ||
-  fail 'unknown work-authority schema'
-test "$(single_field "$authority_file" 'Risk paths')" = 'Routine | Significant | Protected' ||
-  fail 'risk paths are not closed'
-for field in Ready Merge Done; do
-  test "$(single_field "$authority_file" "$field authority")" = 'Product Owner' ||
-    fail "$field authority is not Product Owner exclusive"
-done
-test "$(single_field "$authority_file" 'Technical permission grants authority')" = no ||
-  fail 'technical permission is conflated with governance authority'
-test "$(single_field "$authority_file" 'Remote actor attribution')" = 'actual actor' ||
-  fail 'provider actor attribution is not preserved'
-require_sections "$authority_file" '## Independent dimensions
+  require_bounded_markdown "$authority_file" 180 18432
+  test "$(sed -n '1p' "$authority_file")" = '# ai4X Work Authority' ||
+    fail 'unexpected work-authority title'
+  test "$(single_field "$authority_file" Schema)" = 'ai4x-work-authority-v1' ||
+    fail 'unknown work-authority schema'
+  test "$(single_field "$authority_file" 'Risk paths')" = 'Routine | Significant | Protected' ||
+    fail 'risk paths are not closed'
+  for field in Ready Merge Done; do
+    test "$(single_field "$authority_file" "$field authority")" = 'Product Owner' ||
+      fail "$field authority is not Product Owner exclusive"
+  done
+  test "$(single_field "$authority_file" 'Technical permission grants authority')" = no ||
+    fail 'technical permission is conflated with governance authority'
+  test "$(single_field "$authority_file" 'Remote actor attribution')" = 'actual actor' ||
+    fail 'provider actor attribution is not preserved'
+  require_sections "$authority_file" '## Independent dimensions
 ## Risk paths
 ## Atomic work-unit authority
 ## Work envelope and exact effects
 ## Identity and permission separation
 ## Program boundary'
 
-checkout_count=$(grep -c 'uses: actions/checkout@' "$workflow_file" || true)
-credential_boundary_count=$(grep -c 'persist-credentials: false' "$workflow_file" || true)
-test "$checkout_count" -gt 0 || fail 'CI has no checkout boundary to verify'
-test "$checkout_count" -eq "$credential_boundary_count" ||
-  fail 'every CI checkout must disable persisted credentials'
+  checkout_count=$(grep -c 'uses: actions/checkout@' "$workflow_file" || true)
+  credential_boundary_count=$(grep -c 'persist-credentials: false' "$workflow_file" || true)
+  test "$checkout_count" -gt 0 || fail 'CI has no checkout boundary to verify'
+  test "$checkout_count" -eq "$credential_boundary_count" ||
+    fail 'every CI checkout must disable persisted credentials'
 
-if test "$static_only" = no && test -z "$observed_branch"; then
+  verify_specialist_roles
+}
+
+verify_entry_files "$repository"
+validate_state_contract "$state_file" source
+state_branch=$validated_state_branch
+owning_issue=$validated_state_issue
+
+if test "$static_only" = yes; then
+  verify_static_contracts
+  echo '[ai4x] session-continuity: static contract passed'
+  exit 0
+fi
+
+if test -z "$observed_branch"; then
   observed_branch=$(git -C "$repository" branch --show-current 2>/dev/null || true)
 fi
-if test "$static_only" = no; then
-  test -n "$observed_branch" || fail 'observed branch is unavailable'
-fi
+test -n "$observed_branch" || fail 'observed branch is unavailable'
 
 if test -z "$observed_clean"; then
   worktree_status=$(git -C "$repository" status --porcelain=v1 --untracked-files=all) ||
@@ -213,6 +287,10 @@ git_common_directory() {
 active_route=
 active_issue=
 active_branch=
+
+if test "$observed_branch" != trunk && test "$observed_branch" != "$state_branch"; then
+  fail "STATE bound to $state_branch does not apply on $observed_branch ($observed_clean)"
+fi
 
 if test -e "$active_file"; then
   test -f "$active_file" || fail 'ACTIVE pointer is not a regular file'
@@ -254,8 +332,8 @@ if test -e "$active_file"; then
   test "$actual_active_branch" = "$active_branch" ||
     fail 'ACTIVE target branch disagrees with Expected Branch'
 
+  verify_entry_files "$active_target"
   target_state=$active_target/.ai4x/STATE.md
-  test -f "$target_state" || fail 'ACTIVE target has no STATE'
   git -C "$active_target" ls-files --error-unmatch -- .ai4x/STATE.md >/dev/null 2>&1 ||
     fail 'ACTIVE target STATE is not tracked'
   validate_state_contract "$target_state" 'ACTIVE target'
@@ -264,11 +342,6 @@ if test -e "$active_file"; then
     fail 'ACTIVE target STATE does not apply on its branch'
   active_issue=$validated_state_issue
   active_route=$active_worktree
-fi
-
-if test "$static_only" = yes; then
-  echo '[ai4x] session-continuity: static contract passed'
-  exit 0
 fi
 
 if test -n "$active_route"; then

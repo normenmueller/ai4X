@@ -58,7 +58,7 @@ On a continuation greeting such as “Hi Gertrud, weiter geht's!”:
   Its `ai4x-active-worktree-pointer-v1` schema specifies a contained relative
   `Worktree` and exact non-trunk `Expected Branch`. The verifier checks the
   target, common repository and tracked STATE before the route may be used.
-  A clean checkout and its tracked instructions must suffice without this hint.
+  A clean checkout and its tracked instructions must suffice without this hint. First compare a non-trunk source branch with its own STATE. On a mismatch, report both branches and stop.
 - On dirty trunk, a dirty source referral, an invalid hint, a conflicting
   non-trunk binding or ambiguous ownership, report the observations and
   preserve all changes. If STATE is missing or dormant, existing worktrees

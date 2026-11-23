@@ -40,17 +40,14 @@ must not manufacture a team or an Issue merely to appear governed.
 Use a capability-matched co-author only when the primary agent lacks sufficient
 capability, the work contract requires one, or one concrete material risk needs
 a second author. The primary agent keeps scope, integration, verification, and
-all remote mutation responsibility.
+responsibility for the remote actions assigned to agents.
 
 ## Independent reviewer
 
 Use a reviewer who did not author the reviewed slice for Issue-bound
-implementation work and protected changes. Review current requirements, changed artifacts,
-verification, non-goals, and residual risks. A review supplies evidence; it
-does not grant Product Owner authority.
+implementation work and protected changes. Assess the current contract, changed artifacts, public API, architecture boundaries, tests and non-goals. Report findings by severity or explicitly state none, with evidence and residual risks. A review or rating grants no acceptance authority.
 
 ## Provider boundary
 
 Delegated agents do not infer permission to mutate GitHub or other providers.
-The primary agent performs authorized remote effects through its visible agent
-identity. Human approval remains separately attributable to the Product Owner.
+Use the [identity and permission rules](governance/work-authority.md#identity-and-permission-separation) for agent-side remote effects. Human approval remains separately attributable to the Product Owner.

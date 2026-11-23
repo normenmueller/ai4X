@@ -96,9 +96,6 @@ REQUIRED_DIRS := \
 	.ai4x/records/evidence/reviews \
 	.ai4x/records/provenance \
 	.ai4x/records/receipts \
-	.codex \
-	.github/agents \
-	.github/ISSUE_TEMPLATE \
 	.github/workflows \
 	doc/portfolio \
 	doc/portfolio/agent-portfolio \

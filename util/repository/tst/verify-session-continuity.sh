@@ -32,6 +32,12 @@ make_fixture() {
     "$target/.ai4x/STATE.md"
   rm "$target/.ai4x/STATE.md.bak"
   cp "$repository/.ai4x/TEAM.md" "$target/.ai4x/TEAM.md"
+  for role_file in "$repository"/.ai4x/agents/*/ROLE.md; do
+    role_directory=${role_file%/ROLE.md}
+    destination=$target/.ai4x/agents/${role_directory##*/}
+    mkdir -p "$destination"
+    cp "$role_file" "$destination/ROLE.md"
+  done
   cp "$repository/.ai4x/governance/work-authority.md" "$target/.ai4x/governance/work-authority.md"
   cp "$repository/.ai4x/operations/session-continuity.md" "$target/.ai4x/operations/session-continuity.md"
   cp "$repository/.ai4x/context/curation.md" "$target/.ai4x/context/curation.md"
@@ -79,6 +85,53 @@ sed -i.bak 's/^Owning Issue:.*/Owning Issue: none/' "$valid/.ai4x/STATE.md"
 "$verifier" "$valid" "$fixture_branch" clean | grep -F 'direct PO assignment' >/dev/null
 sed -i.bak 's/^Owning Issue:.*/Owning Issue: unknown/' "$valid/.ai4x/STATE.md"
 expect_failure malformed-owner "$verifier" "$valid" "$fixture_branch" clean
+
+missing_role=$scratch_root/missing-role
+make_fixture "$missing_role"
+rm "$missing_role/.ai4x/agents/testing/ROLE.md"
+"$verifier" "$missing_role" "$fixture_branch" clean >/dev/null
+expect_failure missing-specialist-role "$verifier" "$missing_role" --static
+rm "$missing_role/.ai4x/agents/principal-adviser/ROLE.md"
+expect_failure missing-primary-role "$verifier" "$missing_role" "$fixture_branch" clean
+
+unlinked_role=$scratch_root/unlinked-role
+make_fixture "$unlinked_role"
+sed -i.bak 's|agents/principal-adviser/ROLE.md|agents/architecture/ROLE.md|' "$unlinked_role/.ai4x/TEAM.md"
+expect_failure missing-primary-route "$verifier" "$unlinked_role" "$fixture_branch" clean
+
+role_table=$scratch_root/role-table
+make_fixture "$role_table"
+table_file=$role_table/.ai4x/TEAM.md
+for invalid_target in agents/other/ROLE.md agents/../agents/testing/ROLE.md profiles/testing/ROLE.md agents/testing/other.md agents/architecture/ROLE.md; do
+  sed "s|agents/testing/ROLE.md|$invalid_target|" "$repository/.ai4x/TEAM.md" >"$table_file"
+  expect_failure invalid-specialist-link "$verifier" "$role_table" --static
+done
+sed '/agents\/testing\/ROLE.md/d' "$repository/.ai4x/TEAM.md" >"$table_file"
+expect_failure omitted-table-row "$verifier" "$role_table" --static
+sed -e 's|agents/testing/ROLE.md|TEMP_ROLE|' \
+  -e 's|agents/architecture/ROLE.md|agents/testing/ROLE.md|' \
+  -e 's|TEMP_ROLE|agents/architecture/ROLE.md|' "$repository/.ai4x/TEAM.md" >"$table_file"
+expect_failure swapped-role-profiles "$verifier" "$role_table" --static
+cp "$repository/.ai4x/TEAM.md" "$table_file"
+
+test_role=$role_table/.ai4x/agents/testing
+mv "$test_role" "$role_table/original-role"
+ln -s "$role_table/original-role" "$test_role"
+expect_failure symlink-role-directory "$verifier" "$role_table" --static
+rm "$test_role"
+mv "$role_table/original-role" "$test_role"
+mv "$test_role/ROLE.md" "$role_table/original-profile"
+ln -s "$role_table/original-profile" "$test_role/ROLE.md"
+expect_failure symlink-role-profile "$verifier" "$role_table" --static
+rm "$test_role/ROLE.md"
+touch "$test_role/ROLE.md"
+expect_failure empty-role-profile "$verifier" "$role_table" --static
+
+runtime_only=$scratch_root/runtime-only
+make_fixture "$runtime_only"
+rm "$runtime_only/.ai4x/context/curation.md" "$runtime_only/.github/workflows/verify.yml"
+"$verifier" "$runtime_only" "$fixture_branch" clean >/dev/null
+expect_failure missing-static-context "$verifier" "$runtime_only" --static
 
 dormant=$scratch_root/dormant
 make_fixture "$dormant"
@@ -138,34 +191,34 @@ wrong_direct_default=$scratch_root/wrong-direct-default
 make_fixture "$wrong_direct_default"
 sed -i.bak 's/^Direct default:.*/Direct default: mandatory team/' "$wrong_direct_default/.ai4x/TEAM.md"
 rm "$wrong_direct_default/.ai4x/TEAM.md.bak"
-expect_failure wrong-direct-default "$verifier" "$wrong_direct_default" "$fixture_branch" clean
+expect_failure wrong-direct-default "$verifier" "$wrong_direct_default" --static
 
 review_not_independent=$scratch_root/review-not-independent
 make_fixture "$review_not_independent"
 sed -i.bak 's/^Review independence:.*/Review independence: optional/' "$review_not_independent/.ai4x/TEAM.md"
 rm "$review_not_independent/.ai4x/TEAM.md.bak"
-expect_failure review-not-independent "$verifier" "$review_not_independent" "$fixture_branch" clean
+expect_failure review-not-independent "$verifier" "$review_not_independent" --static
 
 permission_is_authority=$scratch_root/permission-is-authority
 make_fixture "$permission_is_authority"
 sed -i.bak 's/^Technical permission grants authority:.*/Technical permission grants authority: yes/' \
   "$permission_is_authority/.ai4x/governance/work-authority.md"
 rm "$permission_is_authority/.ai4x/governance/work-authority.md.bak"
-expect_failure permission-is-authority "$verifier" "$permission_is_authority" "$fixture_branch" clean
+expect_failure permission-is-authority "$verifier" "$permission_is_authority" --static
 
 merge_not_po=$scratch_root/merge-not-po
 make_fixture "$merge_not_po"
 sed -i.bak 's/^Merge authority:.*/Merge authority: automation/' \
   "$merge_not_po/.ai4x/governance/work-authority.md"
 rm "$merge_not_po/.ai4x/governance/work-authority.md.bak"
-expect_failure merge-not-po "$verifier" "$merge_not_po" "$fixture_branch" clean
+expect_failure merge-not-po "$verifier" "$merge_not_po" --static
 
 persisted_credentials=$scratch_root/persisted-credentials
 make_fixture "$persisted_credentials"
 sed -i.bak 's/persist-credentials: false/persist-credentials: true/' \
   "$persisted_credentials/.github/workflows/verify.yml"
 rm "$persisted_credentials/.github/workflows/verify.yml.bak"
-expect_failure persisted-credentials "$verifier" "$persisted_credentials" "$fixture_branch" clean
+expect_failure persisted-credentials "$verifier" "$persisted_credentials" --static
 
 safe_active=$scratch_root/safe-active
 make_git_fixture "$safe_active"
@@ -174,12 +227,20 @@ git -C "$safe_active" worktree add -q -b "$fixture_branch" \
   "$safe_active/.ai4x/local/worktrees/188"
 write_active_pointer "$safe_active" '.ai4x/local/worktrees/188' \
   "$fixture_branch"
-"$verifier" "$safe_active" trunk clean >/dev/null
+"$verifier" "$safe_active" trunk clean | grep -F 'active-worktree' >/dev/null
+git -C "$safe_active" switch -q -c feature/other-source
+expect_failure conflicting-source-with-active "$verifier" "$safe_active"
+grep -F "STATE bound to $fixture_branch does not apply on feature/other-source" \
+  "$scratch_root/conflicting-source-with-active.out" >/dev/null
+git -C "$safe_active" switch -q trunk
+rm "$safe_active/.ai4x/local/worktrees/188/.ai4x/agents/principal-adviser/ROLE.md"
+expect_failure missing-target-role "$verifier" "$safe_active" trunk clean
 
 unsafe_active=$scratch_root/unsafe-active
 make_fixture "$unsafe_active"
 write_active_pointer "$unsafe_active" '../../outside' \
   "$fixture_branch"
+"$verifier" "$unsafe_active" --static >/dev/null
 expect_failure unsafe-active "$verifier" "$unsafe_active" "$fixture_branch" clean
 
 missing_active_target=$scratch_root/missing-active-target

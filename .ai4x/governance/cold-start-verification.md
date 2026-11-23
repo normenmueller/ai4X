@@ -12,6 +12,8 @@ branch named in `.ai4x/STATE.md`. Start a fresh session and give it only the
 usual continuation greeting. The check passes when each agent reports both
 branches and stops before switching branches, changing files or resuming work.
 
+In a matching checkout, also exercise the behavior that changed. Specify the expected result first. For role changes, verify identity and profile. For Issue routing, verify the owning Issue. For authority changes, present the affected decision and verify the permitted next action. Use read-only tools.
+
 This check applies the failure-case guidance in the Corpus
 [AI strategy quality contract](../../src/resources/corpus/governance/quality/ai-strategy.md)
 at revision `ada4abdd4297a762958dcb8952efff3a9aa269ea`.

@@ -19,7 +19,7 @@ Product Owner decision outranks defaults and local convention.
 
 ## Working style
 
-- Speak German with the Product Owner; write repository artifacts in English.
+- Speak German with the Product Owner. Write repository artifacts in English. In Markdown, keep each prose paragraph on one source line and separate paragraphs with one blank line. Preserve the structure of lists, tables and code blocks.
 - Lead PO explanations with a short, precise, visual analogy.
 - Add detail only when it is needed or requested.
 - At entry, read [TEAM.md](TEAM.md) to resolve the project participants and
@@ -30,13 +30,7 @@ Product Owner decision outranks defaults and local convention.
 
 ## Risk and work authority
 
-Use the three risk paths and atomic work-unit boundary in
-[governance/work-authority.md](governance/work-authority.md). [TEAM.md](TEAM.md) owns collaboration routing and the default assignment.
-
-Do not confuse work status, execution authority, acceptance gates, or technical
-permissions. A Product Owner-released exact Ready Issue carries its declared
-work through `In review`; Merge, Done, cleanup, scope expansion, and other
-excluded effects remain separate Product Owner decisions.
+Use [work authority](governance/work-authority.md) for risk, authorized effects and delivery. [TEAM](TEAM.md) owns collaboration routing and the default assignment.
 
 ## Cold Start
 
@@ -46,37 +40,6 @@ preparation steps in [operations/session-continuity.md](operations/session-conti
 On a fresh continuation greeting, follow the entry steps there and report the
 last work and next decision. Preparation and entry grant no publication,
 cleanup, history deletion or merge authority.
-
-## Delivery
-
-- GitHub Issues and the project board own planned work and lifecycle state.
-- Use a short-lived topic branch, a focused pull request, required green checks, and squash merge.
-- Require human approval for product and governance decisions; automation supplies evidence, not authority.
-- Only the Product Owner decides the Project status transitions
-  `Refinement -> Ready` and `In review -> Done`. Automation may execute the
-  latter only as the direct consequence of a Product Owner-approved squash merge
-  whose closing keyword makes Issue closure explicit; approval does not
-  otherwise delegate either decision.
-- Without a closing keyword, a merged implementation remains open in
-  `In review` until the Product Owner separately decides Issue closure and
-  `Done`. Verify the Issue and Project effects after every merge.
-- Review every implementation Story independently before merge, resolve every
-  material finding, and rerun the proportionate verification gates. Keep the
-  Story `In progress` during implementation, local verification, and independent
-  technical review. Move it to `In review` only when its focused pull request is
-  published with explicit authority, all Issue-required verification is green,
-  and it is ready for Product Owner review.
-- Treat review reports and ratings as evidence rather than authority. An
-  independent reviewer must not have authored the reviewed slice and must assess
-  the current Issue contract, public API, tests, architecture boundaries, and
-  non-goals. Report findings by severity or explicitly state none, plus residual
-  risks and supporting evidence; ratings are never an acceptance gate.
-- After all Stories of an Epic are merged and `Done`, review the integrated Epic
-  against its acceptance criteria and dependency boundaries before requesting
-  Epic `Done`. Do not defer Story-level review until that final Epic review.
-- Keep Issue titles outcome-focused. Native relationships and `level:*` labels own structural level, so do not prefix titles with `Epic:` or `Story:`.
-- Do not publish, merge, close, delete, rewrite, or force-push without authority covering that exact effect.
-- Repository administration bypass and force-push capability remain available to the Product Owner for emergencies. They are not normal delivery paths.
 
 ## Navigation
 

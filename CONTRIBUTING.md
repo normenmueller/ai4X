@@ -5,7 +5,7 @@ Thank you for contributing to ai4X.
 ## Before changing code
 
 1. Read `.ai4x/BEHAVIOR.md` and `.ai4x/CONTEXT.md`.
-2. Confirm the owning GitHub Issue, intended outcome, and acceptance criteria.
+2. Confirm the intended outcome and acceptance criteria. Follow [work authority](.ai4x/governance/work-authority.md#risk-paths) to determine when a Ready Issue is required.
 3. Load only the context, source, tests, and documentation needed for the change.
 
 ## Delivery
@@ -13,7 +13,7 @@ Thank you for contributing to ai4X.
 - Branch from current `trunk` using `feat/*`, `fix/*`, `docs/*`, `chore/*`, or `refactor/*`.
 - Keep one coherent, reviewable change per pull request.
 - Add tests in proportion to behavior and risk.
-- Run `make verify` before requesting review.
+- For changes confined to [CI’s documentation paths](.github/workflows/verify.yml), run `make structure-check licensing-check` and `git diff --check`. For technical, mixed or uncertain changes, run `make verify`. Exercise any changed entry behavior according to the [Cold Start rule](.ai4x/governance/cold-start-verification.md).
 - Use clear Conventional Commit messages and squash merge.
 - Update documentation when a public contract changes.
 
