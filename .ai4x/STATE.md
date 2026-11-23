@@ -6,18 +6,9 @@ Owning Issue: none
 
 ## Return context
 
-- nemron tracks this reboot as directly assigned work. The current discussion
-  concerns the project's own AI Memory and its host-independent Cold Start.
-- The research review has restored Gertrud and seven specialist roles. The
-  independent review found that session entry still pointed at the architecture
-  discussion on trunk. The working branch now carries the unified Cold Start.
-- The same fresh greeting reached the team review in both hosts. The reset
-  documents now live beside the checkpoint tools. The three historical records
-  for #181 and #183 have been retired from active Project Memory on nemron's
-  decision. Next, ask nemron to review the team and its Cold Start. Continue
-  with the remaining research files, then the documentation branch and backups.
-  The project has adopted the scoped Cold Start verification rule. Other
-  Corpus governance candidates remain open for separate review.
+- nemron approved Gertrud, the seven specialist roles and Cold Start for this branch at `67c8407`. The research branch review continues.
+- Next, resolve whether the former architecture profile’s mandatory Architecture Pack needs a dedicated artifact. Compare the current architecture role and the Corpus design-review draft. Keep the other historical profile requirements open for individual review.
+- After the research branch, review the documentation branch and then the backups.
 
 ## Route
 
