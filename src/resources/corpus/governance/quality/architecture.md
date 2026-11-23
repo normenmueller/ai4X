@@ -2,7 +2,7 @@
 
 Draft for review.
 
-Use when a change affects responsibilities, domain invariants or integration contracts. Identify the affected contexts, their owners, the data crossing each boundary and the invariants at risk. Check dependencies against the consuming project’s declared dependency boundaries.
+Use when a change affects responsibilities, domain invariants or integration contracts. Identify the affected contexts, their owners, the data crossing each boundary and the invariants at risk. When several values must satisfy a domain rule together, state the rule and show how each change that affects those values preserves it. Check dependencies against the consuming project’s declared dependency boundaries.
 
 Use the owning issue as the source of the goal, constraints and observable acceptance criteria. When it supplies these inputs, proceed directly. If missing information could change the design choice, name the specific gap and keep the recommendation provisional until it is resolved.
 
