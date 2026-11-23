@@ -40,7 +40,7 @@ excluded effects remain separate Product Owner decisions.
 
 ## Cold Start
 
-A Cold Start is a new session using tracked Project Memory and the relevant
+A Cold Start is a fresh agent session using tracked Project Memory and the relevant
 GitHub Issues. On “Gertrud, bitte bereite einen Cold Start vor”, follow the
 preparation steps in [operations/session-continuity.md](operations/session-continuity.md).
 On a fresh continuation greeting, follow the entry steps there and report the

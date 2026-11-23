@@ -16,7 +16,8 @@ Owning Issue: none
   for #181 and #183 have been retired from active Project Memory on nemron's
   decision. Next, ask nemron to review the team and its Cold Start. Continue
   with the remaining research files, then the documentation branch and backups.
-  Corpus governance adoption remains a separate open review point.
+  The project has adopted the scoped Cold Start verification rule. Other
+  Corpus governance candidates remain open for separate review.
 
 ## Route
 

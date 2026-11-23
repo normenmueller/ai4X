@@ -1,4 +1,4 @@
-# Cold Start
+# Cold Start of an agent session
 
 A Cold Start begins a fresh session from tracked Project Memory and the relevant
 GitHub Issues. The same procedure applies to every supported host and checkout.
@@ -64,3 +64,5 @@ On a continuation greeting such as “Hi Gertrud, weiter geht's!”:
   preserve all changes. If STATE is missing or dormant, existing worktrees
   and matching live Issues or PRs may identify a candidate. Ask one focused
   question if the intended route still cannot be established.
+
+When editing entry instructions, apply the [Cold Start verification rule](../governance/cold-start-verification.md).
