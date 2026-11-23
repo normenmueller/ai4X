@@ -1,5 +1,5 @@
 id: haskell-contract-verification
-version: 0.1.0
+version: 0.1.1
 owner: nemron
 requires: []
 conflicts: []
@@ -12,5 +12,10 @@ sources:
   - title: "O2I Haskell review"
     organization: "O2I"
     url: "https://github.com/normenmueller/o2i/blob/8f5bbee2f0b41369cfd4f3485b515ffaaed2f2d5/.ai4x/operations/haskell-review.md"
+    kind: "adoption-guidance"
+    accessed_at: 2026-11-23
+  - title: "O2I Haskell authoring"
+    organization: "O2I"
+    url: "https://github.com/normenmueller/o2i/blob/8f5bbee2f0b41369cfd4f3485b515ffaaed2f2d5/.ai4x/operations/haskell-authoring.md"
     kind: "adoption-guidance"
     accessed_at: 2026-11-23
