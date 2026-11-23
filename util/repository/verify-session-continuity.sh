@@ -62,6 +62,11 @@ require_bounded_markdown() {
     fail "${file#$repository/} exceeds its byte limit"
 }
 
+require_tracked_state() {
+  git -C "$1" ls-files --error-unmatch -- .ai4x/STATE.md >/dev/null 2>&1 ||
+    fail "$2 STATE is not tracked"
+}
+
 validate_state_contract() {
   file=$1
   label=$2
@@ -258,6 +263,8 @@ if test "$static_only" = yes; then
   exit 0
 fi
 
+require_tracked_state "$repository" source
+
 if test -z "$observed_branch"; then
   observed_branch=$(git -C "$repository" branch --show-current 2>/dev/null || true)
 fi
@@ -334,8 +341,7 @@ if test -e "$active_file"; then
 
   verify_entry_files "$active_target"
   target_state=$active_target/.ai4x/STATE.md
-  git -C "$active_target" ls-files --error-unmatch -- .ai4x/STATE.md >/dev/null 2>&1 ||
-    fail 'ACTIVE target STATE is not tracked'
+  require_tracked_state "$active_target" 'ACTIVE target'
   validate_state_contract "$target_state" 'ACTIVE target'
   target_state_branch=$validated_state_branch
   test "$target_state_branch" = "$active_branch" ||

@@ -31,6 +31,8 @@ make_fixture() {
   sed -i.bak "s|^Applies on branch:.*|Applies on branch: $fixture_branch|" \
     "$target/.ai4x/STATE.md"
   rm "$target/.ai4x/STATE.md.bak"
+  git -C "$target" init -q
+  git -C "$target" add .ai4x/STATE.md
   cp "$repository/.ai4x/TEAM.md" "$target/.ai4x/TEAM.md"
   for role_file in "$repository"/.ai4x/agents/*/ROLE.md; do
     role_directory=${role_file%/ROLE.md}
@@ -47,7 +49,6 @@ make_fixture() {
 make_git_fixture() {
   target=$1
   make_fixture "$target"
-  git -C "$target" init -q
   git -C "$target" config user.name 'ai4X fixture'
   git -C "$target" config user.email 'fixture@ai4x.invalid'
   git -C "$target" add .
@@ -85,6 +86,15 @@ sed -i.bak 's/^Owning Issue:.*/Owning Issue: none/' "$valid/.ai4x/STATE.md"
 "$verifier" "$valid" "$fixture_branch" clean | grep -F 'direct PO assignment' >/dev/null
 sed -i.bak 's/^Owning Issue:.*/Owning Issue: unknown/' "$valid/.ai4x/STATE.md"
 expect_failure malformed-owner "$verifier" "$valid" "$fixture_branch" clean
+
+untracked_source=$scratch_root/untracked-source
+make_git_fixture "$untracked_source"
+git -C "$untracked_source" switch -q -c "$fixture_branch"
+"$verifier" "$untracked_source" | grep -F "session-continuity: active (" >/dev/null
+git -C "$untracked_source" rm -q --cached .ai4x/STATE.md
+test -f "$untracked_source/.ai4x/STATE.md"
+expect_failure untracked-source-state "$verifier" "$untracked_source"
+grep -F 'source STATE is not tracked' "$scratch_root/untracked-source-state.out" >/dev/null
 
 missing_role=$scratch_root/missing-role
 make_fixture "$missing_role"
