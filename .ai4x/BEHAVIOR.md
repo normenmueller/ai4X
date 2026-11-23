@@ -38,44 +38,14 @@ permissions. A Product Owner-released exact Ready Issue carries its declared
 work through `In review`; Merge, Done, cleanup, scope expansion, and other
 excluded effects remain separate Product Owner decisions.
 
-## Session continuity
+## Cold Start
 
-Continuously assess whether a Cold Start would materially improve correctness,
-clarity, or agent autonomy. Recommend one at the first safe semantic boundary
-after effective project instructions or host configuration changed, when the
-active context has become stale or contradictory, or when a work-phase change
-would benefit from a fresh agent. Do not interrupt an active mutation or require
-a restart merely because inert documentation or evidence changed.
-
-A Cold Start means ending the current Codex session and starting a fresh one
-without `resume` or `fork`. Complete all of the following before recommending it:
-
-1. Stabilize the current task and verify repository, GitHub, branch, and CI state.
-2. Move every durable semantic or governance decision out of chat and local
-   scratch into its tracked owner or the owning GitHub Issue.
-3. Clean only workspace-local material proven obsolete and disposable. Preserve
-   unknown or unrelated state; never make host-wide cleanup a routine Cold Start
-   requirement.
-4. Update the concise tracked `.ai4x/STATE.md` only when its branch-bound return
-   context materially changes. It is a router, never live work or authority.
-   An optional `.ai4x/local/ACTIVE.md` may point a stable checkout to another
-   worktree but remains disposable and non-authoritative.
-5. Follow the GitHub-only work-continuity procedure and prove that no required
-   fact or artifact exists only in chat, disposable local state, or an external
-   backup. Do not read or refresh a cloud-drive recovery set.
-
-Report that the Cold Start is prepared, ask the Product Owner to end the session
-with `/delete`, open a fresh session in this repository without `resume` or
-`fork`, and send a normal continuation greeting such as `Hi Gertrud, weiter
-geht's!`. Do not ask the Product Owner to copy a transition prompt and do not
-start further work in the old session.
-
-A continuation greeting without a concrete task authorizes only the bounded
-read-only bootstrap in [operations/session-continuity.md](operations/session-continuity.md).
-It never grants branch switching, cleanup, publication, merge, lifecycle,
-destructive, or new-scope authority. Mutation may resume only after that
-procedure establishes one unambiguous existing work context whose live contract
-already grants the required effect.
+A Cold Start is a new session using tracked Project Memory and the relevant
+GitHub Issues. On “Gertrud, bitte bereite einen Cold Start vor”, follow the
+preparation steps in [operations/session-continuity.md](operations/session-continuity.md).
+On a fresh continuation greeting, follow the entry steps there and report the
+last work and next decision. Preparation and entry grant no publication,
+cleanup, history deletion or merge authority.
 
 ## Delivery
 

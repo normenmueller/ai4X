@@ -15,13 +15,14 @@ Authority is split by fact kind:
 - the observed worktree is state to preserve, never an instruction to discard;
 - `.ai4x/local/` contains working and continuity material only; it is never
   semantic or governance authority;
-- external recovery material is inert continuity fallback, never work authority.
+- historical recovery material records earlier exercises. A Cold Start uses tracked
+  Project Memory and the relevant GitHub Issues.
 
 On disagreement, use the owner for that fact kind. Preserve local changes and
 fail closed to the Product Owner when authority or the owning work is ambiguous.
 
 `.ai4x/STATE.md` is tracked branch-bound return context, not mutable work state.
-It may point to an owning Issue and canonical context but never owns board
+It may identify directly assigned work or point to an owning Issue and canonical context but never owns board
 status, execution authorization, acceptance gates, or product facts. Those are
 reconstructed from their owners at Cold Start. `.ai4x/TEAM.md` owns lean
 collaboration routing, while `.ai4x/governance/work-authority.md` owns the
@@ -50,9 +51,8 @@ typed access to `resources`; `foundation` never imports `domains` or
 belong in CLI or adapter code, and executable business rules do not belong in
 resources.
 
-The future Haskell workspace is one Cabal project rooted in `src/`, composed of
-multiple packages. Its workspace and package files are materialized only by the
-implementation slices that need them. `light` and `policy` are not independent
+The [Cabal project](../../src/cabal.project) in `src/` lists the current
+workspace packages. Add packages through the implementation slices that need them. `light` and `policy` are not independent
 source roots: a future Light edition must be expressed as a justified bundle or
 skeleton, while policy belongs to Corpus Governance or Assurance packs.
 
@@ -64,9 +64,9 @@ invariants, and deterministic transformations; Haskell evaluation itself is
 non-strict. Prototype and historical evidence remain outside `trunk` until a
 product slice deliberately adopts a proven result.
 
-At deterministic validation boundaries such as `validateIntent`, Haskell
-checks an authored, decoded draft only for closed types and formal invariants.
-It returns typed defects or a phase-indexed validated value. Success provides
+The design calls for Haskell validation boundaries such as `validateIntent` to
+check an authored, decoded draft only for closed types and formal invariants.
+The intended result is typed defects or a phase-indexed validated value. Success provides
 deterministic evidence; it never supplies semantic fitness, human confirmation,
 or approval.
 

@@ -1,5 +1,8 @@
 # ai4X Work-continuity Recovery
 
+> Historical workstation-reset drill (#181). These steps describe the earlier
+> exercise. For current sessions use the [Cold Start procedure](../session-continuity.md).
+
 ## Start from GitHub
 
 ```sh

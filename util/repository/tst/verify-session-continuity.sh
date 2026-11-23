@@ -73,7 +73,12 @@ expect_failure() {
 
 valid=$scratch_root/valid
 make_fixture "$valid"
-"$verifier" "$valid" "$fixture_branch" clean >/dev/null
+sed -i.bak 's/^Owning Issue:.*/Owning Issue: #188/' "$valid/.ai4x/STATE.md"
+"$verifier" "$valid" "$fixture_branch" clean | grep -F '#188' >/dev/null
+sed -i.bak 's/^Owning Issue:.*/Owning Issue: none/' "$valid/.ai4x/STATE.md"
+"$verifier" "$valid" "$fixture_branch" clean | grep -F 'direct PO assignment' >/dev/null
+sed -i.bak 's/^Owning Issue:.*/Owning Issue: unknown/' "$valid/.ai4x/STATE.md"
+expect_failure malformed-owner "$verifier" "$valid" "$fixture_branch" clean
 
 dormant=$scratch_root/dormant
 make_fixture "$dormant"

@@ -1,43 +1,33 @@
 # ai4X Work State
 
 Schema: ai4x-work-state-v1
-Applies on branch: trunk
-Owning Issue: #103
+Applies on branch: reboot/research-review
+Owning Issue: none
 
 ## Return context
 
-- Start reboot discussions on clean `trunk`. A continuation greeting grants
-  read-only discovery; implementation still uses an authorized topic branch.
-- Read the owning Issue's `Current re-entry` section for the current discussion
-  and prerequisite work before resuming architecture refinement.
-- Preserve the accepted poster layout and semantics; change only the next
-  individually discussed visual or semantic point.
-- The preserved architecture return point is `Curate Agentic Constellation`:
-  reconcile its lean tree view with the canonical functional contract before
-  proposing a change.
+- nemron tracks this reboot as directly assigned work. The current discussion
+  concerns the project's own AI Memory and its host-independent Cold Start.
+- The research review has restored Gertrud and seven specialist roles. The
+  independent review found that session entry still pointed at the architecture
+  discussion on trunk. The working branch now carries the unified Cold Start.
+- Next: show nemron the Cold Start readback and ask whether the team and entry
+  are ready to accept. After his review, continue reconciling the remaining
+  research content. The documentation branch follows, then the backups in order.
 
 ## Route
 
-- Re-read the owning Issue, project item, branch, and upstream from Git and
-  GitHub before mutation.
-- Use the registered worktree on the branch bound above as the preferred
-  working checkout. Start the working Codex CLI session there; a session
-  started elsewhere performs read-only discovery and reports that location.
-- Load `.ai4x/context/need-to-capability.md`, `.ai4x/context/curation.md`, and
-  `doc/system-design/need-to-capability/need-to-capability.tex`; render the PNG only after a coherent
-  diagram increment.
-- Load `.ai4x/governance/work-authority.md` and `.ai4x/TEAM.md` for execution and
-  collaboration routing.
+- Start in the registered worktree on the bound branch. Follow [TEAM](TEAM.md)
+  and the [Cold Start procedure](operations/session-continuity.md).
+- Draft PR #206 collects the research review. Compare its live head to local
+  Git when reporting publication. Commits accumulate locally until PO review.
 
 ## Authority boundary
 
-- This file is a tracked return pointer, not work, approval, gate, or lifecycle
-  authority.
-- Live GitHub state and the current explicit Product Owner decision remain the
-  owners of mutable work and execution authority.
+- Report what is ready for review. A greeting or this return pointer supplies
+  no approval to publish, merge, retire a branch or discard source material.
 
 ## Concurrency limit
 
-- This first slice supports one active tracked STATE per work branch.
-- Concurrent branches may carry different STATE revisions. Preserve conflicts
-  and fail closed; do not infer which branch supersedes another.
+- Each working branch owns one return point. Resolve competing assignments
+  with nemron before proceeding.

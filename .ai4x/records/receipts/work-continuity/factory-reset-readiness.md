@@ -2,7 +2,7 @@
 
 - Issue: [#181](https://github.com/normenmueller/ai4X/issues/181)
 - Observed: 2026-08-27
-- Evidence: [Factory-reset Restore Proof](../../../evidence/assurance/work-continuity/factory-reset-restore-proof.md)
+- Evidence: [Factory-reset Restore Proof](../../evidence/assurance/work-continuity/factory-reset-restore-proof.md)
 
 ```text
 RemoteCheckpoint<Verified>
@@ -21,8 +21,8 @@ RestoreProof<Passed>
 WorkState<Recoverable>
 ```
 
-The observed rolling-slot name is historical evidence only; the external
-`CURRENT` pointer remains the authority for the active recovery slot. Concrete
+The observed rolling-slot name is historical evidence only; at the time of the drill,
+the external `CURRENT` pointer identified its active recovery slot. Concrete
 provider and machine-local target paths are intentionally absent.
 
 This receipt records verification evidence. It does not make the recovery

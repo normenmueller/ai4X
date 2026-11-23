@@ -77,8 +77,12 @@ validate_state_contract() {
     fail "$label STATE branch is not a valid branch name"
 
   validated_state_issue=$(single_field "$file" 'Owning Issue')
-  printf '%s\n' "$validated_state_issue" | grep -E '^#[1-9][0-9]*$' >/dev/null ||
-    fail "$label Owning Issue must contain exactly one Issue number"
+  if test "$validated_state_issue" = none; then
+    validated_state_issue='direct PO assignment'
+  else
+    printf '%s\n' "$validated_state_issue" | grep -E '^#[1-9][0-9]*$' >/dev/null ||
+      fail "$label Owning Issue must be one Issue number or none"
+  fi
 
   require_sections "$file" '## Return context
 ## Route

@@ -1,5 +1,8 @@
 # ai4X Project Work Continuity
 
+> Historical workstation-reset drill (#181). These steps describe the earlier
+> exercise. For current sessions use the [Cold Start procedure](session-continuity.md).
+
 This procedure makes the ai4X project instance recoverable using GitHub only.
 It supersedes the synchronized-directory recovery path introduced by
 [Issue #181](https://github.com/normenmueller/ai4X/issues/181). The reusable
