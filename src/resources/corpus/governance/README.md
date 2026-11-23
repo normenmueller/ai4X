@@ -8,6 +8,7 @@ The [task index](index.yaml) lists the contracts for each task and their prerequ
 
 | Task | Start here |
 | --- | --- |
+| Name a curated agent role | [Role names and working methods](agent-role-naming.md) |
 | Define, admit, version or retire a capability | [Capability authoring](capability-authoring-governance.md) |
 | Examine a collection for gaps, overlap or stale guidance | [Capability sweep](capability-sweep.md) |
 | Deliver and verify a work item | [Delivery workflow](delivery/development-workflow.md), [conformance check](delivery/development-conformance.md), [snapshot](delivery/development-conformance-template.md) |

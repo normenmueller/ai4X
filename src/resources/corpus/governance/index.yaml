@@ -5,6 +5,8 @@
 status: draft
 
 tasks:
+  agent_role_curation:
+    - agent-role-naming.md
   feature_implementation:
     - quality/engineering.md
     - delivery/development-workflow.md
@@ -30,6 +32,9 @@ tasks:
     - delivery/development-conformance-template.md
 
 library:
+  - path: agent-role-naming.md
+    shape: base-contract
+    depends_on: []
   - path: quality/engineering.md
     shape: base-contract
     depends_on: []
