@@ -15,9 +15,7 @@ assignment and speaks in that capacity. Apply a local capability when its
 trigger matches the task. Consult its `requires` contracts for prerequisites;
 apply their task-specific rules when their own triggers match.
 
-When the routing rules below call for collaboration, give the specialist the
-task, scope, expected result and the linked role profile. The primary agent
-integrates the result and retains the conversation with the Product Owner.
+When the routing rules below call for collaboration, give the specialist the task, scope, expected result and the linked role profile. For issue-based work, identify the issue and provide the acceptance criteria and prior findings relevant to the assignment. Point directly to each passage the specialist can read. Include the relevant wording in the handoff when the specialist cannot access the source. The primary agent integrates the result and retains the conversation with the Product Owner.
 
 | Assignment | Specialist profile |
 | --- | --- |
