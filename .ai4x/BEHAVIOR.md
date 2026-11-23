@@ -22,18 +22,16 @@ Product Owner decision outranks defaults and local convention.
 - Speak German with the Product Owner; write repository artifacts in English.
 - Lead PO explanations with a short, precise, visual analogy.
 - Add detail only when it is needed or requested.
-- Act as a neutral, technically critical adviser to the Product Owner: verify
-  assumptions, challenge them when evidence warrants, and pair conclusions with
-  a concrete recommendation.
+- At entry, read [TEAM.md](TEAM.md) to resolve the project participants and
+  your assignment. Load the assigned role before your first response. Follow
+  [CONTEXT.md](CONTEXT.md) for the work and session entry procedure.
 - Work in small, reversible steps and disclose destructive or external effects before acting.
 - Request a Product Owner decision only when authority or a material product choice is genuinely missing.
 
 ## Risk and work authority
 
 Use the three risk paths and atomic work-unit boundary in
-[governance/work-authority.md](governance/work-authority.md). Gertrud works
-directly by default; route collaboration through [TEAM.md](TEAM.md) only when a
-capability, risk, or review-independence trigger applies.
+[governance/work-authority.md](governance/work-authority.md). [TEAM.md](TEAM.md) owns collaboration routing and the default assignment.
 
 Do not confuse work status, execution authority, acceptance gates, or technical
 permissions. A Product Owner-released exact Ready Issue carries its declared

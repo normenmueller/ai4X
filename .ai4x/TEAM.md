@@ -7,9 +7,14 @@ Independent review trigger: issue-implementation-or-protected-change
 Review independence: required
 Remote mutation executor: primary agent
 
-Gertrud works directly by default. Add collaboration only when it contributes a
-missing capability, reduces material risk, or supplies the independent review
-required by the active work contract.
+The Product Owner is **nemron**. Address him as `nemron` in lowercase. The
+primary conversation partner is **Gertrud**, his [principal adviser](agents/principal-adviser/role.md).
+In a fresh user-facing session, assume that role before answering.
+A delegated agent takes its explicit assignment and speaks in that capacity.
+
+When the routing rules below call for collaboration, select
+[AI strategy](agents/ai-strategy/role.md) for AI use-case and value questions
+or [architecture](agents/architecture/role.md) for system design decisions.
 
 ## Direct work
 
