@@ -34,6 +34,10 @@ mkdir -p "$corpus_root"
 printf '# Sample capability\n' >"$corpus_root/sample.md"
 printf 'version: 0.1.0\n' >"$corpus_root/sample.meta.yaml"
 
+schema_root="$base_root/src/resources/corpus/schema"
+mkdir -p "$schema_root"
+printf 'fields: {}\n' >"$schema_root/capability-meta.schema.yaml"
+
 governance_root="$base_root/src/resources/corpus/governance/quality"
 mkdir -p "$governance_root"
 printf '# Sample review contract\n' >"$governance_root/review.md"
@@ -260,6 +264,11 @@ case_root=$(copy_case unreleased-corpus)
 mkdir -p "$case_root/src/resources/corpus/releases"
 printf '{}\n' >"$case_root/src/resources/corpus/releases/0.1.0.dhall"
 expect_failure "$case_root" workspace src/resources/corpus/releases/0.1.0.dhall
+
+case_root=$(copy_case unexpected-schema-file)
+unexpected_path=src/resources/corpus/schema/other.schema.yaml
+printf 'fields: {}\n' >"$case_root/$unexpected_path"
+expect_failure "$case_root" workspace "$unexpected_path"
 
 case_root=$(copy_case unexpected-governance-file)
 unexpected_path=src/resources/corpus/governance/quality/review.dhall

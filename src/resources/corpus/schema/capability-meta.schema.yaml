@@ -1,0 +1,127 @@
+# Capability metadata schema proposal
+# Draft for review. A release owner must select a schema before using it
+# to validate release candidates. Preserved capability sources can be
+# inspected independently of this proposal.
+#
+# type names a scalar or container; required controls field presence.
+# items describes array entries. Object entries accept only declared
+# properties. enum lists allowed values. date uses YYYY-MM-DD.
+# Before adoption, reconcile owner and sources requirements with corpus
+# governance and check distinguish_from entry shapes against existing data.
+
+schema:
+  version: "1.0.0"
+
+fields:
+  id:
+    type: string
+    required: true
+    description: >
+      Unique capability identifier. Must match the filename stem of the
+      corresponding .md file.
+
+  version:
+    type: string
+    required: true
+    description: >
+      Semantic version (semver) of the capability definition.
+
+  owner:
+    type: string
+    required: true
+    description: >
+      Semantic Authority over the cognitive contract. Identifies the party
+      responsible for the meaning, boundaries, and evolution of this capability.
+
+  do_not_use_when:
+    type: array
+    required: false
+    items:
+      type: string
+    description: >
+      Negative applicability boundaries. Each entry describes a situation
+      where this capability must not be selected.
+
+  distinguish_from:
+    type: array
+    required: false
+    items:
+      type: object
+      properties:
+        id:
+          type: string
+          required: true
+          description: >
+            Identifier of the capability to distinguish from.
+        boundary:
+          type: string
+          required: true
+          description: >
+            Explanation of the semantic boundary between this capability
+            and the referenced one.
+    description: >
+      Neighbor disambiguation entries. Each object identifies a related
+      capability and the semantic boundary separating them.
+
+  requires:
+    type: array
+    required: false
+    items:
+      type: string
+    description: >
+      Capability IDs that must be co-selected when this capability is active.
+
+  conflicts:
+    type: array
+    required: false
+    items:
+      type: string
+    description: >
+      Capability IDs that must not be co-selected with this capability.
+      Conflicts must be symmetric (if A conflicts B, B must conflict A).
+
+  # Architecture Decision U2: sources internal structure.
+  # All 5 properties are required per entry. This is an architecture decision
+  # (not an explicit AC requirement). The sources array itself is optional —
+  # authors who do not have full citations omit the field entirely.
+  sources:
+    type: array
+    required: false
+    items:
+      type: object
+      properties:
+        title:
+          type: string
+          required: true
+          description: >
+            Title of the reference material.
+        organization:
+          type: string
+          required: true
+          description: >
+            Publishing organization or authoring body.
+        url:
+          type: string
+          required: true
+          description: >
+            Location where the source can be accessed.
+        kind:
+          type: string
+          required: true
+          enum:
+            - standard
+            - architecture-guidance
+            - security-guidance
+            - adoption-guidance
+            - domain-reference
+          description: >
+            Classification of the source material type.
+        accessed_at:
+          type: string
+          required: true
+          format: date
+          description: >
+            Date when the source was last accessed or verified.
+    description: >
+      Authoritative sources underpinning the capability's cognitive contract.
+      Each entry must be fully specified for citation traceability.
