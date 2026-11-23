@@ -1,0 +1,16 @@
+id: haskell-contract-verification
+version: 0.1.0
+owner: nemron
+requires: []
+conflicts: []
+do_not_use_when:
+  - "The question is purely about project sign-off or a language-independent quality gate."
+distinguish_from:
+  - id: technical-output-validation
+    boundary: "Technical output validation assesses fit for a strategic decision. Haskell contract verification tests a specific compiler, runtime or evaluation claim."
+sources:
+  - title: "O2I Haskell review"
+    organization: "O2I"
+    url: "https://github.com/normenmueller/o2i/blob/8f5bbee2f0b41369cfd4f3485b515ffaaed2f2d5/.ai4x/operations/haskell-review.md"
+    kind: "adoption-guidance"
+    accessed_at: 2026-11-23

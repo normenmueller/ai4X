@@ -15,3 +15,11 @@ This index exposes the local capability selection surface for `engineering`.
 | `immutability-by-default` | `immutability-by-default.md` | Keep state transitions explicit and bounded so domain behavior remains predictable and composable. | Use when designing or reviewing stateful domain behavior and mutation boundaries. | `[]` | `[]` | `[domain-modeling-rigor]` | `[]` |
 | `interface-contract-first` | `interface-contract-first.md` | Define semantic boundary contracts before implementation details accumulate around them. | Use when defining or reviewing interface boundaries before implementation details spread. | `[]` | `[]` | `[domain-modeling-rigor, abstraction-boundary-discipline]` | `[]` |
 | `side-effect-boundary-discipline` | `side-effect-boundary-discipline.md` | Keep side effects explicit, bounded, and testable. | Use when designing or reviewing IO-heavy logic, process control, or external action boundaries. | `[]` | `[]` | `[immutability-by-default, functional-error-modeling]` | `[]` |
+
+## Haskell (drafts)
+
+| ID | File | Purpose | Use When | Do Not Use When | Distinguish From | Requires | Conflicts |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `haskell-type-design` | [haskell-type-design.md](haskell/haskell-type-design.md) | Design a Haskell type for a stated invariant. | A signature or representation promises a guarantee. | The job is limited to naming domain concepts or documenting vocabulary. | `domain-modeling-rigor` | `[]` | `[]` |
+| `haskell-implementation` | [haskell-implementation.md](haskell/haskell-implementation.md) | Implement a contract with explicit effects and evaluation. | A Haskell function, module or adapter changes. | Only a representation decision or an independent assessment of an existing implementation is requested. | `functional-error-modeling` | `[]` | `[]` |
+| `haskell-contract-verification` | [haskell-contract-verification.md](haskell/haskell-contract-verification.md) | Test a Haskell API’s static, runtime or cost claim. | A guarantee or law needs evidence. | The question is purely about project sign-off or a language-independent quality gate. | `technical-output-validation` | `[]` | `[]` |
