@@ -7,7 +7,7 @@ Owning Issue: none
 ## Return context
 
 - nemron directly assigned the research-branch review. [#104](https://github.com/normenmueller/ai4X/issues/104) holds the research evidence and [the decision on conflicting rules](https://github.com/normenmueller/ai4X/issues/104#issuecomment-7126027843). The project adopted that rule in `c3f8f76`.
-- The [research migration inventory is complete](https://github.com/normenmueller/ai4X/issues/104#issuecomment-7136072119). The next source is the separate `doc/103-need-to-capability` branch, followed by the backups. Begin with its inventory. Use this review branch to collect approved changes. Host verification is tracked in [#106](https://github.com/normenmueller/ai4X/issues/106).
+- The [research migration inventory is complete](https://github.com/normenmueller/ai4X/issues/104#issuecomment-7136072119). On `doc/103-need-to-capability`, the [Project Memory comparison](https://github.com/normenmueller/ai4X/issues/104#issuecomment-7136233944) is complete. Continue with `.codex/`, then `.github/`, `doc/`, `src/` and `util/`. Reconcile the changed root files before branch closeout and the subsequent backup review. Use this review branch to collect approved changes. Host verification is tracked in [#106](https://github.com/normenmueller/ai4X/issues/106).
 
 ## Route
 
