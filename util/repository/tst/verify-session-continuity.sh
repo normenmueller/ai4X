@@ -87,6 +87,69 @@ sed -i.bak 's/^Owning Issue:.*/Owning Issue: none/' "$valid/.ai4x/STATE.md"
 sed -i.bak 's/^Owning Issue:.*/Owning Issue: unknown/' "$valid/.ai4x/STATE.md"
 expect_failure malformed-owner "$verifier" "$valid" "$fixture_branch" clean
 
+entry_source=$scratch_root/entry-source
+make_git_fixture "$entry_source"
+entry_target=$entry_source/.ai4x/local/worktrees/entry
+git -C "$entry_source" worktree add -q -b "$fixture_branch" "$entry_target"
+write_active_pointer "$entry_source" '.ai4x/local/worktrees/entry' "$fixture_branch"
+entry_state=$entry_target/.ai4x/STATE.md
+# Pin the fixture binding independently of the development branch's current Issue.
+sed -i.bak 's/^Owning Issue:.*/Owning Issue: none/' "$entry_state"
+rm "$entry_state.bak"
+git -C "$entry_target" add .ai4x/STATE.md
+git -C "$entry_target" commit -q --allow-empty -m 'Bind fixture to direct assignment'
+
+sed -i.bak 's/^Owning Issue: none$/Owning Issue: #188/' "$entry_state"
+rm "$entry_state.bak"
+for change in unstaged staged; do
+  if test "$change" = staged; then git -C "$entry_target" add .ai4x/STATE.md; fi
+  "$verifier" "$entry_target" | grep -F 'active (#188,' >/dev/null
+  for route in direct referred; do
+    root=$entry_target
+    if test "$route" = referred; then root=$entry_source; fi
+    log=$change-$route-owner-drift
+    expect_failure "$log" "$verifier" "$root" --enter
+    grep -F "HEAD (branch=$fixture_branch, issue=none), worktree (branch=$fixture_branch, issue=#188)" "$scratch_root/$log.out" >/dev/null
+  done
+done
+
+git -C "$entry_target" restore --source=HEAD --staged --worktree .ai4x/STATE.md
+printf '\n- Local return note.\n' >> "$entry_state"
+"$verifier" "$entry_target" --enter | grep -F 'active (direct PO assignment,' >/dev/null
+"$verifier" "$entry_source" --enter | grep -F 'active-worktree (direct PO assignment,' >/dev/null
+
+sed -i.bak 's|^Applies on branch:.*|Applies on branch: feature/other|' "$entry_state"
+rm "$entry_state.bak"
+expect_failure entry-branch-drift "$verifier" "$entry_target" --enter
+grep -F "HEAD (branch=$fixture_branch, issue=none), worktree (branch=feature/other, issue=none)" "$scratch_root/entry-branch-drift.out" >/dev/null
+
+# The file can be tracked in the index without any binding at HEAD.
+git -C "$entry_target" rm -q --cached .ai4x/STATE.md
+git -C "$entry_target" commit -qm 'Remove committed fixture binding'
+git -C "$entry_target" add .ai4x/STATE.md
+expect_failure entry-no-head-state "$verifier" "$entry_target" --enter
+grep -F 'HEAD STATE is unavailable' "$scratch_root/entry-no-head-state.out" >/dev/null
+
+# An ambiguous committed owner cannot be repaired silently by a working edit.
+git -C "$entry_target" show HEAD^:.ai4x/STATE.md >"$entry_state"
+printf '\nOwning Issue: #189\n' >>"$entry_state"
+git -C "$entry_target" add .ai4x/STATE.md
+git -C "$entry_target" commit -qm 'Record ambiguous fixture binding'
+git -C "$entry_target" show HEAD~2:.ai4x/STATE.md >"$entry_state"
+expect_failure entry-ambiguous-head "$verifier" "$entry_target" --enter
+grep -F 'HEAD STATE binding is missing or ambiguous' "$scratch_root/entry-ambiguous-head.out" >/dev/null
+
+# Even a manually restored working file cannot resolve competing index stages.
+git -C "$entry_target" add .ai4x/STATE.md
+git -C "$entry_target" commit -qm 'Restore fixture binding'
+binding_blob=$(git -C "$entry_target" rev-parse HEAD:.ai4x/STATE.md)
+other_blob=$(git -C "$entry_target" rev-parse HEAD^:.ai4x/STATE.md)
+git -C "$entry_target" rm -q --cached .ai4x/STATE.md
+printf '100644 %s 2\t.ai4x/STATE.md\n100644 %s 3\t.ai4x/STATE.md\n' "$binding_blob" "$other_blob" |
+  git -C "$entry_target" update-index --index-info
+expect_failure entry-unmerged-index "$verifier" "$entry_target" --enter
+grep -F 'STATE has unresolved merge stages' "$scratch_root/entry-unmerged-index.out" >/dev/null
+
 untracked_source=$scratch_root/untracked-source
 make_git_fixture "$untracked_source"
 git -C "$untracked_source" switch -q -c "$fixture_branch"

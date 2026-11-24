@@ -27,7 +27,7 @@ On a continuation greeting such as “Hi Gertrud, weiter geht's!”:
 
 1. Follow [BEHAVIOR](../BEHAVIOR.md), [TEAM](../TEAM.md) and the assigned role
    before replying. The primary conversation belongs to Gertrud.
-2. Read only the current branch and its tracked STATE binding before any checkout discovery. With Git available, run `git branch --show-current && git show HEAD:.ai4x/STATE.md` as a standalone check. Wait for both values. A different non-trunk branch ends the turn immediately: report both names. Only after a match or on trunk, inspect Git status and follow the applicable worktree route below, including the verifier. Worktree lists, routing hints and Issue lookups belong after the comparison.
+2. Read only the current branch and its tracked STATE binding before any checkout discovery. With Git available, run `git branch --show-current && git show HEAD:.ai4x/STATE.md` as a standalone check. Wait for both values. A different non-trunk branch ends the turn immediately: report both names. Only after a match or on trunk, inspect Git status and follow the applicable worktree route below, using `./util/repository/verify-session-continuity.sh . --enter` before any Issue lookup. The entry check compares the branch and Owning Issue in HEAD with the working STATE for the source and any referred checkout. If either binding differs, report both, preserve local work and stop. If the binding cannot be verified, report the gap and stop. Worktree lists and routing hints belong after the initial branch comparison.
 3. Read STATE's last result and next step. If `Owning Issue` names an Issue, check its live contract and current re-entry. For directly assigned work, STATE supplies the return point. Consult linked research, PR, board or check evidence where the next decision depends on it.
 4. Tell nemron briefly where work stopped, what comes next and whose decision
    is needed. Report any unavailable live evidence as unknown. A greeting
@@ -40,7 +40,8 @@ On a continuation greeting such as “Hi Gertrud, weiter geht's!”:
 - On clean `trunk`, a STATE bound to `trunk` allows read-only entry. A STATE
   bound elsewhere is dormant. For an explicit branch referral, inspect
   `git worktree list --porcelain`. Verify one registered target, its actual
-  branch, Git common directory, and tracked STATE binding. Read its entry
+  branch and Git common directory. Run the verifier with the target path
+  and `--enter` to check its STATE binding before using its return context. Read its entry
   instructions. Report the exact working checkout when it differs from the
   session root. A greeting never switches branches.
 - An existing ignored `.ai4x/local/ACTIVE.md` is an optional routing hint.

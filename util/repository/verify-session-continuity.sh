@@ -8,10 +8,15 @@ repository=$(CDPATH= cd -- "$requested_repository" 2>/dev/null && pwd -P) || {
 }
 observed_branch=${2:-}
 observed_clean=${3:-}
+entry_check=no
 static_only=no
 if test "$observed_branch" = --static; then
   static_only=yes
   observed_branch=
+elif test "$observed_branch" = --enter; then
+  entry_check=yes
+  observed_branch=
+  observed_clean=
 fi
 state_file=$repository/.ai4x/STATE.md
 team_file=$repository/.ai4x/TEAM.md
@@ -67,6 +72,28 @@ require_tracked_state() {
     fail "$2 STATE is not tracked"
 }
 
+verify_entry_binding() {
+  test "$entry_check" = yes || return 0
+  binding_root=$1
+  binding_label=$2
+  unmerged=$(git -C "$binding_root" ls-files --unmerged -- .ai4x/STATE.md) ||
+    fail "$binding_label cannot read STATE index"
+  test -z "$unmerged" || fail "$binding_label STATE has unresolved merge stages"
+  head_state=$(git -C "$binding_root" show HEAD:.ai4x/STATE.md 2>/dev/null) ||
+    fail "$binding_label HEAD STATE is unavailable"
+  head_binding=$(printf '%s\n' "$head_state" | awk '
+    /^Applies on branch: / { branch = substr($0, length("Applies on branch: ") + 1); branches++ }
+    /^Owning Issue: / { issue = substr($0, length("Owning Issue: ") + 1); issues++ }
+    END {
+      if (branches != 1 || issues != 1 || branch == "" || issue == "") exit 1
+      printf "branch=%s, issue=%s", branch, issue
+    }
+  ') || fail "$binding_label HEAD STATE binding is missing or ambiguous"
+  worktree_binding="branch=$validated_state_branch, issue=$validated_issue_field"
+  test "$head_binding" = "$worktree_binding" ||
+    fail "$binding_label STATE binding differs: HEAD ($head_binding), worktree ($worktree_binding)"
+}
+
 validate_state_contract() {
   file=$1
   label=$2
@@ -81,7 +108,8 @@ validate_state_contract() {
   git check-ref-format --branch "$validated_state_branch" >/dev/null 2>&1 ||
     fail "$label STATE branch is not a valid branch name"
 
-  validated_state_issue=$(single_field "$file" 'Owning Issue')
+  validated_issue_field=$(single_field "$file" 'Owning Issue')
+  validated_state_issue=$validated_issue_field
   if test "$validated_state_issue" = none; then
     validated_state_issue='direct PO assignment'
   else
@@ -264,6 +292,7 @@ if test "$static_only" = yes; then
 fi
 
 require_tracked_state "$repository" source
+verify_entry_binding "$repository" source
 
 if test -z "$observed_branch"; then
   observed_branch=$(git -C "$repository" branch --show-current 2>/dev/null || true)
@@ -343,6 +372,7 @@ if test -e "$active_file"; then
   target_state=$active_target/.ai4x/STATE.md
   require_tracked_state "$active_target" 'ACTIVE target'
   validate_state_contract "$target_state" 'ACTIVE target'
+  verify_entry_binding "$active_target" 'ACTIVE target'
   target_state_branch=$validated_state_branch
   test "$target_state_branch" = "$active_branch" ||
     fail 'ACTIVE target STATE does not apply on its branch'
