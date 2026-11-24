@@ -10,7 +10,7 @@ Use when reviewing text, specifications, contracts, or guidance that may allow m
 
 ## Rules (MUST)
 
-- State the competing interpretations explicitly.
+- When you find competing interpretations, state them explicitly.
 - Explain why each interpretation is plausible from the text as written.
 - Prefer clarification over silent interpretation selection.
 - Do not label text as ambiguous when it is broad but still operationally precise.
@@ -21,6 +21,6 @@ Use when reviewing text, specifications, contracts, or guidance that may allow m
 
 ## Minimal Output Contract
 
-- ambiguous clause or term
-- plausible readings
-- operational impact
+- Multiple readings: cite the clause, the plausible readings and the difference they make to observable behavior.
+- One reading: identify the clause and state its single operational meaning.
+- Insufficient context: identify the missing information and ask the question that would resolve it.
