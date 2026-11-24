@@ -7,7 +7,7 @@ Owning Issue: none
 ## Return context
 
 - nemron directly assigned the research-branch review. [#104](https://github.com/normenmueller/ai4X/issues/104) holds the research evidence and [the decision on conflicting rules](https://github.com/normenmueller/ai4X/issues/104#issuecomment-7126027843). The project adopted that rule in `c3f8f76`.
-- The [research migration inventory is complete](https://github.com/normenmueller/ai4X/issues/104#issuecomment-7136072119). The [documentation migration inventory](https://github.com/normenmueller/ai4X/issues/104#issuecomment-7136543371) is also complete. The [backup inventory](https://github.com/normenmueller/ai4X/issues/104#issuecomment-7136720139) covers one directory at a time. Continue with `v1/doc/` after the [v1/adm review and v1/acc retention decision](https://github.com/normenmueller/ai4X/issues/104#issuecomment-7136874373). Use this review branch to collect approved changes. Host verification is tracked in [#106](https://github.com/normenmueller/ai4X/issues/106).
+- The [research migration inventory is complete](https://github.com/normenmueller/ai4X/issues/104#issuecomment-7136072119). The [documentation migration inventory](https://github.com/normenmueller/ai4X/issues/104#issuecomment-7136543371) is also complete. The [backup inventory](https://github.com/normenmueller/ai4X/issues/104#issuecomment-7136720139) covers one directory at a time. Continue with the `v1/mod/` inventory after the [v1/doc review](https://github.com/normenmueller/ai4X/issues/104#issuecomment-7136930845). Use this review branch to collect approved changes. Host verification is tracked in [#106](https://github.com/normenmueller/ai4X/issues/106).
 
 ## Route
 
