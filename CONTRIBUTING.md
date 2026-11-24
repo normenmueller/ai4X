@@ -2,6 +2,27 @@
 
 Thank you for contributing to ai4X.
 
+## How a request becomes a contribution
+
+```mermaid
+flowchart TD
+    A["Gertrud identifies the requested outcome"] --> B{"What does the request need?"}
+    B -->|Explanation| C["Answer from the source responsible for the topic"]
+    B -->|Change| D["Check scope, risk and authority"]
+    D --> E{"Is this change authorized?"}
+    E -->|No| F["Return the decision to nemron"]
+    F -->|Scope or approval updated| D
+    E -->|Yes| G["Gertrud carries out the change with specialist help when needed"]
+    G --> H["Run the checks for this change"]
+    H --> I{"Does the change require independent review?"}
+    I -->|Yes| J["An independent reviewer assesses the change"]
+    J -->|Material findings| G
+    J -->|Material findings resolved and checks pass| K["Hand the checked change to nemron for review and merge"]
+    I -->|No| K
+```
+
+[Team routing](.ai4x/TEAM.md) defines specialist and independent review triggers. [Work authority](.ai4x/governance/work-authority.md) defines what each approval covers and reserves the merge into `trunk` for the Product Owner.
+
 ## Before changing code
 
 1. Read `.ai4x/BEHAVIOR.md` and `.ai4x/CONTEXT.md`.
