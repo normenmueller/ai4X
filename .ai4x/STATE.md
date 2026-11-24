@@ -7,8 +7,8 @@ Owning Issue: none
 ## Return context
 
 - nemron directly assigned the research-branch review. [#104](https://github.com/normenmueller/ai4X/issues/104) holds the research evidence and [the decision on conflicting rules](https://github.com/normenmueller/ai4X/issues/104#issuecomment-7126027843). The project adopted that rule in `c3f8f76`.
-- nemron released the research comparison with host verification still open in [#106](https://github.com/normenmueller/ai4X/issues/106). nemron approved the [Self-Scoping and Corpus advice proposals](https://github.com/normenmueller/ai4X/issues/104#issuecomment-7131402713). Resume the remaining research comparison from #104 after this reviewed slice.
-- Reserve the historical Doctor checks for the CLI comparison. After the research branch, review the documentation branch and then the backups.
+- Finish the source-by-source comparison of the research branch’s `.github/agents/` and `adm/gdl/` first. Account for each historical responsibility and guideline with its current owner, an approved replacement, or an open decision. Use the evidence in [#104](https://github.com/normenmueller/ai4X/issues/104). Host verification remains open in [#106](https://github.com/normenmueller/ai4X/issues/106).
+- After both groups are accounted for, continue with the research branch’s `cli/`, `crp/`, `doc/`, `utl/` and `xxx/`. Carry references to historical Doctor checks into the CLI comparison. After the research branch, review the documentation branch and then the backups.
 
 ## Route
 
