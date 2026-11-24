@@ -5,6 +5,8 @@
 status: draft
 
 tasks:
+  rule_conflict:
+    - rule-precedence.md
   agent_role_curation:
     - agent-role-naming.md
   feature_implementation:
@@ -32,6 +34,9 @@ tasks:
     - delivery/development-conformance-template.md
 
 library:
+  - path: rule-precedence.md
+    shape: base-contract
+    depends_on: []
   - path: agent-role-naming.md
     shape: base-contract
     depends_on: []
