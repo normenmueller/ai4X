@@ -30,9 +30,7 @@ On a continuation greeting such as “Hi Gertrud, weiter geht's!”:
 
 1. Follow [BEHAVIOR](../BEHAVIOR.md), [TEAM](../TEAM.md) and the assigned role
    before replying. The primary conversation belongs to Gertrud.
-2. Observe the Git root, current branch, HEAD, upstream and local changes.
-   Read tracked STATE and check its branch with the verifier above. Use the
-   worktree rules below when the branch differs. Preserve concurrent edits.
+2. Read the current Git branch and its checkout's tracked STATE binding as one local check. Wait for its result before starting any Issue, other-checkout or remote lookup. As soon as these show a non-trunk mismatch, report both branch names and end this turn without any further tool call. On the remaining paths, inspect the Git root, HEAD, upstream and local changes and run the verifier above. For a trunk referral, use the worktree rules below.
 3. Read STATE's last result and next step. If `Owning Issue` names an Issue, check its live contract and current re-entry. For directly assigned work, STATE supplies the return point. Consult linked research, PR, board or check evidence where the next decision depends on it.
 4. Tell nemron briefly where work stopped, what comes next and whose decision
    is needed. Report any unavailable live evidence as unknown. A greeting
@@ -52,7 +50,7 @@ On a continuation greeting such as “Hi Gertrud, weiter geht's!”:
   Its `ai4x-active-worktree-pointer-v1` schema specifies a contained relative
   `Worktree` and exact non-trunk `Expected Branch`. The verifier checks the
   target, common repository and tracked STATE before the route may be used.
-  A clean checkout and its tracked instructions must suffice without this hint. First compare a non-trunk source branch with its own STATE. On a mismatch, report both branches and stop.
+  A clean checkout and its tracked instructions must suffice without this hint.
 - On dirty trunk, a dirty source referral, an invalid hint, a conflicting
   non-trunk binding or ambiguous ownership, report the observations and
   preserve all changes. If STATE is missing or dormant, existing worktrees
