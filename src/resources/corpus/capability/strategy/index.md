@@ -41,7 +41,7 @@ This index exposes the local capability selection surface for `strategy`.
 
 | ID | File | Purpose | Use When | Do Not Use When | Distinguish From | Requires | Conflicts |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `kpi-system` | [kpi-system.md](metrics/kpi-system.md) | Define KPI-Domains and KPIs as stable, reviewable measurement semantics for strategic decisions, goal tracking, and operational steering. | Use when strategic choices, interventions, or reviews depend on explicit measurement semantics. | Setting stretch goals or defining change-oriented objectives with measurable key results — use okr-discipline instead. | okr-discipline: okr-discipline defines goal-setting for intentional change with measurable Key Results; kpi-system defines stable measurement semantics for ongoing health monitoring and decision support. KPIs measure state, OKRs drive change. | `[deterministic-reasoning]` | `[]` |
+| `kpi-system` | [kpi-system.md](metric/kpi-system.md) | Define KPI-Domains and KPIs as stable, reviewable measurement semantics for strategic decisions, goal tracking, and operational steering. | Use when strategic choices, interventions, or reviews depend on explicit measurement semantics. | Setting stretch goals or defining change-oriented objectives with measurable key results — use okr-discipline instead. | okr-discipline: okr-discipline defines goal-setting for intentional change with measurable Key Results; kpi-system defines stable measurement semantics for ongoing health monitoring and decision support. KPIs measure state, OKRs drive change. | `[deterministic-reasoning]` | `[]` |
 
 ## Operation
 

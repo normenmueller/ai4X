@@ -8,7 +8,7 @@ Load the contracts under `cap/` when their triggers apply. The selection include
 
 Source: ai4X corpus, Git commit `218a5bfa405c22f4696da8bf8d140e64d6107dfd`. Each contract and its sibling `.meta.yaml` are copied from that revision.
 
-| Capability | Version | Source path |
+| Capability | Version | Path at source revision |
 | --- | --- | --- |
 | [comparison-dimension-discipline](cap/comparison-dimension-discipline.md) | 0.2.0 | `src/resources/corpus/capabilities/analysis/role-assessment/comparison-dimension-discipline.md` |
 | [deterministic-reasoning](cap/deterministic-reasoning.md) | 0.2.0 | `src/resources/corpus/capabilities/foundation/deterministic-reasoning.md` |

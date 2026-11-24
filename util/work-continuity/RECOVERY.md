@@ -1,7 +1,7 @@
 # ai4X Work-continuity Recovery
 
 > Historical workstation-reset drill (#181). These steps describe the earlier
-> exercise. For current sessions use the Cold Start procedure in the checkout at `.ai4x/operations/session-continuity.md`.
+> exercise. For current sessions use the Cold Start procedure in the checkout at `.ai4x/operation/session-continuity.md`.
 
 ## Start from GitHub
 

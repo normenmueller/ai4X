@@ -154,17 +154,17 @@ verify_specialist_roles() {
       link = $3
       sub(/^[[:space:]]*/, "", link)
       sub(/[[:space:]]*$/, "", link)
-      if (NF != 4 || link !~ /^\[[^][]+\]\(agents\/[a-z0-9][a-z0-9-]*\/ROLE\.md\)$/) exit 1
+      if (NF != 4 || link !~ /^\[[^][]+\]\(agent\/[a-z0-9][a-z0-9-]*\/ROLE\.md\)$/) exit 1
       label = link
       sub(/^\[/, "", label)
       sub(/\].*$/, "", label)
       sub(/^[^]]*\]\(/, "", link)
       sub(/\)$/, "", link)
-      if (seen[link]++ || link == "agents/principal-adviser/ROLE.md") exit 1
+      if (seen[link]++ || link == "agent/principal-adviser/ROLE.md") exit 1
       print label "|" link
     }
     END { if (headers != 1) exit 1 }
-  ' "$team_file") || fail 'TEAM must link each specialist once using agents/<role>/ROLE.md'
+  ' "$team_file") || fail 'TEAM must link each specialist once using agent/<role>/ROLE.md'
 
   printf '%s\n' "$specialist_rows" |
     while IFS='|' read -r label relative_role; do
@@ -175,22 +175,32 @@ verify_specialist_roles() {
     done
 
   role_links=$(printf '%s\n' "$specialist_rows" | cut -d '|' -f 2)
-  for role_directory in "$repository"/.ai4x/agents/*; do
+  for role_directory in "$repository"/.ai4x/agent/*; do
     test -d "$role_directory" || continue
     role_name=${role_directory##*/}
     test "$role_name" != principal-adviser || continue
-    printf '%s\n' "$role_links" | grep -Fx "agents/$role_name/ROLE.md" >/dev/null ||
+    printf '%s\n' "$role_links" | grep -Fx "agent/$role_name/ROLE.md" >/dev/null ||
       fail "TEAM specialist table has no link for $role_name"
   done
 }
 
 verify_entry_files() {
   entry_root=$1
-  for owner in BEHAVIOR.md CONTEXT.md TEAM.md STATE.md operations/session-continuity.md governance/work-authority.md; do
+  operation_root=operation
+  role_root=agent
+  # A referred checkout can still be pinned to the previous directory layout.
+  if test "$entry_root" != "$repository" &&
+    ! git -C "$entry_root" cat-file -e 'HEAD:.ai4x/agent' 2>/dev/null &&
+    git -C "$entry_root" cat-file -e 'HEAD:.ai4x/agents/principal-adviser/ROLE.md' 2>/dev/null &&
+    git -C "$entry_root" cat-file -e 'HEAD:.ai4x/operations/session-continuity.md' 2>/dev/null; then
+    operation_root=operations
+    role_root=agents
+  fi
+  for owner in BEHAVIOR.md CONTEXT.md TEAM.md STATE.md "$operation_root/session-continuity.md" governance/work-authority.md; do
     test -f "$entry_root/.ai4x/$owner" || fail "entry file missing in $entry_root: .ai4x/$owner"
   done
 
-  primary_role=agents/principal-adviser/ROLE.md
+  primary_role=$role_root/principal-adviser/ROLE.md
   grep -F "]($primary_role)" "$entry_root/.ai4x/TEAM.md" >/dev/null ||
     fail "TEAM does not link the primary role in $entry_root"
   verify_role_file "$entry_root/.ai4x/$primary_role"
@@ -206,7 +216,7 @@ verify_static_contracts() {
     .ai4x/STATE.md \
     .ai4x/TEAM.md \
     .ai4x/governance/work-authority.md \
-    .ai4x/operations/session-continuity.md \
+    .ai4x/operation/session-continuity.md \
     .ai4x/context/curation.md \
     .ai4x/context/need-to-capability.md; do
     require_file "$file"
@@ -214,10 +224,10 @@ verify_static_contracts() {
 
   require_text AGENTS.md '.ai4x/CONTEXT.md'
   require_text .github/copilot-instructions.md '.ai4x/CONTEXT.md'
-  require_text .ai4x/BEHAVIOR.md 'operations/session-continuity.md'
+  require_text .ai4x/BEHAVIOR.md 'operation/session-continuity.md'
   require_text .ai4x/BEHAVIOR.md 'governance/work-authority.md'
   require_text .ai4x/BEHAVIOR.md 'TEAM.md'
-  require_text .ai4x/CONTEXT.md 'operations/session-continuity.md'
+  require_text .ai4x/CONTEXT.md 'operation/session-continuity.md'
   require_text .ai4x/CONTEXT.md 'STATE.md'
 
   if grep -n -E 'NEXT-SESSION-PROMPT|CURRENT-HANDOFF|transition prompt suitable for /copy' \
@@ -225,7 +235,7 @@ verify_static_contracts() {
     "$repository/.github/copilot-instructions.md" \
     "$repository/.ai4x/BEHAVIOR.md" \
     "$repository/.ai4x/CONTEXT.md" \
-    "$repository/.ai4x/operations/session-continuity.md" >/dev/null; then
+    "$repository/.ai4x/operation/session-continuity.md" >/dev/null; then
     fail 'obsolete local-handoff or copied-prompt protocol remains in active routing'
   fi
 

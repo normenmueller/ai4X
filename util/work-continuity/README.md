@@ -1,7 +1,7 @@
 # ai4X Project Work Continuity
 
 > Historical workstation-reset drill (#181). These steps describe the earlier
-> exercise. For current sessions use the [Cold Start procedure](../../.ai4x/operations/session-continuity.md).
+> exercise. For current sessions use the [Cold Start procedure](../../.ai4x/operation/session-continuity.md).
 
 This procedure makes the ai4X project instance recoverable using GitHub only.
 It supersedes the synchronized-directory recovery path introduced by
@@ -45,7 +45,7 @@ of anything required to continue current work.
 7. Declare readiness only when no necessary fact or artifact remains local-only.
 
 Use [RECOVERY.md](RECOVERY.md) after the reset. The sole target
-binding is [GitHub](../../.ai4x/bindings/work-continuity.md).
+binding is [GitHub](../../.ai4x/binding/work-continuity.md).
 
 ## Historical bootstrap material
 

@@ -20,7 +20,7 @@ On disagreement, use the owner for that fact kind. Preserve local changes and fa
 
 The complete planned directory skeleton is intentionally tracked as a memory aid. Its `.gitkeep` markers are location commitments, not permission to invent empty contracts or speculative implementations. Materialize content through small, verified vertical slices.
 
-The reboot preserves the original cognitive contracts, indexes and YAML metadata under `src/resources/corpus/capabilities/`. They are source material for later curation. A versioned Corpus release identifies the capabilities admitted for product use.
+The reboot preserves the original cognitive contracts, indexes and YAML metadata under `src/resources/corpus/capability/`. They are source material for later curation. A versioned Corpus release identifies the capabilities admitted for product use.
 
 `src/` is organized by responsibility:
 
@@ -29,7 +29,7 @@ The reboot preserves the original cognitive contracts, indexes and YAML metadata
 - `interfaces/` owns thin entry points and host adapters;
 - `resources/` owns declarative, versioned product resources.
 
-Use singular names for ai4X domain directories in product resources and Project Memory. Keep `src/resources/` as the common root. The target paths for reusable agent profiles, project roles and capability definitions are `src/resources/agent/<name>/`, `.ai4x/agent/<role>/` and `src/resources/corpus/capability/`, respectively.
+Use singular names for ai4X domain directories in product resources and Project Memory. Keep `src/resources/` as the common root. The paths for reusable agent profiles, project roles and capability definitions are `src/resources/agent/<name>/`, `.ai4x/agent/<role>/` and `src/resources/corpus/capability/`, respectively.
 
 Dependencies point inward: `interfaces -> domains -> foundation`. All three use typed access to `resources`; `foundation` never imports `domains` or `interfaces`, and `domains` never imports `interfaces`. Product semantics do not belong in CLI or adapter code, and executable business rules do not belong in resources.
 
@@ -43,5 +43,5 @@ The Need-to-Capability ownership flow is tracked in [need-to-capability.md](need
 
 `.ai4x/generated/` and `.ai4x/local/` are declared exceptions to the tracked skeleton. They are created only on demand and remain ignored. Their intended runtime subtrees are:
 
-- `generated/agent-context/`, `generated/assignments/`, `generated/assurance/`, `generated/declarations/`, and `generated/hosts/`;
+- `generated/agent-context/`, `generated/assignment/`, `generated/assurance/`, `generated/declaration/`, and `generated/host/`;
 - `local/declaration-cache/`, `local/locks/`, `local/session-scratch/`, and `local/staging/`.

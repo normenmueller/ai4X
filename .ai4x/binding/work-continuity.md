@@ -1,6 +1,6 @@
 # Work-continuity Target Binding
 
-GitHub hosts published ai4X work. The [Cold Start procedure](../operations/session-continuity.md) owns checkout selection for a continuation greeting.
+GitHub hosts published ai4X work. The [Cold Start procedure](../operation/session-continuity.md) owns checkout selection for a continuation greeting.
 
 - Work repository: https://github.com/normenmueller/ai4X
 - Work items and lifecycle: [repository Issues](https://github.com/normenmueller/ai4X/issues) and [the project board](https://github.com/users/normenmueller/projects/3).

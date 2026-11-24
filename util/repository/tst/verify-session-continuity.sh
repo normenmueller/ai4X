@@ -20,7 +20,7 @@ trap cleanup EXIT HUP INT TERM
 make_fixture() {
   target=$1
   mkdir -p "$target/.github/workflows" "$target/.ai4x/context" \
-    "$target/.ai4x/governance" "$target/.ai4x/operations"
+    "$target/.ai4x/governance" "$target/.ai4x/operation"
   cp "$repository/.ai4x/.gitignore" "$target/.ai4x/.gitignore"
   cp "$repository/AGENTS.md" "$target/AGENTS.md"
   cp "$repository/.github/copilot-instructions.md" "$target/.github/copilot-instructions.md"
@@ -34,14 +34,14 @@ make_fixture() {
   git -C "$target" init -q
   git -C "$target" add .ai4x/STATE.md
   cp "$repository/.ai4x/TEAM.md" "$target/.ai4x/TEAM.md"
-  for role_file in "$repository"/.ai4x/agents/*/ROLE.md; do
+  for role_file in "$repository"/.ai4x/agent/*/ROLE.md; do
     role_directory=${role_file%/ROLE.md}
-    destination=$target/.ai4x/agents/${role_directory##*/}
+    destination=$target/.ai4x/agent/${role_directory##*/}
     mkdir -p "$destination"
     cp "$role_file" "$destination/ROLE.md"
   done
   cp "$repository/.ai4x/governance/work-authority.md" "$target/.ai4x/governance/work-authority.md"
-  cp "$repository/.ai4x/operations/session-continuity.md" "$target/.ai4x/operations/session-continuity.md"
+  cp "$repository/.ai4x/operation/session-continuity.md" "$target/.ai4x/operation/session-continuity.md"
   cp "$repository/.ai4x/context/curation.md" "$target/.ai4x/context/curation.md"
   cp "$repository/.ai4x/context/need-to-capability.md" "$target/.ai4x/context/need-to-capability.md"
 }
@@ -161,33 +161,33 @@ grep -F 'source STATE is not tracked' "$scratch_root/untracked-source-state.out"
 
 missing_role=$scratch_root/missing-role
 make_fixture "$missing_role"
-rm "$missing_role/.ai4x/agents/testing/ROLE.md"
+rm "$missing_role/.ai4x/agent/testing/ROLE.md"
 "$verifier" "$missing_role" "$fixture_branch" clean >/dev/null
 expect_failure missing-specialist-role "$verifier" "$missing_role" --static
-rm "$missing_role/.ai4x/agents/principal-adviser/ROLE.md"
+rm "$missing_role/.ai4x/agent/principal-adviser/ROLE.md"
 expect_failure missing-primary-role "$verifier" "$missing_role" "$fixture_branch" clean
 
 unlinked_role=$scratch_root/unlinked-role
 make_fixture "$unlinked_role"
-sed -i.bak 's|agents/principal-adviser/ROLE.md|agents/architecture/ROLE.md|' "$unlinked_role/.ai4x/TEAM.md"
+sed -i.bak 's|agent/principal-adviser/ROLE.md|agent/architecture/ROLE.md|' "$unlinked_role/.ai4x/TEAM.md"
 expect_failure missing-primary-route "$verifier" "$unlinked_role" "$fixture_branch" clean
 
 role_table=$scratch_root/role-table
 make_fixture "$role_table"
 table_file=$role_table/.ai4x/TEAM.md
-for invalid_target in agents/other/ROLE.md agents/../agents/testing/ROLE.md profiles/testing/ROLE.md agents/testing/other.md agents/architecture/ROLE.md; do
-  sed "s|agents/testing/ROLE.md|$invalid_target|" "$repository/.ai4x/TEAM.md" >"$table_file"
+for invalid_target in agents/testing/ROLE.md agent/other/ROLE.md agent/../agent/testing/ROLE.md profiles/testing/ROLE.md agent/testing/other.md agent/architecture/ROLE.md; do
+  sed "s|agent/testing/ROLE.md|$invalid_target|" "$repository/.ai4x/TEAM.md" >"$table_file"
   expect_failure invalid-specialist-link "$verifier" "$role_table" --static
 done
-sed '/agents\/testing\/ROLE.md/d' "$repository/.ai4x/TEAM.md" >"$table_file"
+sed '/agent\/testing\/ROLE.md/d' "$repository/.ai4x/TEAM.md" >"$table_file"
 expect_failure omitted-table-row "$verifier" "$role_table" --static
-sed -e 's|agents/testing/ROLE.md|TEMP_ROLE|' \
-  -e 's|agents/architecture/ROLE.md|agents/testing/ROLE.md|' \
-  -e 's|TEMP_ROLE|agents/architecture/ROLE.md|' "$repository/.ai4x/TEAM.md" >"$table_file"
+sed -e 's|agent/testing/ROLE.md|TEMP_ROLE|' \
+  -e 's|agent/architecture/ROLE.md|agent/testing/ROLE.md|' \
+  -e 's|TEMP_ROLE|agent/architecture/ROLE.md|' "$repository/.ai4x/TEAM.md" >"$table_file"
 expect_failure swapped-role-profiles "$verifier" "$role_table" --static
 cp "$repository/.ai4x/TEAM.md" "$table_file"
 
-test_role=$role_table/.ai4x/agents/testing
+test_role=$role_table/.ai4x/agent/testing
 mv "$test_role" "$role_table/original-role"
 ln -s "$role_table/original-role" "$test_role"
 expect_failure symlink-role-directory "$verifier" "$role_table" --static
@@ -306,8 +306,20 @@ expect_failure conflicting-source-with-active "$verifier" "$safe_active"
 grep -F "STATE bound to $fixture_branch does not apply on feature/other-source" \
   "$scratch_root/conflicting-source-with-active.out" >/dev/null
 git -C "$safe_active" switch -q trunk
-rm "$safe_active/.ai4x/local/worktrees/188/.ai4x/agents/principal-adviser/ROLE.md"
+rm "$safe_active/.ai4x/local/worktrees/188/.ai4x/agent/principal-adviser/ROLE.md"
 expect_failure missing-target-role "$verifier" "$safe_active" trunk clean
+
+# The target branch can still own the committed pre-migration entry layout.
+old_target=$safe_active/.ai4x/local/worktrees/188
+git -C "$old_target" restore .ai4x/agent/principal-adviser/ROLE.md
+git -C "$old_target" mv .ai4x/agent .ai4x/agents
+git -C "$old_target" mv .ai4x/operation .ai4x/operations
+sed 's|(agent/|(agents/|g' "$old_target/.ai4x/TEAM.md" >"$scratch_root/old-team.md"
+cp "$scratch_root/old-team.md" "$old_target/.ai4x/TEAM.md"
+git -C "$old_target" commit -qam 'Use historical entry paths in referred fixture'
+"$verifier" "$safe_active" --enter | grep -F 'active-worktree' >/dev/null
+rm "$old_target/.ai4x/agents/principal-adviser/ROLE.md"
+expect_failure missing-historical-target-role "$verifier" "$safe_active" --enter
 
 unsafe_active=$scratch_root/unsafe-active
 make_fixture "$unsafe_active"

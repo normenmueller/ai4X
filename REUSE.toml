@@ -4,15 +4,15 @@ version = 1
 path = [
   ".ai4x/*.md",
   ".ai4x/*.yaml",
-  ".ai4x/agents/**",
+  ".ai4x/agent/**",
   ".ai4x/assurance/**",
-  ".ai4x/bindings/**",
+  ".ai4x/binding/**",
   ".ai4x/context/**",
   ".ai4x/coordination/**",
   ".ai4x/governance/**",
   ".ai4x/intent/**",
-  ".ai4x/operations/**",
-  ".ai4x/records/**",
+  ".ai4x/operation/**",
+  ".ai4x/record/**",
   ".github/ISSUE_TEMPLATE/**",
   ".github/agents/**",
   ".github/copilot-instructions.md",
@@ -48,7 +48,7 @@ SPDX-FileCopyrightText = "2026 nemron <https://github.com/normenmueller>"
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/resources/corpus/capabilities/**", "src/resources/corpus/governance/**/*.md", "src/resources/corpus/governance/*.md", "src/resources/corpus/governance/index.yaml"]
+path = ["src/resources/corpus/capability/**", "src/resources/corpus/governance/**/*.md", "src/resources/corpus/governance/*.md", "src/resources/corpus/governance/index.yaml"]
 precedence = "override"
 SPDX-FileCopyrightText = "2026 nemron <https://github.com/normenmueller>"
 SPDX-License-Identifier = "CC-BY-4.0"

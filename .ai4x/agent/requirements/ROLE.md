@@ -10,7 +10,7 @@ Load the contracts under `cap/` when their triggers apply. The selection include
 
 Source: ai4X corpus, Git commit `218a5bfa405c22f4696da8bf8d140e64d6107dfd`. Each contract and its sibling `.meta.yaml` are copied from that revision.
 
-| Capability | Version | Source path |
+| Capability | Version | Path at source revision |
 | --- | --- | --- |
 | [clarification-before-guessing](cap/clarification-before-guessing.md) | 0.2.0 | `src/resources/corpus/capabilities/foundation/clarification-before-guessing.md` |
 | [deterministic-reasoning](cap/deterministic-reasoning.md) | 0.2.0 | `src/resources/corpus/capabilities/foundation/deterministic-reasoning.md` |
@@ -20,7 +20,7 @@ Source: ai4X corpus, Git commit `218a5bfa405c22f4696da8bf8d140e64d6107dfd`. Each
 
 Source: ai4X corpus, Git commit `d29e66bd04cc8c5710bb4d23faf796a2f2e60278`. Each contract and its sibling `.meta.yaml` are copied from that revision.
 
-| Capability | Version | Source path |
+| Capability | Version | Path at source revision |
 | --- | --- | --- |
 | [ambiguity-detection](cap/ambiguity-detection.md) | 0.2.1 | `src/resources/corpus/capabilities/analysis/specification/ambiguity-detection.md` |
 | [requirement-formalization](cap/requirement-formalization.md) | 0.1.0 | `src/resources/corpus/capabilities/analysis/specification/requirement-formalization.md` |

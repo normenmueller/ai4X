@@ -8,7 +8,7 @@ Load the contracts under `cap/` when their triggers apply. The selection include
 
 Source: ai4X corpus, Git commit `218a5bfa405c22f4696da8bf8d140e64d6107dfd`. Each contract and its sibling `.meta.yaml` are copied from that revision.
 
-| Capability | Version | Source path |
+| Capability | Version | Path at source revision |
 | --- | --- | --- |
 | [architecture-decision-rigor](cap/architecture-decision-rigor.md) | 0.2.0 | `src/resources/corpus/capabilities/engineering/principles/architecture-decision-rigor.md` |
 | [deterministic-reasoning](cap/deterministic-reasoning.md) | 0.2.0 | `src/resources/corpus/capabilities/foundation/deterministic-reasoning.md` |
@@ -18,6 +18,6 @@ Source: ai4X corpus, Git commit `218a5bfa405c22f4696da8bf8d140e64d6107dfd`. Each
 
 Load these local contracts when their triggers apply. Source for the following pairs is ai4X corpus revision `2f3166cb1b3fc0722b98960c6406292295d8e2a1`.
 
-| Capability | Version | Source path |
+| Capability | Version | Path at source revision |
 | --- | --- | --- |
 | [haskell-type-design](cap/haskell-type-design.md) | 0.1.1 | `src/resources/corpus/capabilities/engineering/haskell/haskell-type-design.md` |

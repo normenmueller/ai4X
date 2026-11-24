@@ -10,7 +10,7 @@ Load the contracts under `cap/` when their triggers apply. The selection include
 
 Source: ai4X corpus, Git commit `ede74ba17d55b91bd094be066b4abec304691ee5`. Each contract and its sibling `.meta.yaml` are copied from that revision.
 
-| Capability | Version | Source path |
+| Capability | Version | Path at source revision |
 | --- | --- | --- |
 | [ai-use-case-framing](cap/ai-use-case-framing.md) | 0.1.0 | `src/resources/corpus/capabilities/ai/consulting/ai-use-case-framing.md` |
 | [interaction-contract](cap/interaction-contract.md) | 0.1.0 | `src/resources/corpus/capabilities/strategy/workflow/interaction-contract.md` |
@@ -22,7 +22,7 @@ Source: ai4X corpus, Git commit `ede74ba17d55b91bd094be066b4abec304691ee5`. Each
 
 The following contracts and their metadata are copied from ai4X corpus revision `218a5bfa405c22f4696da8bf8d140e64d6107dfd`. Load each contract when its trigger applies.
 
-| Capability | Version | Source path |
+| Capability | Version | Path at source revision |
 | --- | --- | --- |
 | [clarification-before-guessing](cap/clarification-before-guessing.md) | 0.2.0 | `src/resources/corpus/capabilities/foundation/clarification-before-guessing.md` |
 | [decision-gates](cap/decision-gates.md) | 1.0.0 | `src/resources/corpus/capabilities/strategy/governance/decision-gates.md` |
@@ -33,6 +33,6 @@ The following contracts and their metadata are copied from ai4X corpus revision 
 
 Source: ai4X corpus, Git commit `a1c37e63fce525058dc3014501fcef3de4564be2`. The contract and metadata are copied from this revision.
 
-| Capability | Version | Source path |
+| Capability | Version | Path at source revision |
 | --- | --- | --- |
 | [kpi-system](cap/kpi-system.md) | 0.3.0 | `src/resources/corpus/capabilities/strategy/metrics/kpi-system.md` |

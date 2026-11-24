@@ -31,7 +31,7 @@ Use [work authority](governance/work-authority.md) for risk, authorized effects 
 
 ## Cold Start
 
-A Cold Start is a fresh agent session using tracked Project Memory and the relevant GitHub Issues. On “Gertrud, bitte bereite einen Cold Start vor”, follow the preparation steps in [operations/session-continuity.md](operations/session-continuity.md). On a fresh continuation greeting, follow the entry steps there and report the last work and next decision. Preparation and entry grant no publication, cleanup, history deletion or merge authority.
+A Cold Start is a fresh agent session using tracked Project Memory and the relevant GitHub Issues. On “Gertrud, bitte bereite einen Cold Start vor”, follow the preparation steps in [operation/session-continuity.md](operation/session-continuity.md). On a fresh continuation greeting, follow the entry steps there and report the last work and next decision. Preparation and entry grant no publication, cleanup, history deletion or merge authority.
 
 ## Navigation
 

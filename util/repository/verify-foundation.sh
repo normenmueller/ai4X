@@ -313,7 +313,7 @@ for future_root in src/domains src/interfaces src/resources; do
     case "$relative_future" in
       src/resources/corpus/schema/capability-meta.schema.yaml) continue ;;
       src/resources/corpus/governance/index.yaml | src/resources/corpus/governance/*.md) continue ;;
-      src/resources/corpus/capabilities/*.md | src/resources/corpus/capabilities/*.meta.yaml) continue ;;
+      src/resources/corpus/capability/*.md | src/resources/corpus/capability/*.meta.yaml) continue ;;
     esac
     fail workspace "$relative_future" 'later product surface was materialized'
   done <<EOF

@@ -12,7 +12,7 @@ The `cap/` directory holds this role’s local capability contracts. Use each co
 
 Source: ai4X corpus, Git commit `ede74ba17d55b91bd094be066b4abec304691ee5`. Each contract and its sibling `.meta.yaml` are copied from that revision.
 
-| Capability | Version | Source path |
+| Capability | Version | Path at source revision |
 | --- | --- | --- |
 | [decision-structuring-discipline](cap/decision-structuring-discipline.md) | 0.1.0 | `src/resources/corpus/capabilities/strategy/delivery/decision-structuring-discipline.md` |
 | [interaction-contract](cap/interaction-contract.md) | 0.1.0 | `src/resources/corpus/capabilities/strategy/workflow/interaction-contract.md` |
@@ -21,7 +21,7 @@ Source: ai4X corpus, Git commit `ede74ba17d55b91bd094be066b4abec304691ee5`. Each
 
 The following contracts and their metadata are copied from ai4X corpus revision `218a5bfa405c22f4696da8bf8d140e64d6107dfd`. Load each contract when its trigger applies.
 
-| Capability | Version | Source path |
+| Capability | Version | Path at source revision |
 | --- | --- | --- |
 | [clarification-before-guessing](cap/clarification-before-guessing.md) | 0.2.0 | `src/resources/corpus/capabilities/foundation/clarification-before-guessing.md` |
 | [decision-gates](cap/decision-gates.md) | 1.0.0 | `src/resources/corpus/capabilities/strategy/governance/decision-gates.md` |

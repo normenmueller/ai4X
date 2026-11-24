@@ -10,13 +10,13 @@ REQUIRED_FILES := \
 	.ai4x/CONTEXT.md \
 	.ai4x/STATE.md \
 	.ai4x/TEAM.md \
-	.ai4x/bindings/work-continuity.md \
+	.ai4x/binding/work-continuity.md \
 	.ai4x/context/architecture.md \
 	.ai4x/context/curation.md \
 	.ai4x/context/domain-language.md \
 	.ai4x/context/need-to-capability.md \
 	.ai4x/governance/work-authority.md \
-	.ai4x/operations/session-continuity.md \
+	.ai4x/operation/session-continuity.md \
 	util/work-continuity/INCLUDE.txt \
 	util/work-continuity/README.md \
 	util/work-continuity/RECOVERY.md \
@@ -85,17 +85,17 @@ REQUIRED_FILES := \
 	util/work-continuity/tst/verify-work-continuity.sh
 
 REQUIRED_DIRS := \
-	.ai4x/agents \
+	.ai4x/agent \
 	.ai4x/assurance \
-	.ai4x/bindings \
+	.ai4x/binding \
 	.ai4x/context \
 	.ai4x/coordination \
 	.ai4x/intent \
-	.ai4x/operations \
-	.ai4x/records/evidence/assurance \
-	.ai4x/records/evidence/reviews \
-	.ai4x/records/provenance \
-	.ai4x/records/receipts \
+	.ai4x/operation \
+	.ai4x/record/evidence/assurance \
+	.ai4x/record/evidence/review \
+	.ai4x/record/provenance \
+	.ai4x/record/receipt \
 	.github/workflows \
 	doc/portfolio \
 	doc/portfolio/agent-portfolio \
@@ -126,13 +126,14 @@ REQUIRED_DIRS := \
 	src/interfaces/cli \
 	src/interfaces/adapters/codex \
 	src/interfaces/adapters/github \
-	src/resources/assurance/packs \
-	src/resources/bundles \
-	src/resources/corpus/capabilities \
+	src/resources/agent \
+	src/resources/assurance/pack \
+	src/resources/bundle \
+	src/resources/corpus/capability \
 	src/resources/corpus/governance \
-	src/resources/corpus/releases \
+	src/resources/corpus/release \
 	src/resources/corpus/schema \
-	src/resources/skeletons \
+	src/resources/skeleton \
 	util/assurance \
 	util/documentation \
 	util/repository \
