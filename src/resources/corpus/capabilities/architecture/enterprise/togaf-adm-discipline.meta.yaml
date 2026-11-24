@@ -1,9 +1,9 @@
 id: togaf-adm-discipline
-version: 0.2.0
+version: 0.2.1
 owner: nemron
 requires: ["decision-gates"]
 conflicts: []
-do_not_use_when: ["when the task is a local modeling or compliance question that does not depend on TOGAF lifecycle framing","when role-specific architecture leadership or realization design is needed more than phase-aware discipline"]
+do_not_use_when: ["when the task is a local modeling or compliance question that does not depend on TOGAF lifecycle framing","when leadership or realization design is requested without a TOGAF alignment or phase decision"]
 distinguish_from:
   - id: enterprise-architecture-integration
     boundary: "Use enterprise integration to resolve cross-segment dependencies. ADM discipline establishes which phase and decision the work serves."

@@ -104,7 +104,7 @@ Metadata rules:
 - Admission authorizes preparation of a candidate. Before the first or any subsequent release, identify the release decision owner designated by the corpus publisher. Record that owner’s approval of the exact revision after the required checks pass. If the owner, revision or decision is missing, keep the candidate pending. Consumers independently decide which released revision to adopt.
 - Changes to released capabilities require explicit approval before they are committed.
 - Repository gates must be green before commit or release.
-- Capability wording and metadata must be updated together.
+- Review the capability text and its metadata as a pair. Update the affected fields or passages and verify that the two still agree. A citation-only correction can leave the capability text unchanged.
 
 ## Writing Restrictions
 
