@@ -56,7 +56,7 @@ implementation
 -> In review
 ```
 
-The Ready Issue covers only the declared work through `In review`. A narrower PO instruction, including local-only commits, takes precedence. Correct a rejected review within the same scope. Scope expansion, releases, destructive actions and other protected effects need their own exact authority.
+The Ready Issue covers only the declared work through `In review`. Apply the exact effects named in a narrower PO instruction. A request to inspect or verify locally authorizes reading and reporting. Editing or committing the result requires authority for that additional effect. Correct a rejected review within the same scope. Scope expansion, releases, destructive actions and other protected effects need their own exact authority.
 
 The PO personally performs the squash merge into `trunk`. Hand the reviewed revision to the PO once the required checks pass.
 

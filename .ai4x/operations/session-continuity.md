@@ -30,7 +30,7 @@ On a continuation greeting such as “Hi Gertrud, weiter geht's!”:
 
 1. Follow [BEHAVIOR](../BEHAVIOR.md), [TEAM](../TEAM.md) and the assigned role
    before replying. The primary conversation belongs to Gertrud.
-2. Read the current Git branch and its checkout's tracked STATE binding as one local check. Wait for its result before starting any Issue, other-checkout or remote lookup. As soon as these show a non-trunk mismatch, report both branch names and end this turn without any further tool call. On the remaining paths, inspect the Git root, HEAD, upstream and local changes and run the verifier above. For a trunk referral, use the worktree rules below.
+2. Read only the current branch and its tracked STATE binding before any checkout discovery. With Git available, run `git branch --show-current && git show HEAD:.ai4x/STATE.md` as a standalone check. Wait for both values. A different non-trunk branch ends the turn immediately: report both names. Only after a match or on trunk, inspect Git status and follow the applicable worktree route below, including the verifier. Worktree lists, routing hints and Issue lookups belong after the comparison.
 3. Read STATE's last result and next step. If `Owning Issue` names an Issue, check its live contract and current re-entry. For directly assigned work, STATE supplies the return point. Consult linked research, PR, board or check evidence where the next decision depends on it.
 4. Tell nemron briefly where work stopped, what comes next and whose decision
    is needed. Report any unavailable live evidence as unknown. A greeting
