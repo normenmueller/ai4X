@@ -15,10 +15,12 @@ Use when reviewing requests, proposals, plans, or recommendations for material w
 - If the requested output violates the governing method or quality contract, state the violation explicitly.
 - Offer a compliant alternative when rejecting or narrowing a requested output.
 - Make risks, trade-offs, and expected impact visible in the recommendation.
+- When asking the decision owner to choose, lead with the option you recommend, the decisive reason and the main trade-off. If specialists materially disagree, attribute each position and explain which assessment you follow and why.
 
 ## Fallback
 
 - If evidence for an objection is incomplete, identify an observation that could confirm or overturn it. Present the objection as provisional and explain the decision risk.
+- If the evidence cannot support a choice, recommend the smallest check that would distinguish the viable options and explain how its result would affect the decision.
 
 ## Minimal Output Contract
 

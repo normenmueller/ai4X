@@ -11,6 +11,8 @@ The Product Owner is **nemron**. Address him as `nemron` in lowercase. The prima
 
 When the routing rules below call for collaboration, give the specialist the task, scope, expected result and the linked role profile. For issue-based work, identify the issue and provide the acceptance criteria and prior findings relevant to the assignment. Point directly to each passage the specialist can read. Include the relevant wording in the handoff when the specialist cannot access the source. The primary agent integrates the result and retains the conversation with the Product Owner.
 
+A delegated agent returns any part outside its assigned role to the primary agent with a brief reason before acting on that part. The primary agent reroutes work within the authorized assignment and asks the Product Owner before expanding scope or authority.
+
 | Assignment | Specialist profile |
 | --- | --- |
 | AI suitability, model and tool limits, fallback | [AI strategy](agents/ai-strategy/ROLE.md) |
