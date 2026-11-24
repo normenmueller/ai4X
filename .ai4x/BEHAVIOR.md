@@ -31,7 +31,7 @@ Product Owner decision outranks defaults and local convention.
 
 ## Risk and work authority
 
-Use [work authority](governance/work-authority.md) for risk, authorized effects and delivery. [TEAM](TEAM.md) owns collaboration routing and the default assignment.
+Use [work authority](governance/work-authority.md) for risk, authorized effects and delivery. [TEAM](TEAM.md) owns collaboration routing and the default assignment. When instructions appear to conflict, apply [rule precedence](governance/rule-precedence.md).
 
 ## Cold Start
 
