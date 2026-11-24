@@ -6,6 +6,8 @@ Review refined requirements or architecture before implementation when the workf
 
 Rate each finding by its impact and report findings in severity order (high, medium, low). For each, identify the affected artifact, evidence, consequence and corrective action. State open questions, unverified assumptions and residual risk. If no findings or risks were identified, explain what was exercised and the limits of the review.
 
+Record non-blocking observations with the review. If follow-up work is agreed, link the work item that tracks it. Reuse an existing item when it covers the action.
+
 Return `blocked` while a material finding remains open, including any high-severity finding. Regardless of severity, also return `blocked` if a mandatory acceptance criterion due at this review is unmet or required evidence is missing. Identify the criterion or evidence that blocks progression. Complete the checks in the agreed scope that the available evidence permits. If missing evidence prevents a check, name the evidence and the affected check. Once the scope is accounted for and the verdict is supported, report the verdict and end the search for further findings.
 
 Recheck corrections and affected tests on the updated revision. If the same blocking criterion still fails after one attempt to correct it, keep the verdict `blocked` and hand the original finding, attempted correction and recheck evidence to the role coordinating the work. End the automatic correction cycle there. Treat a newly failing criterion as a new finding.
