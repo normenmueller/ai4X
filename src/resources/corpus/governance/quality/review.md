@@ -12,4 +12,6 @@ Recheck corrections and affected tests on the updated revision. If the same bloc
 
 The coordinator may direct a targeted correction within the agreed requirements. If plausible readings require different outcomes, present the deciding case and a recommendation to the product owner for a decision.
 
+The product owner may explicitly accept a named residual risk. Record the possible consequence, affected revision and rationale in the owning issue. Risk acceptance preserves the review findings: keep `blocked` while a mandatory criterion due at this review is unmet, evidence required for this review is missing or a material finding remains open. If the product owner explicitly changes a criterion within their authority, record the revised criterion and reassess the change against it before issuing a new verdict.
+
 Return `pass` when the criteria due at this review are met, the required evidence supports them and all material findings are resolved. Check the consuming project’s authorization before taking any subsequent action.
