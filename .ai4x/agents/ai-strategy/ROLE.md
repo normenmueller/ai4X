@@ -31,8 +31,8 @@ The following contracts and their metadata are copied from ai4X corpus revision 
 
 ## KPI measurement
 
-Source: ai4X corpus, Git commit `c7fee7df1888263d4395beb0aed08e454b54e662`. The contract and metadata are copied from this revision.
+Source: ai4X corpus, Git commit `a1c37e63fce525058dc3014501fcef3de4564be2`. The contract and metadata are copied from this revision.
 
 | Capability | Version | Source path |
 | --- | --- | --- |
-| [kpi-system](cap/kpi-system.md) | 0.2.1 | `src/resources/corpus/capabilities/strategy/metrics/kpi-system.md` |
+| [kpi-system](cap/kpi-system.md) | 0.3.0 | `src/resources/corpus/capabilities/strategy/metrics/kpi-system.md` |

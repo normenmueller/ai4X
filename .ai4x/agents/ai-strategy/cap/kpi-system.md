@@ -20,6 +20,7 @@ Use when strategic choices, interventions, or reviews depend on explicit measure
 - If a target is named, its time point must be explicit.
 - Do not treat a KPI as the measured value; measured values are observations at a point in time.
 - When several KPIs form a hierarchy, state the relationship between the north star, supporting KPIs and guardrails.
+- When a leading indicator stands in for an outcome that can only be measured later, explain why it should predict that outcome and specify when and against which observed outcome to check that prediction.
 
 ## Fallback
 
