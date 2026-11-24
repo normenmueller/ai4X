@@ -311,6 +311,9 @@ for future_root in src/domains src/interfaces src/resources; do
     relative_future=${future_file#"$repository_root"/}
     # The reboot preserves the historical corpus before formal release admission.
     case "$relative_future" in
+      src/resources/agent/architecture/adelheid/ROLE.md | src/resources/agent/architecture/adelheid/cap/cap.compose.yaml) continue ;;
+      src/resources/agent/architecture/adelheid/cap/*/*) ;;
+      src/resources/agent/architecture/adelheid/cap/*.md | src/resources/agent/architecture/adelheid/cap/*.meta.yaml) continue ;;
       src/resources/corpus/schema/capability-meta.schema.yaml) continue ;;
       src/resources/corpus/governance/index.yaml | src/resources/corpus/governance/*.md) continue ;;
       src/resources/corpus/capability/*.md | src/resources/corpus/capability/*.meta.yaml) continue ;;

@@ -4,6 +4,8 @@
 
 Use this portfolio to choose an agent by name for a recurring task. Each profile combines a role with the capabilities that support its work. Sigrid helps decide which strategic initiatives to prioritize. Hildegard coordinates architecture across those initiatives. Mechthild starts with a project's need and selects capabilities for a project-local agent.
 
+Reusable profiles live under `src/resources/agent/<use-case-domain>/<name>/`. Each profile has a `ROLE.md` and a `cap/cap.compose.yaml` that records its selected capability IDs and source revision. The adjacent contracts and metadata include their dependencies. When migrating a profile, rebuild its capabilities from the ai4X corpus. If an essential capability is missing, bring the gap and a reusable definition to the Product Owner before extending the corpus or adopting the profile.
+
 ## Agent profiles
 
 | Name | Naming mnemonic | What someone would ask this agent to do |
@@ -12,7 +14,7 @@ Use this portfolio to choose an agent by name for a recurring task. Each profile
 | Sigrid | S · strategic | Assess strategic fit, prioritize initiatives and shape a roadmap. |
 | Mechthild | M · methods | Elicit a project's need and assemble a suitable local agent. |
 | Hildegard | H · holistic architecture | Lead architecture across portfolios and coordinate the other architects as [TOGAF Chief Architect](../capability-corpus/togaf-roles.md). |
-| Adelheid | A · architecture enterprise | Integrate enterprise architecture across segments and align their roadmaps. |
+| [Adelheid](../../../src/resources/agent/architecture/adelheid/ROLE.md) | A · architecture enterprise | Integrate enterprise architecture across segments and align their roadmaps. |
 | Brunhilde | B · business | Model business capabilities, services and stakeholder needs. |
 | Dagmar | D · data | Establish data ownership and guide integration, migration and protection. |
 | Alfhilde | A · application | Define application boundaries, interfaces and integration. |
