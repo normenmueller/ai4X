@@ -1,5 +1,5 @@
 id: archimate-cross-layer-consistency
-version: 0.2.1
+version: 0.2.2
 owner: nemron
 requires: []
 conflicts: []
@@ -8,8 +8,8 @@ distinguish_from:
   - id: archimate-viewpoint-selection
     boundary: "Use viewpoint selection to choose what a stakeholder needs to see. Check consistency when the same element or relationship appears across views."
 sources:
-  - title: "The TOGAF Standard, 10th Edition"
+  - title: "ArchiMate 3.2 Specification"
     organization: "The Open Group"
-    url: "https://publications.opengroup.org/c220"
+    url: "https://pubs.opengroup.org/architecture/archimate32-doc/"
     kind: "standard"
     accessed_at: "2026-03-20"

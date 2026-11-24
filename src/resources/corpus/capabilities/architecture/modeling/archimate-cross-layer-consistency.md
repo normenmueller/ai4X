@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Keep ArchiMate models consistent across business, application, data, and technology layers.
+Keep ArchiMate models consistent across the three core layers (Business, Application, and Technology), including the data objects represented in those models.
 
 ## Trigger
 
