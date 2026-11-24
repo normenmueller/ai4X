@@ -13,7 +13,7 @@ The portfolio groups profiles by use case. Each agent has a role description, an
 | Gertrud | G · general | Clarify the task, then help reason through it in dialogue. |
 | Sigrid | S · strategic | Assess strategic fit, prioritize initiatives and shape a roadmap. |
 | Mechthild | M · methods | Elicit a project's need and assemble a suitable local agent. |
-| Hildegard | H · holistic architecture | Lead architecture across portfolios and coordinate the other architects as TOGAF Chief Architect. |
+| Hildegard | H · holistic architecture | Lead architecture across portfolios and coordinate the other architects as [TOGAF Chief Architect](../capability-corpus/togaf-roles.md). |
 | Adelheid | A · architecture enterprise | Integrate enterprise architecture across segments and align their roadmaps. |
 | Brunhilde | B · business | Model business capabilities, services and stakeholder needs. |
 | Dagmar | D · data | Establish data ownership and guide integration, migration and protection. |
