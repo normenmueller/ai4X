@@ -9,7 +9,7 @@ A catalog entry identifies a source pair. Approval of a release requires a decis
 - `draft`: in progress and not yet approved as a stable capability.
 - `active`: approved and intended for curation.
 - `deprecated`: still present, but no longer recommended for new curation.
-- `retired`: out of service and only retained for history or migration context.
+- `retired`: removed from the current capability collection. The last revision containing the source pair preserves its definition and migration note for historical reference.
 
 ## AI
 

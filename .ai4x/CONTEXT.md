@@ -17,5 +17,4 @@ Start with [BEHAVIOR.md](BEHAVIOR.md). Then load only what the task needs:
 - the owning GitHub Issue for requirements and live status when the work has one;
 - the affected source, tests, and nearby documentation for implementation work.
 
-GitHub Issues and the project board own work state. Repository files must not
-duplicate mutable status, approval, priority, or scheduling facts.
+GitHub Issues and the project board own work state. Repository files must not duplicate mutable status, approval, priority, or scheduling facts.

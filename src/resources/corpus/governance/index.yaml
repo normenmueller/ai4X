@@ -1,6 +1,8 @@
 # Resolve paths relative to this index. For each selected task, load its
 # documents and their transitive prerequisites, prerequisites first, once each.
-# Combine routes when a change spans tasks. Add typescript only for TypeScript work.
+# Combine routes when a change spans tasks. For capability authoring or review,
+# add engineering when assessing a software contract, implementation or test.
+# Add typescript only for TypeScript work.
 # The consuming project decides adoption, local routing and execution authority.
 status: draft
 
@@ -9,6 +11,8 @@ tasks:
     - rule-precedence.md
   agent_role_curation:
     - agent-role-naming.md
+  engineering:
+    - quality/engineering.md
   feature_implementation:
     - quality/engineering.md
     - delivery/development-workflow.md
@@ -66,7 +70,7 @@ library:
     depends_on: [quality/engineering.md]
   - path: capability-authoring-governance.md
     shape: base-contract
-    depends_on: [quality/engineering.md]
+    depends_on: []
   - path: capability-sweep.md
     shape: protocol
     depends_on: [capability-authoring-governance.md]

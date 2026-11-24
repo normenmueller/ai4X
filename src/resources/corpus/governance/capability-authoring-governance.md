@@ -131,7 +131,7 @@ When extending an existing capability constitutes a material semantic change, no
 2. Deprecation requires a `migration_note` in metadata explaining the successor or removal rationale.
 3. Deprecated capabilities remain in the portfolio for at least one release cycle to allow downstream adjustment.
 4. Retirement (physical removal) requires explicit product-owner approval and confirmation that no active composition references the capability.
-5. Status transitions: `active` → `deprecated` → `retired` (removed from repository).
+5. On retirement, remove the source pair and its catalog entries from the current collection. For historical or migration questions, refer to the last revision containing the deprecated pair and its migration note.
 
 ## Portfolio review
 

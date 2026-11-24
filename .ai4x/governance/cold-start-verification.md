@@ -1,7 +1,6 @@
 # Verify Cold Start after an instruction change
 
-Apply this check when a change can affect how an agent identifies its role,
-working checkout, owning Issue or authority at Cold Start.
+Apply this check when a change can affect how an agent identifies its role, working checkout, owning Issue or authority at Cold Start.
 
 - Shared entry behavior changed: test the changed revision in every supported host.
 - Only one host's entry behavior changed: test that revision in the affected host.
@@ -13,6 +12,4 @@ In the isolated checkout, use a non-trunk branch that differs from the binding i
 
 In a matching checkout, also exercise the behavior that changed. Specify the expected result first. For role changes, verify identity and profile. For Issue routing, verify the owning Issue. For authority changes, present the affected decision and verify the permitted next action. Use read-only tools.
 
-This check applies the failure-case guidance in the Corpus
-[AI strategy quality contract](../../src/resources/corpus/governance/quality/ai-strategy.md)
-at revision `ada4abdd4297a762958dcb8952efff3a9aa269ea`.
+This check applies the failure-case guidance in the Corpus [AI strategy quality contract](../../src/resources/corpus/governance/quality/ai-strategy.md) at revision `ada4abdd4297a762958dcb8952efff3a9aa269ea`.

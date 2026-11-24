@@ -1,9 +1,6 @@
 # ai4X Work Authority
 
-This is the canonical project-instance owner for change risk, execution
-authority, effect bounds, identity separation, and acceptance gates. Product
-semantics remain owned by their domain context; mutable lifecycle facts remain
-owned by GitHub.
+This is the canonical project-instance owner for change risk, execution authority, effect bounds, identity separation, and acceptance gates. Product semantics remain owned by their domain context; mutable lifecycle facts remain owned by GitHub.
 
 Schema: ai4x-work-authority-v1
 Risk paths: Routine | Significant | Protected
@@ -24,9 +21,7 @@ Acceptance gate         <- required review, Pull Request, and checks
 Technical permission    <- sandbox, credentials, provider and host controls
 ```
 
-A value on one line never manufactures a value on another. In particular, a
-board status or green check grants no execution authority, and Product Owner
-authority cannot bypass a denied technical control.
+A value on one line never manufactures a value on another. In particular, a board status or green check grants no execution authority, and Product Owner authority cannot bypass a denied technical control.
 
 ## Risk paths
 
@@ -37,13 +32,11 @@ authority cannot bypass a denied technical control.
   Issue whose scope and acceptance contract bind execution.
 - **Protected:** authority, governance, security, lifecycle, destructive, release, merge, cleanup, or materially irreversible work. Each protected effect requires exact PO authority. When the underlying work does not require an Issue, the PO can grant that authority directly by specifying the permitted actor, target, effect and bounds. Every applicable Issue requirement, review, check, technical control and PO-reserved action still applies.
 
-When uncertain between paths, use the higher-risk path or ask one focused
-question if the distinction materially changes the result.
+When uncertain between paths, use the higher-risk path or ask one focused question if the distinction materially changes the result.
 
 ## Atomic work-unit authority
 
-Explicit Product Owner release of one exact Ready Issue authorizes its declared
-work envelope through `In review`:
+Explicit Product Owner release of one exact Ready Issue authorizes its declared work envelope through `In review`:
 
 ```text
 implementation
@@ -72,9 +65,7 @@ Bind the smallest closed envelope needed for the actual risk:
 - exact protected remote targets and revision/digest facts needed by a material
   effect.
 
-Ordinary in-scope local edits do not require per-file approval or predeclared
-digests. Missing, stale, or conflicting facts required for a material external
-or protected effect fail closed.
+Ordinary in-scope local edits do not require per-file approval or predeclared digests. Missing, stale, or conflicting facts required for a material external or protected effect fail closed.
 
 - GitHub Issues and the project board own planned work and lifecycle state.
 - Use a short-lived topic branch, a focused pull request, required green checks, and squash merge.

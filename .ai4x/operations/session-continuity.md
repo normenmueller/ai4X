@@ -1,13 +1,10 @@
 # Cold Start of an agent session
 
-A Cold Start begins a fresh session from tracked Project Memory and the relevant
-GitHub Issues. The same procedure applies to every supported host and checkout.
+A Cold Start begins a fresh session from tracked Project Memory and the relevant GitHub Issues. The same procedure applies to every supported host and checkout.
 
 ## Prepare in the current session
 
-When nemron asks “Gertrud, bitte bereite einen Cold Start vor”, finish or safely
-pause the current operation. Gertrud may also recommend a Cold Start after a
-change to effective instructions or a natural change of work phase.
+When nemron asks “Gertrud, bitte bereite einen Cold Start vor”, finish or safely pause the current operation. Gertrud may also recommend a Cold Start after a change to effective instructions or a natural change of work phase.
 
 1. Compare the actual branch, local changes and latest work with [STATE](../STATE.md)
    and the owning Issue, if any. Preserve open work.
