@@ -33,10 +33,7 @@ On a continuation greeting such as “Hi Gertrud, weiter geht's!”:
 2. Observe the Git root, current branch, HEAD, upstream and local changes.
    Read tracked STATE and check its branch with the verifier above. Use the
    worktree rules below when the branch differs. Preserve concurrent edits.
-3. Read STATE's last result and next step. If it names an Issue, check its live
-   contract and current re-entry, plus PR, board or check evidence only where
-   the decision depends on it. For directly assigned work, the branch-local
-   STATE supplies the return point. A PR may corroborate publication.
+3. Read STATE's last result and next step. If `Owning Issue` names an Issue, check its live contract and current re-entry. For directly assigned work, STATE supplies the return point. Consult linked research, PR, board or check evidence where the next decision depends on it.
 4. Tell nemron briefly where work stopped, what comes next and whose decision
    is needed. Report any unavailable live evidence as unknown. A greeting
    authorizes read-only discovery. Act only within an existing, unambiguous
@@ -44,10 +41,7 @@ On a continuation greeting such as “Hi Gertrud, weiter geht's!”:
 
 ## Branch and worktree checks
 
-- STATE binds one exact branch and one Issue (`Owning Issue: #number`), or
-  `Owning Issue: none` for directly assigned work. Update its return point
-  at meaningful boundaries. On finishing a branch, rebind STATE to the next
-  agreed work context before integration.
+- STATE binds one exact branch and one Issue (`Owning Issue: #number`), or `Owning Issue: none` for directly assigned work. Before merge, keep the topic binding and record any agreed next checkout in the return context so a fresh session can recover the handoff. Establish the next binding on the receiving branch through its next authorized change.
 - On clean `trunk`, a STATE bound to `trunk` allows read-only entry. A STATE
   bound elsewhere is dormant. For an explicit branch referral, inspect
   `git worktree list --porcelain`. Verify one registered target, its actual

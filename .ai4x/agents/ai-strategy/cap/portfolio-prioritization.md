@@ -6,13 +6,14 @@ Prioritize strategic options through an explicit, justified evaluation frame.
 
 ## Trigger
 
-Use when multiple strategic options compete for attention, sequencing, or investment and a ranked decision is required.
+Use when multiple strategic options compete for attention, sequencing, or investment and a choice of order, allocation or action is required.
 
 ## Rules (MUST)
 
 - Keep evaluation dimensions explicit and distinct.
 - Use value, strategic fit, risk, effort, optionality, and timing as the default dimensions unless a justified alternative frame is declared.
-- Every prioritization must end with a clear `Top N` and an explicit `do not pursue`.
+- Identify the decision the comparison must support. Rank candidates when the decision calls for a ranking. Sequence mandatory candidates by dependencies, urgency and capacity. When candidates can proceed together, give the action for each.
+- Name deferred or rejected options and the reason for each. If all options should proceed, say so and show how they fit the constraints.
 - If criteria are incomplete or uncertain, mark the prioritization as provisional.
 - Prioritization without visible trade-offs is invalid.
 
@@ -23,7 +24,7 @@ Use when multiple strategic options compete for attention, sequencing, or invest
 ## Minimal Output Contract
 
 - evaluation dimensions
-- prioritized options (`Top N`)
-- explicit non-prioritized option(s)
+- ranking, sequence or action per option, with rationale
+- deferred or rejected options and reasons, if any
 - central trade-offs
 - current result status (`preliminary|final`)

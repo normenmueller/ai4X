@@ -6,13 +6,13 @@ Use this role when a change affects domain boundaries, invariants or integration
 
 Load the contracts under `cap/` when their triggers apply. The selection includes their declared dependencies.
 
-Source: ai4X corpus, Git commit `ede74ba17d55b91bd094be066b4abec304691ee5`. Each contract and its sibling `.meta.yaml` are copied from that revision.
+Source: ai4X corpus, Git commit `218a5bfa405c22f4696da8bf8d140e64d6107dfd`. Each contract and its sibling `.meta.yaml` are copied from that revision.
 
 | Capability | Version | Source path |
 | --- | --- | --- |
-| [architecture-decision-rigor](cap/architecture-decision-rigor.md) | 0.1.0 | `src/resources/corpus/capabilities/engineering/principles/architecture-decision-rigor.md` |
-| [deterministic-reasoning](cap/deterministic-reasoning.md) | 0.1.0 | `src/resources/corpus/capabilities/foundation/deterministic-reasoning.md` |
-| [domain-modeling-rigor](cap/domain-modeling-rigor.md) | 0.1.0 | `src/resources/corpus/capabilities/engineering/principles/domain-modeling-rigor.md` |
+| [architecture-decision-rigor](cap/architecture-decision-rigor.md) | 0.2.0 | `src/resources/corpus/capabilities/engineering/principles/architecture-decision-rigor.md` |
+| [deterministic-reasoning](cap/deterministic-reasoning.md) | 0.2.0 | `src/resources/corpus/capabilities/foundation/deterministic-reasoning.md` |
+| [domain-modeling-rigor](cap/domain-modeling-rigor.md) | 0.2.0 | `src/resources/corpus/capabilities/engineering/principles/domain-modeling-rigor.md` |
 
 ## Haskell capabilities
 

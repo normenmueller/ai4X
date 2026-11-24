@@ -35,9 +35,7 @@ authority cannot bypass a denied technical control.
   Product Owner request may authorize it without an Issue.
 - **Significant:** product or architectural work that requires an exact Ready
   Issue whose scope and acceptance contract bind execution.
-- **Protected:** authority, governance, security, lifecycle, destructive,
-  release, merge, cleanup, or materially irreversible work. It requires exact
-  Product Owner authority for the protected effect.
+- **Protected:** authority, governance, security, lifecycle, destructive, release, merge, cleanup, or materially irreversible work. Each protected effect requires exact PO authority. When the underlying work does not require an Issue, the PO can grant that authority directly by specifying the permitted actor, target, effect and bounds. Every applicable Issue requirement, review, check, technical control and PO-reserved action still applies.
 
 When uncertain between paths, use the higher-risk path or ask one focused
 question if the distinction materially changes the result.
@@ -68,7 +66,7 @@ The PO’s standing instruction authorizes retirement of the matching local and 
 
 Bind the smallest closed envelope needed for the actual risk:
 
-- owning Issue or direct Routine instruction;
+- owning Issue or the direct PO instruction permitted by the applicable risk path;
 - repository and work branch;
 - outcome, scope, acceptance criteria, and explicit exclusions;
 - exact protected remote targets and revision/digest facts needed by a material
@@ -105,7 +103,7 @@ or protected effect fail closed.
 
 ## Identity and permission separation
 
-For agent-authored commits use Gertrud’s Git author identity. For authorized GitHub writes use `gertrud-ai4x`. On this workstation use `gh-gertrud` with its dedicated configuration in `~/.config/gh-gertrud`. Before writing, verify the login with `gh-gertrud api user --jq .login`. Stop on a mismatch or unavailable identity. The PO uses `normenmueller`.
+For agent-authored commits use Gertrud’s Git author identity. Before an authorized GitHub write, verify that the authenticated login is `gertrud-ai4x`. Stop if the login differs or cannot be verified. On this workstation use `gh-gertrud` with its dedicated configuration in `~/.config/gh-gertrud` and check the login with `gh-gertrud api user --jq .login`. The PO uses `normenmueller`.
 
 For a Git push, including remote branch retirement, authenticate the actual Git transport as Gertrud. On this workstation use the repository’s HTTPS URL with the per-command Git options `-c credential.helper= -c 'credential.helper=!gh-gertrud auth git-credential'`. A CLI login check alone does not identify the SSH key used by `origin`. Stop if the transport identity is uncertain.
 
@@ -113,6 +111,4 @@ Record PO authority through the explicit decision or merge action. A sandbox or 
 
 ## Program boundary
 
-This contract governs direct Routine work and one exact Issue. It does not
-authorize a sequence of Issues. A future Program Execution Mandate is separate
-Portfolio research in #190 and cannot be inferred from this contract.
+Each authorization covers one bounded assignment under the applicable risk path. A mandate for a sequence of Issues is separate Portfolio research in #190.

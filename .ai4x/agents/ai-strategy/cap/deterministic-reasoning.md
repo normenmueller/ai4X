@@ -18,7 +18,7 @@ Use when reasoning under incomplete, conflicting, or partially evidenced context
 
 ## Fallback
 
-- If mandatory context, evidence, or contradictions remain unresolved, keep the result provisional and name the blocking gaps explicitly.
+- If two supported inputs disagree, show which conclusion follows from each and name the fact or precedence decision that would resolve the difference. Keep the affected conclusion provisional.
 
 ## Minimal Output Contract
 

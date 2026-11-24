@@ -6,21 +6,17 @@ Owning Issue: none
 
 ## Return context
 
-- nemron approved Gertrud, the seven specialist roles and Cold Start for this branch at `67c8407`. The research branch review continues.
-- The architecture governance draft covers decision records, design inputs and compatibility of commands and configuration. The design completion rule is approved. The draft also covers consistency rules that span multiple values. The Corpus drafts now cover both testing-profile decisions: effective configuration and allowed or rejected state transitions. The implementation contract now takes verification commands from the project and work item. The historical Doctor checks remain pending in the CLI comparison. Runtime and paths follow the target component. Architecture, implementation, testing and independent review use the approved Haskell refinements from corpus revision `2f3166c`. Continue the remaining research-source review.
-- After the research branch, review the documentation branch and then the backups.
+- nemron directly assigned the research-branch review. [#104](https://github.com/normenmueller/ai4X/issues/104) holds the research evidence and [the decision on conflicting rules](https://github.com/normenmueller/ai4X/issues/104#issuecomment-7126027843). The project adopted that rule in `c3f8f76`.
+- Finish the Project Memory and Corpus quality review and record its findings and applicable host checks in #104. Then compare the historical [Self-Scoping Rule](https://github.com/normenmueller/ai4X/blob/cac1d37c294a22aef71b46e55289f88134c7043d/.github/agents/ai4x.agent.md#L181-L183) with [TEAM](TEAM.md) and the assigned role. What should an agent do when a request falls outside its mandate?
+- Reserve the historical Doctor checks for the CLI comparison. After the research branch, review the documentation branch and then the backups.
 
 ## Route
 
-- Start in the registered worktree on the bound branch. Follow [TEAM](TEAM.md)
-  and the [Cold Start procedure](operations/session-continuity.md).
-- Draft PR #206 collects the research review. Compare its live head to local
-  Git when reporting publication. Commits accumulate locally until PO review.
+- Use the registered checkout for the bound branch and the [Cold Start procedure](operations/session-continuity.md). Compare [PR #206](https://github.com/normenmueller/ai4X/pull/206) with local Git when reporting publication.
 
 ## Authority boundary
 
-- Report what is ready for review. A greeting or this return pointer supplies
-  no approval to publish, merge, retire a branch or discard source material.
+- Commits accumulate locally until PO review. A continuation greeting authorizes read-only discovery. Check the work contract before acting.
 
 ## Concurrency limit
 

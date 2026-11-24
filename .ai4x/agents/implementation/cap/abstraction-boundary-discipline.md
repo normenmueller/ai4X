@@ -17,7 +17,7 @@ Use when defining or reviewing module, service, or subsystem boundaries.
 
 ## Fallback
 
-- If the relevant boundary, contract, or design context is incomplete, keep the judgment provisional and name the missing engineering information.
+- If a proposed boundary has no known caller or change driver, identify the untested responsibility split and a caller or change scenario that could verify it.
 
 ## Minimal Output Contract
 

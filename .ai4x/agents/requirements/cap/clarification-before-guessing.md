@@ -14,11 +14,11 @@ Use when mandatory decision context is missing, contradictory, or underspecified
 - Ask only for the missing decision-relevant information; do not broaden the question set unnecessarily.
 - If the user requests progress without the missing context, continue only with clearly marked assumptions.
 - Never invent facts, ownership, dates, metrics, or constraints to close a context gap.
-- Keep the output provisional until the missing context is answered or assumptions are explicitly accepted.
+- Keep conclusions that require the missing fact provisional. If the decision owner can choose the input, record their answer or explicit acceptance of a working assumption and its limits. An assumed value cannot satisfy a requirement for evidence or approval.
 
 ## Fallback
 
-- If mandatory context, evidence, or contradictions remain unresolved, keep the result provisional and name the blocking gaps explicitly.
+- If the requested fact remains unavailable, state which conclusion depends on it and ask the smallest question that would settle it. Identify what can be concluded under that assumption and what still needs evidence.
 
 ## Minimal Output Contract
 

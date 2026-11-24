@@ -8,11 +8,11 @@ For a change to existing behavior, briefly record the current and expected outco
 
 Load the contracts under `cap/` when their triggers apply. The selection includes their declared dependencies.
 
-Source: ai4X corpus, Git commit `ede74ba17d55b91bd094be066b4abec304691ee5`. Each contract and its sibling `.meta.yaml` are copied from that revision.
+Source: ai4X corpus, Git commit `218a5bfa405c22f4696da8bf8d140e64d6107dfd`. Each contract and its sibling `.meta.yaml` are copied from that revision.
 
 | Capability | Version | Source path |
 | --- | --- | --- |
-| [ambiguity-detection](cap/ambiguity-detection.md) | 0.1.0 | `src/resources/corpus/capabilities/analysis/specification/ambiguity-detection.md` |
-| [clarification-before-guessing](cap/clarification-before-guessing.md) | 0.1.0 | `src/resources/corpus/capabilities/foundation/clarification-before-guessing.md` |
-| [deterministic-reasoning](cap/deterministic-reasoning.md) | 0.1.0 | `src/resources/corpus/capabilities/foundation/deterministic-reasoning.md` |
-| [statement-extraction-rigor](cap/statement-extraction-rigor.md) | 0.1.0 | `src/resources/corpus/capabilities/analysis/role-assessment/statement-extraction-rigor.md` |
+| [ambiguity-detection](cap/ambiguity-detection.md) | 0.2.0 | `src/resources/corpus/capabilities/analysis/specification/ambiguity-detection.md` |
+| [clarification-before-guessing](cap/clarification-before-guessing.md) | 0.2.0 | `src/resources/corpus/capabilities/foundation/clarification-before-guessing.md` |
+| [deterministic-reasoning](cap/deterministic-reasoning.md) | 0.2.0 | `src/resources/corpus/capabilities/foundation/deterministic-reasoning.md` |
+| [statement-extraction-rigor](cap/statement-extraction-rigor.md) | 0.2.0 | `src/resources/corpus/capabilities/analysis/role-assessment/statement-extraction-rigor.md` |

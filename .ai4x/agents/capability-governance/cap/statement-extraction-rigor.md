@@ -17,10 +17,10 @@ Use when extracting materially relevant statements from documents, transcripts, 
 
 ## Fallback
 
-- If the relevant evidence, scope, or comparison basis is incomplete, keep the result provisional and name the missing analytical basis.
+- If a passage or its source anchor is missing, extract the statements supported by the available text, identify the missing passage and leave completeness open.
 
 ## Minimal Output Contract
 
 - extracted statement
-- statement type (`fact|constraint|responsibility|metric|decision`)
+- statement type (`fact|constraint|responsibility|metric|scope|decision`)
 - source anchor

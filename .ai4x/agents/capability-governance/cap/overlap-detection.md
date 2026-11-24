@@ -17,7 +17,7 @@ Use when reviewing responsibilities, outputs, or control boundaries for possible
 
 ## Fallback
 
-- If the relevant evidence, scope, or comparison basis is incomplete, keep the result provisional and name the missing analytical basis.
+- If two activities sound alike but their owners or outputs are unknown, keep both and request the missing assignment or example output before recommending consolidation.
 
 ## Minimal Output Contract
 

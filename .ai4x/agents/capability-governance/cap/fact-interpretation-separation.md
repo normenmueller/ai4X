@@ -17,7 +17,7 @@ Use when deriving interpretations, conclusions, or recommendations from source s
 
 ## Fallback
 
-- If the relevant evidence, scope, or comparison basis is incomplete, keep the result provisional and name the missing analytical basis.
+- If a conclusion depends on a missing premise, quote the observed statement and label the conclusion as a provisional interpretation. Identify the premise that needs checking.
 
 ## Minimal Output Contract
 

@@ -17,7 +17,7 @@ Use when reviewing statements, requirements, or contracts for claims that may no
 
 ## Fallback
 
-- If the relevant evidence, scope, or comparison basis is incomplete, keep the result provisional and name the missing analytical basis.
+- If two statements may refer to different actors, periods or scopes, quote both and ask which contexts coincide before calling them contradictory.
 
 ## Minimal Output Contract
 

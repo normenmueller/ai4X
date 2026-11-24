@@ -17,7 +17,7 @@ Use when making or reviewing significant architecture decisions.
 
 ## Fallback
 
-- If the relevant boundary, contract, or design context is incomplete, keep the judgment provisional and name the missing engineering information.
+- If a material trade-off cannot be assessed, record the undecided alternatives, the constraint that would distinguish them and the consequence of deferring the decision.
 
 ## Minimal Output Contract
 

@@ -18,7 +18,7 @@ Use when reviewing requests, proposals, plans, or recommendations for material w
 
 ## Fallback
 
-- If mandatory context, evidence, or contradictions remain unresolved, keep the result provisional and name the blocking gaps explicitly.
+- If evidence for an objection is incomplete, identify an observation that could confirm or overturn it. Present the objection as provisional and explain the decision risk.
 
 ## Minimal Output Contract
 

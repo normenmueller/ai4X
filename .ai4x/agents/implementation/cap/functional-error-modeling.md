@@ -17,7 +17,7 @@ Use when defining or reviewing domain contracts that carry recoverable failures 
 
 ## Fallback
 
-- If the relevant boundary, contract, or design context is incomplete, keep the judgment provisional and name the missing engineering information.
+- If the caller's response to absence and failure is unclear, describe one case of each and ask whether the caller must distinguish them before fixing the result contract.
 
 ## Minimal Output Contract
 

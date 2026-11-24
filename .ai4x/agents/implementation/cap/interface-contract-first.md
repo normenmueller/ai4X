@@ -17,7 +17,7 @@ Use when defining or reviewing interface boundaries before implementation detail
 
 ## Fallback
 
-- If the relevant boundary, contract, or design context is incomplete, keep the judgment provisional and name the missing engineering information.
+- If callers disagree on a boundary outcome, show one input and the competing results. Keep that part of the contract open until an authoritative requirement settles it.
 
 ## Minimal Output Contract
 

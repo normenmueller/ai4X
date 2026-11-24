@@ -20,7 +20,7 @@ Use when modeling domain concepts or reviewing domain-facing contracts and APIs.
 
 ## Fallback
 
-- If the relevant boundary, contract, or design context is incomplete, keep the judgment provisional and name the missing engineering information.
+- If the same term denotes different states or responsibilities, record the competing meanings and a case that distinguishes them. Leave the model boundary provisional until the domain owner resolves it.
 
 ## Minimal Output Contract
 

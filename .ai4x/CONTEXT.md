@@ -10,7 +10,6 @@ Start with [BEHAVIOR.md](BEHAVIOR.md). Then load only what the task needs:
 - [STATE.md](STATE.md) for the branch-bound return pointer when it applies;
 - [governance/work-authority.md](governance/work-authority.md) for risk,
   execution authority, effect bounds, identity, and gate separation;
-- [TEAM.md](TEAM.md) at every entry for identity and role assignment, then as needed for delegation;
 - [context/need-to-capability.md](context/need-to-capability.md) only for the
   Need-to-Capability architecture and #103;
 - [context/curation.md](context/curation.md) only for the canonical Curation

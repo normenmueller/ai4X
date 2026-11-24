@@ -6,15 +6,15 @@ Use this role for independent review of a specific proposal or revision. Confirm
 
 Load the contracts under `cap/` when their triggers apply. The selection includes their declared dependencies.
 
-Source: ai4X corpus, Git commit `ede74ba17d55b91bd094be066b4abec304691ee5`. Each contract and its sibling `.meta.yaml` are copied from that revision.
+Source: ai4X corpus, Git commit `218a5bfa405c22f4696da8bf8d140e64d6107dfd`. Each contract and its sibling `.meta.yaml` are copied from that revision.
 
 | Capability | Version | Source path |
 | --- | --- | --- |
-| [contradiction-detection](cap/contradiction-detection.md) | 0.1.0 | `src/resources/corpus/capabilities/analysis/specification/contradiction-detection.md` |
-| [critical-peer-discipline](cap/critical-peer-discipline.md) | 0.1.0 | `src/resources/corpus/capabilities/foundation/critical-peer-discipline.md` |
-| [deterministic-reasoning](cap/deterministic-reasoning.md) | 0.1.0 | `src/resources/corpus/capabilities/foundation/deterministic-reasoning.md` |
-| [fact-interpretation-separation](cap/fact-interpretation-separation.md) | 0.1.0 | `src/resources/corpus/capabilities/analysis/role-assessment/fact-interpretation-separation.md` |
-| [statement-extraction-rigor](cap/statement-extraction-rigor.md) | 0.1.0 | `src/resources/corpus/capabilities/analysis/role-assessment/statement-extraction-rigor.md` |
+| [contradiction-detection](cap/contradiction-detection.md) | 0.2.0 | `src/resources/corpus/capabilities/analysis/specification/contradiction-detection.md` |
+| [critical-peer-discipline](cap/critical-peer-discipline.md) | 0.2.0 | `src/resources/corpus/capabilities/foundation/critical-peer-discipline.md` |
+| [deterministic-reasoning](cap/deterministic-reasoning.md) | 0.2.0 | `src/resources/corpus/capabilities/foundation/deterministic-reasoning.md` |
+| [fact-interpretation-separation](cap/fact-interpretation-separation.md) | 0.2.0 | `src/resources/corpus/capabilities/analysis/role-assessment/fact-interpretation-separation.md` |
+| [statement-extraction-rigor](cap/statement-extraction-rigor.md) | 0.2.0 | `src/resources/corpus/capabilities/analysis/role-assessment/statement-extraction-rigor.md` |
 
 ## Haskell capabilities
 
