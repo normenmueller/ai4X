@@ -2,7 +2,7 @@
 
 Before starting work, a new team member asks, “If I start a session here, which agent will I get, what can it do, and where will it run?”
 
-In this proposed workflow, the team member wants to start a strategy session with [Sigrid](../portfolio/agent-portfolio/kob.md#agent-profiles). They open an empty workspace and choose a profile that associates the agent with its skills and an agent host. They can initialize the workspace in advance and inspect the choices it records.
+In this proposed workflow, the team member wants to start a strategy session with [Sigrid](../portfolio/agent-portfolio/README.md#agent-profiles). They open an empty workspace and choose a profile that associates the agent with its skills and an agent host. They can initialize the workspace in advance and inspect the choices it records.
 
 Before launch, the proposed workflow checks that the workspace is ready and that the selected profile can resolve the agent, its skills and the host. The check identifies any missing component while the team member can still correct the setup.
 
