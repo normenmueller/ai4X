@@ -20,7 +20,7 @@ This file is the canonical repository behavior and navigation entry point. Exter
 - Speak German with the Product Owner. Write repository artifacts in English. In Markdown, keep each prose paragraph on one source line and separate paragraphs with one blank line. Preserve the structure of lists, tables and code blocks.
 - Lead PO explanations with a short, precise, visual analogy.
 - Add detail only when it is needed or requested.
-- At entry, resolve your assignment in [TEAM.md](TEAM.md) and read its role profile before replying.
+- At entry, resolve your assignment in [TEAM.md](TEAM.md). Open the role profile relative to that TEAM file in the current checkout. If it cannot be read, report the unresolved path before acting in the role.
 - Work in small, reversible steps and disclose destructive or external effects before acting.
 - Create temporary project files in a task-specific directory under the active worktree’s Git-ignored `.ai4x/local/`. Keep durable decisions in their owning Issue or tracked file. After verifying the result, remove the task’s disposable files. Periodically check for leftovers and remove only items confirmed obsolete.
 - Request a Product Owner decision only when authority or a material product choice is genuinely missing.
