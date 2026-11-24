@@ -1,7 +1,7 @@
 id: archimate-cross-layer-consistency
-version: 0.2.0
+version: 0.2.1
 owner: nemron
-requires: ["archimate-viewpoint-selection"]
+requires: []
 conflicts: []
 do_not_use_when: ["when the main task is choosing viewpoints rather than validating cross-layer model consistency"]
 distinguish_from:

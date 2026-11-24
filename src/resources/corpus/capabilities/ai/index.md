@@ -8,13 +8,13 @@ Open a shorter index for [AI architecture](architecture/index.md), [AI consultin
 
 | ID | File | Purpose | Use When | Do Not Use When | Distinguish From | Requires | Conflicts |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `ai-operating-model-architecture` | [ai-operating-model-architecture.md](architecture/enterprise/ai-operating-model-architecture.md) | Design an explicit AI operating model before scaling ownership, controls, or delivery expectations. | Use when an organization or multi-team initiative needs clear AI roles, lifecycle ownership, and control points. | `[]` | `[]` | `[decision-gates, togaf-adm-discipline, architecture-decision-rigor]` | `[]` |
+| `ai-operating-model-architecture` | [ai-operating-model-architecture.md](architecture/enterprise/ai-operating-model-architecture.md) | Design an explicit AI operating model before scaling ownership, controls, or delivery expectations. | Use when an organization or multi-team initiative needs clear AI roles, lifecycle ownership, and control points. | `[]` | `[]` | `[decision-gates, architecture-decision-rigor]` | `[]` |
 
 ### Governance
 
 | ID | File | Purpose | Use When | Do Not Use When | Distinguish From | Requires | Conflicts |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `ai-evaluation-and-control-architecture` | [ai-evaluation-and-control-architecture.md](architecture/governance/ai-evaluation-and-control-architecture.md) | Define how AI behavior is evaluated, monitored, constrained, and interrupted across the runtime lifecycle. | Use when an AI solution needs explicit quality, safety, oversight, or escalation controls. | `[]` | `[]` | `[decision-gates, architecture-decision-rigor, architecture-compliance-review]` | `[]` |
+| `ai-evaluation-and-control-architecture` | [ai-evaluation-and-control-architecture.md](architecture/governance/ai-evaluation-and-control-architecture.md) | Define how AI behavior is evaluated, monitored, constrained, and interrupted across the runtime lifecycle. | Use when an AI solution needs explicit quality, safety, oversight, or escalation controls. | `[]` | `[]` | `[decision-gates, architecture-decision-rigor]` | `[]` |
 
 ### Solution
 

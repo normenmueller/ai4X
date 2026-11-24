@@ -1,7 +1,7 @@
 id: business-service-architecture
-version: 0.1.1
+version: 0.1.2
 owner: nemron
-requires: ["segment-architecture-stewardship","capability-map-governance"]
+requires: []
 conflicts: []
 do_not_use_when: ["when data, application, or technology-domain concerns dominate the architecture problem","when the task is generic strategic planning without a business-architecture boundary"]
 distinguish_from:

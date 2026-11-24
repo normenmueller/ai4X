@@ -6,7 +6,7 @@ Open a capability to check its trigger, rules and expected result. The [AI catal
 
 | ID | File | Purpose | Requires | Conflicts |
 | --- | --- | --- | --- | --- |
-| `ai-operating-model-architecture` | [ai-operating-model-architecture.md](enterprise/ai-operating-model-architecture.md) | AI operating-model architecture across roles, controls, and lifecycle. | `[decision-gates, togaf-adm-discipline, architecture-decision-rigor]` | `[]` |
+| `ai-operating-model-architecture` | [ai-operating-model-architecture.md](enterprise/ai-operating-model-architecture.md) | AI operating-model architecture across roles, controls, and lifecycle. | `[decision-gates, architecture-decision-rigor]` | `[]` |
 
 ## Solution
 
@@ -24,4 +24,4 @@ _No capabilities yet._
 
 | ID | File | Purpose | Requires | Conflicts |
 | --- | --- | --- | --- | --- |
-| `ai-evaluation-and-control-architecture` | [ai-evaluation-and-control-architecture.md](governance/ai-evaluation-and-control-architecture.md) | Evaluation, oversight, and runtime control architecture for AI systems. | `[decision-gates, architecture-decision-rigor, architecture-compliance-review]` | `[]` |
+| `ai-evaluation-and-control-architecture` | [ai-evaluation-and-control-architecture.md](governance/ai-evaluation-and-control-architecture.md) | Evaluation, oversight, and runtime control architecture for AI systems. | `[decision-gates, architecture-decision-rigor]` | `[]` |

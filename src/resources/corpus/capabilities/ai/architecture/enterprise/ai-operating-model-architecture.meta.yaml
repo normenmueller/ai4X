@@ -1,7 +1,7 @@
 id: ai-operating-model-architecture
-version: 0.1.0
+version: 0.1.1
 owner: nemron
-requires: ["decision-gates","togaf-adm-discipline","architecture-decision-rigor"]
+requires: ["decision-gates","architecture-decision-rigor"]
 conflicts: []
 do_not_use_when: []
 distinguish_from: []

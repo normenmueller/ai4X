@@ -1,7 +1,7 @@
 id: data-governance-architecture
-version: 0.1.1
+version: 0.1.2
 owner: nemron
-requires: ["segment-architecture-stewardship"]
+requires: []
 conflicts: []
 do_not_use_when: ["when the main concern is application-service decomposition rather than data governance and lifecycle control","when the task is low-level schema hygiene without data-landscape architecture implications"]
 distinguish_from:

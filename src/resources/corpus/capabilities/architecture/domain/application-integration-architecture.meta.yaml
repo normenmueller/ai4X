@@ -1,7 +1,7 @@
 id: application-integration-architecture
-version: 0.1.1
+version: 0.1.2
 owner: nemron
-requires: ["segment-architecture-stewardship","architecture-decision-rigor"]
+requires: ["architecture-decision-rigor"]
 conflicts: []
 do_not_use_when: ["when the problem is primarily data governance or technology platform architecture","when one concrete solution change needs realization governance more than domain architecture"]
 distinguish_from:

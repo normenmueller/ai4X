@@ -1,7 +1,7 @@
 id: architecture-compliance-review
-version: 0.2.0
+version: 0.2.1
 owner: nemron
-requires: ["togaf-adm-discipline","archimate-cross-layer-consistency"]
+requires: []
 conflicts: []
 do_not_use_when: ["when the task is to create architecture direction rather than evaluate conformance against approved principles, standards, or decisions","when no architecture baseline exists to review against"]
 distinguish_from:

@@ -1,7 +1,7 @@
 id: baseline-target-gap-analysis
-version: 0.2.0
+version: 0.2.1
 owner: nemron
-requires: ["togaf-adm-discipline"]
+requires: []
 conflicts: []
 do_not_use_when: ["when no baseline or target state can be stated yet","when the main task is sequencing transition states rather than comparing states"]
 distinguish_from:

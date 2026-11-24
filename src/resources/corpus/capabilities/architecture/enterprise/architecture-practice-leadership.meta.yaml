@@ -1,7 +1,7 @@
 id: architecture-practice-leadership
-version: 0.1.1
+version: 0.1.2
 owner: nemron
-requires: ["togaf-adm-discipline","strategic-fit"]
+requires: ["strategic-fit"]
 conflicts: []
 do_not_use_when: ["when the task is detailed segment or solution design rather than architecture-practice leadership","when a conformance verdict is needed rather than leadership, sponsorship, or mandate creation"]
 distinguish_from:

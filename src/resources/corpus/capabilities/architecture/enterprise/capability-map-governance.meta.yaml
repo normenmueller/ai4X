@@ -1,7 +1,7 @@
 id: capability-map-governance
-version: 0.2.0
+version: 0.2.1
 owner: nemron
-requires: ["togaf-adm-discipline"]
+requires: []
 conflicts: []
 do_not_use_when: ["when the task is detailed process, org-chart, or application mapping rather than stable capability architecture","when segment or solution realization questions dominate over capability-map control logic"]
 distinguish_from:

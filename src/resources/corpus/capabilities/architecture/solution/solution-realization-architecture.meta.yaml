@@ -1,7 +1,7 @@
 id: solution-realization-architecture
-version: 0.1.1
+version: 0.2.0
 owner: nemron
-requires: ["baseline-target-gap-analysis","transition-architecture-planning","architecture-decision-rigor"]
+requires: ["architecture-decision-rigor"]
 conflicts: []
 do_not_use_when: ["when the task is enterprise or segment governance without a concrete solution scope","when the task is generic project planning or handover without architecture realization content"]
 distinguish_from:

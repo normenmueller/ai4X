@@ -1,7 +1,7 @@
 id: enterprise-architecture-integration
-version: 0.1.1
+version: 0.1.2
 owner: nemron
-requires: ["togaf-adm-discipline","capability-map-governance"]
+requires: ["togaf-adm-discipline"]
 conflicts: []
 do_not_use_when: ["when scope is only one segment or one concrete solution","when the main need is executive sponsorship and practice mandate rather than enterprise integration"]
 distinguish_from:

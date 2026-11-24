@@ -12,7 +12,7 @@ Use when a concrete solution must be specified, staged, and governed from requir
 
 - Derive solution structure from explicit requirements and superior architectures.
 - Make systems, subsystems, components, and interoperability explicit before implementation detail takes over.
-- Stage major change through target roadmaps and implementable transition architectures.
+- Stage major change through target roadmaps and implementable transition architectures. Use the established baseline-to-target comparison for the stages. If it is missing, keep the sequence provisional and identify the comparison needed. Continue component or interface design where the requirements already support it.
 - Provide risk-based governance for deviations during implementation without dissolving architecture accountability.
 
 ## Fallback

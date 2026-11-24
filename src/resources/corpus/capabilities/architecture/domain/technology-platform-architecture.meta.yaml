@@ -1,7 +1,7 @@
 id: technology-platform-architecture
-version: 0.1.1
+version: 0.1.2
 owner: nemron
-requires: ["segment-architecture-stewardship"]
+requires: []
 conflicts: []
 do_not_use_when: ["when the dominant concern is application-service architecture or data governance rather than platform and infrastructure design","when the task is an operational runbook without architecture-level platform decisions"]
 distinguish_from:

@@ -1,7 +1,7 @@
 id: segment-architecture-stewardship
-version: 0.1.1
+version: 0.1.2
 owner: nemron
-requires: ["togaf-adm-discipline","baseline-target-gap-analysis"]
+requires: ["togaf-adm-discipline"]
 conflicts: []
 do_not_use_when: ["when the task is enterprise-wide cross-segment integration rather than stewardship of one segment","when the task is detailed realization of one concrete solution rather than segment evolution"]
 distinguish_from:

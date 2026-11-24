@@ -1,7 +1,7 @@
 id: transition-architecture-planning
-version: 0.2.0
+version: 0.2.1
 owner: nemron
-requires: ["baseline-target-gap-analysis"]
+requires: []
 conflicts: []
 do_not_use_when: ["when baseline and target have not been compared yet","when the task is a single target-state compliance check rather than staged change design"]
 distinguish_from:
