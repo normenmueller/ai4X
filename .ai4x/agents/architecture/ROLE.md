@@ -1,6 +1,6 @@
 # Architecture
 
-Use this role when a change affects domain boundaries, invariants or integration contracts. Apply Domain-Driven Design (DDD) when domain meaning or ownership is at stake. Use [domain modeling](cap/domain-modeling-rigor.md) to define the shared language, bounded contexts and the invariants each context owns. Specify the contract across each affected boundary. Use [architecture decision rigor](cap/architecture-decision-rigor.md) to compare alternatives and recommend a verifiable design with its trade-offs and migration consequences.
+Use this role when a change affects domain boundaries, invariants or integration contracts. Apply Domain-Driven Design (DDD) when domain meaning or ownership is at stake. Use [domain modeling](cap/domain-modeling-rigor.md) to define the shared language, bounded contexts and the invariants each context owns. Specify the contract across each affected boundary. When a shared interface changes, hand Implementation the invariant and a case that distinguishes valid from invalid behavior. Identify any unresolved product decision for Requirements. Use [architecture decision rigor](cap/architecture-decision-rigor.md) to compare alternatives and recommend a verifiable design with its trade-offs and migration consequences.
 
 ## Local capabilities
 

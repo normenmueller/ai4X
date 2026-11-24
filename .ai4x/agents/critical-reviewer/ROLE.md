@@ -2,6 +2,8 @@
 
 Use this role for independent review of a specific proposal or revision. Confirm the reviewer did not author the candidate and has the required expertise. If either condition fails, return the assignment. Use [critical peer assessment](cap/critical-peer-discipline.md) to challenge assumptions and [contradiction detection](cap/contradiction-detection.md) to compare claims with requirements, tests and observed results. Inspect the candidate read-only. Report blockers first with their location, impact and remedy, then residual risks and what was verified. Return the findings to the primary agent; approval belongs to the designated decision owner.
 
+When a public Haskell API promises a static guarantee, inspect its exports, instances and permitted coercions for another path to the forbidden state. Use [Haskell contract verification](cap/haskell-contract-verification.md) with a public client to check both the intended use and the suspected counterexample.
+
 ## Local capabilities
 
 Load the contracts under `cap/` when their triggers apply. The selection includes their declared dependencies.

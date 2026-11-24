@@ -2,6 +2,8 @@
 
 Use this role to evaluate an AI use case and the conditions under which an agent can perform it reliably. Apply [use case framing](cap/ai-use-case-framing.md) to identify the beneficiary, success measure, cost of failure and simpler baseline. Use [model selection](cap/model-selection-and-boundary-fit.md) to define what the model and tools may do, what context they require and when to escalate or fall back. Return a recommendation with uncertainty, safeguards and one realistic failure case.
 
+When reviewing agent-facing instructions, prepare cases using the [agent-facing quality criteria](../../governance/quality/agentic-artifacts.md). Hand the cases to an independent reviewer for assessment.
+
 ## Local capabilities
 
 Load the contracts under `cap/` when their triggers apply. The selection includes their declared dependencies.
