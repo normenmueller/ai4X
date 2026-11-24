@@ -153,6 +153,12 @@ A catalog entry identifies a source pair. Approval of a release requires a decis
 | `haskell-implementation` | [haskell-implementation.md](engineering/haskell/haskell-implementation.md) | Implement a Haskell contract with explicit failure, effects and evaluation behavior. | Use when writing or changing a Haskell function, module or adapter against an established contract. | Only a representation decision or an independent assessment of an existing implementation is requested. | functional-error-modeling: Generic error modeling defines failure meanings. Haskell implementation realizes those meanings with concrete combinators, resource handling and evaluation behavior. | `[]` | `[]` |
 | `haskell-contract-verification` | [haskell-contract-verification.md](engineering/haskell/haskell-contract-verification.md) | Choose and execute evidence that can falsify a claimed property of a public Haskell API. | Use when a Haskell change claims a type guarantee, a behavioral law, runtime validation or a cost bound. | The question is purely about project sign-off or a language-independent quality gate. | technical-output-validation: Technical output validation assesses fit for a strategic decision. Haskell contract verification tests a specific compiler, runtime or evaluation claim. | `[]` | `[]` |
 
+#### TypeScript (draft)
+
+| ID | File | Purpose | Use When | Do Not Use When | Distinguish From | Requires | Conflicts |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `typescript-boundary-validation` | [typescript-boundary-validation.md](engineering/typescript/typescript-boundary-validation.md) | Decode untrusted input into a TypeScript domain value or a typed validation failure. | Use when implementing or reviewing a TypeScript boundary that receives a value whose runtime shape is unverified. | Only the location of an IO boundary or the meaning of domain errors is being decided. | side-effect-boundary-discipline: Boundary discipline places validation at entry. This capability checks how TypeScript code establishes a domain value from runtime evidence. | `[]` | `[]` |
+
 ## Foundation
 
 | ID | File | Purpose | Use When | Do Not Use When | Distinguish From | Requires | Conflicts |

@@ -1,0 +1,21 @@
+id: typescript-boundary-validation
+version: 0.1.0
+owner: nemron
+requires: []
+conflicts: []
+do_not_use_when:
+  - "Only the location of an IO boundary or the meaning of domain errors is being decided."
+distinguish_from:
+  - id: side-effect-boundary-discipline
+    boundary: "Boundary discipline places validation at entry. This capability checks how TypeScript code establishes a domain value from runtime evidence."
+sources:
+  - title: "TypeScript Handbook: Narrowing"
+    organization: "Microsoft"
+    url: "https://www.typescriptlang.org/docs/handbook/2/narrowing.html"
+    kind: "domain-reference"
+    accessed_at: 2026-11-24
+  - title: "TypeScript Handbook: Type Assertions"
+    organization: "Microsoft"
+    url: "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-assertions"
+    kind: "domain-reference"
+    accessed_at: 2026-11-24
