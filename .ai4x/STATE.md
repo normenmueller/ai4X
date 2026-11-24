@@ -7,7 +7,7 @@ Owning Issue: none
 ## Return context
 
 - nemron directly assigned the research-branch review. [#104](https://github.com/normenmueller/ai4X/issues/104) holds the research evidence and [the decision on conflicting rules](https://github.com/normenmueller/ai4X/issues/104#issuecomment-7126027843). The project adopted that rule in `c3f8f76`.
-- Read the quality verdict in [#104](https://github.com/normenmueller/ai4X/issues/104) and the open host evidence in [#106](https://github.com/normenmueller/ai4X/issues/106). Confirm nemron’s disposition of the remaining host uncertainty before resuming research migration. Once cleared, compare the historical [Self-Scoping Rule](https://github.com/normenmueller/ai4X/blob/cac1d37c294a22aef71b46e55289f88134c7043d/.github/agents/ai4x.agent.md#L181-L183) with [TEAM](TEAM.md) and the assigned role. What should an agent do when a request falls outside its mandate?
+- nemron released the research comparison with host verification still open in [#106](https://github.com/normenmueller/ai4X/issues/106). The [Self-Scoping comparison and Corpus advice proposal](https://github.com/normenmueller/ai4X/issues/104#issuecomment-7131402713) are ready for his decision.
 - Reserve the historical Doctor checks for the CLI comparison. After the research branch, review the documentation branch and then the backups.
 
 ## Route
