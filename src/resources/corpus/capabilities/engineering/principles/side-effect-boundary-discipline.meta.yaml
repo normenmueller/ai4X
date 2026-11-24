@@ -1,5 +1,5 @@
 id: side-effect-boundary-discipline
-version: 0.1.0
+version: 0.2.0
 owner: nemron
 requires: ["immutability-by-default","functional-error-modeling"]
 conflicts: []

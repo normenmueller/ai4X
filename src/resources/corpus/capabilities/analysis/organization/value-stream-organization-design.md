@@ -18,7 +18,7 @@ Use when designing or reviewing organizational structures against end-to-end val
 
 ## Fallback
 
-- If the relevant evidence, scope, or comparison basis is incomplete, keep the result provisional and name the missing analytical basis.
+- If the stream outcome or a control obligation is unclear, map the known handoffs and mark the proposed ownership boundary provisional until the responsible party confirms the constraint.
 
 ## Minimal Output Contract
 

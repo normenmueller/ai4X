@@ -17,7 +17,7 @@ Use when designing extensible behavior or type relationships.
 
 ## Fallback
 
-- If the relevant boundary, contract, or design context is incomplete, keep the judgment provisional and name the missing engineering information.
+- If substitutability is unclear, describe one caller expectation a proposed subtype must preserve. Keep inheritance provisional until that example is checked.
 
 ## Minimal Output Contract
 

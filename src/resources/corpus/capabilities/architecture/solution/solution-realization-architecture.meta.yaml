@@ -1,16 +1,16 @@
 id: solution-realization-architecture
-version: 0.1.0
+version: 0.1.1
 owner: nemron
 requires: ["baseline-target-gap-analysis","transition-architecture-planning","architecture-decision-rigor"]
 conflicts: []
 do_not_use_when: ["when the task is enterprise or segment governance without a concrete solution scope","when the task is generic project planning or handover without architecture realization content"]
 distinguish_from:
   - id: segment-architecture-stewardship
-    boundary: "TBD"
+    boundary: "Use segment stewardship for the policies and roadmap shared across an entire segment."
   - id: transition-architecture-planning
-    boundary: "TBD"
+    boundary: "Use transition planning for the entry and exit conditions between states. Solution realization also defines components, interfaces and implementation governance."
   - id: agentic-solution-architecture
-    boundary: "TBD"
+    boundary: "Use agentic solution architecture to locate reasoning, state, tools and escalation inside an agent runtime."
 sources:
   - title: "Architecture Roles and Skills - Solution Architect"
     organization: "The Open Group"

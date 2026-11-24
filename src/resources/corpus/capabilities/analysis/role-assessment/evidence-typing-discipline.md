@@ -19,7 +19,7 @@ Use when materially relevant claims, findings, or recommendations depend on sour
 
 ## Fallback
 
-- If the relevant evidence, scope, or comparison basis is incomplete, keep the result provisional and name the missing analytical basis.
+- If a claim has neither a source anchor nor an explicit derivation, record it as an evidence gap. Request the observation or reasoning needed before using the claim in a recommendation.
 
 ## Minimal Output Contract
 

@@ -1,18 +1,18 @@
 id: business-service-architecture
-version: 0.1.0
+version: 0.1.1
 owner: nemron
 requires: ["segment-architecture-stewardship","capability-map-governance"]
 conflicts: []
 do_not_use_when: ["when data, application, or technology-domain concerns dominate the architecture problem","when the task is generic strategic planning without a business-architecture boundary"]
 distinguish_from:
   - id: capability-map-governance
-    boundary: "TBD"
+    boundary: "Use map governance to define capability granularity or prioritize gaps across the map. Service architecture relates a service to its delivery and outcomes."
   - id: data-governance-architecture
-    boundary: "TBD"
+    boundary: "Use data governance to assign stewardship or protection of the records a business service uses."
   - id: application-integration-architecture
-    boundary: "TBD"
+    boundary: "Use application integration to determine which systems expose or consume the interfaces that support a business service."
   - id: technology-platform-architecture
-    boundary: "TBD"
+    boundary: "Use platform architecture for the shared infrastructure or service levels on which delivery depends."
 sources:
   - title: "Architecture Roles and Skills - Segment Architect (Business and Technical)"
     organization: "The Open Group"

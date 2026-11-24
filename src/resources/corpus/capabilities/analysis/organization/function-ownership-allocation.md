@@ -18,7 +18,7 @@ Use when assigning accountability for materially relevant functions across teams
 
 ## Fallback
 
-- If the relevant evidence, scope, or comparison basis is incomplete, keep the result provisional and name the missing analytical basis.
+- If no mandate identifies an accountable owner, list the affected function, the candidate owners and who can resolve the assignment. Leave ownership open.
 
 ## Minimal Output Contract
 

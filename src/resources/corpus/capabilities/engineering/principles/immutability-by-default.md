@@ -18,7 +18,7 @@ Use when designing or reviewing stateful domain behavior and mutation boundaries
 
 ## Fallback
 
-- If the relevant boundary, contract, or design context is incomplete, keep the judgment provisional and name the missing engineering information.
+- If the owner or lifetime of mutable state is unknown, keep the proposed exception open. Identify the writer and the state transition that would justify it.
 
 ## Minimal Output Contract
 

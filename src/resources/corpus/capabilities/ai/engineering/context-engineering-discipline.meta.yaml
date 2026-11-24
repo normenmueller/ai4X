@@ -1,10 +1,12 @@
 id: context-engineering-discipline
-version: 0.1.0
+version: 0.1.1
 owner: nemron
 requires: ["deterministic-reasoning","clarification-before-guessing"]
 conflicts: []
-do_not_use_when: []
-distinguish_from: []
+do_not_use_when: ["The task is limited to setting system-wide source access or claim traceability policy."]
+distinguish_from:
+  - id: grounding-and-context-architecture
+    boundary: "Select, order and truncate permitted material for a model call. The architecture decision sets source authority, retrieval scope and access boundaries."
 sources:
   - title: "Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile"
     organization: "NIST"

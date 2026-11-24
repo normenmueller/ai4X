@@ -17,7 +17,7 @@ Use when creating, reviewing, or governing capability maps as architecture contr
 
 ## Fallback
 
-- If scope, stakeholders, or model boundaries are unclear, keep the output provisional and name the unresolved architecture decisions.
+- If two entries use different levels of detail, show the ambiguous pair and the decision the map must support. Defer scoring or merging them until their scope is comparable.
 
 ## Minimal Output Contract
 

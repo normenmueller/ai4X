@@ -1,5 +1,5 @@
 id: change-impact-analysis
-version: 0.1.0
+version: 0.2.0
 owner: nemron
 requires: ["architecture-decision-rigor","abstraction-boundary-discipline"]
 conflicts: []

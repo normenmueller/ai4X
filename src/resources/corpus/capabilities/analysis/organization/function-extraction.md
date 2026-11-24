@@ -17,7 +17,7 @@ Use when source material contains business or organizational work statements tha
 
 ## Fallback
 
-- If the relevant evidence, scope, or comparison basis is incomplete, keep the result provisional and name the missing analytical basis.
+- If a source names a team or tool without saying what work it performs, preserve the source wording and ask which action and outcome it represents. Leave the function provisional.
 
 ## Minimal Output Contract
 

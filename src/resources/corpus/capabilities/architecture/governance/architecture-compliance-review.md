@@ -17,7 +17,7 @@ Use when reviewing target states, architectures, or solution directions against 
 
 ## Fallback
 
-- If scope, stakeholders, or model boundaries are unclear, keep the output provisional and name the unresolved architecture decisions.
+- If the applicable standard or approved exception is missing, record the observed design and request that authority. Leave the verdict open.
 
 ## Minimal Output Contract
 

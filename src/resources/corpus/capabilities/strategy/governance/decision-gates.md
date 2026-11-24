@@ -18,15 +18,16 @@ Use when a strategic recommendation, prioritization, or decision artifact may mo
 - Missing gate dimensions must be named explicitly, never assumed silently.
 - If mandatory gate dimensions are missing, the result remains `preliminary`.
 - If work must continue despite gaps, assumptions must be explicit and their consequence must be stated.
-- `final` is allowed only when gate dimensions are complete or the remaining assumptions were explicitly accepted.
+- Mark the recommendation `final` only after its mandatory dimensions and required evidence are complete. The decision owner may accept a stated assumption about a remaining uncertainty. Record who accepted it and its consequence. An assumption cannot supply missing mandatory evidence, a decision owner or a required approval.
+- A final recommendation records advice. Identify any separate authorization required to act on it.
 - Ask only for the missing, decision-relevant points.
 
 ## Fallback
 
-- If gate dimensions remain incomplete, keep the result preliminary and list the blocking gate gaps or explicit assumptions.
+- If a mandatory gate is open, keep the recommendation preliminary and name the evidence or decision needed to close it. Record accepted assumptions separately from those blockers.
 
 ## Minimal Output Contract
 
 - missing gate dimensions
-- explicit assumptions (if used)
+- assumptions, their consequences and acceptance basis (if used)
 - current result status (`preliminary|final`)

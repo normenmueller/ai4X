@@ -17,7 +17,7 @@ Use when reviewing policies, processes, models, or interfaces that may be materi
 
 ## Fallback
 
-- If the relevant evidence, scope, or comparison basis is incomplete, keep the result provisional and name the missing analytical basis.
+- If two rules imply different outcomes and their precedence is unknown, show the triggering case and both outcomes. Refer the precedence decision to their governing owner.
 
 ## Minimal Output Contract
 

@@ -17,7 +17,7 @@ Use when comparing alternatives, roles, proposals, or candidate options that nee
 
 ## Fallback
 
-- If the relevant evidence, scope, or comparison basis is incomplete, keep the result provisional and name the missing analytical basis.
+- If one option lacks a value for a decision-relevant dimension, show that cell as unknown. Compare the supported dimensions and identify which conclusions depend on the missing value.
 
 ## Minimal Output Contract
 

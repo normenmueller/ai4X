@@ -20,7 +20,7 @@ Use when designing or reviewing IO-heavy logic, process control, or external act
 
 ## Fallback
 
-- If the relevant boundary, contract, or design context is incomplete, keep the judgment provisional and name the missing engineering information.
+- If the result of a partial external write is unknown, identify the observable state, the missing failure signal and the test needed before claiming a safe retry.
 
 ## Minimal Output Contract
 

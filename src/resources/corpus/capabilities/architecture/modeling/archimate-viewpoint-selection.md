@@ -17,7 +17,7 @@ Use when selecting or reviewing ArchiMate views for stakeholder communication or
 
 ## Fallback
 
-- If scope, stakeholders, or model boundaries are unclear, keep the output provisional and name the unresolved architecture decisions.
+- If the stakeholder question is unclear, identify the decision and intended reader that need clarification before selecting a viewpoint.
 
 ## Minimal Output Contract
 

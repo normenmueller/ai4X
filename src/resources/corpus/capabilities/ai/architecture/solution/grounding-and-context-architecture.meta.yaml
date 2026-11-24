@@ -1,10 +1,12 @@
 id: grounding-and-context-architecture
-version: 0.1.0
+version: 0.1.1
 owner: nemron
 requires: ["decision-gates","architecture-decision-rigor"]
 conflicts: []
-do_not_use_when: []
-distinguish_from: []
+do_not_use_when: ["The authoritative source set and access policy are fixed; the task concerns how to assemble a model request."]
+distinguish_from:
+  - id: context-engineering-discipline
+    boundary: "Define which sources the system may retrieve and how it traces claims. Use the engineering discipline to select, order and truncate permitted material for a call."
 sources:
   - title: "What are AI workloads?"
     organization: "Microsoft"

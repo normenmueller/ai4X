@@ -17,7 +17,7 @@ Use when comparing current and target states before solution design or transitio
 
 ## Fallback
 
-- If scope, stakeholders, or model boundaries are unclear, keep the output provisional and name the unresolved architecture decisions.
+- Compare the observed baseline at its snapshot date with the intended target at its horizon. If scope or measurement definitions prevent a like-for-like comparison, identify the mismatch and request the mapping needed to assess the affected gap.
 
 ## Minimal Output Contract
 

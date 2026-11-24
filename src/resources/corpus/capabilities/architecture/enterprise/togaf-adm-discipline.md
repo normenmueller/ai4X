@@ -17,7 +17,7 @@ Use when architecture work claims TOGAF alignment or needs phase-aware architect
 
 ## Fallback
 
-- If scope, stakeholders, or model boundaries are unclear, keep the output provisional and name the unresolved architecture decisions.
+- If the ADM entry point is unclear, identify the business driver, the next architecture decision and the missing prior work. Mark the proposed phase assignment provisional.
 
 ## Minimal Output Contract
 

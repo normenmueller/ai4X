@@ -17,7 +17,7 @@ Use when architecture evolution must be staged through deliberate intermediate s
 
 ## Fallback
 
-- If scope, stakeholders, or model boundaries are unclear, keep the output provisional and name the unresolved architecture decisions.
+- If a transition has no evidenced exit condition or containment path, mark that step provisional and identify what must be demonstrated before moving to the next state.
 
 ## Minimal Output Contract
 

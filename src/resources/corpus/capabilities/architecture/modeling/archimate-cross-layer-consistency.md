@@ -17,7 +17,7 @@ Use when reviewing ArchiMate models across multiple layers, views, or lifecycle 
 
 ## Fallback
 
-- If scope, stakeholders, or model boundaries are unclear, keep the output provisional and name the unresolved architecture decisions.
+- If a cross-view element cannot be matched, identify both views and the missing identity or relationship evidence. Leave the consistency finding open until the match is established.
 
 ## Minimal Output Contract
 

@@ -1,14 +1,14 @@
 id: transition-architecture-planning
-version: 0.1.0
+version: 0.2.0
 owner: nemron
 requires: ["baseline-target-gap-analysis"]
 conflicts: []
 do_not_use_when: ["when baseline and target have not been compared yet","when the task is a single target-state compliance check rather than staged change design"]
 distinguish_from:
   - id: baseline-target-gap-analysis
-    boundary: "TBD"
+    boundary: "Use gap analysis to establish what differs and why it matters. Transition planning defines how and when the next state can be entered."
   - id: solution-realization-architecture
-    boundary: "TBD"
+    boundary: "Use solution realization to define component topology and implementation governance for a concrete change. Transition planning focuses on the intermediate states."
 sources:
   - title: "The TOGAF Standard, 10th Edition"
     organization: "The Open Group"

@@ -1,16 +1,16 @@
 id: application-integration-architecture
-version: 0.1.0
+version: 0.1.1
 owner: nemron
 requires: ["segment-architecture-stewardship","architecture-decision-rigor"]
 conflicts: []
 do_not_use_when: ["when the problem is primarily data governance or technology platform architecture","when one concrete solution change needs realization governance more than domain architecture"]
 distinguish_from:
   - id: data-governance-architecture
-    boundary: "TBD"
+    boundary: "Use data governance for record ownership, retention and migration across those interfaces."
   - id: technology-platform-architecture
-    boundary: "TBD"
+    boundary: "Use platform architecture when the choice is the shared runtime or network standard on which the applications depend."
   - id: solution-realization-architecture
-    boundary: "TBD"
+    boundary: "Use solution realization to stage and govern one delivery across components after the application responsibilities are known."
 sources:
   - title: "Architecture Roles and Skills - Segment Architect (Business and Technical)"
     organization: "The Open Group"

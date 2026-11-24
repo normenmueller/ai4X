@@ -1,16 +1,16 @@
 id: data-governance-architecture
-version: 0.1.0
+version: 0.1.1
 owner: nemron
 requires: ["segment-architecture-stewardship"]
 conflicts: []
 do_not_use_when: ["when the main concern is application-service decomposition rather than data governance and lifecycle control","when the task is low-level schema hygiene without data-landscape architecture implications"]
 distinguish_from:
   - id: application-integration-architecture
-    boundary: "TBD"
+    boundary: "Use application integration to assign interface responsibilities between systems. Use data governance to assign accountability for the records they exchange."
   - id: technology-platform-architecture
-    boundary: "TBD"
+    boundary: "Use platform architecture for infrastructure and interoperability standards. Data governance decides what must be protected or retained on that infrastructure."
   - id: domain-modeling-rigor
-    boundary: "TBD"
+    boundary: "Use domain modeling to define the invariant of a value in an API. Data governance assigns stewardship and lifecycle controls across systems."
 sources:
   - title: "Architecture Roles and Skills - Segment Architect (Business and Technical)"
     organization: "The Open Group"

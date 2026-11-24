@@ -17,7 +17,7 @@ Use when reviewing text, specifications, contracts, or guidance that may allow m
 
 ## Fallback
 
-- If the relevant evidence, scope, or comparison basis is incomplete, keep the result provisional and name the missing analytical basis.
+- If the wording supports only one operational reading, report no ambiguity. If missing context prevents checking whether another materially different reading is plausible, identify that gap and ask for the specific context.
 
 ## Minimal Output Contract
 

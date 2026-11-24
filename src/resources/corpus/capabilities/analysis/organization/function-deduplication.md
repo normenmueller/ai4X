@@ -17,7 +17,7 @@ Use when a normalized function set may contain duplicate or near-duplicate funct
 
 ## Fallback
 
-- If the relevant evidence, scope, or comparison basis is incomplete, keep the result provisional and name the missing analytical basis.
+- If the statements might have different triggers, owners or outcomes, keep both. Identify the source detail that would justify merging them.
 
 ## Minimal Output Contract
 

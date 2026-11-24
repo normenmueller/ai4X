@@ -1,12 +1,12 @@
 id: archimate-cross-layer-consistency
-version: 0.1.0
+version: 0.2.0
 owner: nemron
 requires: ["archimate-viewpoint-selection"]
 conflicts: []
 do_not_use_when: ["when the main task is choosing viewpoints rather than validating cross-layer model consistency"]
 distinguish_from:
   - id: archimate-viewpoint-selection
-    boundary: "TBD"
+    boundary: "Use viewpoint selection to choose what a stakeholder needs to see. Check consistency when the same element or relationship appears across views."
 sources:
   - title: "The TOGAF Standard, 10th Edition"
     organization: "The Open Group"

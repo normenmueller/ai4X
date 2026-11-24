@@ -8,6 +8,7 @@ The [task index](index.yaml) lists the contracts for each task and their prerequ
 
 | Task | Start here |
 | --- | --- |
+| Resolve conflicting instructions | [Rule precedence](rule-precedence.md) |
 | Name a curated agent role | [Role names and working methods](agent-role-naming.md) |
 | Define, admit, version or retire a capability | [Capability authoring](capability-authoring-governance.md) |
 | Examine a collection for gaps, overlap or stale guidance | [Capability sweep](capability-sweep.md) |

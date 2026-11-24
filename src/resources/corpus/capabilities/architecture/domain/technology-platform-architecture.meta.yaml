@@ -1,16 +1,16 @@
 id: technology-platform-architecture
-version: 0.1.0
+version: 0.1.1
 owner: nemron
 requires: ["segment-architecture-stewardship"]
 conflicts: []
 do_not_use_when: ["when the dominant concern is application-service architecture or data governance rather than platform and infrastructure design","when the task is an operational runbook without architecture-level platform decisions"]
 distinguish_from:
   - id: application-integration-architecture
-    boundary: "TBD"
+    boundary: "Use application integration to define the interface between two services. Platform architecture sets the common runtime or network standard they rely on."
   - id: data-governance-architecture
-    boundary: "TBD"
+    boundary: "Use data governance for the ownership, retention or protection requirements the platform must satisfy."
   - id: solution-realization-architecture
-    boundary: "TBD"
+    boundary: "Use solution realization for the rollout of a particular solution on the platform. Platform architecture sets the standards shared by its consumers."
 sources:
   - title: "Architecture Roles and Skills - Segment Architect (Business and Technical)"
     organization: "The Open Group"

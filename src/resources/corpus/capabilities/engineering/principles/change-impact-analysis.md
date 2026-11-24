@@ -17,7 +17,7 @@ Use when preparing or reviewing non-trivial changes with possible cross-boundary
 
 ## Fallback
 
-- If the relevant boundary, contract, or design context is incomplete, keep the judgment provisional and name the missing engineering information.
+- If a consumer or data dependency cannot be traced, name the unverified connection and its possible effect. Keep the impact estimate provisional and identify a check before implementation.
 
 ## Minimal Output Contract
 
