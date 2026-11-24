@@ -19,11 +19,11 @@ Use when strategic choices, interventions, or reviews depend on explicit measure
 - Every baseline must carry an `as-of` date.
 - If a target is named, its time point must be explicit.
 - Do not treat a KPI as the measured value; measured values are observations at a point in time.
-- The relationship between north star, supporting KPIs, and guardrails must be explicit.
+- When several KPIs form a hierarchy, state the relationship between the north star, supporting KPIs and guardrails.
 
 ## Fallback
 
-- If the measurement domain, measurement definition, scope, source, or timing is incomplete, keep the KPI system provisional and name the missing measurement semantics.
+- If it is unclear what is being measured, or its definition, scope, source or timing is missing, keep the KPI system provisional and name the gap. One fully defined KPI can stand alone without a separate KPI-Domain or hierarchy.
 
 ## Minimal Output Contract
 
