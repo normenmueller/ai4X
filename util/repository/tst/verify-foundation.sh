@@ -29,10 +29,16 @@ mkdir -p "$base_root/src/foundation/declaration-protocol"
 mkdir -p "$base_root/src/foundation/generation"
 mkdir -p "$base_root/src/domains"
 mkdir -p "$base_root/src/interfaces"
-corpus_root="$base_root/src/resources/corpus/capability/foundation/core"
+corpus_root="$base_root/src/resources/corpus/capability/analysis/evidence"
 mkdir -p "$corpus_root"
 printf '# Sample capability\n' >"$corpus_root/sample.md"
 printf 'version: 0.1.0\n' >"$corpus_root/sample.meta.yaml"
+
+profile_root="$base_root/src/resources/corpus/agent/curation/mechthild"
+mkdir -p "$profile_root/cap"
+printf '# Sample role\n' >"$profile_root/ROLE.md"
+printf 'sources: []\n' >"$profile_root/cap/cap.compose.yaml"
+cp "$corpus_root/sample.md" "$corpus_root/sample.meta.yaml" "$profile_root/cap/"
 
 schema_root="$base_root/src/resources/corpus/schema"
 mkdir -p "$schema_root"
@@ -277,7 +283,7 @@ printf '{}\n' >"$case_root/$unexpected_path"
 expect_failure "$case_root" workspace "$unexpected_path"
 
 case_root=$(copy_case unexpected-capability-file)
-unexpected_path=src/resources/corpus/capability/foundation/core/sample.dhall
+unexpected_path=src/resources/corpus/capability/analysis/evidence/sample.dhall
 printf '{}\n' >"$case_root/$unexpected_path"
 expect_failure "$case_root" workspace "$unexpected_path"
 

@@ -126,12 +126,11 @@ REQUIRED_DIRS := \
 	src/interfaces/cli \
 	src/interfaces/adapters/codex \
 	src/interfaces/adapters/github \
-	src/resources/agent \
-	src/resources/assurance/pack \
 	src/resources/bundle \
+	src/resources/corpus/agent \
+	src/resources/corpus/assurance \
 	src/resources/corpus/capability \
 	src/resources/corpus/governance \
-	src/resources/corpus/release \
 	src/resources/corpus/schema \
 	src/resources/skeleton \
 	util/assurance \

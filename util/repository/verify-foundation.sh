@@ -311,8 +311,8 @@ for future_root in src/domains src/interfaces src/resources; do
     relative_future=${future_file#"$repository_root"/}
     # The reboot preserves the historical corpus before formal release admission.
     case "$relative_future" in
-      src/resources/agent/architecture/adelheid/* | src/resources/agent/architecture/alfhilde/* | src/resources/agent/architecture/brunhilde/* | src/resources/agent/architecture/dagmar/* | src/resources/agent/architecture/gerlinde/* | src/resources/agent/architecture/hildegard/* | src/resources/agent/architecture/tilda/* | src/resources/agent/curation/mechthild/*)
-        profile_file=${relative_future#src/resources/agent/*/*/}
+      src/resources/corpus/agent/architecture/adelheid/* | src/resources/corpus/agent/architecture/alfhilde/* | src/resources/corpus/agent/architecture/brunhilde/* | src/resources/corpus/agent/architecture/dagmar/* | src/resources/corpus/agent/architecture/gerlinde/* | src/resources/corpus/agent/architecture/hildegard/* | src/resources/corpus/agent/architecture/tilda/* | src/resources/corpus/agent/curation/mechthild/*)
+        profile_file=${relative_future#src/resources/corpus/agent/*/*/}
         case "$profile_file" in
           cap/*/*) ;;
           ROLE.md | cap/cap.compose.yaml | cap/*.md | cap/*.meta.yaml) continue ;;
