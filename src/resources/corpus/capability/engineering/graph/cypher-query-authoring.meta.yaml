@@ -1,0 +1,16 @@
+id: cypher-query-authoring
+version: 0.1.0
+owner: nemron
+requires: []
+conflicts: []
+do_not_use_when:
+  - "Only runtime cost is at issue and the result contract is established."
+distinguish_from:
+  - id: neo4j-query-tuning
+    boundary: "Authoring establishes the correct result. Tuning measures the cost of obtaining it."
+sources:
+  - title: "Working with null"
+    organization: "Neo4j"
+    url: "https://neo4j.com/docs/cypher-manual/current/values-and-types/working-with-null/"
+    kind: "domain-reference"
+    accessed_at: 2026-11-26
