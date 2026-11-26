@@ -19,7 +19,9 @@ Assurance packs are possible portfolio offerings under the product architecture.
 
 The recommended revision to the layout below is to group `agent/` with `capability/` under `corpus/`. Both contain reusable material for assembling a project team. Governance supplies reusable rules and schema describes artifact formats. A profile may change on its own. Co-location would confer neither release admission nor team membership. The current alternative keeps profiles beside the corpus and emphasizes their independent lifecycle; it requires readers to know that the two source collections belong together.
 
-Keep deterministic assurance packs, distributable bundles and starter skeletons alongside the corpus according to their product purpose. A resource index can route agents to the available kinds if enumeration ceases to suffice. Project Memory identifies the team actually in use. The seven proposed capability moves are a separate decision.
+The PO approved `src/resources/corpus/assurance/<pack>/` as the target for reusable deterministic check packs. Each pack sits directly under `assurance/`. The current checkout still reserves `src/resources/assurance/pack/`; moving that placeholder is a separate implementation step. Haskell execution and receipt generation belong to `src/domains/assurance/`.
+
+For project entry, the recommendation is to keep `skeleton/` and `bundle/` beside the corpus. A skeleton supplies the starting files for a new project. A project bundle composes versioned inputs and can reference a skeleton, team and governance selections. [Project entry](https://github.com/normenmueller/ai4X/issues/86) describes this distinction. A reusable named team is a separate use case under [evaluation](https://github.com/normenmueller/ai4X/issues/208); its packaging and source location remain open. A resource index can route agents to the available kinds if enumeration ceases to suffice. Project Memory identifies the team actually in use. The seven proposed capability moves are a separate decision.
 
 ## Does corpus need a release directory?
 
@@ -47,9 +49,9 @@ corpus/
     engineering/{graph,haskell,principle,typescript}
     foundation/
     strategy/{analysis,delivery,evaluation,goal-management,governance,metric,workflow}
+  assurance/<pack>/
   governance/{delivery,quality}
   schema/
-assurance/pack/
 bundle/
 skeleton/
 ```
