@@ -15,7 +15,7 @@ Reusable profiles live under `src/resources/agent/<use-case-domain>/<name>/`. Ea
 | Mechthild | M · methods | Elicit a project's need and assemble a suitable local agent. |
 | Hildegard | H · holistic architecture | Lead architecture across portfolios and coordinate the other architects as [TOGAF Chief Architect](../capability-corpus/togaf-roles.md). |
 | [Adelheid](../../../src/resources/agent/architecture/adelheid/ROLE.md) | A · architecture enterprise | Integrate enterprise architecture across segments and align their roadmaps. |
-| Brunhilde | B · business | Model business capabilities, services and stakeholder needs. |
+| [Brunhilde](../../../src/resources/agent/architecture/brunhilde/ROLE.md) | B · business | Model business capabilities, services and stakeholder needs. |
 | Dagmar | D · data | Establish data ownership and guide integration, migration and protection. |
 | [Alfhilde](../../../src/resources/agent/architecture/alfhilde/ROLE.md) | A · application | Define application boundaries, interfaces and integration. |
 | Tilda | T · technology | Guide platform standards, infrastructure and interoperability. |
