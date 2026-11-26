@@ -1,0 +1,15 @@
+id: archimate-cross-layer-consistency
+version: 0.2.2
+owner: nemron
+requires: []
+conflicts: []
+do_not_use_when: ["when the main task is choosing viewpoints rather than validating cross-layer model consistency"]
+distinguish_from:
+  - id: archimate-viewpoint-selection
+    boundary: "Use viewpoint selection to choose what a stakeholder needs to see. Check consistency when the same element or relationship appears across views."
+sources:
+  - title: "ArchiMate 3.2 Specification"
+    organization: "The Open Group"
+    url: "https://pubs.opengroup.org/architecture/archimate32-doc/"
+    kind: "standard"
+    accessed_at: "2026-03-20"

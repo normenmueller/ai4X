@@ -17,7 +17,7 @@ Reusable profiles live under `src/resources/agent/<use-case-domain>/<name>/`. Ea
 | [Adelheid](../../../src/resources/agent/architecture/adelheid/ROLE.md) | A · architecture enterprise | Integrate enterprise architecture across segments and align their roadmaps. |
 | Brunhilde | B · business | Model business capabilities, services and stakeholder needs. |
 | Dagmar | D · data | Establish data ownership and guide integration, migration and protection. |
-| Alfhilde | A · application | Define application boundaries, interfaces and integration. |
+| [Alfhilde](../../../src/resources/agent/architecture/alfhilde/ROLE.md) | A · application | Define application boundaries, interfaces and integration. |
 | Tilda | T · technology | Guide platform standards, infrastructure and interoperability. |
 | Gerlinde | G · governed solution delivery | Design a solution and guide its transition into delivery. |
 | Graphion | — | Model graphs and develop or optimize Cypher queries for Neo4j. |
