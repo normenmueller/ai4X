@@ -17,9 +17,13 @@ Assurance packs are possible portfolio offerings under the product architecture.
 
 ## Where a PO should find reusable profiles
 
-The recommended revision to the layout below is to group `agent/` with `capability/` under `corpus/`. Both contain reusable material for assembling a project team. Governance supplies reusable rules, schema describes artifact formats and release records which revisions have been admitted. A profile may change on its own. Co-location would confer neither release admission nor team membership. The current alternative keeps profiles beside the corpus and emphasizes their independent lifecycle; it requires readers to know that the two source collections belong together.
+The recommended revision to the layout below is to group `agent/` with `capability/` under `corpus/`. Both contain reusable material for assembling a project team. Governance supplies reusable rules and schema describes artifact formats. A profile may change on its own. Co-location would confer neither release admission nor team membership. The current alternative keeps profiles beside the corpus and emphasizes their independent lifecycle; it requires readers to know that the two source collections belong together.
 
 Keep deterministic assurance packs, distributable bundles and starter skeletons alongside the corpus according to their product purpose. A resource index can route agents to the available kinds if enumeration ceases to suffice. Project Memory identifies the team actually in use. The seven proposed capability moves are a separate decision.
+
+## Does corpus need a release directory?
+
+A Corpus release identifies the capability revisions admitted for product use. For example, two capabilities at the same repository commit can have different admission decisions. A Git tag alone identifies the commit; the approved selection must also be recoverable. Today `corpus/release/` contains only `.gitkeep`. We recommend dropping that placeholder from the proposed tree and keeping the release concept in the architecture. Choose the storage and format when a consumer needs the first approved selection. This leaves profile admission and CLI distribution as separate decisions.
 
 ## Target tree
 
@@ -44,7 +48,6 @@ corpus/
     foundation/
     strategy/{analysis,delivery,evaluation,goal-management,governance,metric,workflow}
   governance/{delivery,quality}
-  release/
   schema/
 assurance/pack/
 bundle/
