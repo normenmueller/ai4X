@@ -1,0 +1,8 @@
+id: function-deduplication
+version: 0.2.0
+owner: nemron
+requires: ["function-extraction"]
+conflicts: []
+do_not_use_when: []
+distinguish_from: []
+sources: []

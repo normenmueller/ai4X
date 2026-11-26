@@ -1,0 +1,13 @@
+id: agent-team-curation
+version: 0.1.0
+owner: nemron
+requires: ["comparison-dimension-discipline", "decision-gates"]
+conflicts: []
+do_not_use_when:
+  - "The user is clarifying the need or has only requested candidate discovery."
+distinguish_from:
+  - id: portfolio-prioritization
+    boundary: "Portfolio prioritization ranks initiatives for investment. Agent and team curation selects capabilities and role assignments for a confirmed need."
+  - id: function-ownership-allocation
+    boundary: "Ownership allocation assigns a function. Curation also checks capability coverage and specifies how the proposed roles work together."
+sources: []

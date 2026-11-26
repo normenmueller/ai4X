@@ -2,7 +2,7 @@
 
 **Design proposal · work in progress.**
 
-Use this portfolio to choose an agent by name for a recurring task. Each profile combines a role with the capabilities that support its work. Sigrid helps decide which strategic initiatives to prioritize. Hildegard coordinates architecture across those initiatives. Mechthild starts with a project's need and selects capabilities for a project-local agent.
+Use this portfolio to choose an agent by name for a recurring task. Each profile combines a role with the capabilities that support its work. Sigrid helps decide which strategic initiatives to prioritize. Hildegard coordinates architecture across those initiatives. Mechthild interviews the requester about the need, then curates an agent or team for the confirmed outcome.
 
 Reusable profiles live under `src/resources/agent/<use-case-domain>/<name>/`. Each profile has a `ROLE.md` and a `cap/cap.compose.yaml` that records its selected capability IDs and source revision. The adjacent contracts and metadata include their dependencies. When migrating a profile, rebuild its capabilities from the ai4X corpus. If an essential capability is missing, bring the gap and a reusable definition to the Product Owner before extending the corpus or adopting the profile.
 
@@ -28,7 +28,7 @@ A dash indicates that the profile has no documented naming mnemonic.
 
 | Name | Naming mnemonic | What someone would ask this agent to do |
 | --- | --- | --- |
-| Mechthild | M · methods | Elicit a project's need and assemble a suitable local agent. |
+| [Mechthild](../../../src/resources/agent/curation/mechthild/ROLE.md) | M · methods | Clarify why a change matters and what the requester needs, then curate an agent or team for the confirmed outcome. |
 
 ### Engineering
 
