@@ -18,7 +18,7 @@ Each profile must work when it is the only agent in a project. During migration 
 | Hildegard | H · holistic architecture | Lead architecture across portfolios and coordinate the other architects as [TOGAF Chief Architect](../capability-corpus/togaf-roles.md). |
 | [Adelheid](../../../src/resources/agent/architecture/adelheid/ROLE.md) | A · architecture enterprise | Integrate enterprise architecture across segments and align their roadmaps. |
 | [Brunhilde](../../../src/resources/agent/architecture/brunhilde/ROLE.md) | B · business | Model business capabilities, services and stakeholder needs. |
-| Dagmar | D · data | Establish data ownership and guide integration, migration and protection. |
+| [Dagmar](../../../src/resources/agent/architecture/dagmar/ROLE.md) | D · data | Establish data ownership and guide integration, migration and protection. |
 | [Alfhilde](../../../src/resources/agent/architecture/alfhilde/ROLE.md) | A · application | Define application boundaries, interfaces and integration. |
 | Tilda | T · technology | Guide platform standards, infrastructure and interoperability. |
 | Gerlinde | G · governed solution delivery | Design a solution and guide its transition into delivery. |
