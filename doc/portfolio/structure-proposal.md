@@ -4,31 +4,37 @@ Decision draft against review revision `fb3fa96`. The inventory covers 82 capabi
 
 ## Where the portfolio lives
 
-Use **resources** for the storage of versioned declarative product artifacts and **portfolio** for the reusable options a project can draw on. The [source architecture](../../.ai4x/context/architecture.md) defines the former. The [product architecture](../../.ai4x/context/need-to-capability.md) defines the latter. The [portfolio catalogue](README.md) already exposes the two discovery routes used by Mechthild: individual capabilities and reusable agent profiles. Her [role](../../src/resources/agent/curation/mechthild/ROLE.md) searches both after the requester confirms the need.
+Use **resources** for the storage of versioned declarative product artifacts and **portfolio** for the reusable options a project can draw on. The [source architecture](../../.ai4x/context/architecture.md) defines the former. The [product architecture](../../.ai4x/context/need-to-capability.md) defines the latter. The [portfolio catalogue](README.md) explains those options to human readers. Agents use project bindings and source inventories. In this checkout, [Mechthild](../../src/resources/agent/curation/mechthild/ROLE.md) searches the capability inventory and materialized role profiles after the requester confirms the need.
 
 | Physical layout | What it buys | Cost or condition |
 | --- | --- | --- |
-| Keep `src/resources/` and `doc/portfolio/` (recommended) | One physical owner per artifact. The catalogue lets a curator discover capabilities and profiles through one entry point. | Looking at the source root alone does not identify the portfolio. Make the two source entry points explicit in the catalogue. |
+| Keep `src/resources/` and `doc/portfolio/` (recommended) | One physical owner per artifact. The documentation gives people an overview; agents discover candidates from the source artifacts. | Looking at the source root alone does not identify the portfolio. Make the two source entry points explicit in the catalogue. |
 | Add `src/resources/portfolio/` | A natural home for a future machine-readable selection manifest if the product needs to answer which revisions it offers. | Give the manifest a consumer, selection semantics and an owner first. Moving the source artifacts under this name alone would still leave admission and version selection unresolved. |
 | Split `src/portfolio/` and `src/resources/` into siblings | Separates offered artifacts from supporting material if those sets acquire independent packaging or release lifecycles. | Today's corpus contains capability drafts, governance, a schema and a release location. A whole-directory move cannot draw that boundary accurately. |
 | Rename `src/resources/` to `src/portfolio/` | Puts a familiar product term in every source path. | Implies that every artifact under it is a portfolio offering. Even the metadata schema and the reserved skeleton location would acquire that implication. It would change the root of 465 tracked files at the reviewed revision. |
 
 Assurance packs are possible portfolio offerings under the product architecture. The bundle, assurance pack and skeleton locations currently contain placeholders. Classify a future populated artifact by what a project can select. A directory name alone establishes neither release admission nor project activation.
 
+## Where a PO should find reusable profiles
+
+The recommended revision to the layout below is to group `agent/` with `capability/` under `corpus/`. Both contain reusable material for assembling a project team. Governance supplies reusable rules, schema describes artifact formats and release records which revisions have been admitted. A profile may change on its own. Co-location would confer neither release admission nor team membership. The current alternative keeps profiles beside the corpus and emphasizes their independent lifecycle; it requires readers to know that the two source collections belong together.
+
+Keep deterministic assurance packs, distributable bundles and starter skeletons alongside the corpus according to their product purpose. A resource index can route agents to the available kinds if enumeration ceases to suffice. Project Memory identifies the team actually in use. The seven proposed capability moves are a separate decision.
+
 ## Target tree
 
 Paths are relative to `src/resources/`. Braces list sibling directories. The capability tree includes all existing branches at and below domain level. Agent rows with names in parentheses describe catalogue candidates awaiting migration.
 
 ```text
-agent/
-  architecture/{adelheid,alfhilde,brunhilde,dagmar,gerlinde,hildegard,tilda}
-  curation/mechthild
-  engineering/  (Graphion, Lamby)
-  general/      (Gertrud)
-  knowledge/    (Librarian)
-  learning/     (Citty)
-  strategy/     (Sigrid)
 corpus/
+  agent/
+    architecture/{adelheid,alfhilde,brunhilde,dagmar,gerlinde,hildegard,tilda}
+    curation/mechthild
+    engineering/  (Graphion, Lamby)
+    general/      (Gertrud)
+    knowledge/    (Librarian)
+    learning/     (Citty)
+    strategy/     (Sigrid)
   capability/
     ai/{architecture/{enterprise,governance,modeling,solution},consulting,engineering}
     analysis/{assessment,organization,specification}
@@ -49,7 +55,7 @@ A capability has one source home based on the judgment it contributes and the re
 
 ## Proposed path changes
 
-Paths below are relative to `corpus/capability/`. Each move includes the contract and its metadata. These seven contracts account for all proposed moves among the 82. All eight existing agent profiles already have a suitable primary home.
+Paths below are relative to `corpus/capability/`. Each move includes the contract and its metadata. These seven contracts account for all proposed moves among the 82. All eight existing agent profiles retain their domain and name in the proposed move from `agent/` to `corpus/agent/`.
 
 | Current | Proposed | Why a requester or curator would look there |
 | --- | --- | --- |
@@ -60,4 +66,4 @@ Paths below are relative to `corpus/capability/`. Each move includes the contrac
 
 ## Check before merging a future move
 
-Keep capability IDs stable. Update current source indexes, relative links and path-based checks in the same change. Resolve each pinned composition against its recorded revision and original inventory path. Preserve that historical provenance. For any deliberate re-pin, materialize and verify the new snapshot separately. Test discovery from both catalogue entries and check a cross-listed role reaches exactly one profile.
+Keep capability IDs stable. Update current source indexes, relative links and path-based checks in the same change. Resolve each pinned composition against its recorded revision and original inventory path. Preserve that historical provenance. For any deliberate re-pin, materialize and verify the new snapshot separately. Test agent discovery from the source inventories without loading human documentation. Check that the human catalogue links and cross-listed roles resolve to their intended source profiles.
