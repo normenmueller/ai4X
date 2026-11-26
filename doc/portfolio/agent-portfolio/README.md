@@ -6,6 +6,8 @@ Use this portfolio to choose an agent by name for a recurring task. Each profile
 
 Reusable profiles live under `src/resources/agent/<use-case-domain>/<name>/`. Each profile has a `ROLE.md` and a `cap/cap.compose.yaml` that records its selected capability IDs and source revision. The adjacent contracts and metadata include their dependencies. When migrating a profile, rebuild its capabilities from the ai4X corpus. If an essential capability is missing, bring the gap and a reusable definition to the Product Owner before extending the corpus or adopting the profile.
 
+Each profile must work when it is the only agent in a project. During migration and review, test one task within its mandate and one decision outside it with the neighboring role unfilled. The first task should proceed independently. For the second, the agent should explain the decision and its impact, recommend a course of action and refer it to an authorized person or assigned role. If the owner is unknown, the agent should ask the requester who can decide, leave that decision open and continue independent work.
+
 ## Agent profiles
 
 | Name | Naming mnemonic | What someone would ask this agent to do |
