@@ -1,0 +1,21 @@
+version: 0.1.0
+sources:
+  - kind: import
+    key: ai4x-corpus
+    inv: src/resources/corpus/capability
+    ref: 1f6942af95a8993c69ee2dc8a8004f2c32cba933
+    caps:
+      # Seven capabilities selected in the original profile.
+      - architecture-practice-leadership
+      - enterprise-architecture-integration
+      - architecture-compliance-review
+      - transition-architecture-planning
+      - ai-operating-model-architecture
+      - ai-evaluation-and-control-architecture
+      - agentic-solution-architecture
+      # Retain these methods for assignments matching their individual triggers.
+      - capability-map-governance
+      - baseline-target-gap-analysis
+      - togaf-adm-discipline
+      - archimate-viewpoint-selection
+      - archimate-cross-layer-consistency

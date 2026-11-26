@@ -1,0 +1,15 @@
+id: archimate-viewpoint-selection
+version: 0.2.2
+owner: nemron
+requires: []
+conflicts: []
+do_not_use_when: ["when the relevant problem is cross-layer inconsistency rather than viewpoint fit for a stakeholder question"]
+distinguish_from:
+  - id: archimate-cross-layer-consistency
+    boundary: "Use cross-layer consistency to reconcile a renamed element across existing views. Select a viewpoint when deciding what a stakeholder needs to see."
+sources:
+  - title: "ArchiMate 3.2 Specification"
+    organization: "The Open Group"
+    url: "https://pubs.opengroup.org/architecture/archimate32-doc/"
+    kind: "standard"
+    accessed_at: "2026-03-20"

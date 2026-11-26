@@ -1,0 +1,19 @@
+id: architecture-practice-leadership
+version: 0.1.2
+owner: nemron
+requires: ["strategic-fit"]
+conflicts: []
+do_not_use_when: ["when the task is detailed segment or solution design rather than architecture-practice leadership","when a conformance verdict is needed rather than leadership, sponsorship, or mandate creation"]
+distinguish_from:
+  - id: enterprise-architecture-integration
+    boundary: "Use enterprise integration to reconcile an actual roadmap dependency across segments. Practice leadership establishes the mandate to coordinate that work."
+  - id: architecture-compliance-review
+    boundary: "Use compliance review to assess a design against an approved standard. Practice leadership secures the mandate and resources for that review."
+  - id: strategic-fit
+    boundary: "Use strategic fit to decide whether an initiative merits investment. Practice leadership establishes sponsorship for the architecture function."
+sources:
+  - title: "Architecture Roles and Skills - Chief Architect"
+    organization: "The Open Group"
+    url: "https://pubs.opengroup.org/togaf-standard/architecture-roles-and-skills/chap04.html#_chief_architect"
+    kind: "standard"
+    accessed_at: "2026-03-24"

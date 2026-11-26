@@ -15,7 +15,7 @@ Each profile must work when it is the only agent in a project. During migration 
 | Gertrud | G · general | Clarify the task, then help reason through it in dialogue. |
 | Sigrid | S · strategic | Assess strategic fit, prioritize initiatives and shape a roadmap. |
 | Mechthild | M · methods | Elicit a project's need and assemble a suitable local agent. |
-| Hildegard | H · holistic architecture | Lead architecture across portfolios and coordinate the other architects as [TOGAF Chief Architect](../capability-corpus/togaf-roles.md). |
+| [Hildegard](../../../src/resources/agent/architecture/hildegard/ROLE.md) | H · holistic architecture | Lead architecture across portfolios and coordinate the other architects as [TOGAF Chief Architect](../capability-corpus/togaf-roles.md). |
 | [Adelheid](../../../src/resources/agent/architecture/adelheid/ROLE.md) | A · architecture enterprise | Integrate enterprise architecture across segments and align their roadmaps. |
 | [Brunhilde](../../../src/resources/agent/architecture/brunhilde/ROLE.md) | B · business | Model business capabilities, services and stakeholder needs. |
 | [Dagmar](../../../src/resources/agent/architecture/dagmar/ROLE.md) | D · data | Establish data ownership and guide integration, migration and protection. |
