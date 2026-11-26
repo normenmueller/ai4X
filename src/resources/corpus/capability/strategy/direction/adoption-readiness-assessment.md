@@ -1,18 +1,18 @@
-# AI Readiness Assessment (MUST)
+# Adoption Readiness Assessment (MUST)
 
 ## Purpose
 
-Assess whether an organization or initiative is ready to design, deploy, and control AI responsibly.
+Assess whether an initiative has the capabilities and controls to start or expand.
 
 ## Trigger
 
-Use when deciding whether an AI initiative should start, scale, or pause.
+Use when a decision owner needs evidence to start, scale or pause adoption.
 
 ## Rules (MUST)
 
 - Assess readiness across governance, data, platform, operations, skills, and organizational adoption.
 - Distinguish absent capability from immature capability instead of flattening both into a generic low score.
-- Evaluate readiness relative to the proposed use-case risk and autonomy level.
+- Judge readiness against the proposed scope and risk. For AI, assess data fitness, operating controls and human oversight at the intended autonomy level.
 - Make blocking gaps explicit before recommending scale or production use.
 - Do not claim readiness solely from tooling availability.
 
@@ -25,5 +25,5 @@ Use when deciding whether an AI initiative should start, scale, or pause.
 - readiness dimensions
 - maturity assessment per dimension
 - blocking gaps
-- scale or pause recommendation
+- start, scale or pause recommendation and its rationale
 - evidence gaps

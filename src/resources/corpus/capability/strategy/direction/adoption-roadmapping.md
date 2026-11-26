@@ -1,19 +1,19 @@
-# AI Adoption Roadmapping (MUST)
+# Adoption Roadmapping (MUST)
 
 ## Purpose
 
-Stage AI adoption from pilot to scaled operation with explicit maturity and control gates.
+Plan how to move from a pilot to wider use through explicit evidence and ownership at each stage.
 
 ## Trigger
 
-Use when an organization needs a sequenced path from experimentation to governed scale.
+Use when an organization needs a staged introduction and criteria for expanding, holding or stopping it.
 
 ## Rules (MUST)
 
 - Sequence adoption by capability readiness, control maturity, evidence quality, and operating-model hardening.
-- Define phase goals and exit criteria for pilot, expanded adoption, and scaled operation.
+- For each stage, name the goal, accountable owner and evidence required to expand, hold or stop.
 - Align roadmap steps with platform, governance, and organizational change requirements.
-- Prevent scale recommendations when evaluation, control, or ownership maturity is still insufficient.
+- Hold expansion when ownership, evaluation or controls fall short of the exit criteria. For an AI rollout, require evidence of model quality and effective human oversight at the proposed scale.
 - Do not present a roadmap as a date list without dependency and maturity logic.
 
 ## Fallback

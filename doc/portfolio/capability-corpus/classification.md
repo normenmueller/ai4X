@@ -21,7 +21,7 @@ The second level groups related work within a discipline. In engineering, a tech
 
 A capability has one canonical contract and metadata pair. An index for enterprise architecture can surface a relevant operating-model contract even when its primary home is organization. Discovering a capability is distinct from choosing it for the current need. A profile composition selects IDs and pins their source revision. The contract's `requires` describes prerequisites. Each prerequisite is declared in the contract metadata.
 
-Adelheid's composition already selects both `enterprise-architecture-integration` and `ai-operating-model-architecture`. The former yields cross-segment alignment and roadmap implications. The latter yields lifecycle responsibilities and decision rights. A role can choose either or both. The AI operating-model contract declares `decision-gates` and `architecture-decision-rigor` as prerequisites. It declares no dependency on enterprise architecture integration.
+Adelheid's composition already selects both `enterprise-architecture-integration` and `operating-model-design`. The former yields cross-segment alignment and roadmap implications. The latter yields lifecycle responsibilities and decision rights. A role can choose either or both. The operating-model contract declares `decision-gates` and `architecture-decision-rigor` as prerequisites. It declares no dependency on enterprise architecture integration.
 
 ### SKOS for a later machine-readable index
 
@@ -43,19 +43,17 @@ A fresh agent found all six contracts for these five tasks using only the outcom
 
 ## Review of the seven AI-prefixed capability names
 
-Proposed for PO review. Keep an AI qualifier when removing AI from the assignment changes the work the capability must perform. Mechthild selects by the confirmed need and the required result. The fact that an agent performs the work applies to every capability.
+Approved naming decision. Keep an AI qualifier when removing AI from the assignment changes the work the capability must perform. Mechthild selects by the confirmed need and the required result. The fact that an agent performs the work applies to every capability.
 
-| Current contract | Recommendation | Deciding difference and detail to preserve |
+| Original ID | Adopted contract | Deciding difference and detail to preserve |
 | --- | --- | --- |
 | [ai-use-case-framing](../../../src/resources/corpus/capability/analysis/requirement/ai-use-case-framing.md) | Keep | Use when AI is a candidate. Compare it with a simpler baseline and record acceptable failure cost and oversight. General need elicitation can finish before any candidate is known. |
 | [ai-evaluation-and-control-architecture](../../../src/resources/corpus/capability/architecture/governance/ai-evaluation-and-control-architecture.md) | Keep | Design how model behavior is evaluated before release, monitored in operation and interrupted by a responsible human. A compliance review evaluates an existing design. |
-| [ai-operating-model-architecture](../../../src/resources/corpus/capability/organization/operating-model/ai-operating-model-architecture.md) | Generalize to `operating-model-design` | Assign decision rights and control points across a service lifecycle, including platform and product ownership. For AI services, retain evaluation, release authority and ongoing oversight. |
-| [ai-readiness-assessment](../../../src/resources/corpus/capability/strategy/direction/ai-readiness-assessment.md) | Generalize to `adoption-readiness-assessment` | Recommend starting, scaling or pausing from evidence of readiness. Distinguish missing capabilities from immature ones. For AI, assess readiness against the intended autonomy and risk. |
-| [ai-center-of-excellence-design](../../../src/resources/corpus/capability/organization/operating-model/ai-center-of-excellence-design.md) | Generalize to `center-of-excellence-design` | Define central services, team accountability, intake and escalation. A data competence center needs the same result. Make AI-specific prerequisites conditional. |
-| [ai-adoption-roadmapping](../../../src/resources/corpus/capability/strategy/direction/ai-adoption-roadmapping.md) | Generalize to `adoption-roadmapping` | Define what evidence permits an organization to move from pilot to wider adoption. The same question arises when introducing a shared platform. Retain AI control checks where relevant. |
-| [ai-value-risk-prioritization](../../../src/resources/corpus/capability/strategy/portfolio/ai-value-risk-prioritization.md) | Merge into [portfolio-prioritization](../../../src/resources/corpus/capability/strategy/portfolio/portfolio-prioritization.md) | The existing contract already returns a justified action per option. Preserve short-term learning value, longer-term benefit, readiness and the cost of operating controls when comparing pilots. |
-
-Migration impact if approved: the AI strategy role carries a copy of use-case framing. Adelheid and Hildegard carry both evaluation and control architecture and operating-model architecture. The center-of-excellence contract requires operating-model architecture and adoption roadmapping. Update affected prerequisites, indexes, role compositions and pinned copies together, preserving AI-specific application criteria and the provenance of each copy.
+| `ai-operating-model-architecture` | [operating-model-design](../../../src/resources/corpus/capability/organization/operating-model/operating-model-design.md) | Assign decision rights and control points across a service lifecycle, including platform and product ownership. For AI services, retain evaluation, release authority and ongoing oversight. |
+| `ai-readiness-assessment` | [adoption-readiness-assessment](../../../src/resources/corpus/capability/strategy/direction/adoption-readiness-assessment.md) | Recommend starting, scaling or pausing from evidence of readiness. Distinguish missing capabilities from immature ones. For AI, assess readiness against the intended autonomy and risk. |
+| `ai-center-of-excellence-design` | [center-of-excellence-design](../../../src/resources/corpus/capability/organization/operating-model/center-of-excellence-design.md) | Define central services, team accountability, intake and escalation. A data competence center needs the same result. Make AI-specific prerequisites conditional. |
+| `ai-adoption-roadmapping` | [adoption-roadmapping](../../../src/resources/corpus/capability/strategy/direction/adoption-roadmapping.md) | Define what evidence permits an organization to move from pilot to wider adoption. The same question arises when introducing a shared platform. Retain AI control checks where relevant. |
+| `ai-value-risk-prioritization` | Merged into [portfolio-prioritization](../../../src/resources/corpus/capability/strategy/portfolio/portfolio-prioritization.md) | The existing contract already returns a justified action per option. Preserve short-term learning value, longer-term benefit, readiness and the cost of operating controls when comparing pilots. |
 
 ## Source assignments
 
@@ -81,8 +79,8 @@ Each ID appears once under its primary outcome.
 
 | Group | Capability contracts |
 | --- | --- |
-| `portfolio` | [portfolio-prioritization](../../../src/resources/corpus/capability/strategy/portfolio/portfolio-prioritization.md), [strategic-fit](../../../src/resources/corpus/capability/strategy/portfolio/strategic-fit.md), [ai-value-risk-prioritization](../../../src/resources/corpus/capability/strategy/portfolio/ai-value-risk-prioritization.md) |
-| `direction` | [strategy-diagnosis](../../../src/resources/corpus/capability/strategy/direction/strategy-diagnosis.md), [ai-readiness-assessment](../../../src/resources/corpus/capability/strategy/direction/ai-readiness-assessment.md), [ai-adoption-roadmapping](../../../src/resources/corpus/capability/strategy/direction/ai-adoption-roadmapping.md), [strategy-narrative-structure](../../../src/resources/corpus/capability/strategy/direction/strategy-narrative-structure.md) |
+| `portfolio` | [portfolio-prioritization](../../../src/resources/corpus/capability/strategy/portfolio/portfolio-prioritization.md), [strategic-fit](../../../src/resources/corpus/capability/strategy/portfolio/strategic-fit.md) |
+| `direction` | [strategy-diagnosis](../../../src/resources/corpus/capability/strategy/direction/strategy-diagnosis.md), [adoption-readiness-assessment](../../../src/resources/corpus/capability/strategy/direction/adoption-readiness-assessment.md), [adoption-roadmapping](../../../src/resources/corpus/capability/strategy/direction/adoption-roadmapping.md), [strategy-narrative-structure](../../../src/resources/corpus/capability/strategy/direction/strategy-narrative-structure.md) |
 | `decision` | [decision-gates](../../../src/resources/corpus/capability/strategy/decision/decision-gates.md), [decision-structuring-discipline](../../../src/resources/corpus/capability/strategy/decision/decision-structuring-discipline.md), [interaction-contract](../../../src/resources/corpus/capability/strategy/decision/interaction-contract.md), [technical-output-validation](../../../src/resources/corpus/capability/strategy/decision/technical-output-validation.md) |
 | `goal` | [cadence-and-review-discipline](../../../src/resources/corpus/capability/strategy/goal/cadence-and-review-discipline.md), [goal-cascade-and-alignment](../../../src/resources/corpus/capability/strategy/goal/goal-cascade-and-alignment.md), [goal-quality-discipline](../../../src/resources/corpus/capability/strategy/goal/goal-quality-discipline.md), [okr-discipline](../../../src/resources/corpus/capability/strategy/goal/okr-discipline.md), [kpi-system](../../../src/resources/corpus/capability/strategy/goal/kpi-system.md) |
 
@@ -90,7 +88,7 @@ Each ID appears once under its primary outcome.
 
 | Group | Capability contracts |
 | --- | --- |
-| `operating-model` | [value-stream-organization-design](../../../src/resources/corpus/capability/organization/operating-model/value-stream-organization-design.md), [function-ownership-allocation](../../../src/resources/corpus/capability/organization/operating-model/function-ownership-allocation.md), [ai-center-of-excellence-design](../../../src/resources/corpus/capability/organization/operating-model/ai-center-of-excellence-design.md), [ai-operating-model-architecture](../../../src/resources/corpus/capability/organization/operating-model/ai-operating-model-architecture.md) |
+| `operating-model` | [value-stream-organization-design](../../../src/resources/corpus/capability/organization/operating-model/value-stream-organization-design.md), [function-ownership-allocation](../../../src/resources/corpus/capability/organization/operating-model/function-ownership-allocation.md), [center-of-excellence-design](../../../src/resources/corpus/capability/organization/operating-model/center-of-excellence-design.md), [operating-model-design](../../../src/resources/corpus/capability/organization/operating-model/operating-model-design.md) |
 | `curation` | [agent-team-curation](../../../src/resources/corpus/capability/organization/curation/agent-team-curation.md) |
 
 ### architecture

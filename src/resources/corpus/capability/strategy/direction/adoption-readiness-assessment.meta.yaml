@@ -1,11 +1,12 @@
-id: ai-readiness-assessment
-version: 0.1.0
+id: adoption-readiness-assessment
+version: 0.2.0
 owner: nemron
 requires: ["decision-gates","strategy-diagnosis","strategic-fit"]
 conflicts: []
 do_not_use_when: []
 distinguish_from: []
 sources:
+  # Sources for the AI application of this contract.
   - title: "Maturity model overview"
     organization: "Microsoft"
     url: "https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/maturity-model-overview"

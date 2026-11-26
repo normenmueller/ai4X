@@ -4,7 +4,7 @@ Shape a system or landscape and assess its architectural constraints.
 
 ## Enterprise
 
-For AI lifecycle ownership and decision rights, also consider [AI operating model architecture](../organization/operating-model/ai-operating-model-architecture.md). Select it when the assignment includes that work.
+For service lifecycle ownership and decision rights, also consider [operating-model design](../organization/operating-model/operating-model-design.md). Select it when the assignment includes that work.
 
 | ID | File | Purpose | Use When | Do Not Use When | Distinguish From | Requires | Conflicts |
 | --- | --- | --- | --- | --- | --- | --- | --- |
