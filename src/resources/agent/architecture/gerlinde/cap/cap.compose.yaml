@@ -1,0 +1,19 @@
+version: 0.1.0
+sources:
+  - kind: import
+    key: ai4x-corpus
+    inv: src/resources/corpus/capability
+    ref: a4652fa8ec101535274e6630778a71d07b89bbed
+    caps:
+      # Five capabilities selected in the original profile.
+      - solution-realization-architecture
+      - architecture-compliance-review
+      - agentic-solution-architecture
+      - grounding-and-context-architecture
+      - model-selection-and-boundary-fit
+      # Retain these methods for assignments matching their individual triggers.
+      - baseline-target-gap-analysis
+      - transition-architecture-planning
+      - togaf-adm-discipline
+      - archimate-viewpoint-selection
+      - archimate-cross-layer-consistency

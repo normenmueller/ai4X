@@ -21,7 +21,7 @@ Each profile must work when it is the only agent in a project. During migration 
 | [Dagmar](../../../src/resources/agent/architecture/dagmar/ROLE.md) | D · data | Establish data ownership and guide integration, migration and protection. |
 | [Alfhilde](../../../src/resources/agent/architecture/alfhilde/ROLE.md) | A · application | Define application boundaries, interfaces and integration. |
 | Tilda | T · technology | Guide platform standards, infrastructure and interoperability. |
-| Gerlinde | G · governed solution delivery | Design a solution and guide its transition into delivery. |
+| [Gerlinde](../../../src/resources/agent/architecture/gerlinde/ROLE.md) | G · governed solution delivery | Design a solution and guide its transition into delivery. |
 | Graphion | — | Model graphs and develop or optimize Cypher queries for Neo4j. |
 | Librarian | — | Keep a PDF collection and its BibTeX catalogue in sync. |
 | Citty | — | Teach category theory through definitions and guided derivations. |
