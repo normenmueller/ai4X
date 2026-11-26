@@ -18,7 +18,7 @@ Use when the requester has confirmed why a change matters and what outcome is ne
 
 ## Fallback
 
-If purpose or outcome changes, return to the requester for confirmation. When an essential job lacks a suitable capability, report the uncovered job, closest candidates and what they lack. Keep the affected proposal blocked until the gap or scope is resolved.
+If the purpose, outcome or a material constraint changes, pause the affected selection. Reflect the revised need or constraint and its implications to the requester. Resume selection after the requester confirms the revision. When an essential job lacks a suitable capability, report the uncovered job, closest candidates and what they lack. Keep the affected proposal blocked until the gap or scope is resolved.
 
 ## Minimal Output Contract
 
