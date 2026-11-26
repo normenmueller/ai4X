@@ -311,7 +311,7 @@ for future_root in src/domains src/interfaces src/resources; do
     relative_future=${future_file#"$repository_root"/}
     # The reboot preserves the historical corpus before formal release admission.
     case "$relative_future" in
-      src/resources/agent/architecture/adelheid/* | src/resources/agent/architecture/alfhilde/* | src/resources/agent/architecture/brunhilde/* | src/resources/agent/architecture/dagmar/* | src/resources/agent/architecture/gerlinde/* | src/resources/agent/architecture/hildegard/*)
+      src/resources/agent/architecture/adelheid/* | src/resources/agent/architecture/alfhilde/* | src/resources/agent/architecture/brunhilde/* | src/resources/agent/architecture/dagmar/* | src/resources/agent/architecture/gerlinde/* | src/resources/agent/architecture/hildegard/* | src/resources/agent/architecture/tilda/*)
         profile_file=${relative_future#src/resources/agent/architecture/*/}
         case "$profile_file" in
           cap/*/*) ;;

@@ -10,24 +10,57 @@ Each profile must work when it is the only agent in a project. During migration 
 
 ## Agent profiles
 
+A dash indicates that the profile has no documented naming mnemonic.
+
+### Architecture
+
+| Name | Naming mnemonic | What someone would ask this agent to do |
+| --- | --- | --- |
+| [Adelheid](../../../src/resources/agent/architecture/adelheid/ROLE.md) | A · architecture enterprise | Integrate enterprise architecture across segments and align their roadmaps. |
+| [Alfhilde](../../../src/resources/agent/architecture/alfhilde/ROLE.md) | A · application | Define application boundaries, interfaces and integration. |
+| [Brunhilde](../../../src/resources/agent/architecture/brunhilde/ROLE.md) | B · business | Model business capabilities, services and stakeholder needs. |
+| [Dagmar](../../../src/resources/agent/architecture/dagmar/ROLE.md) | D · data | Establish data ownership and guide integration, migration and protection. |
+| [Gerlinde](../../../src/resources/agent/architecture/gerlinde/ROLE.md) | G · governed solution delivery | Design a solution and guide its transition into delivery. |
+| [Hildegard](../../../src/resources/agent/architecture/hildegard/ROLE.md) | H · holistic architecture | Lead architecture across portfolios and coordinate the other architects as [TOGAF Chief Architect](../capability-corpus/togaf-roles.md). |
+| [Tilda](../../../src/resources/agent/architecture/tilda/ROLE.md) | T · technology | Guide platform standards, infrastructure and interoperability. |
+
+### Curation
+
+| Name | Naming mnemonic | What someone would ask this agent to do |
+| --- | --- | --- |
+| Mechthild | M · methods | Elicit a project's need and assemble a suitable local agent. |
+
+### Engineering
+
+| Name | Naming mnemonic | What someone would ask this agent to do |
+| --- | --- | --- |
+| Graphion | — | Model graphs and develop or optimize Cypher queries for Neo4j. |
+| Lamby | — | Develop and explain correctness-focused functional designs using Haskell and type theory. |
+
+### General
+
 | Name | Naming mnemonic | What someone would ask this agent to do |
 | --- | --- | --- |
 | Gertrud | G · general | Clarify the task, then help reason through it in dialogue. |
-| Sigrid | S · strategic | Assess strategic fit, prioritize initiatives and shape a roadmap. |
-| Mechthild | M · methods | Elicit a project's need and assemble a suitable local agent. |
-| [Hildegard](../../../src/resources/agent/architecture/hildegard/ROLE.md) | H · holistic architecture | Lead architecture across portfolios and coordinate the other architects as [TOGAF Chief Architect](../capability-corpus/togaf-roles.md). |
-| [Adelheid](../../../src/resources/agent/architecture/adelheid/ROLE.md) | A · architecture enterprise | Integrate enterprise architecture across segments and align their roadmaps. |
-| [Brunhilde](../../../src/resources/agent/architecture/brunhilde/ROLE.md) | B · business | Model business capabilities, services and stakeholder needs. |
-| [Dagmar](../../../src/resources/agent/architecture/dagmar/ROLE.md) | D · data | Establish data ownership and guide integration, migration and protection. |
-| [Alfhilde](../../../src/resources/agent/architecture/alfhilde/ROLE.md) | A · application | Define application boundaries, interfaces and integration. |
-| Tilda | T · technology | Guide platform standards, infrastructure and interoperability. |
-| [Gerlinde](../../../src/resources/agent/architecture/gerlinde/ROLE.md) | G · governed solution delivery | Design a solution and guide its transition into delivery. |
-| Graphion | — | Model graphs and develop or optimize Cypher queries for Neo4j. |
+
+### Knowledge
+
+| Name | Naming mnemonic | What someone would ask this agent to do |
+| --- | --- | --- |
 | Librarian | — | Keep a PDF collection and its BibTeX catalogue in sync. |
+
+### Learning
+
+| Name | Naming mnemonic | What someone would ask this agent to do |
+| --- | --- | --- |
 | Citty | — | Teach category theory through definitions and guided derivations. |
 | Lamby | — | Develop and explain correctness-focused functional designs using Haskell and type theory. |
 
-A dash indicates that the profile has no documented naming mnemonic.
+### Strategy
+
+| Name | Naming mnemonic | What someone would ask this agent to do |
+| --- | --- | --- |
+| Sigrid | S · strategic | Assess strategic fit, prioritize initiatives and shape a roadmap. |
 
 ## Proposed additions
 
