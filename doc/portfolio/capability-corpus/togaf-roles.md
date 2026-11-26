@@ -14,8 +14,8 @@ The ai4X capability corpus draws on The Open Group’s *Architecture Roles and S
 
 In this curation, Business, Data, Application and Technology are four specializations of the Segment Architect. They combine the segment responsibility from chapter 4 with the corresponding domain skills from chapter 5.
 
-## AI-specific additions
+## Additional capabilities
 
-Architects can select these five ai4X additions when their assignment calls for them. The operating-model contract assigns organizational responsibilities. The other four guide solution design and architecture governance.
+Architects can select these five ai4X additions when their assignment calls for them. Operating-model design assigns lifecycle responsibilities across teams. The other four address AI solution design and architecture governance.
 
 [operating-model-design](../../../src/resources/corpus/capability/organization/operating-model/operating-model-design.md), [ai-evaluation-and-control-architecture](../../../src/resources/corpus/capability/architecture/governance/ai-evaluation-and-control-architecture.md), [agentic-solution-architecture](../../../src/resources/corpus/capability/architecture/solution/agentic-solution-architecture.md), [grounding-and-context-architecture](../../../src/resources/corpus/capability/architecture/solution/grounding-and-context-architecture.md), [model-selection-and-boundary-fit](../../../src/resources/corpus/capability/architecture/solution/model-selection-and-boundary-fit.md).

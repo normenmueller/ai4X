@@ -13,6 +13,7 @@ Use when multiple strategic options compete for attention, sequencing, or invest
 - Keep evaluation dimensions explicit and distinct.
 - Use value, strategic fit, risk, effort, optionality, and timing as the default dimensions unless a justified alternative frame is declared.
 - Identify the decision the comparison must support. Rank candidates when the decision calls for a ranking. Sequence mandatory candidates by dependencies, urgency and capacity. When candidates can proceed together, give the action for each.
+- For pilot or scale decisions, distinguish the value of learning now from longer-term benefit. Weigh feasibility, readiness and the operational cost of controls against that benefit. Give each initiative a justified action such as pilot, scale or defer. Identify missing evidence when it could change the decision.
 - Name deferred or rejected options and the reason for each. If all options should proceed, say so and show how they fit the constraints.
 - If criteria are incomplete or uncertain, mark the prioritization as provisional.
 - Prioritization without visible trade-offs is invalid.

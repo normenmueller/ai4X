@@ -1,9 +1,9 @@
-version: 0.1.0
+version: 0.2.0
 sources:
   - kind: import
     key: ai4x-corpus
     inv: src/resources/corpus/capability
-    ref: a4652fa8ec101535274e6630778a71d07b89bbed
+    ref: 1a790801926445e6b2d76866145a97b6a7519202
     caps:
       # Five capabilities selected in the original profile.
       - solution-realization-architecture

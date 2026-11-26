@@ -1,11 +1,12 @@
-id: ai-operating-model-architecture
-version: 0.1.1
+id: operating-model-design
+version: 0.2.0
 owner: nemron
 requires: ["decision-gates","architecture-decision-rigor"]
 conflicts: []
 do_not_use_when: []
 distinguish_from: []
 sources:
+  # Sources for the AI application of this contract.
   - title: "Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile"
     organization: "NIST"
     url: "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence"

@@ -27,7 +27,6 @@ The following contracts and their metadata are copied from ai4X corpus revision 
 | [clarification-before-guessing](cap/clarification-before-guessing.md) | 0.2.0 | `src/resources/corpus/capabilities/foundation/clarification-before-guessing.md` |
 | [decision-gates](cap/decision-gates.md) | 1.0.0 | `src/resources/corpus/capabilities/strategy/governance/decision-gates.md` |
 | [deterministic-reasoning](cap/deterministic-reasoning.md) | 0.2.0 | `src/resources/corpus/capabilities/foundation/deterministic-reasoning.md` |
-| [portfolio-prioritization](cap/portfolio-prioritization.md) | 1.0.0 | `src/resources/corpus/capabilities/strategy/analysis/portfolio-prioritization.md` |
 
 ## KPI measurement
 
@@ -36,3 +35,11 @@ Source: ai4X corpus, Git commit `a1c37e63fce525058dc3014501fcef3de4564be2`. The 
 | Capability | Version | Path at source revision |
 | --- | --- | --- |
 | [kpi-system](cap/kpi-system.md) | 0.3.0 | `src/resources/corpus/capabilities/strategy/metrics/kpi-system.md` |
+
+## Portfolio decisions
+
+Source: ai4X corpus, Git commit `1a790801926445e6b2d76866145a97b6a7519202`. The contract and metadata are copied from this revision.
+
+| Capability | Version | Path at source revision |
+| --- | --- | --- |
+| [portfolio-prioritization](cap/portfolio-prioritization.md) | 1.1.0 | `src/resources/corpus/capability/strategy/portfolio/portfolio-prioritization.md` |

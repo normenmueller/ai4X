@@ -1,16 +1,16 @@
-version: 0.1.0
+version: 0.2.0
 sources:
   - kind: import
     key: ai4x-corpus
     inv: src/resources/corpus/capability
-    ref: 1f6942af95a8993c69ee2dc8a8004f2c32cba933
+    ref: 1a790801926445e6b2d76866145a97b6a7519202
     caps:
       # Seven capabilities selected in the original profile.
       - architecture-practice-leadership
       - enterprise-architecture-integration
       - architecture-compliance-review
       - transition-architecture-planning
-      - ai-operating-model-architecture
+      - operating-model-design
       - ai-evaluation-and-control-architecture
       - agentic-solution-architecture
       # Retain these methods for assignments matching their individual triggers.

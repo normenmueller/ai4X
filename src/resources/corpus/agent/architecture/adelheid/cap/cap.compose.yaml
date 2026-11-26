@@ -1,15 +1,15 @@
-version: 0.1.0
+version: 0.2.0
 sources:
   - kind: import
     key: ai4x-corpus
     inv: src/resources/corpus/capability
-    ref: 5f633bf9ec5d586f3f7fcc89594771c478d29864
+    ref: 1a790801926445e6b2d76866145a97b6a7519202
     caps:
       # Five capabilities selected in the original profile.
       - enterprise-architecture-integration
       - architecture-compliance-review
       - transition-architecture-planning
-      - ai-operating-model-architecture
+      - operating-model-design
       - ai-evaluation-and-control-architecture
       # Retain these methods for assignments matching their individual triggers.
       - baseline-target-gap-analysis
