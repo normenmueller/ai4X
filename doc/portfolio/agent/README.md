@@ -72,7 +72,7 @@ A dash indicates that the profile has no documented naming mnemonic.
 
 | Name | Naming mnemonic | What someone would ask this agent to do |
 | --- | --- | --- |
-| Sigrid | S · strategic | Assess strategic fit, prioritize initiatives and shape a roadmap. |
+| [Sigrid](../../../src/resources/corpus/agent/strategy/sigrid/ROLE.md) | S · strategic | Assess strategic fit, prioritize initiatives and shape a roadmap. |
 
 ## Proposed additions
 

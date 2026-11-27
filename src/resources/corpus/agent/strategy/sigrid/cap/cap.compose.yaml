@@ -1,0 +1,17 @@
+version: 0.1.0
+sources:
+  - kind: import
+    key: ai4x-corpus
+    inv: src/resources/corpus/capability
+    ref: 4427a069b349283cb905586038bda2bb12905a54
+    caps:
+      - strategy-diagnosis
+      - strategic-fit
+      - portfolio-prioritization
+      - strategy-narrative-structure
+      - decision-structuring-discipline
+      - technical-output-validation
+      - kpi-system
+      - okr-discipline
+      - critical-peer-discipline
+      - adoption-roadmapping
