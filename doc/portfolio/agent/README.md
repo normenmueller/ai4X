@@ -41,7 +41,7 @@ A dash indicates that the profile has no documented naming mnemonic.
 
 | Name | Naming mnemonic | What someone would ask this agent to do |
 | --- | --- | --- |
-| Gertrud | G · general | Clarify the task, then help reason through it in dialogue. |
+| [Gertrud](../../../src/resources/corpus/agent/general/gertrud/ROLE.md) | G · general | Confirm a substantive assignment, then examine claims, ambiguities and competing explanations. |
 
 ### Knowledge
 

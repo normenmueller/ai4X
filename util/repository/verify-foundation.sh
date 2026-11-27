@@ -311,7 +311,7 @@ for future_root in src/domains src/interfaces src/resources; do
     relative_future=${future_file#"$repository_root"/}
     # The reboot preserves the historical corpus before formal release admission.
     case "$relative_future" in
-      src/resources/corpus/agent/architecture/adelheid/* | src/resources/corpus/agent/architecture/alfhilde/* | src/resources/corpus/agent/architecture/brunhilde/* | src/resources/corpus/agent/architecture/dagmar/* | src/resources/corpus/agent/architecture/gerlinde/* | src/resources/corpus/agent/architecture/hildegard/* | src/resources/corpus/agent/architecture/tilda/* | src/resources/corpus/agent/curation/mechthild/* | src/resources/corpus/agent/engineering/graphion/* | src/resources/corpus/agent/learning/lamby/* | src/resources/corpus/agent/learning/citty/*)
+      src/resources/corpus/agent/architecture/adelheid/* | src/resources/corpus/agent/architecture/alfhilde/* | src/resources/corpus/agent/architecture/brunhilde/* | src/resources/corpus/agent/architecture/dagmar/* | src/resources/corpus/agent/architecture/gerlinde/* | src/resources/corpus/agent/architecture/hildegard/* | src/resources/corpus/agent/architecture/tilda/* | src/resources/corpus/agent/curation/mechthild/* | src/resources/corpus/agent/engineering/graphion/* | src/resources/corpus/agent/learning/lamby/* | src/resources/corpus/agent/learning/citty/* | src/resources/corpus/agent/general/gertrud/*)
         profile_file=${relative_future#src/resources/corpus/agent/*/*/}
         case "$profile_file" in
           cap/*/*) ;;
