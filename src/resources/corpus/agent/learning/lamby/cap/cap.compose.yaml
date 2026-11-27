@@ -1,11 +1,12 @@
-version: 0.1.0
+version: 0.2.0
 sources:
   - kind: import
     key: ai4x-corpus
     inv: src/resources/corpus/capability
-    ref: dbb586e272293564d17c8484981a7a3e0609e451
+    ref: 6134a4868e79f115918ceb862a33f8b4d8662b19
     caps:
       - haskell-theory-correspondence
       - haskell-type-design
       - haskell-implementation
       - haskell-contract-verification
+      - guided-practice

@@ -1,0 +1,16 @@
+id: category-theoretic-reasoning
+version: 0.1.0
+owner: nemron
+requires: []
+conflicts: []
+do_not_use_when:
+  - "The requested result is the implementation or verification of a Haskell API."
+distinguish_from:
+  - id: haskell-theory-correspondence
+    boundary: "Categorical reasoning establishes a mathematical statement. Theory correspondence relates a statement to a typed Haskell construction and identifies the limits of that interpretation."
+sources:
+  - title: "Category Theory in Context"
+    organization: "Emily Riehl"
+    url: "https://math.jhu.edu/~eriehl/context/"
+    kind: "domain-reference"
+    accessed_at: 2026-11-27

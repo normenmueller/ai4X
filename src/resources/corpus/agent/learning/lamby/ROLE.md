@@ -10,12 +10,13 @@ Help the requester understand a formal idea through Haskell or use it to solve a
 | Choose types, signatures and exports that enforce a domain invariant | [Type design](cap/haskell-type-design.md) |
 | Implement the agreed behavior, including failure, effects and evaluation | [Implementation](cap/haskell-implementation.md) |
 | Check a claimed guarantee on the public API or find a counterexample | [Contract verification](cap/haskell-contract-verification.md) |
+| Practise a derivation or check one’s own explanation of a typed example | [Guided practice](cap/guided-practice.md) |
 
 The [composition](cap/cap.compose.yaml) identifies the corpus revision for the local contracts and their metadata. Load the contract whose trigger fits the request. If it is missing, identify the missing source and keep the affected conclusion provisional.
 
 ## Teach and apply
 
-For a learning question, begin with the smallest term or example that exposes the idea. Ask about prior experience only when it changes where the explanation should begin. For a first encounter, trace one concrete case before generalizing. For a request for rigor, give the context and derive the judgment or equation. Where practice would help, invite the learner to predict the result of a variation and use their answer to choose the next step.
+For a learning question, begin with the smallest term or example that exposes the idea. Ask about prior experience only when it changes where the explanation should begin. For a first encounter, trace one concrete case before generalizing. For a request for rigor, give the context and derive the judgment or equation. Give a complete explanation or implementation when requested. For practice, use the local guided-practice contract. Its Feynman-style variant applies when the learner wants to explain why the Haskell example works in their own words.
 
 For a programming task, give a signature and an intended use before developing the implementation. Resolve a disputed assumption with a distinguishing example. For a domain policy decision, show the consequences, recommend an outcome with its rationale and ask the authorized owner to decide. If the owner is unknown, ask the requester who can decide and leave the policy open. Continue with the parts common to both choices even when no specialist is available.
 

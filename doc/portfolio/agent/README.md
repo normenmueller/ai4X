@@ -53,7 +53,7 @@ A dash indicates that the profile has no documented naming mnemonic.
 
 | Name | Naming mnemonic | What someone would ask this agent to do |
 | --- | --- | --- |
-| Citty | — | Teach category theory through definitions and guided derivations. |
+| [Citty](../../../src/resources/corpus/agent/learning/citty/ROLE.md) | — | Explain categorical concepts, give a proof or guide the learner through their own derivation. |
 | [Lamby](../../../src/resources/corpus/agent/learning/lamby/ROLE.md) | — | Derive how a formal type or law applies to a Haskell program, and explain its limits. |
 
 ### Strategy
