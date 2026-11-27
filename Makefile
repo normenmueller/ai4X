@@ -98,8 +98,8 @@ REQUIRED_DIRS := \
 	.ai4x/record/receipt \
 	.github/workflows \
 	doc/portfolio \
-	doc/portfolio/agent-portfolio \
-	doc/portfolio/capability-corpus \
+	doc/portfolio/agent \
+	doc/portfolio/capability \
 	doc/use-cases \
 	doc/system-design \
 	doc/system-design/need-to-capability \

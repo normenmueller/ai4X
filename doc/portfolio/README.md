@@ -1,6 +1,6 @@
 # Portfolio
 
-The ai4X portfolio describes the reusable options a project can draw on. Start with the [capability corpus](capability-corpus/README.md) to find a method or the [agent portfolio](agent-portfolio/README.md) to find a role. The [classification guide](capability-corpus/classification.md) explains how a capability can be found by the result a project needs.
+The ai4X portfolio describes the reusable options a project can draw on. The corpus offers both [capabilities](capability/README.md) for individual tasks and [agent profiles](agent/README.md) that combine capabilities for a role. The [classification guide](capability/classification.md) explains how a capability can be found by the result a project needs.
 
 ## Where the sources live
 

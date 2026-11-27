@@ -21,7 +21,7 @@ A dash indicates that the profile has no documented naming mnemonic.
 | [Brunhilde](../../../src/resources/corpus/agent/architecture/brunhilde/ROLE.md) | B · business | Model business capabilities, services and stakeholder needs. |
 | [Dagmar](../../../src/resources/corpus/agent/architecture/dagmar/ROLE.md) | D · data | Establish data ownership and guide integration, migration and protection. |
 | [Gerlinde](../../../src/resources/corpus/agent/architecture/gerlinde/ROLE.md) | G · governed solution delivery | Design a solution and guide its transition into delivery. |
-| [Hildegard](../../../src/resources/corpus/agent/architecture/hildegard/ROLE.md) | H · holistic architecture | Lead architecture across portfolios and coordinate the other architects as [TOGAF Chief Architect](../capability-corpus/togaf-roles.md). |
+| [Hildegard](../../../src/resources/corpus/agent/architecture/hildegard/ROLE.md) | H · holistic architecture | Lead architecture across portfolios and coordinate the other architects as [TOGAF Chief Architect](../capability/togaf-roles.md). |
 | [Tilda](../../../src/resources/corpus/agent/architecture/tilda/ROLE.md) | T · technology | Guide platform standards, infrastructure and interoperability. |
 
 ### Curation
