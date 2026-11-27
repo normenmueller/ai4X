@@ -1,6 +1,6 @@
 # Engineering capability index
 
-Implement, verify or tune a technical solution.
+Implement, verify or tune a technical solution, or reconcile a catalogue with its documents.
 
 ## Design
 
@@ -50,3 +50,9 @@ Implement, verify or tune a technical solution.
 | ID | File | Purpose | Use When | Do Not Use When | Distinguish From | Requires | Conflicts |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `typescript-boundary-validation` | [typescript-boundary-validation.md](typescript/typescript-boundary-validation.md) (draft) | Decode untrusted input into a TypeScript domain value or a typed validation failure. | Use when implementing or reviewing a TypeScript boundary that receives a value whose runtime shape is unverified. | Only the location of an IO boundary or the meaning of domain errors is being decided. | side-effect-boundary-discipline: Boundary discipline places validation at entry. This capability checks how TypeScript code establishes a domain value from runtime evidence. | `[]` | `[]` |
+
+## Bibliography
+
+| ID | File | Purpose | Use When | Do Not Use When | Distinguish From | Requires | Conflicts |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `bibliographic-collection-reconciliation` | [bibliographic-collection-reconciliation.md](bibliography/bibliographic-collection-reconciliation.md) (draft) | Reconcile catalogue records with stored documents while preserving identity, version and existing annotations. | Use when auditing, importing or repairing records and documents in a collection with a designated catalogue. | The requested result is a description of a single source with no collection to reconcile. | bibliographic-description: Reconciles records and documents using collection state. Bibliographic description derives metadata from a publication. | `[]` | `[]` |

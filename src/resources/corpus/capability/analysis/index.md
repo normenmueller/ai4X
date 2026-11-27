@@ -1,6 +1,6 @@
 # Analysis capability index
 
-Extract evidence, clarify a need, formalize requirements or derive a mathematical result.
+Describe a publication, extract evidence, clarify a need, formalize requirements or derive a mathematical result.
 
 ## Evidence
 
@@ -36,3 +36,9 @@ Extract evidence, clarify a need, formalize requirements or derive a mathematica
 | ID | File | Purpose | Use When | Do Not Use When | Distinguish From | Requires | Conflicts |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `category-theoretic-reasoning` | [category-theoretic-reasoning.md](mathematics/category-theoretic-reasoning.md) (draft) | Define a categorical concept or establish a claim from typed arrows, hypotheses and laws. | Use when the requested result is a categorical definition, proof, counterexample or explanation of a diagram. | The requested result is the implementation or verification of a Haskell API. | haskell-theory-correspondence: Categorical reasoning establishes a mathematical statement. Theory correspondence relates a statement to a typed Haskell construction and identifies the limits of that interpretation. | `[]` | `[]` |
+
+## Bibliography
+
+| ID | File | Purpose | Use When | Do Not Use When | Distinguish From | Requires | Conflicts |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `bibliographic-description` | [bibliographic-description.md](bibliography/bibliographic-description.md) (draft) | Describe an identifiable publication using verifiable source evidence and terms useful for retrieval. | Use when a requester needs bibliographic metadata, a source-grounded abstract or subject terms for a publication. | The requested result is a consistency check between existing records and stored documents. | bibliographic-collection-reconciliation: Describes the publication from source evidence. Collection reconciliation checks correspondence between records and files. | `[]` | `[]` |

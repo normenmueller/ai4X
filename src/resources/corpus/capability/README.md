@@ -5,11 +5,11 @@ Start with the result the requester needs. Open the matching index, then check t
 | Result sought | Source index |
 | --- | --- |
 | Agree on an assignment, review a proposal, hand work to an expert or guide a learner through practice. | [Collaboration](collaboration/index.md) |
-| Extract evidence, clarify a need, formalize requirements or derive a mathematical result. | [Analysis](analysis/index.md) |
+| Describe a publication, extract evidence, clarify a need, formalize requirements or derive a mathematical result. | [Analysis](analysis/index.md) |
 | Set direction, prioritize initiatives or define how a goal will be steered. | [Strategy](strategy/index.md) |
 | Assign accountability, design an operating model or curate a team. | [Organization](organization/index.md) |
 | Shape a system or landscape and assess its architectural constraints. | [Architecture](architecture/index.md) |
-| Implement, verify or tune a technical solution. | [Engineering](engineering/index.md) |
+| Implement, verify or tune a technical solution, or reconcile a catalogue with its documents. | [Engineering](engineering/index.md) |
 
 ## Status meanings
 
