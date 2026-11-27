@@ -192,6 +192,7 @@ structure-check:
 licensing-check:
 	@command -v reuse >/dev/null 2>&1 || { echo '[ai4x] ERROR reuse is required' >&2; exit 2; }
 	@reuse --no-multiprocessing lint
+	@python3 util/repository/tst/check-license-examples.py
 
 haskell-check:
 	@command -v ghc >/dev/null 2>&1 || { echo '[ai4x] ERROR GHC $(GHC_VERSION) is required' >&2; exit 2; }
