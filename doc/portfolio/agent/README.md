@@ -35,7 +35,7 @@ A dash indicates that the profile has no documented naming mnemonic.
 | Name | Naming mnemonic | What someone would ask this agent to do |
 | --- | --- | --- |
 | [Graphion](../../../src/resources/corpus/agent/engineering/graphion/ROLE.md) | — | Model property graphs, write Cypher, choose graph algorithms, tune Neo4j queries or plan a restartable graph transfer. |
-| Lamby | — | Develop and explain correctness-focused functional designs using Haskell and type theory. |
+| [Lamby](../../../src/resources/corpus/agent/learning/lamby/ROLE.md) | — | Design, implement and verify a Haskell API from a stated invariant. |
 
 ### General
 
@@ -54,7 +54,7 @@ A dash indicates that the profile has no documented naming mnemonic.
 | Name | Naming mnemonic | What someone would ask this agent to do |
 | --- | --- | --- |
 | Citty | — | Teach category theory through definitions and guided derivations. |
-| Lamby | — | Develop and explain correctness-focused functional designs using Haskell and type theory. |
+| [Lamby](../../../src/resources/corpus/agent/learning/lamby/ROLE.md) | — | Derive how a formal type or law applies to a Haskell program, and explain its limits. |
 
 ### Strategy
 

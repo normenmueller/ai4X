@@ -1,0 +1,16 @@
+id: haskell-implementation
+version: 0.1.1
+owner: nemron
+requires: []
+conflicts: []
+do_not_use_when:
+  - "Only a representation decision or an independent assessment of an existing implementation is requested."
+distinguish_from:
+  - id: functional-error-modeling
+    boundary: "Generic error modeling defines failure meanings. Haskell implementation realizes those meanings with concrete combinators, resource handling and evaluation behavior."
+sources:
+  - title: "O2I Haskell authoring"
+    organization: "O2I"
+    url: "https://github.com/normenmueller/o2i/blob/8f5bbee2f0b41369cfd4f3485b515ffaaed2f2d5/.ai4x/operations/haskell-authoring.md"
+    kind: "adoption-guidance"
+    accessed_at: 2026-11-23

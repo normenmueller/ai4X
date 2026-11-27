@@ -1,0 +1,23 @@
+id: haskell-theory-correspondence
+version: 0.1.0
+owner: nemron
+requires: []
+conflicts: []
+do_not_use_when:
+  - "The deliverable is a mathematical derivation without a Haskell interpretation."
+distinguish_from:
+  - id: haskell-type-design
+    boundary: "Type design chooses an API for an invariant. Correspondence explains a specified mathematical interpretation."
+  - id: haskell-contract-verification
+    boundary: "Verification probes a public API. Correspondence derives the connection between a formal claim and a Haskell construction."
+sources:
+  - title: "Haskell 2010 Language Report, Predefined Types and Classes"
+    organization: "Haskell 2010 Committee"
+    url: "https://www.haskell.org/onlinereport/haskell2010/haskellch6.html"
+    kind: "domain-reference"
+    accessed_at: 2026-11-27
+  - title: "Haskell 2010 Language Report, Expressions"
+    organization: "Haskell 2010 Committee"
+    url: "https://www.haskell.org/onlinereport/haskell2010/haskellch3.html"
+    kind: "domain-reference"
+    accessed_at: 2026-11-27
