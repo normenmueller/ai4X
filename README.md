@@ -44,9 +44,10 @@ To put those capabilities to work, people decide what each agent will do.
 Give agents a clear brief, ask them to explain their reasoning, and review their work. People make the final decision.
 
 - **Need-first:** describe the outcome before selecting implementation.
-- **Host-independent:** keep project and agent declarations separate from host adapters.
+- **Capability-based**: compose each agent's role from the cognitive capabilities the need calls for.
 - **Agentic-first:** make context discoverable, bounded, and executable by AI agents.
 - **Human-approvable:** make intent, effects, evidence, and decisions understandable to people.
+- **Host-independent:** keep project and agent declarations separate from host adapters.
 - **Self-applicable:** evolve ai4X using the same Need-to-Capability discipline it provides.
 
 # From Need to Capability
