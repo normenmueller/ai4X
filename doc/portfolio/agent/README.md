@@ -43,11 +43,11 @@ A dash indicates that the profile has no documented naming mnemonic.
 | --- | --- | --- |
 | [Gertrud](../../../src/resources/corpus/agent/advisory/gertrud/ROLE.md) | G · general (historical) | Weigh options and specialist advice, then recommend a course of action with its decisive reason and main trade-off. |
 
-### Knowledge
+### Information management
 
 | Name | Naming mnemonic | What someone would ask this agent to do |
 | --- | --- | --- |
-| Librarian | — | Keep a PDF collection and its BibTeX catalogue in sync. |
+| [Librarian](../../../src/resources/corpus/agent/information-management/librarian/ROLE.md) | — | Describe a publication or reconcile a PDF collection with its BibTeX catalogue. |
 
 ### Learning
 
