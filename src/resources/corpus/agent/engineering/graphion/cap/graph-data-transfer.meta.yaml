@@ -1,0 +1,16 @@
+id: graph-data-transfer
+version: 0.1.0
+owner: nemron
+requires: []
+conflicts: []
+do_not_use_when:
+  - "The task is an ordinary query or a single graph modeling decision."
+distinguish_from:
+  - id: side-effect-boundary-discipline
+    boundary: "Boundary discipline locates external effects. Transfer specifies identity mapping, restart behavior and reconciliation."
+sources:
+  - title: "CALL subqueries in transactions"
+    organization: "Neo4j"
+    url: "https://neo4j.com/docs/cypher-manual/current/subqueries/subqueries-in-transactions/"
+    kind: "domain-reference"
+    accessed_at: 2026-11-26

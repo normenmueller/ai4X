@@ -1,0 +1,16 @@
+id: neo4j-query-tuning
+version: 0.1.0
+owner: nemron
+requires: []
+conflicts: []
+do_not_use_when:
+  - "The expected result or mutation semantics still need to be established."
+distinguish_from:
+  - id: cypher-query-authoring
+    boundary: "Query authoring owns result correctness. Tuning compares equivalent executions under a representative workload."
+sources:
+  - title: "Understanding query plans"
+    organization: "Neo4j"
+    url: "https://neo4j.com/docs/cypher-manual/current/planning-and-tuning/execution-plans/"
+    kind: "domain-reference"
+    accessed_at: 2026-11-26

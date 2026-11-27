@@ -1,0 +1,12 @@
+version: 0.1.0
+sources:
+  - kind: import
+    key: ai4x-corpus
+    inv: src/resources/corpus/capability
+    ref: 436a53ab52862314fba485690b512d584800e590
+    caps:
+      - property-graph-modeling
+      - cypher-query-authoring
+      - graph-algorithm-selection
+      - neo4j-query-tuning
+      - graph-data-transfer

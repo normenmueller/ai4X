@@ -1,0 +1,16 @@
+id: graph-algorithm-selection
+version: 0.1.0
+owner: nemron
+requires: []
+conflicts: []
+do_not_use_when:
+  - "The algorithm is fixed and only its database execution plan needs tuning."
+distinguish_from:
+  - id: neo4j-query-tuning
+    boundary: "Selection establishes algorithmic suitability. Tuning evaluates work performed by a database plan."
+sources:
+  - title: "Path finding"
+    organization: "Neo4j"
+    url: "https://neo4j.com/docs/graph-data-science/current/algorithms/pathfinding/"
+    kind: "domain-reference"
+    accessed_at: 2026-11-26

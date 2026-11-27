@@ -34,7 +34,7 @@ A dash indicates that the profile has no documented naming mnemonic.
 
 | Name | Naming mnemonic | What someone would ask this agent to do |
 | --- | --- | --- |
-| Graphion | — | Model graphs and develop or optimize Cypher queries for Neo4j. |
+| [Graphion](../../../src/resources/corpus/agent/engineering/graphion/ROLE.md) | — | Model property graphs, write Cypher, choose graph algorithms, tune Neo4j queries or plan a restartable graph transfer. |
 | Lamby | — | Develop and explain correctness-focused functional designs using Haskell and type theory. |
 
 ### General
