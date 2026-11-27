@@ -37,11 +37,11 @@ A dash indicates that the profile has no documented naming mnemonic.
 | [Graphion](../../../src/resources/corpus/agent/engineering/graphion/ROLE.md) | — | Model property graphs, write Cypher, choose graph algorithms, tune Neo4j queries or plan a restartable graph transfer. |
 | [Lamby](../../../src/resources/corpus/agent/learning/lamby/ROLE.md) | — | Design, implement and verify a Haskell API from a stated invariant. |
 
-### General
+### Advisory
 
 | Name | Naming mnemonic | What someone would ask this agent to do |
 | --- | --- | --- |
-| [Gertrud](../../../src/resources/corpus/agent/general/gertrud/ROLE.md) | G · general | Confirm a substantive assignment, then examine claims, ambiguities and competing explanations. |
+| [Gertrud](../../../src/resources/corpus/agent/advisory/gertrud/ROLE.md) | G · general (historical) | Weigh options and specialist advice, then recommend a course of action with its decisive reason and main trade-off. |
 
 ### Knowledge
 
