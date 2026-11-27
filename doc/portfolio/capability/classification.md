@@ -8,8 +8,8 @@ Choose the primary home by the result the requester wants to receive. Read the t
 
 | First entry | Expected result |
 | --- | --- |
-| `collaboration` | A shared understanding of the assignment, a useful challenge to a colleague or a handoff another expert can act on. |
-| `analysis` | A clarified need, trustworthy evidence, an inventory of functions or a requirement with distinguishable outcomes. |
+| `collaboration` | A shared understanding of the assignment, feedback on a learner’s attempt, a useful challenge to a colleague or an actionable handoff. |
+| `analysis` | A clarified need, trustworthy evidence, a mathematical derivation, an inventory of functions or a requirement with distinguishable outcomes. |
 | `strategy` | A direction, priority, goal or decision an owner can use to steer work. |
 | `organization` | An allocation of responsibility, an operating model or a proposal for a team. |
 | `architecture` | A system or landscape design, an architecture decision, or evidence that a design meets its constraints. |
@@ -66,6 +66,7 @@ Each ID appears once under its primary outcome.
 | `clarification` | [clarification-before-guessing](../../../src/resources/corpus/capability/collaboration/clarification/clarification-before-guessing.md), [task-understanding-confirmation](../../../src/resources/corpus/capability/collaboration/clarification/task-understanding-confirmation.md) |
 | `review` | [critical-peer-discipline](../../../src/resources/corpus/capability/collaboration/review/critical-peer-discipline.md) |
 | `handoff` | [expert-continuity-briefing](../../../src/resources/corpus/capability/collaboration/handoff/expert-continuity-briefing.md) |
+| `learning` | [guided-practice](../../../src/resources/corpus/capability/collaboration/learning/guided-practice.md) |
 
 ### analysis
 
@@ -74,6 +75,7 @@ Each ID appears once under its primary outcome.
 | `evidence` | [comparison-dimension-discipline](../../../src/resources/corpus/capability/analysis/evidence/comparison-dimension-discipline.md), [evidence-typing-discipline](../../../src/resources/corpus/capability/analysis/evidence/evidence-typing-discipline.md), [fact-interpretation-separation](../../../src/resources/corpus/capability/analysis/evidence/fact-interpretation-separation.md), [statement-extraction-rigor](../../../src/resources/corpus/capability/analysis/evidence/statement-extraction-rigor.md), [deterministic-reasoning](../../../src/resources/corpus/capability/analysis/evidence/deterministic-reasoning.md) |
 | `requirement` | [need-elicitation](../../../src/resources/corpus/capability/analysis/requirement/need-elicitation.md), [requirement-formalization](../../../src/resources/corpus/capability/analysis/requirement/requirement-formalization.md), [ai-use-case-framing](../../../src/resources/corpus/capability/analysis/requirement/ai-use-case-framing.md), [ambiguity-detection](../../../src/resources/corpus/capability/analysis/requirement/ambiguity-detection.md), [semantic-conflict-detection](../../../src/resources/corpus/capability/analysis/requirement/semantic-conflict-detection.md), [contradiction-detection](../../../src/resources/corpus/capability/analysis/requirement/contradiction-detection.md), [overlap-detection](../../../src/resources/corpus/capability/analysis/requirement/overlap-detection.md) |
 | `function` | [function-extraction](../../../src/resources/corpus/capability/analysis/function/function-extraction.md), [function-deduplication](../../../src/resources/corpus/capability/analysis/function/function-deduplication.md) |
+| `mathematics` | [category-theoretic-reasoning](../../../src/resources/corpus/capability/analysis/mathematics/category-theoretic-reasoning.md) |
 
 ### strategy
 

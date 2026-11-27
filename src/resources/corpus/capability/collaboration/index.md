@@ -1,6 +1,6 @@
 # Collaboration capability index
 
-Agree on the assignment, challenge a proposal or hand work to another expert.
+Agree on an assignment, review a proposal, hand work to an expert or guide a learner through practice.
 
 ## Clarification
 
@@ -20,3 +20,9 @@ Agree on the assignment, challenge a proposal or hand work to another expert.
 | ID | File | Purpose | Use When | Do Not Use When | Distinguish From | Requires | Conflicts |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `expert-continuity-briefing` | [expert-continuity-briefing.md](handoff/expert-continuity-briefing.md) | Transform a running discussion into a continuity brief that enables another expert or agent to continue the work without material loss of goal, reasoning state, decisions, evidence, or next actions. | Use when an ongoing discussion, advisory thread, or reasoning session must be transferred so another expert can continue without reconstructing the material context from scratch. | the task is a project or repository reboot handover rather than discussion continuity<br>simple summarization is sufficient and no receiving expert must continue the work directly | statement-extraction-rigor: extracts relevant source statements without building a continuity-ready expert brief<br>decision-structuring-discipline: structures decision artifacts instead of preserving full discussion continuity<br>context-engineering-discipline: shapes model context boundaries instead of producing a transfer brief for a receiving expert | `[deterministic-reasoning, statement-extraction-rigor, fact-interpretation-separation]` | `[]` |
+
+## Learning
+
+| ID | File | Purpose | Use When | Do Not Use When | Distinguish From | Requires | Conflicts |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `guided-practice` | [guided-practice.md](learning/guided-practice.md) (draft) | Adapt practice to what a learner actually explains, predicts or does. | Use when the learner asks to practise, to check their understanding or to find a solution with hints. | The requester wants a direct explanation or a completed solution. | clarification-before-guessing: Clarification obtains a missing fact about the task. Guided practice uses the learner’s attempt to select feedback. | `[]` | `[]` |

@@ -1,6 +1,6 @@
 # Analysis capability index
 
-Extract evidence, clarify a need or formalize requirements.
+Extract evidence, clarify a need, formalize requirements or derive a mathematical result.
 
 ## Evidence
 
@@ -30,3 +30,9 @@ Extract evidence, clarify a need or formalize requirements.
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `function-extraction` | [function-extraction.md](function/function-extraction.md) | Extract normalized business or organizational functions from source material. | Use when source material contains business or organizational work statements that must be normalized into functions. | `[]` | `[]` | `[statement-extraction-rigor]` | `[]` |
 | `function-deduplication` | [function-deduplication.md](function/function-deduplication.md) | Remove duplicate function statements without losing meaningful distinctions. | Use when a normalized function set may contain duplicate or near-duplicate function statements. | `[]` | `[]` | `[function-extraction]` | `[]` |
+
+## Mathematics
+
+| ID | File | Purpose | Use When | Do Not Use When | Distinguish From | Requires | Conflicts |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `category-theoretic-reasoning` | [category-theoretic-reasoning.md](mathematics/category-theoretic-reasoning.md) (draft) | Define a categorical concept or establish a claim from typed arrows, hypotheses and laws. | Use when the requested result is a categorical definition, proof, counterexample or explanation of a diagram. | The requested result is the implementation or verification of a Haskell API. | haskell-theory-correspondence: Categorical reasoning establishes a mathematical statement. Theory correspondence relates a statement to a typed Haskell construction and identifies the limits of that interpretation. | `[]` | `[]` |
