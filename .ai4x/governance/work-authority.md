@@ -67,7 +67,7 @@ Bind the smallest closed envelope needed for the actual risk:
 
 Ordinary in-scope local edits do not require per-file approval or predeclared digests. Missing, stale, or conflicting facts required for a material external or protected effect fail closed.
 
-- GitHub Issues and the project board own planned work and lifecycle state.
+- GitHub Issues and the project board own planned work and lifecycle state. When work on an Issue starts, pauses, resumes, enters review or completes, or you discover a stale Status while handling the Issue, ensure the Issue is on the project board and set its Status to the stage authorized and actually reached. Read back both the Issue state and board Status before reporting the transition. If an update fails, report the mismatch. If a required PO decision is missing, request it before changing either state.
 - Use a short-lived topic branch, a focused pull request, required green checks, and squash merge.
 - Require human approval for product and governance decisions; automation supplies evidence, not authority.
 - Only the Product Owner decides the Project status transitions
