@@ -1,0 +1,38 @@
+cabal-version: 3.0
+name: r15-dhall-consumer
+version: 0.1.0.0
+build-type: Simple
+synopsis: R-15 Dhall closed-extraction and semantic-validation prototype
+description: Fixture-bounded consumer evidence for the R-15 declaration comparison.
+category: Development
+maintainer: ai4X maintainers
+license: Apache-2.0
+
+flag dev-werror
+  description: Treat compiler warnings as errors for prototype verification
+  default: False
+  manual: True
+
+executable r15-dhall-consumer
+  main-is: Main.hs
+  hs-source-dirs: src
+  other-modules:
+      Collaboration
+    , Common
+    , Composition
+    , Curation
+    , Governance
+    , Intent
+    , Loader
+    , WorkManagement
+  default-language: GHC2021
+  ghc-options: -Wall
+  if flag(dev-werror)
+    ghc-options: -Werror
+  build-depends:
+      base >=4.16 && <5
+    , containers >=0.6 && <0.8
+    , dhall >=1.42.3 && <1.43
+    , directory >=1.3 && <1.4
+    , filepath >=1.4 && <1.6
+    , text >=1.2 && <2.2
