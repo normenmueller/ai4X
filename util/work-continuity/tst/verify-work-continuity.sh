@@ -5,7 +5,7 @@ script_directory=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 repository=$(CDPATH= cd -- "$script_directory/../../.." && pwd)
 verifier="$repository/util/work-continuity/verify-checkpoint.sh"
 common="$repository/util/work-continuity/common.sh"
-include_file="$repository/.ai4x/operations/work-continuity/INCLUDE.txt"
+include_file="$repository/util/work-continuity/INCLUDE.txt"
 scratch_parent="$repository/.ai4x/local/verification"
 mkdir -p "$scratch_parent"
 scratch_root=$(mktemp -d "$scratch_parent/work-continuity.XXXXXX")
@@ -84,7 +84,7 @@ done < "$fixture_include"
 
 git -C "$fixture_repository" bundle create "$valid/all-refs.bundle" --all
 tar -czf "$valid/local-continuity.tar.gz" -C "$fixture_repository" -T "$fixture_include"
-cp "$repository/.ai4x/operations/work-continuity/RECOVERY.md" "$valid/RECOVERY.md"
+cp "$repository/util/work-continuity/RECOVERY.md" "$valid/RECOVERY.md"
 cp "$fixture_include" "$valid/INCLUDE.txt"
 printf '%s\n' \
   'schema=ai4x-project-work-continuity-bootstrap-v1' \

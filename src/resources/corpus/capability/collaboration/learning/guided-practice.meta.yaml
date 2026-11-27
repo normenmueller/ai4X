@@ -1,0 +1,16 @@
+id: guided-practice
+version: 0.1.0
+owner: nemron
+requires: []
+conflicts: []
+do_not_use_when:
+  - "The requester wants a direct explanation or a completed solution."
+distinguish_from:
+  - id: clarification-before-guessing
+    boundary: "Clarification obtains a missing fact about the task. Guided practice uses the learner\u2019s attempt to select feedback."
+sources:
+  - title: "Eliciting Self-Explanations Improves Understanding"
+    organization: "Cognitive Science"
+    url: "https://onlinelibrary.wiley.com/doi/10.1207/s15516709cog1803_3"
+    kind: "domain-reference"
+    accessed_at: 2026-11-27

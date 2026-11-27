@@ -1,43 +1,24 @@
 # ai4X Work State
 
 Schema: ai4x-work-state-v1
-Applies on branch: trunk
-Owning Issue: #103
+Applies on branch: reboot/research-review
+Owning Issue: #209
 
 ## Return context
 
-- Start reboot discussions on clean `trunk`. A continuation greeting grants
-  read-only discovery; implementation still uses an authorized topic branch.
-- Read the owning Issue's `Current re-entry` section for the current discussion
-  and prerequisite work before resuming architecture refinement.
-- Preserve the accepted poster layout and semantics; change only the next
-  individually discussed visual or semantic point.
-- The preserved architecture return point is `Curate Agentic Constellation`:
-  reconcile its lean tree view with the canonical functional contract before
-  proposing a change.
+- Read the [backup inventory](https://github.com/normenmueller/ai4X/issues/209) for the next directory, the remaining exceptions, prior decisions and the acceptance criteria for recommending retirement. The issue body owns the live checklist. [Draft PR #206](https://github.com/normenmueller/ai4X/pull/206) collects the approved integration changes.
+- The [research review](https://github.com/normenmueller/ai4X/issues/104#issuecomment-7136072119) and [documentation review](https://github.com/normenmueller/ai4X/issues/104#issuecomment-7136543371) are complete. #104 owns product governance and assurance.
+- The separate fresh-client path check at `436a53a` remains with [#106](https://github.com/normenmueller/ai4X/issues/106). Its synthetic preflight blocked unexpected reads and writes. The runner could not enforce a hostname allowlist for model traffic. Retry with verified endpoint restrictions and authentication inside the isolated fixture.
 
 ## Route
 
-- Re-read the owning Issue, project item, branch, and upstream from Git and
-  GitHub before mutation.
-- Use the registered worktree on the branch bound above as the preferred
-  working checkout. Start the working Codex CLI session there; a session
-  started elsewhere performs read-only discovery and reports that location.
-- Load `.ai4x/context/need-to-capability.md`, `.ai4x/context/curation.md`, and
-  `doc/system-design/need-to-capability/need-to-capability.tex`; render the PNG only after a coherent
-  diagram increment.
-- Load `.ai4x/governance/work-authority.md` and `.ai4x/TEAM.md` for execution and
-  collaboration routing.
+- Use the registered checkout for the bound branch and the [Cold Start procedure](operation/session-continuity.md). Compare [PR #206](https://github.com/normenmueller/ai4X/pull/206) with local Git when reporting publication.
 
 ## Authority boundary
 
-- This file is a tracked return pointer, not work, approval, gate, or lifecycle
-  authority.
-- Live GitHub state and the current explicit Product Owner decision remain the
-  owners of mutable work and execution authority.
+- Commits accumulate locally until PO review. A continuation greeting authorizes read-only discovery. Check the work contract before acting.
 
 ## Concurrency limit
 
-- This first slice supports one active tracked STATE per work branch.
-- Concurrent branches may carry different STATE revisions. Preserve conflicts
-  and fail closed; do not infer which branch supersedes another.
+- Each working branch owns one return point. Resolve competing assignments
+  with nemron before proceeding.

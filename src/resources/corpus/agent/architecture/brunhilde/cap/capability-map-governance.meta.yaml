@@ -1,0 +1,17 @@
+id: capability-map-governance
+version: 0.2.1
+owner: nemron
+requires: []
+conflicts: []
+do_not_use_when: ["when the task is detailed process, org-chart, or application mapping rather than stable capability architecture","when segment or solution realization questions dominate over capability-map control logic"]
+distinguish_from:
+  - id: business-service-architecture
+    boundary: "Use business service architecture to connect a particular service to its processes, organization and outcomes."
+  - id: enterprise-architecture-integration
+    boundary: "Use enterprise integration to coordinate change between segments once the map has exposed a shared dependency."
+sources:
+  - title: "The TOGAF Standard, 10th Edition"
+    organization: "The Open Group"
+    url: "https://publications.opengroup.org/c220"
+    kind: "standard"
+    accessed_at: "2026-03-20"

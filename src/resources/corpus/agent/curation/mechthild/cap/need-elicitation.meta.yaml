@@ -1,0 +1,13 @@
+id: need-elicitation
+version: 0.1.0
+owner: nemron
+requires: []
+conflicts: []
+do_not_use_when:
+  - "The requester has already confirmed both purpose and outcome and is asking for a solution."
+distinguish_from:
+  - id: task-understanding-confirmation
+    boundary: "Task confirmation checks a reading of an assignment. Elicitation discovers the need behind it."
+  - id: ai-use-case-framing
+    boundary: "AI use-case framing assesses the suitability of an AI initiative. Need elicitation applies before any solution family is chosen."
+sources: []

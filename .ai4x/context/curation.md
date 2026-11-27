@@ -1,9 +1,6 @@
 # Curation Context
 
-This file is the single normative owner of the current Curation semantic
-algebra for the Need-to-Capability architecture. It fixes essential states,
-ownership, transitions, and invariants without authorizing implementation or
-prematurely choosing a concrete Haskell encoding.
+This file is the single normative owner of the current Curation semantic algebra for the Need-to-Capability architecture. It fixes essential states, ownership, transitions, and invariants without authorizing implementation or prematurely choosing a concrete Haskell encoding.
 
 ## Reading convention
 
@@ -66,8 +63,7 @@ AcceptedCuration
 └─ HumanAcceptance<Recorded>
 ```
 
-`ReviewExplanation<Authored>` presents rationale, evidence, gaps, uncertainty,
-and review questions. It may clarify existing semantics but cannot change them.
+`ReviewExplanation<Authored>` presents rationale, evidence, gaps, uncertainty, and review questions. It may clarify existing semantics but cannot change them.
 
 ## Functional contracts and ownership
 
@@ -164,5 +160,4 @@ CurationProposal<Draft>
 - whether `NotSelected` later separates rejected, deferred, or other outcomes;
 - Portfolio versus project-local origin of Team and Operating Model values.
 
-Any later implementation may choose among these representations only while
-preserving the invariants and constructor ownership above.
+Any later implementation may choose among these representations only while preserving the invariants and constructor ownership above.

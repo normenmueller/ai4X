@@ -1,0 +1,16 @@
+version: 0.1.0
+sources:
+  - kind: import
+    key: ai4x-corpus
+    inv: src/resources/corpus/capability
+    ref: 92d28ad0e6a95184e7065c245679497c82904767
+    caps:
+      # Five capabilities selected in the original profile.
+      - segment-architecture-stewardship
+      - technology-platform-architecture
+      - archimate-viewpoint-selection
+      - archimate-cross-layer-consistency
+      - architecture-compliance-review
+      # Retain these methods for assignments matching their individual triggers.
+      - baseline-target-gap-analysis
+      - togaf-adm-discipline

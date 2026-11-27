@@ -1,0 +1,19 @@
+id: enterprise-architecture-integration
+version: 0.1.3
+owner: nemron
+requires: []
+conflicts: []
+do_not_use_when: ["when scope is only one segment or one concrete solution","when the main need is executive sponsorship and practice mandate rather than enterprise integration"]
+distinguish_from:
+  - id: architecture-practice-leadership
+    boundary: "Use practice leadership when the missing decision is an executive mandate or sponsorship for architecture."
+  - id: segment-architecture-stewardship
+    boundary: "Use segment stewardship when one segment can resolve the policy or roadmap question under its own mandate."
+  - id: transition-architecture-planning
+    boundary: "Use transition planning to define the entry and exit criteria for an intermediate state. Enterprise integration reconciles dependencies between segment roadmaps."
+sources:
+  - title: "Architecture Roles and Skills - Enterprise Architect"
+    organization: "The Open Group"
+    url: "https://pubs.opengroup.org/togaf-standard/architecture-roles-and-skills/chap04.html#_enterprise_architect"
+    kind: "standard"
+    accessed_at: "2026-03-24"

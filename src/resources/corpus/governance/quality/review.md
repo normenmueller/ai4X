@@ -1,0 +1,19 @@
+# Review a change
+
+Draft for review.
+
+Review refined requirements or architecture before implementation when the workflow calls for it. Before merge, an independent reviewer checks the current implementation, tests and acceptance contract. Name the revision, affected components and evidence inspected.
+
+Rate each finding by its impact and report findings in severity order (high, medium, low). For each, identify the affected artifact, evidence, consequence and corrective action. State open questions, unverified assumptions and residual risk. If no findings or risks were identified, explain what was exercised and the limits of the review.
+
+Record non-blocking observations with the review. If follow-up work is agreed, link the work item that tracks it. Reuse an existing item when it covers the action.
+
+Return `blocked` while a material finding remains open, including any high-severity finding. Regardless of severity, also return `blocked` if a mandatory acceptance criterion due at this review is unmet or required evidence is missing. Identify the criterion or evidence that blocks progression. Complete the checks in the agreed scope that the available evidence permits. If missing evidence prevents a check, name the evidence and the affected check. Once the scope is accounted for and the verdict is supported, report the verdict and end the search for further findings.
+
+Recheck corrections and affected tests on the updated revision. If the same blocking criterion still fails after one attempt to correct it, keep the verdict `blocked` and hand the original finding, attempted correction and recheck evidence to the role coordinating the work. End the automatic correction cycle there. Treat a newly failing criterion as a new finding.
+
+The coordinator may direct a targeted correction within the agreed requirements. If plausible readings require different outcomes, present the deciding case and a recommendation to the product owner for a decision.
+
+The product owner may explicitly accept a named residual risk. Record the possible consequence, affected revision and rationale in the owning issue. Risk acceptance preserves the review findings: keep `blocked` while a mandatory criterion due at this review is unmet, evidence required for this review is missing or a material finding remains open. If the product owner explicitly changes a criterion within their authority, record the revised criterion and reassess the change against it before issuing a new verdict.
+
+Return `pass` when the criteria due at this review are met, the required evidence supports them and all material findings are resolved. Check the consuming project’s authorization before taking any subsequent action.

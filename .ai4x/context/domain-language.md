@@ -6,6 +6,11 @@
   deterministic.
 - **Need:** the outcome or problem that motivates work.
 - **Capability:** reusable knowledge or behavior that may satisfy part of a Need.
+  Detecting a contradiction between two sources is a cognitive Capability.
+- **Governance rule:** specifies what an agent must do under stated conditions.
+  For example, a review rule may require reporting an unresolved material
+  contradiction as a blocker. Once adopted, that rule applies to whoever
+  performs the review, regardless of their role.
 - **Capability Candidate:** an existing Capability from a released Corpus that
   Scouting has identified as potentially fit for the validated Project Intent;
   it is a reasoned proposal for Curation, not yet a selection.

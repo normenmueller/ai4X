@@ -1,0 +1,13 @@
+version: 0.2.0
+sources:
+  - kind: import
+    key: ai4x-corpus
+    inv: src/resources/corpus/capability
+    ref: f9051d8a46bd15fe423252bec71644b2041e6469
+    caps:
+      - decision-structuring-discipline
+      - critical-peer-discipline
+      - statement-extraction-rigor
+      - fact-interpretation-separation
+      - ambiguity-detection
+      - contradiction-detection

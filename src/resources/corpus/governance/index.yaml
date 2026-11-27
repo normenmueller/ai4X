@@ -1,0 +1,85 @@
+# Resolve paths relative to this index. For each selected task, load its
+# documents and their transitive prerequisites, prerequisites first, once each.
+# Combine routes when a change spans tasks. For capability authoring or review,
+# add engineering when assessing a software contract, implementation or test.
+# Add typescript only for TypeScript work.
+# The consuming project decides adoption, local routing and execution authority.
+status: draft
+
+tasks:
+  rule_conflict:
+    - rule-precedence.md
+  agent_role_curation:
+    - agent-role-naming.md
+  engineering:
+    - quality/engineering.md
+  feature_implementation:
+    - quality/engineering.md
+    - delivery/development-workflow.md
+    - quality/implementation.md
+  architecture:
+    - quality/architecture.md
+  testing:
+    - quality/testing.md
+  review:
+    - quality/review.md
+  requirements:
+    - quality/requirements.md
+  ai_strategy:
+    - quality/ai-strategy.md
+  typescript:
+    - quality/typescript.md
+  capability_authoring:
+    - capability-authoring-governance.md
+  corpus_review:
+    - capability-sweep.md
+  conformance:
+    - delivery/development-conformance.md
+    - delivery/development-conformance-template.md
+
+library:
+  - path: rule-precedence.md
+    shape: base-contract
+    depends_on: []
+  - path: agent-role-naming.md
+    shape: base-contract
+    depends_on: []
+  - path: quality/engineering.md
+    shape: base-contract
+    depends_on: []
+  - path: quality/typescript.md
+    shape: base-contract
+    depends_on: [quality/engineering.md]
+  - path: quality/implementation.md
+    shape: stage-output-contract
+    depends_on: [quality/engineering.md]
+  - path: quality/architecture.md
+    shape: stage-output-contract
+    depends_on: [quality/engineering.md]
+  - path: quality/testing.md
+    shape: stage-output-contract
+    depends_on: [quality/engineering.md]
+  - path: quality/review.md
+    shape: stage-output-contract
+    depends_on: [quality/engineering.md]
+  - path: quality/requirements.md
+    shape: stage-output-contract
+    depends_on: [quality/engineering.md]
+  - path: quality/ai-strategy.md
+    shape: stage-output-contract
+    depends_on: [quality/engineering.md]
+  - path: capability-authoring-governance.md
+    shape: base-contract
+    depends_on: []
+  - path: capability-sweep.md
+    shape: protocol
+    depends_on: [capability-authoring-governance.md]
+  - path: delivery/development-conformance.md
+    shape: protocol
+    depends_on: [quality/engineering.md]
+  - path: delivery/development-conformance-template.md
+    shape: template
+    depends_on: [delivery/development-conformance.md]
+  - path: delivery/development-workflow.md
+    shape: protocol
+    depends_on: [delivery/development-conformance.md]

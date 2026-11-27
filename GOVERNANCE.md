@@ -9,7 +9,7 @@ ai4X uses lean, risk-based repository governance.
 3. Obtain Product Owner approval before implementation when scope or product intent changes.
 4. Deliver one focused change on a short-lived topic branch.
 5. Require proportionate tests, green repository checks, and human review.
-6. Squash-merge to `trunk`, then remove the merged topic branch.
+6. Follow the [merge handoff and branch retirement rules](.ai4x/governance/work-authority.md#atomic-work-unit-authority).
 
 Small, low-risk maintenance may use a correspondingly small Issue and review.
 High-risk security, authority, migration, or destructive changes require stronger

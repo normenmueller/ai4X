@@ -1,0 +1,9 @@
+version: 0.1.0
+sources:
+  - kind: import
+    key: ai4x-corpus
+    inv: src/resources/corpus/capability
+    ref: 6134a4868e79f115918ceb862a33f8b4d8662b19
+    caps:
+      - category-theoretic-reasoning
+      - guided-practice

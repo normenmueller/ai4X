@@ -1,0 +1,11 @@
+id: bibliographic-description
+version: 0.1.0
+owner: nemron
+requires: []
+conflicts: []
+do_not_use_when:
+  - "The requested result is a consistency check between existing records and stored documents."
+distinguish_from:
+  - id: bibliographic-collection-reconciliation
+    boundary: "Describes the publication from source evidence. Collection reconciliation checks correspondence between records and files."
+sources: []

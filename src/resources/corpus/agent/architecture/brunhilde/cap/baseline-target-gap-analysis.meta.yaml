@@ -1,0 +1,17 @@
+id: baseline-target-gap-analysis
+version: 0.2.1
+owner: nemron
+requires: []
+conflicts: []
+do_not_use_when: ["when no baseline or target state can be stated yet","when the main task is sequencing transition states rather than comparing states"]
+distinguish_from:
+  - id: transition-architecture-planning
+    boundary: "Use transition planning to turn an established gap into a sequence of intermediate states."
+  - id: solution-realization-architecture
+    boundary: "Use solution realization to design the components and rollout that address an established gap."
+sources:
+  - title: "The TOGAF Standard, 10th Edition"
+    organization: "The Open Group"
+    url: "https://publications.opengroup.org/c220"
+    kind: "standard"
+    accessed_at: "2026-03-20"

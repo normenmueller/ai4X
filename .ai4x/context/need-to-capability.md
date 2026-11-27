@@ -1,15 +1,10 @@
 # Need-to-Capability Context
 
-This file owns the accepted functional architecture behind the ai4X
-Need-to-Capability journey. It is a design target, not implementation authority.
-The owning Issue and live project state govern when any slice may be built.
+This file owns the accepted functional architecture behind the ai4X Need-to-Capability journey. It is a design target, not implementation authority. The owning Issue and live project state govern when any slice may be built.
 
 ## Product identity
 
-ai4X is a human-led Need-to-Capability system for **Agentic Cognition
-Engineering (ACE)**. It turns human intent into fit-for-purpose Agentic
-Constellations—coherently curated and explicitly activated under human
-authority.
+ai4X is a human-led Need-to-Capability system for **Agentic Cognition Engineering (ACE)**. It turns human intent into fit-for-purpose Agentic Constellations—coherently curated and explicitly activated under human authority.
 
 ```text
 ai4X Portfolio
@@ -26,18 +21,11 @@ Need-to-Capability journey
   -> explicit activation under human authority
 ```
 
-The Portfolio may contain cognitive Capabilities, deterministic Governance
-controls, Collaboration and Work Management Models, operational tools,
-Assurance Packs, integrations, and adapters. Portfolio membership does not
-imply project fitness, selection, composition, or activation.
+The Portfolio may contain cognitive Capabilities, deterministic Governance controls, Collaboration and Work Management Models, operational tools, Assurance Packs, integrations, and adapters. Portfolio membership does not imply project fitness, selection, composition, or activation.
 
 ## Formal boundary
 
-Describe the system as **strongly and statically typed**, never as a strict type
-system. Dhall supplies total, typed declarative inputs. Haskell owns closed
-domain values, invariants, and deterministic transformations; its evaluation is
-non-strict. AI cognition authors meaning and explanations, while humans own
-confirmation and approval.
+Describe the system as **strongly and statically typed**, never as a strict type system. Dhall supplies total, typed declarative inputs. Haskell owns closed domain values, invariants, and deterministic transformations; its evaluation is non-strict. AI cognition authors meaning and explanations, while humans own confirmation and approval.
 
 ```text
 Dhall declarations
@@ -45,8 +33,7 @@ Dhall declarations
   -> deterministic evidence and projections
 ```
 
-Deterministic success proves only closed values and formal invariants. It never
-manufactures semantic fitness, human confirmation, or approval.
+Deterministic success proves only closed values and formal invariants. It never manufactures semantic fitness, human confirmation, or approval.
 
 ## Command architecture
 
@@ -68,8 +55,7 @@ ai4x project adopt|create
        explicit projection; no implicit autonomous execution
 ```
 
-There is no public `ai4x declarations publish` ritual. Acceptance and
-persistence remain explicit typed boundaries within `ai4x curate`.
+There is no public `ai4x declarations publish` ritual. Acceptance and persistence remain explicit typed boundaries within `ai4x curate`.
 
 Cross-cutting surfaces remain distinct:
 
@@ -81,8 +67,7 @@ Cross-cutting surfaces remain distinct:
 - `ai4x work ...` remains reserved for live work operations only if their owner
   later proves ai4X authority.
 
-The CLI is a thin adapter. AI hosts author cognitive judgments, humans exercise
-authority, and deterministic libraries validate and project closed values.
+The CLI is a thin adapter. AI hosts author cognitive judgments, humans exercise authority, and deterministic libraries validate and project closed values.
 
 ## Ownership flow
 
@@ -95,8 +80,7 @@ authority, and deterministic libraries validate and project closed values.
   accepted project configuration, and projects explicit activation plans.
 - Versioned Artifacts own exact phase-indexed values and deterministic evidence.
 
-The canonical Curation states and functions are owned only by
-[curation.md](curation.md).
+The canonical Curation states and functions are owned only by [curation.md](curation.md).
 
 ## Diagram projection rules
 
@@ -124,6 +108,4 @@ The canonical Curation states and functions are owned only by
 - Preserve the accepted layout and spacing; render and inspect every approved
   point, but commit coherent groups rather than individual micro-edits.
 
-The tracked diagram source, when present on the owning #103 branch, is the lean
-visual projection of these owners. It must not become a second semantic type
-authority.
+The tracked diagram source, when present on the owning #103 branch, is the lean visual projection of these owners. It must not become a second semantic type authority.

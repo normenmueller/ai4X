@@ -44,14 +44,15 @@ To put those capabilities to work, people decide what each agent will do.
 Give agents a clear brief, ask them to explain their reasoning, and review their work. People make the final decision.
 
 - **Need-first:** describe the outcome before selecting implementation.
-- **Host-independent:** keep project and agent declarations separate from host adapters.
+- **Capability-based**: compose each agent's role from the cognitive capabilities the need calls for.
 - **Agentic-first:** make context discoverable, bounded, and executable by AI agents.
 - **Human-approvable:** make intent, effects, evidence, and decisions understandable to people.
+- **Host-independent:** keep project and agent declarations separate from host adapters.
 - **Self-applicable:** evolve ai4X using the same Need-to-Capability discipline it provides.
 
 # From Need to Capability
 
-The diagram shows how ai4X is designed to turn a human need into an **Agentic Constellation**: a team of agents, the capabilities they need, and a way to work together.
+Your need is at the heart of ai4X. Through conversation, you clarify what you want to achieve, why it matters and what success would look like. The *how* comes later — with the right agents for the job! Once you confirm that need, ai4X curates the cognitive capabilities to meet it and proposes an **Agentic Constellation**. You can then see what each agent would do, how they would work together and where they would need your approval. You decide when to put that plan into action.
 
 <p align="center">
   <a href="doc/system-design/need-to-capability/need-to-capability.png">
@@ -63,7 +64,7 @@ The diagram shows how ai4X is designed to turn a human need into an **Agentic Co
   <sub>Open the diagram for the full-size architecture view. Publication source: <a href="doc/system-design/need-to-capability/need-to-capability.tex">TikZ</a>.</sub>
 </p>
 
-This is the design for the first ai4X release. People confirm the need, review the proposed constellation and decide when to activate it. The [Need-to-Capability design](doc/system-design/need-to-capability/README.md) explains how scouting, curation and activation fit together in agentic cognition engineering (ACE).
+The [Need-to-Capability design](doc/system-design/need-to-capability/README.md) explains how scouting, curation and activation fit together in agentic cognition engineering (ACE).
 
 # Explore ai4X
 

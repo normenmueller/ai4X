@@ -1,0 +1,24 @@
+id: technology-platform-architecture
+version: 0.1.2
+owner: nemron
+requires: []
+conflicts: []
+do_not_use_when: ["when the dominant concern is application-service architecture or data governance rather than platform and infrastructure design","when the task is an operational runbook without architecture-level platform decisions"]
+distinguish_from:
+  - id: application-integration-architecture
+    boundary: "Use application integration to define the interface between two services. Platform architecture sets the common runtime or network standard they rely on."
+  - id: data-governance-architecture
+    boundary: "Use data governance for the ownership, retention or protection requirements the platform must satisfy."
+  - id: solution-realization-architecture
+    boundary: "Use solution realization for the rollout of a particular solution on the platform. Platform architecture sets the standards shared by its consumers."
+sources:
+  - title: "Architecture Roles and Skills - Segment Architect (Business and Technical)"
+    organization: "The Open Group"
+    url: "https://pubs.opengroup.org/togaf-standard/architecture-roles-and-skills/chap04.html#_segment_architect_business_and_technical"
+    kind: "standard"
+    accessed_at: "2026-03-24"
+  - title: "Architecture Roles and Skills - Skill/Architecture Role Matrix"
+    organization: "The Open Group"
+    url: "https://pubs.opengroup.org/togaf-standard/architecture-roles-and-skills/chap05.html#tbl-Skill-Architecture-Role_Matrix"
+    kind: "standard"
+    accessed_at: "2026-03-24"

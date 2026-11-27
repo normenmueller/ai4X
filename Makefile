@@ -10,19 +10,16 @@ REQUIRED_FILES := \
 	.ai4x/CONTEXT.md \
 	.ai4x/STATE.md \
 	.ai4x/TEAM.md \
-	.ai4x/bindings/work-continuity.md \
+	.ai4x/binding/work-continuity.md \
 	.ai4x/context/architecture.md \
 	.ai4x/context/curation.md \
 	.ai4x/context/domain-language.md \
 	.ai4x/context/need-to-capability.md \
 	.ai4x/governance/work-authority.md \
-	.ai4x/operations/session-continuity.md \
-	.ai4x/operations/work-continuity/INCLUDE.txt \
-	.ai4x/operations/work-continuity.md \
-	.ai4x/operations/work-continuity/RECOVERY.md \
-	.ai4x/records/evidence/reviews/session-continuity/183-ai-review.md \
-	.ai4x/records/evidence/assurance/work-continuity/factory-reset-restore-proof.md \
-	.ai4x/records/receipts/work-continuity/factory-reset-readiness.md \
+	.ai4x/operation/session-continuity.md \
+	util/work-continuity/INCLUDE.txt \
+	util/work-continuity/README.md \
+	util/work-continuity/RECOVERY.md \
 	.github/CODEOWNERS \
 	.github/copilot-instructions.md \
 	.github/workflows/verify.yml \
@@ -88,28 +85,21 @@ REQUIRED_FILES := \
 	util/work-continuity/tst/verify-work-continuity.sh
 
 REQUIRED_DIRS := \
-	.ai4x/agents \
+	.ai4x/agent \
 	.ai4x/assurance \
-	.ai4x/bindings \
+	.ai4x/binding \
 	.ai4x/context \
 	.ai4x/coordination \
-	.ai4x/governance/quality \
 	.ai4x/intent \
-	.ai4x/operations \
-	.ai4x/records/evidence/assurance \
-	.ai4x/records/evidence/assurance/work-continuity \
-	.ai4x/records/evidence/reviews \
-	.ai4x/records/evidence/reviews/session-continuity \
-	.ai4x/records/provenance \
-	.ai4x/records/receipts \
-	.ai4x/records/receipts/work-continuity \
-	.codex \
-	.github/agents \
-	.github/ISSUE_TEMPLATE \
+	.ai4x/operation \
+	.ai4x/record/evidence/assurance \
+	.ai4x/record/evidence/review \
+	.ai4x/record/provenance \
+	.ai4x/record/receipt \
 	.github/workflows \
 	doc/portfolio \
-	doc/portfolio/agent-portfolio \
-	doc/portfolio/capability-corpus \
+	doc/portfolio/agent \
+	doc/portfolio/capability \
 	doc/use-cases \
 	doc/system-design \
 	doc/system-design/need-to-capability \
@@ -136,13 +126,13 @@ REQUIRED_DIRS := \
 	src/interfaces/cli \
 	src/interfaces/adapters/codex \
 	src/interfaces/adapters/github \
-	src/resources/assurance/packs \
-	src/resources/bundles \
-	src/resources/corpus/capabilities \
+	src/resources/bundle \
+	src/resources/corpus/agent \
+	src/resources/corpus/assurance \
+	src/resources/corpus/capability \
 	src/resources/corpus/governance \
-	src/resources/corpus/releases \
 	src/resources/corpus/schema \
-	src/resources/skeletons \
+	src/resources/skeleton \
 	util/assurance \
 	util/documentation \
 	util/repository \
@@ -202,6 +192,7 @@ structure-check:
 licensing-check:
 	@command -v reuse >/dev/null 2>&1 || { echo '[ai4x] ERROR reuse is required' >&2; exit 2; }
 	@reuse --no-multiprocessing lint
+	@python3 util/repository/tst/check-license-examples.py
 
 haskell-check:
 	@command -v ghc >/dev/null 2>&1 || { echo '[ai4x] ERROR GHC $(GHC_VERSION) is required' >&2; exit 2; }

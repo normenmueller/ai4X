@@ -7,3 +7,5 @@ How can a team use ai4X in its work?
 [Updating an agent’s capabilities](capability-updates.md) follows a maintainer from a pinned corpus revision to the reviewed bundle selected for the next session.
 
 [Assessing competing pitches](pitch-assessment.md) illustrates how a team could use one set of criteria to prioritize ideas and revisit the ranking after a single pitch changed.
+
+[Using the same team in two projects](team-portability.md) explores which parts of a team can travel and which decisions belong to each project.

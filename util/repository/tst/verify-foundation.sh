@@ -29,10 +29,25 @@ mkdir -p "$base_root/src/foundation/declaration-protocol"
 mkdir -p "$base_root/src/foundation/generation"
 mkdir -p "$base_root/src/domains"
 mkdir -p "$base_root/src/interfaces"
-corpus_root="$base_root/src/resources/corpus/capabilities/foundation/core"
+corpus_root="$base_root/src/resources/corpus/capability/analysis/evidence"
 mkdir -p "$corpus_root"
 printf '# Sample capability\n' >"$corpus_root/sample.md"
 printf 'version: 0.1.0\n' >"$corpus_root/sample.meta.yaml"
+
+profile_root="$base_root/src/resources/corpus/agent/curation/mechthild"
+mkdir -p "$profile_root/cap"
+printf '# Sample role\n' >"$profile_root/ROLE.md"
+printf 'sources: []\n' >"$profile_root/cap/cap.compose.yaml"
+cp "$corpus_root/sample.md" "$corpus_root/sample.meta.yaml" "$profile_root/cap/"
+
+schema_root="$base_root/src/resources/corpus/schema"
+mkdir -p "$schema_root"
+printf 'fields: {}\n' >"$schema_root/capability-meta.schema.yaml"
+
+governance_root="$base_root/src/resources/corpus/governance/quality"
+mkdir -p "$governance_root"
+printf 'status: draft\n' >"$base_root/src/resources/corpus/governance/index.yaml"
+printf '# Sample review contract\n' >"$governance_root/review.md"
 
 cp "$repository_root/src/cabal.project" "$base_root/src/cabal.project"
 cp "$repository_root/src/foundation/core/ai4x-core.cabal" "$base_root/src/foundation/core/ai4x-core.cabal"
@@ -253,12 +268,22 @@ printf 'module Unexpected where\n' >"$case_root/src/domains/unexpected/Product.h
 expect_failure "$case_root" workspace src/domains/unexpected/Product.hs
 
 case_root=$(copy_case unreleased-corpus)
-mkdir -p "$case_root/src/resources/corpus/releases"
-printf '{}\n' >"$case_root/src/resources/corpus/releases/0.1.0.dhall"
-expect_failure "$case_root" workspace src/resources/corpus/releases/0.1.0.dhall
+mkdir -p "$case_root/src/resources/corpus/release"
+printf '{}\n' >"$case_root/src/resources/corpus/release/0.1.0.dhall"
+expect_failure "$case_root" workspace src/resources/corpus/release/0.1.0.dhall
+
+case_root=$(copy_case unexpected-schema-file)
+unexpected_path=src/resources/corpus/schema/other.schema.yaml
+printf 'fields: {}\n' >"$case_root/$unexpected_path"
+expect_failure "$case_root" workspace "$unexpected_path"
+
+case_root=$(copy_case unexpected-governance-file)
+unexpected_path=src/resources/corpus/governance/quality/review.dhall
+printf '{}\n' >"$case_root/$unexpected_path"
+expect_failure "$case_root" workspace "$unexpected_path"
 
 case_root=$(copy_case unexpected-capability-file)
-unexpected_path=src/resources/corpus/capabilities/foundation/core/sample.dhall
+unexpected_path=src/resources/corpus/capability/analysis/evidence/sample.dhall
 printf '{}\n' >"$case_root/$unexpected_path"
 expect_failure "$case_root" workspace "$unexpected_path"
 

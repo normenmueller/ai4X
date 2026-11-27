@@ -1,0 +1,19 @@
+id: segment-architecture-stewardship
+version: 0.1.3
+owner: nemron
+requires: []
+conflicts: []
+do_not_use_when: ["when the task is enterprise-wide cross-segment integration rather than stewardship of one segment","when the task is detailed realization of one concrete solution rather than segment evolution"]
+distinguish_from:
+  - id: enterprise-architecture-integration
+    boundary: "Use enterprise integration when inconsistent policies or dependencies require coordination across segments."
+  - id: solution-realization-architecture
+    boundary: "Use solution realization when the deliverable is the topology and rollout of one concrete change inside the segment."
+  - id: capability-map-governance
+    boundary: "Use map governance when the decision concerns the definition, granularity or comparison of business capabilities."
+sources:
+  - title: "Architecture Roles and Skills - Segment Architect (Business and Technical)"
+    organization: "The Open Group"
+    url: "https://pubs.opengroup.org/togaf-standard/architecture-roles-and-skills/chap04.html#_segment_architect_business_and_technical"
+    kind: "standard"
+    accessed_at: "2026-03-24"

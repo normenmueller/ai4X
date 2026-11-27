@@ -1,0 +1,16 @@
+id: property-graph-modeling
+version: 0.1.0
+owner: nemron
+requires: ["domain-modeling-rigor"]
+conflicts: []
+do_not_use_when:
+  - "The graph model is agreed and only a query is needed."
+distinguish_from:
+  - id: domain-modeling-rigor
+    boundary: "Domain modeling establishes meaning. Graph modeling chooses a representation and checks its consequences."
+sources:
+  - title: "Graph database concepts"
+    organization: "Neo4j"
+    url: "https://neo4j.com/docs/getting-started/appendix/graphdb-concepts/"
+    kind: "domain-reference"
+    accessed_at: 2026-11-26

@@ -1,0 +1,44 @@
+# Analysis capability index
+
+Describe a publication, extract evidence, clarify a need, formalize requirements or derive a mathematical result.
+
+## Evidence
+
+| ID | File | Purpose | Use When | Do Not Use When | Distinguish From | Requires | Conflicts |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `comparison-dimension-discipline` | [comparison-dimension-discipline.md](evidence/comparison-dimension-discipline.md) | Ensure that comparative analysis uses stable, decision-relevant dimensions instead of ad hoc framing. | Use when comparing alternatives, roles, proposals, or candidate options that need a stable evaluation frame. | `[]` | `[]` | `[statement-extraction-rigor, fact-interpretation-separation]` | `[]` |
+| `evidence-typing-discipline` | [evidence-typing-discipline.md](evidence/evidence-typing-discipline.md) | Keep material claims traceable by marking whether they are directly observed or inferred. | Use when materially relevant claims, findings, or recommendations depend on source evidence or observed outputs. | `[]` | fact-interpretation-separation: Classify each material claim and supply its source or derivation. Fact and interpretation separation identifies which statements are observations and which are conclusions. | `[fact-interpretation-separation]` | `[]` |
+| `fact-interpretation-separation` | [fact-interpretation-separation.md](evidence/fact-interpretation-separation.md) | Separate observed statements from inference, synthesis, and judgment. | Use when deriving interpretations, conclusions, or recommendations from source statements or observed evidence. | `[]` | evidence-typing-discipline: Separate the source statement from conclusions drawn from it. Evidence typing audits the basis of each material claim in the resulting assessment. | `[statement-extraction-rigor]` | `[]` |
+| `statement-extraction-rigor` | [statement-extraction-rigor.md](evidence/statement-extraction-rigor.md) | Extract all materially relevant statements from source material without collapsing distinct claims. | Use when extracting materially relevant statements from documents, transcripts, requirements, or review artifacts. | `[]` | `[]` | `[deterministic-reasoning]` | `[]` |
+| `deterministic-reasoning` | [deterministic-reasoning.md](evidence/deterministic-reasoning.md) | Keep reasoning explicit, traceable, and stable under incomplete or conflicting context. | Use when reasoning under incomplete, conflicting, or partially evidenced context must remain explicit and stable. | `[]` | `[]` | `[]` | `[]` |
+
+## Requirement
+
+| ID | File | Purpose | Use When | Do Not Use When | Distinguish From | Requires | Conflicts |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `need-elicitation` | [need-elicitation.md](requirement/need-elicitation.md) (draft) | Uncover why a change matters and what observable outcome the requester needs. | Use when the reason or desired outcome is unclear, including when a request starts with a tool, team or workflow. | The requester has already confirmed both purpose and outcome and is asking for a solution. | task-understanding-confirmation: Task confirmation checks a reading of an assignment. Elicitation discovers the need behind it.<br>ai-use-case-framing: AI use-case framing assesses the suitability of an AI initiative. Need elicitation applies before any solution family is chosen. | `[]` | `[]` |
+| `requirement-formalization` | [requirement-formalization.md](requirement/requirement-formalization.md) (draft) | Turn competing readings of a requirement into a case whose outcome a reviewer can check. | Use as soon as two plausible readings predict different observable behavior. A reviewer can supply the readings directly. | The requirement already determines the outcome and the task is to verify an implementation. | ambiguity-detection: Ambiguity detection identifies plausible readings. Requirement formalization constructs a case that distinguishes their observable outcomes.<br>interface-contract-first: Interface contract design defines a boundary. Requirement formalization isolates an unresolved choice about intended behavior. | `[]` | `[]` |
+| `ai-use-case-framing` | [ai-use-case-framing.md](requirement/ai-use-case-framing.md) | Frame AI initiatives around concrete problems, outcomes, and constraints before solution design begins. | Use when a team proposes an AI or agentic initiative and the business value or problem boundary is still fluid. | `[]` | `[]` | `[decision-gates, strategy-diagnosis]` | `[]` |
+| `ambiguity-detection` | [ambiguity-detection.md](requirement/ambiguity-detection.md) | Detect terms or clauses that allow materially different interpretations. | Use when reviewing text, specifications, contracts, or guidance that may allow materially different readings. | `[]` | `[]` | `[statement-extraction-rigor]` | `[]` |
+| `semantic-conflict-detection` | [semantic-conflict-detection.md](requirement/semantic-conflict-detection.md) | Detect materially incompatible intent, behavior, or governance semantics even when statements are not literally contradictory. | Use when reviewing policies, processes, models, or interfaces that may be materially incompatible without being literally contradictory. | `[]` | `[]` | `[fact-interpretation-separation, contradiction-detection]` | `[]` |
+| `contradiction-detection` | [contradiction-detection.md](requirement/contradiction-detection.md) | Detect when two statements cannot both be true within the same scope and time frame. | Use when reviewing statements, requirements, or contracts for claims that may not both hold in the same scope and time frame. | `[]` | `[]` | `[fact-interpretation-separation]` | `[]` |
+| `overlap-detection` | [overlap-detection.md](requirement/overlap-detection.md) | Detect materially relevant duplication of responsibility, output, or control intent. | Use when reviewing responsibilities, outputs, or control boundaries for possible duplication. | `[]` | `[]` | `[statement-extraction-rigor]` | `[]` |
+
+## Function
+
+| ID | File | Purpose | Use When | Do Not Use When | Distinguish From | Requires | Conflicts |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `function-extraction` | [function-extraction.md](function/function-extraction.md) | Extract normalized business or organizational functions from source material. | Use when source material contains business or organizational work statements that must be normalized into functions. | `[]` | `[]` | `[statement-extraction-rigor]` | `[]` |
+| `function-deduplication` | [function-deduplication.md](function/function-deduplication.md) | Remove duplicate function statements without losing meaningful distinctions. | Use when a normalized function set may contain duplicate or near-duplicate function statements. | `[]` | `[]` | `[function-extraction]` | `[]` |
+
+## Mathematics
+
+| ID | File | Purpose | Use When | Do Not Use When | Distinguish From | Requires | Conflicts |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `category-theoretic-reasoning` | [category-theoretic-reasoning.md](mathematics/category-theoretic-reasoning.md) (draft) | Define a categorical concept or establish a claim from typed arrows, hypotheses and laws. | Use when the requested result is a categorical definition, proof, counterexample or explanation of a diagram. | The requested result is the implementation or verification of a Haskell API. | haskell-theory-correspondence: Categorical reasoning establishes a mathematical statement. Theory correspondence relates a statement to a typed Haskell construction and identifies the limits of that interpretation. | `[]` | `[]` |
+
+## Bibliography
+
+| ID | File | Purpose | Use When | Do Not Use When | Distinguish From | Requires | Conflicts |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `bibliographic-description` | [bibliographic-description.md](bibliography/bibliographic-description.md) (draft) | Describe an identifiable publication using verifiable source evidence and terms useful for retrieval. | Use when a requester needs bibliographic metadata, a source-grounded abstract or subject terms for a publication. | The requested result is a consistency check between existing records and stored documents. | bibliographic-collection-reconciliation: Describes the publication from source evidence. Collection reconciliation checks correspondence between records and files. | `[]` | `[]` |

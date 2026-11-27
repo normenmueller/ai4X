@@ -1,8 +1,0 @@
-id: interface-contract-first
-version: 0.1.0
-owner: nemron
-requires: ["domain-modeling-rigor","abstraction-boundary-discipline"]
-conflicts: []
-do_not_use_when: []
-distinguish_from: []
-sources: []

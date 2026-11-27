@@ -1,0 +1,9 @@
+version: 0.1.0
+sources:
+  - kind: import
+    key: ai4x-corpus
+    inv: src/resources/corpus/capability
+    ref: 6bcbfd5142a447f720097296997c6fd44bbc2b88
+    caps:
+      - bibliographic-description
+      - bibliographic-collection-reconciliation

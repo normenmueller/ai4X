@@ -1,0 +1,11 @@
+# Review a capability collection
+
+Draft for review.
+
+Run a sweep when the owner requests it, before a milestone that depends on capability composition, or at the agreed interval. Review before each release milestone when the owner adopts that cadence. A sweep assesses a whole collection or selected domains. For an individual change, assess the capabilities affected by that change.
+
+1. Agree with the requester on the scope, revision and actual tasks that create demand. If the selected scope is empty, report that scope and the first evidenced unmet task, if any. If demand is unknown, ask the requester and record the gap in evidence.
+2. Have a designated reviewer examine stale triggers, ambiguous wording, overlapping purposes, uncovered needs and missing or misleading metadata. Check exclusions, distinctions and sources against concrete examples.
+3. The reviewer uses the consuming project’s severity scale and its mapping to escalation when both are defined. Treat project ratings requiring escalation as high in steps 4 and 5. Otherwise apply the highest matching impact below for this sweep and retain any local label. Rate a case high when it permits an unauthorized effect or blocks a required valid outcome. Rate it medium when a valid, authorized outcome requires a workaround. Rate a presentation or reading-effort issue low when the intended route still works directly. If evidence is insufficient to distinguish the ratings, report what remains to be checked. Record the revision, affected capabilities, example, impact, reason for the rating, recommended action and uncertainty.
+4. Refer high-severity findings to the consuming project's decision owner. Record smaller findings against relevant work or the next review. Use the project's agreed evidence store, tracking system and approval process. Assessment alone grants no authority to edit or release. Verify approved changes with the applicable gates.
+5. End the assessment with a brief verdict on the tasks in scope. State which tasks the collection supports, where a capability gap is demonstrated, and where the evidence is insufficient to judge. For each open high-severity finding, name the person or role responsible for follow-up and link the tracked work item. Once the verdict and these references are recorded, the sweep is complete and remediation can continue in the linked work.

@@ -1,0 +1,19 @@
+version: 0.1.0
+sources:
+  - kind: import
+    key: ai4x-corpus
+    inv: src/resources/corpus/capability
+    ref: e2b7c2309d550cf555b85eee20b09300b0ab4ff7
+    caps:
+      - decision-gates
+      - comparison-dimension-discipline
+      - ambiguity-detection
+      - semantic-conflict-detection
+      - overlap-detection
+      - function-deduplication
+      - function-ownership-allocation
+      - abstraction-boundary-discipline
+      - architecture-decision-rigor
+      # Reusable interview and curation methods.
+      - need-elicitation
+      - agent-team-curation

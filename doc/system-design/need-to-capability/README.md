@@ -1,8 +1,8 @@
 # Need to Capability
 
-How does a human need become an Agentic Constellation fit for its purpose?
+Suppose you ask for a team to review a set of pitches. What decision should that review help you make? During scouting, you might discover that you need to decide which pitches deserve a second look and explain your choices against the same criteria. Once you confirm that outcome and how you’ll judge success, ai4X records it as the project intent.
 
-When one agent coordinates several specialists, that pattern of roles is the team’s *collaboration topology*, and it stays the same even if different agents fill those roles.
+That intent guides curation. In this example, ai4X might propose one agent to coordinate the review and specialists to assess each pitch against the agreed criteria. The proposal shows which cognitive capabilities each role needs, how findings reach you and which decisions are yours. The pattern of roles and handoffs is the team’s *collaboration topology*. Different agents can fill those roles. Once you accept the proposal, its versioned declaration can be used across agent hosts.
 
 The [architecture poster](need-to-capability.png) and its [TikZ source](need-to-capability.tex) show the current target architecture. The [user journey](user-journey.md) follows a user through scouting, curation and activation. It also explores direct access to an expert through `ask`. Commands and paths in the journey describe the proposed experience.
 

@@ -1,0 +1,24 @@
+id: data-governance-architecture
+version: 0.1.2
+owner: nemron
+requires: []
+conflicts: []
+do_not_use_when: ["when the main concern is application-service decomposition rather than data governance and lifecycle control","when the task is low-level schema hygiene without data-landscape architecture implications"]
+distinguish_from:
+  - id: application-integration-architecture
+    boundary: "Use application integration to assign interface responsibilities between systems. Use data governance to assign accountability for the records they exchange."
+  - id: technology-platform-architecture
+    boundary: "Use platform architecture for infrastructure and interoperability standards. Data governance decides what must be protected or retained on that infrastructure."
+  - id: domain-modeling-rigor
+    boundary: "Use domain modeling to define the invariant of a value in an API. Data governance assigns stewardship and lifecycle controls across systems."
+sources:
+  - title: "Architecture Roles and Skills - Segment Architect (Business and Technical)"
+    organization: "The Open Group"
+    url: "https://pubs.opengroup.org/togaf-standard/architecture-roles-and-skills/chap04.html#_segment_architect_business_and_technical"
+    kind: "standard"
+    accessed_at: "2026-03-24"
+  - title: "Architecture Roles and Skills - Skill/Architecture Role Matrix"
+    organization: "The Open Group"
+    url: "https://pubs.opengroup.org/togaf-standard/architecture-roles-and-skills/chap05.html#tbl-Skill-Architecture-Role_Matrix"
+    kind: "standard"
+    accessed_at: "2026-03-24"

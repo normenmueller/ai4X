@@ -1,0 +1,13 @@
+id: requirement-formalization
+version: 0.1.0
+owner: nemron
+requires: []
+conflicts: []
+do_not_use_when:
+  - "The requirement already determines the outcome and the task is to verify an implementation."
+distinguish_from:
+  - id: ambiguity-detection
+    boundary: "Ambiguity detection identifies plausible readings. Requirement formalization constructs a case that distinguishes their observable outcomes."
+  - id: interface-contract-first
+    boundary: "Interface contract design defines a boundary. Requirement formalization isolates an unresolved choice about intended behavior."
+sources: []

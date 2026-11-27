@@ -1,0 +1,11 @@
+id: bibliographic-collection-reconciliation
+version: 0.1.0
+owner: nemron
+requires: []
+conflicts: []
+do_not_use_when:
+  - "The requested result is a description of a single source with no collection to reconcile."
+distinguish_from:
+  - id: bibliographic-description
+    boundary: "Reconciles records and documents using collection state. Bibliographic description derives metadata from a publication."
+sources: []
