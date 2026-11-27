@@ -2,7 +2,19 @@
 
 **Design proposal · work in progress.**
 
-Use this portfolio to choose an agent by name for a recurring task. Each profile combines a role with the capabilities that support its work. Sigrid helps decide which strategic initiatives to prioritize. Hildegard coordinates architecture across those initiatives. Mechthild interviews the requester about the need, then curates an agent or team for the confirmed outcome.
+Choose a role by asking “What result do I need?” Each profile has one home in the domain of its primary assignment. A second domain can link to the same profile when it serves another recurring need. For example, Lamby lives under Learning and also appears under Engineering for Haskell implementation work.
+
+| Domain | Result to ask for |
+| --- | --- |
+| [Advisory](#advisory) | A reasoned recommendation on a specific decision, with the main trade-off. |
+| [Strategy](#strategy) | A strategic direction and a reasoned choice of which initiatives to pursue first. |
+| [Architecture](#architecture) | A design that aligns capabilities, responsibilities, systems and their dependencies across an agreed scope. |
+| [Engineering](#engineering) | A technical solution that has been implemented, verified or tuned. |
+| [Curation](#curation) | An agent or team assembled for a confirmed need. |
+| [Information management](#information-management) | A collection whose contents are described, findable and consistently catalogued. |
+| [Learning](#learning) | Understanding or a skill the learner can demonstrate independently. |
+
+Sigrid helps decide which initiatives to pursue. Adelheid aligns the business and system changes those initiatives require across segments. Graphion can implement and verify a graph solution within that design. Architecture has its own domain because its decisions also shape business services, ownership and coordination across portfolios.
 
 Reusable profiles live under `src/resources/corpus/agent/<use-case-domain>/<name>/`. Each profile has a `ROLE.md` and a `cap/cap.compose.yaml` that records its selected capability IDs and source revision. The adjacent contracts and metadata include their dependencies. When migrating a profile, rebuild its capabilities from the ai4X corpus. If an essential capability is missing, bring the gap and a reusable definition to the Product Owner before extending the corpus or adopting the profile.
 
