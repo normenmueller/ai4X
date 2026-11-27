@@ -59,7 +59,7 @@ A dash indicates that the profile has no documented naming mnemonic.
 
 | Name | Naming mnemonic | What someone would ask this agent to do |
 | --- | --- | --- |
-| [Librarian](../../../src/resources/corpus/agent/information-management/librarian/ROLE.md) | — | Describe a publication or reconcile a PDF collection with its BibTeX catalogue. |
+| [Librarian](../../../src/resources/corpus/agent/information/librarian/ROLE.md) | — | Describe a publication or reconcile a PDF collection with its BibTeX catalogue. |
 
 ### Learning
 
