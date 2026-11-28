@@ -55,6 +55,8 @@ The PO personally performs the squash merge into `trunk`. Hand the reviewed revi
 
 The PO’s standing instruction authorizes retirement of the matching local and remote topic branches after a verified merge. Confirm their tips match the merged PR head, the work is preserved in `trunk`, and no open PR, active worktree or local changes need the branch. Delete only the verified revisions and confirm the remaining refs. Preserve the branch if a check is inconclusive.
 
+After removing a local worktree, use `rmdir` to remove any empty grouping directories left by its branch name (for example, `chore/` or `feat/`). Stop at the first nonempty directory or the directory that holds the worktrees.
+
 ## Work envelope and exact effects
 
 Bind the smallest closed envelope needed for the actual risk:
