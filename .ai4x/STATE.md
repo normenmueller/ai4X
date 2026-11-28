@@ -2,20 +2,20 @@
 
 Schema: ai4x-work-state-v1
 Applies on branch: trunk
-Owning Issue: #212
+Owning Issue: signal:cold-start
 
 ## Return context
 
-- The reboot is integrated. Resume the PO-authorized backlog reconciliation in [#212](https://github.com/normenmueller/ai4X/issues/212). Read its current checkpoint and board status before proposing the next disposition. The roadmap follows reconciliation.
+Read the marked Issue's checkpoint for the last result, outstanding work and next action or PO decision.
 
 ## Route
 
-- Use the [Cold Start procedure](operation/session-continuity.md) on a fresh checkout of the published `trunk`. The owning Issue and project board supply the assignment. Consult Todoist when examining the source tasks.
+Follow the [Cold Start procedure](operation/session-continuity.md) to verify the checkout, resolve the open Issue and read its ai4X board status.
 
 ## Authority boundary
 
-- A continuation greeting authorizes read-only discovery. Obtain the PO decision before discarding tasks or retiring the Todoist project. A candidate Issue match grants no authority to start or reprioritize that Issue.
+A continuation greeting authorizes read-only discovery. The work contract and PO decisions govern execution.
 
 ## Concurrency limit
 
-- Each working branch owns one return point. Resolve competing assignments with nemron before proceeding.
+Exactly one open Issue carries the trunk return signal. Other Issues can be in progress at the same time.

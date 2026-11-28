@@ -112,9 +112,12 @@ validate_state_contract() {
   validated_state_issue=$validated_issue_field
   if test "$validated_state_issue" = none; then
     validated_state_issue='direct PO assignment'
+  elif test "$validated_state_issue" = signal:cold-start; then
+    test "$validated_state_branch" = trunk || fail "$label signal:cold-start binding requires trunk"
+    validated_state_issue='resolve exactly one open Issue labeled signal:cold-start'
   else
     printf '%s\n' "$validated_state_issue" | grep -E '^#[1-9][0-9]*$' >/dev/null ||
-      fail "$label Owning Issue must be one Issue number or none"
+      fail "$label Owning Issue must be one Issue number, none, or signal:cold-start on trunk"
   fi
 
   require_sections "$file" '## Return context
@@ -338,7 +341,7 @@ if test "$observed_branch" != trunk && test "$observed_branch" != "$state_branch
   fail "STATE bound to $state_branch does not apply on $observed_branch ($observed_clean)"
 fi
 
-if test -e "$active_file"; then
+if test "$validated_issue_field" != signal:cold-start && test -e "$active_file"; then
   test -f "$active_file" || fail 'ACTIVE pointer is not a regular file'
   require_bounded_markdown "$active_file" 8 1024
   test "$(sed -n '1p' "$active_file")" = '# ai4X Active Worktree Pointer' ||
