@@ -28,7 +28,8 @@ make_fixture() {
   cp "$repository/.ai4x/BEHAVIOR.md" "$target/.ai4x/BEHAVIOR.md"
   cp "$repository/.ai4x/CONTEXT.md" "$target/.ai4x/CONTEXT.md"
   cp "$repository/.ai4x/STATE.md" "$target/.ai4x/STATE.md"
-  sed -i.bak "s|^Applies on branch:.*|Applies on branch: $fixture_branch|" \
+  sed -i.bak -e "s|^Applies on branch:.*|Applies on branch: $fixture_branch|" \
+    -e 's/^Owning Issue:.*/Owning Issue: #188/' \
     "$target/.ai4x/STATE.md"
   rm "$target/.ai4x/STATE.md.bak"
   git -C "$target" init -q
@@ -86,6 +87,8 @@ sed -i.bak 's/^Owning Issue:.*/Owning Issue: none/' "$valid/.ai4x/STATE.md"
 "$verifier" "$valid" "$fixture_branch" clean | grep -F 'direct PO assignment' >/dev/null
 sed -i.bak 's/^Owning Issue:.*/Owning Issue: unknown/' "$valid/.ai4x/STATE.md"
 expect_failure malformed-owner "$verifier" "$valid" "$fixture_branch" clean
+sed -i.bak 's/^Owning Issue:.*/Owning Issue: signal:cold-start/' "$valid/.ai4x/STATE.md"
+expect_failure label-on-topic-branch "$verifier" "$valid" "$fixture_branch" clean
 
 entry_source=$scratch_root/entry-source
 make_git_fixture "$entry_source"
@@ -220,6 +223,23 @@ git -C "$trunk_entry" commit -q -m "Bind fixture to trunk"
 git -C "$trunk_entry" config status.showUntrackedFiles no
 touch "$trunk_entry/untracked"
 expect_failure dirty-trunk-entry "$verifier" "$trunk_entry"
+
+rm "$trunk_entry/untracked"
+sed -i.bak 's/^Owning Issue:.*/Owning Issue: signal:cold-start/' "$trunk_entry/.ai4x/STATE.md"
+rm "$trunk_entry/.ai4x/STATE.md.bak"
+expect_failure uncommitted-label-binding "$verifier" "$trunk_entry" --enter
+grep -F 'STATE binding differs' "$scratch_root/uncommitted-label-binding.out" >/dev/null
+git -C "$trunk_entry" commit -qam 'Bind trunk to the Cold Start label'
+label_step='resolve exactly one open Issue labeled signal:cold-start'
+"$verifier" "$trunk_entry" --enter | grep -F "$label_step" >/dev/null
+write_active_pointer "$trunk_entry" '.ai4x/local/worktrees/missing' "$fixture_branch"
+"$verifier" "$trunk_entry" --enter | grep -F "$label_step" >/dev/null
+touch "$trunk_entry/untracked"
+expect_failure dirty-label-trunk "$verifier" "$trunk_entry" --enter
+rm "$trunk_entry/untracked"
+git -C "$trunk_entry" switch -qc feature/not-trunk
+expect_failure wrong-label-branch "$verifier" "$trunk_entry" --enter
+grep -F 'STATE bound to trunk does not apply on feature/not-trunk' "$scratch_root/wrong-label-branch.out" >/dev/null
 
 detached=$scratch_root/detached
 make_git_fixture "$detached"

@@ -1,24 +1,21 @@
 # ai4X Work State
 
 Schema: ai4x-work-state-v1
-Applies on branch: reboot/research-review
-Owning Issue: #209
+Applies on branch: trunk
+Owning Issue: signal:cold-start
 
 ## Return context
 
-- Read the [backup inventory](https://github.com/normenmueller/ai4X/issues/209) for the next directory, the remaining exceptions, prior decisions and the acceptance criteria for recommending retirement. The issue body owns the live checklist. [Draft PR #206](https://github.com/normenmueller/ai4X/pull/206) collects the approved integration changes.
-- The [research review](https://github.com/normenmueller/ai4X/issues/104#issuecomment-7136072119) and [documentation review](https://github.com/normenmueller/ai4X/issues/104#issuecomment-7136543371) are complete. #104 owns product governance and assurance.
-- The separate fresh-client path check at `436a53a` remains with [#106](https://github.com/normenmueller/ai4X/issues/106). Its synthetic preflight blocked unexpected reads and writes. The runner could not enforce a hostname allowlist for model traffic. Retry with verified endpoint restrictions and authentication inside the isolated fixture.
+Read the marked Issue's checkpoint for the last result, outstanding work and next action or PO decision.
 
 ## Route
 
-- Use the registered checkout for the bound branch and the [Cold Start procedure](operation/session-continuity.md). Compare [PR #206](https://github.com/normenmueller/ai4X/pull/206) with local Git when reporting publication.
+Follow the [Cold Start procedure](operation/session-continuity.md) to verify the checkout, resolve the open Issue and read its ai4X board status.
 
 ## Authority boundary
 
-- Commits accumulate locally until PO review. A continuation greeting authorizes read-only discovery. Check the work contract before acting.
+A continuation greeting authorizes read-only discovery. The work contract and PO decisions govern execution.
 
 ## Concurrency limit
 
-- Each working branch owns one return point. Resolve competing assignments
-  with nemron before proceeding.
+Exactly one open Issue carries the trunk return signal. Other Issues can be in progress at the same time.

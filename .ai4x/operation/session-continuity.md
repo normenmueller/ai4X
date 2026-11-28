@@ -1,58 +1,29 @@
 # Cold Start of an agent session
 
-A Cold Start begins a fresh session from tracked Project Memory and the relevant GitHub Issues. The same procedure applies to every supported host and checkout.
+A prepared Cold Start must work in a fresh clone of published `trunk`, with a new client session and no chat history or local files. Tracked Project Memory supplies the team and its rules. GitHub supplies the current assignment, checkpoint and board status.
 
 ## Prepare in the current session
 
-When nemron asks “Gertrud, bitte bereite einen Cold Start vor”, finish or safely pause the current operation. Gertrud may also recommend a Cold Start after a change to effective instructions or a natural change of work phase.
+On “Gertrud, bitte bereite einen Cold Start vor”, finish or safely pause the current operation.
 
-1. Compare the actual branch, local changes and latest work with [STATE](../STATE.md)
-   and the owning Issue, if any. Preserve open work.
-2. Put each durable decision in its tracked owner. Refresh STATE when the return
-   point changes: identify the work branch, last meaningful result and next
-   action or PO decision. For Issue work, point to the owning Issue for its live
-   contract. For directly assigned work without an Issue, record the return
-   point in STATE. Keep any pending approvals explicit.
-3. Read the entry route back using only these sources. Run
-   `./util/repository/verify-session-continuity.sh .` in the working checkout.
-   Confirm that a fresh agent can identify its role, the work and the next step.
-   If required information is missing, say exactly what is missing.
-4. Report the working checkout, next step and any unpublished work. Stop at
-   this boundary. The PO starts a new session there without resuming the old
-   one. Keeping or deleting the old conversation is the PO's choice.
+1. Compare the checkout, local changes and latest work with the owning Issue. Preserve durable results in their authorized tracked or GitHub owners. Identify unpublished work and any local material the PO explicitly accepts losing. Preparation alone grants no authority to publish private content, delete work or merge.
+2. Update the return Issue's checkpoint with the last meaningful result, what remains and the next action or PO decision. Reuse an accurate checkpoint. If there is no suitable Issue or an update needs authority, report the gap.
+3. On GitHub, keep `signal:cold-start` on the intended open Issue. When changing focus, verify the destination checkpoint, mark the destination and remove the signal from the previous Issue. Read back the lookup below. If another assignment competes or an update fails, report the conflict and stop. A session change does not itself change board status.
+4. Read back the published entry route, Issue and board. When the entry route changes, run `./util/repository/verify-session-continuity.sh . --enter` in a clean checkout of published `trunk`. Confirm the published sources suffice without the old checkout. Report the checkout, next step and any outstanding local work. A successful test of a proposed revision is provisional until that revision is integrated.
 
 ## Enter in a fresh session
 
-On a continuation greeting such as “Hi Gertrud, weiter geht's!”:
+“Hi Gertrud, wo stehen wir?” and “Hi Gertrud, weiter geht's!” both trigger the same read-only entry.
 
-1. Follow [BEHAVIOR](../BEHAVIOR.md), [TEAM](../TEAM.md) and the assigned role
-   before replying. The primary conversation belongs to Gertrud.
-2. Read only the current branch and its tracked STATE binding before any checkout discovery. With Git available, run `git branch --show-current && git show HEAD:.ai4x/STATE.md` as a standalone check. Wait for both values. A different non-trunk branch ends the turn immediately: report both names. Only after a match or on trunk, inspect Git status and follow the applicable worktree route below, using `./util/repository/verify-session-continuity.sh . --enter` before any Issue lookup. The entry check compares the branch and Owning Issue in HEAD with the working STATE for the source and any referred checkout. If either binding differs, report both, preserve local work and stop. If the binding cannot be verified, report the gap and stop. Worktree lists and routing hints belong after the initial branch comparison.
-3. Read STATE's last result and next step. If `Owning Issue` names an Issue, check its live contract and current re-entry. For directly assigned work, STATE supplies the return point. Consult linked research, PR, board or check evidence where the next decision depends on it.
-4. Tell nemron briefly where work stopped, what comes next and whose decision
-   is needed. Report any unavailable live evidence as unknown. A greeting
-   authorizes read-only discovery. Act only within an existing, unambiguous
-   work contract under [work authority](../governance/work-authority.md).
+1. Resolve Gertrud and her role through [TEAM](../TEAM.md). Before checkout discovery or a remote call, run `git branch --show-current && git show HEAD:.ai4x/STATE.md` as a standalone check and wait for both values. If a non-trunk branch differs from the tracked binding, report both names and stop immediately.
+2. Run `./util/repository/verify-session-continuity.sh . --enter`. On error, report the discrepancy, preserve local work and stop before looking up an Issue.
+3. For the verified trunk signal route, list **open Issues** labeled `signal:cold-start` in `normenmueller/ai4X`. For example, run `gh issue list --repo normenmueller/ai4X --state open --label signal:cold-start --limit 2 --json number,title` or use the equivalent read-only connector. Exactly one match selects the Issue. On zero matches, multiple matches or an unavailable lookup, report the result and stop. Never infer the assignment from board order, priority or recency.
+4. Read the selected Issue's current state, labels, checkpoint and ai4X board status. If it has closed or lost the signal since the lookup, stop and report the change. Report the last result, pending work and next action or PO decision. If the checkpoint or board information is missing, identify the gap. A greeting grants no execution or provider-write authority.
 
 ## Branch and worktree checks
 
-- STATE binds one exact branch and one Issue (`Owning Issue: #number`), or `Owning Issue: none` for directly assigned work. Before merge, keep the topic binding and record any agreed next checkout in the return context so a fresh session can recover the handoff. Establish the next binding on the receiving branch through its next authorized change.
-- On clean `trunk`, a STATE bound to `trunk` allows read-only entry. A STATE
-  bound elsewhere is dormant. For an explicit branch referral, inspect
-  `git worktree list --porcelain`. Verify one registered target, its actual
-  branch and Git common directory. Run the verifier with the target path
-  and `--enter` to check its STATE binding before using its return context. Read its entry
-  instructions. Report the exact working checkout when it differs from the
-  session root. A greeting never switches branches.
-- An existing ignored `.ai4x/local/ACTIVE.md` is an optional routing hint.
-  Its `ai4x-active-worktree-pointer-v1` schema specifies a contained relative
-  `Worktree` and exact non-trunk `Expected Branch`. The verifier checks the
-  target, common repository and tracked STATE before the route may be used.
-  A clean checkout and its tracked instructions must suffice without this hint.
-- On dirty trunk, a dirty source referral, an invalid hint, a conflicting
-  non-trunk binding or ambiguous ownership, report the observations and
-  preserve all changes. If STATE is missing or dormant, existing worktrees
-  and matching live Issues or PRs may identify a candidate. Ask one focused
-  question if the intended route still cannot be established.
+- On clean `trunk`, `Owning Issue: signal:cold-start` selects the live lookup. Keep this tracked binding stable when work changes. A local worktree hint cannot override it.
+- For a branch-specific assignment, `Owning Issue: #number` identifies its Issue and `Owning Issue: none` identifies directly assigned work with a return point in STATE. Use the verified branch route and its checkpoint. A topic checkout must match its tracked binding; a greeting never switches branches.
+- For an explicit worktree referral on a legacy checkout, inspect `git worktree list --porcelain` after the initial branch check. Verify the target, branch, common Git directory and tracked STATE with the verifier in entry mode. The optional ignored `.ai4x/local/ACTIVE.md` hint uses `ai4x-active-worktree-pointer-v1` with a contained relative `Worktree` and exact non-trunk `Expected Branch`. An ambiguous, dirty or invalid referral grants no Issue lookup.
 
-When editing entry instructions, apply the [Cold Start verification rule](../governance/cold-start-verification.md).
+For changes to entry behavior, apply the [Cold Start verification rule](../governance/cold-start-verification.md).
