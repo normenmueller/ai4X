@@ -50,6 +50,8 @@ Give agents a clear brief, ask them to explain their reasoning, and review their
 - **Host-independent:** keep project and agent declarations separate from host adapters.
 - **Self-applicable:** evolve ai4X using the same Need-to-Capability discipline it provides.
 
+<p align="center">Instructions: agentic-facing · Design: agentic-first · Review: human-approvable</p>
+
 # From Need to Capability
 
 Your need is at the heart of ai4X. Through conversation, you clarify what you want to achieve, why it matters and what success would look like. The *how* comes later — with the right agents for the job! Once you confirm that need, ai4X curates the cognitive capabilities to meet it and proposes an **Agentic Constellation**. You can then see what each agent would do, how they would work together and where they would need your approval. You decide when to put that plan into action.
